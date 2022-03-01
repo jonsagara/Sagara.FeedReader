@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3;net452;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
 	  <Title>CodeHollow.FeedReader</Title>
@@ -26,35 +26,11 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard1.3|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard1.3\CodeHollow.FeedReader.xml</DocumentationFile>
-    <NoWarn></NoWarn>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net452|AnyCPU'">
-    <DocumentationFile>bin\Debug\net452\CodeHollow.FeedReader.xml</DocumentationFile>
-    <NoWarn></NoWarn>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.1\CodeHollow.FeedReader.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+    <DocumentationFile>bin\Debug\net6.0\CodeHollow.FeedReader.xml</DocumentationFile>
     <UseNETCoreGenerator>true</UseNETCoreGenerator>
     <NoWarn></NoWarn>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.3|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard1.3\CodeHollow.FeedReader.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp2.1\CodeHollow.FeedReader.xml</DocumentationFile>
-    <UseNETCoreGenerator>true</UseNETCoreGenerator>
-    <NoWarn></NoWarn>
-  </PropertyGroup>
-  
-  <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
-    <Reference Include="System.Net.Http" />
-  </ItemGroup>
   
   <ItemGroup>
     <None Include="..\LICENSE">

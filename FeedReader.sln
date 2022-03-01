@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedReader", "FeedReader\FeedReader.csproj", "{E6D73D4A-2166-4715-A7B0-C3644469959A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedReader", "FeedReader\FeedReader.csproj", "{E6D73D4A-2166-4715-A7B0-C3644469959A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedReader.Tests", "FeedReader.Tests\FeedReader.Tests.csproj", "{CE70B54F-0456-4854-8FA9-F6C70F943ABC}"
 EndProject
@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedReader.TestDataCrawler"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CF0E7DCA-8DB4-4341-B1CF-82A608724819}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		global.json = global.json
 		README.MD = README.MD
 	EndProjectSection
 EndProject
@@ -46,5 +48,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C2B3ED64-BBE0-44FF-8001-90895C8F4396} = {305D3DDE-41ED-4AB7-9D56-297B97C1EB6B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {87312FAC-10C3-4339-A730-B9F7C493AE5C}
 	EndGlobalSection
 EndGlobal
