@@ -118,16 +118,18 @@ public class AtomFeedItem : BaseFeedItem
     /// <inheritdoc/>
     internal override FeedItem ToFeedItem()
     {
-        FeedItem fi = new FeedItem(this)
+        var fi = new FeedItem(this)
         {
             Author = this.Author?.ToString(),
-            Categories = this.Categories,
             Content = this.Content,
             Description = this.Summary,
             Id = this.Id,
             PublishingDate = this.PublishedDate,
             PublishingDateString = this.PublishedDateString
         };
+
+        fi.Categories.AddRange(this.Categories);
+
         return fi;
     }
 }

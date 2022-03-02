@@ -1,10 +1,10 @@
 ﻿namespace CodeHollow.FeedReader.Feeds;
 
-using CodeHollow.FeedReader.Feeds.MediaRSS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Feeds.MediaRSS;
 
 /// <summary>
 /// RSS 2.0 feed item accoring to specification: https://validator.w3.org/feed/docs/rss2.html
@@ -93,7 +93,7 @@ public class MediaRssFeedItem : BaseFeedItem
     public MediaRssFeedItem(XElement item)
         : base(item)
     {
-         
+
         this.Comments = item.GetValue("comments");
         this.Author = item.GetValue("author");
         this.Enclosure = new FeedItemEnclosure(item.GetElement("enclosure"));
@@ -119,16 +119,18 @@ public class MediaRssFeedItem : BaseFeedItem
     /// <inheritdoc/>
     internal override FeedItem ToFeedItem()
     {
-        FeedItem fi = new FeedItem(this)
+        var fi = new FeedItem(this)
         {
             Author = this.Author,
-            Categories = this.Categories,
             Content = this.Content,
             Description = this.Description,
             Id = this.Guid,
             PublishingDate = this.PublishingDate,
             PublishingDateString = this.PublishingDateString
         };
+
+        fi.Categories.AddRange(Categories);
+
         return fi;
     }
 }

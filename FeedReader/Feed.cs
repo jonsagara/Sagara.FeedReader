@@ -1,9 +1,9 @@
 ﻿namespace CodeHollow.FeedReader;
 
-using Feeds;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Feeds;
 
 /// <summary>
 /// Generic Feed object that contains some basic properties. If a property is not available
@@ -21,33 +21,33 @@ public class Feed
     /// <summary>
     /// The title of the field
     /// </summary>
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     /// <summary>
     /// The link (url) to the feed
     /// </summary>
-    public string Link { get; set; }
+    public string? Link { get; set; }
 
     /// <summary>
     /// The description of the feed
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// The language of the feed
     /// </summary>
-    public string Language { get; set; }
+    public string? Language { get; set; }
 
     /// <summary>
     /// The copyright of the feed
     /// </summary>
-    public string Copyright { get; set; }
+    public string? Copyright { get; set; }
 
     /// <summary>
     /// The last updated date as string. This is filled, if a last updated
     /// date is set - independent if it is a correct date or not
     /// </summary>
-    public string LastUpdatedDateString { get; set; }
+    public string? LastUpdatedDateString { get; set; }
 
     /// <summary>
     /// The last updated date as datetime. Null if parsing failed or if
@@ -58,12 +58,12 @@ public class Feed
     /// <summary>
     /// The url of the image
     /// </summary>
-    public string ImageUrl { get; set; }
+    public string? ImageUrl { get; set; }
 
     /// <summary>
     /// List of items
     /// </summary>
-    public IList<FeedItem> Items { get; set; }
+    public IList<FeedItem> Items { get; private set; } = new List<FeedItem>();
 
     /// <summary>
     /// Gets the whole, original feed as string
@@ -77,7 +77,7 @@ public class Feed
     /// The parsed feed element - e.g. of type <see cref="Rss20Feed"/> which contains
     /// e.g. the Generator property which does not exist in others.
     /// </summary>
-    public BaseFeed SpecificFeed { get; set; }
+    public BaseFeed? SpecificFeed { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Feed"/> class.

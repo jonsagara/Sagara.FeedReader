@@ -1,8 +1,8 @@
 ﻿namespace CodeHollow.FeedReader;
 
-using Feeds;
 using System;
 using System.Collections.Generic;
+using Feeds;
 
 /// <summary>
 /// Generic feed item object that contains some basic properties. The feed item is typically
@@ -16,23 +16,23 @@ public class FeedItem
     /// <summary>
     /// The title of the feed item
     /// </summary>
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     /// <summary>
     /// The link (url) to the feed item
     /// </summary>
-    public string Link { get; set; }
+    public string? Link { get; set; }
 
     /// <summary>
     /// The description of the feed item
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// The publishing date as string. This is filled, if a publishing
     /// date is set - independent if it is a correct date or not
     /// </summary>
-    public string PublishingDateString { get; set; }
+    public string? PublishingDateString { get; set; }
 
     /// <summary>
     /// The published date as datetime. Null if parsing failed or if
@@ -43,28 +43,28 @@ public class FeedItem
     /// <summary>
     /// The author of the feed item
     /// </summary>
-    public string Author { get; set; }
+    public string? Author { get; set; }
 
     /// <summary>
     /// The id of the feed item
     /// </summary>
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// The categories of the feeditem
     /// </summary>
-    public ICollection<string> Categories { get; set; }
+    public List<string> Categories { get; private set; } = new List<string>();
 
     /// <summary>
     /// The content of the feed item
     /// </summary>
-    public string Content { get; set; }
+    public string? Content { get; set; }
 
     /// <summary>
     /// The parsed feed item element - e.g. of type <see cref="Rss20FeedItem"/> which contains
     /// e.g. the Enclosure property which does not exist in other feed types.
     /// </summary>
-    public BaseFeedItem SpecificItem { get; set; }
+    public BaseFeedItem? SpecificItem { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FeedItem"/> class.

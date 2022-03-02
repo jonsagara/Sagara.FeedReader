@@ -101,16 +101,18 @@ public class Rss20FeedItem : BaseFeedItem
     /// <inheritdoc/>
     internal override FeedItem ToFeedItem()
     {
-        FeedItem fi = new FeedItem(this)
+        var fi = new FeedItem(this)
         {
             Author = this.Author,
-            Categories = this.Categories,
             Content = this.Content,
             Description = this.Description,
             Id = this.Guid,
             PublishingDate = this.PublishingDate,
             PublishingDateString = this.PublishingDateString
         };
+
+        fi.Categories.AddRange(this.Categories);
+
         return fi;
     }
 }
