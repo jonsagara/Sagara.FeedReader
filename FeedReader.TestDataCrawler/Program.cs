@@ -30,7 +30,7 @@ class Program
         {
             try
             {
-                string title = link.Title;
+                string? title = link.Title;
                 if (string.IsNullOrEmpty(title))
                 {
                     title = url.Replace("https", "").Replace("http", "").Replace("www.", "");
@@ -41,7 +41,7 @@ class Program
 
                 var contentTask = Helpers.DownloadAsync(curl.Url);
 
-                System.IO.File.WriteAllText("d:\\feeds\\" + title + "_" + Guid.NewGuid().ToString() + ".xml", contentTask.Result);
+                File.WriteAllText("d:\\feeds\\" + title + "_" + Guid.NewGuid().ToString() + ".xml", contentTask.Result);
                 Console.Write("+");
             }
             catch (Exception ex)

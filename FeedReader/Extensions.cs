@@ -93,7 +93,7 @@ internal static class Extensions
     /// </summary>
     /// <param name="element">the xml element</param>
     /// <returns>value of the element utf8 encoded</returns>
-    public static string GetValue(this XElement element)
+    public static string? GetValue(this XElement element)
     {
         if (element is null)
         {
@@ -109,9 +109,9 @@ internal static class Extensions
     /// <param name="element">xml element</param>
     /// <param name="name">name of the element</param>
     /// <returns>the value of the XElement</returns>
-    public static string GetValue(this XElement element, string name)
+    public static string? GetValue(this XElement element, string name)
     {
-        return element?.GetElement(name).GetValue();
+        return element?.GetElement(name)?.GetValue();
     }
 
     /// <summary>
@@ -121,9 +121,9 @@ internal static class Extensions
     /// <param name="namespacePrefix">the namespace prefix of the element that should be returned</param>
     /// <param name="name">name of the element</param>
     /// <returns>the value of the XElement</returns>
-    public static string GetValue(this XElement element, string namespacePrefix, string name)
+    public static string? GetValue(this XElement element, string namespacePrefix, string name)
     {
-        return element?.GetElement(namespacePrefix, name).GetValue();
+        return element?.GetElement(namespacePrefix, name)?.GetValue();
     }
 
     /// <summary>
@@ -131,7 +131,7 @@ internal static class Extensions
     /// </summary>
     /// <param name="attribute">the xml attribute</param>
     /// <returns>value</returns>
-    public static string GetValue(this XAttribute attribute)
+    public static string? GetValue(this XAttribute attribute)
     {
         if (attribute is null)
         {
@@ -147,7 +147,7 @@ internal static class Extensions
     /// <param name="element">the xml element</param>
     /// <param name="name">the name of the attribute</param>
     /// <returns>value of the attribute</returns>
-    public static string GetAttributeValue(this XElement element, string name)
+    public static string? GetAttributeValue(this XElement element, string name)
     {
         return element.GetAttribute(name)?.GetValue();
     }
@@ -158,7 +158,7 @@ internal static class Extensions
     /// <param name="element">the xml element</param>
     /// <param name="name">the name of the attribute</param>
     /// <returns>the xml attribute</returns>
-    public static XAttribute GetAttribute(this XElement element, string name)
+    public static XAttribute? GetAttribute(this XElement element, string name)
     {
         var splitted = SplitName(name);
         return element?.GetAttribute(splitted.Item1, splitted.Item2);
@@ -171,12 +171,14 @@ internal static class Extensions
     /// <param name="namespacePrefix">the namespace prefix of the attribute</param>
     /// <param name="name">the name of the attribute</param>
     /// <returns>the xml attribute</returns>
-    public static XAttribute GetAttribute(this XElement element, string namespacePrefix, string name)
+    public static XAttribute? GetAttribute(this XElement element, string? namespacePrefix, string name)
     {
         if (string.IsNullOrEmpty(namespacePrefix))
+        {
             return element.Attribute(name);
+        }
 
-        var namesp = element.GetNamespacePrefix(namespacePrefix);
+        var namesp = element.GetNamespacePrefix(namespacePrefix) ?? string.Empty;
         return element.Attribute(namesp + name);
     }
 
@@ -186,7 +188,7 @@ internal static class Extensions
     /// <param name="element">the xml element</param>
     /// <param name="name">Name of the element that should be returned</param>
     /// <returns>the "name" element of the XElement</returns>
-    public static XElement GetElement(this XElement element, string name)
+    public static XElement? GetElement(this XElement element, string name)
     {
         var splitted = SplitName(name);
         return element?.GetElement(splitted.Item1, splitted.Item2);
@@ -199,7 +201,7 @@ internal static class Extensions
     /// <param name="namespacePrefix">the namespace prefix of the element that should be returned</param>
     /// <param name="name">Name of the element that should be returned</param>
     /// <returns>the "name" element with the prefix "namespacePrefix" of the XElement</returns>
-    public static XElement GetElement(this XElement element, string namespacePrefix, string name)
+    public static XElement? GetElement(this XElement element, string? namespacePrefix, string name)
     {
         var namesp = element.GetNamespacePrefix(namespacePrefix);
         if (namesp is null)
@@ -229,11 +231,12 @@ internal static class Extensions
     /// <param name="namespacePrefix">the namespace prefix of the elements that should be returned</param>
     /// <param name="name">Name of the elements that should be returned</param>
     /// <returns>all "name" elements of the given XElement</returns>
-    public static IEnumerable<XElement> GetElements(this XElement element, string namespacePrefix, string name)
+    public static IEnumerable<XElement> GetElements(this XElement element, string? namespacePrefix, string name)
     {
         var namesp = element.GetNamespacePrefix(namespacePrefix);
         if (namesp is null)
         {
+#warning Shouldn't this return Array.Empty?
             return null;
         }
 
@@ -245,7 +248,7 @@ internal static class Extensions
     /// </summary>
     /// <param name="element">the xml element</param>
     /// <returns>the namespace prefix</returns>
-    public static XNamespace GetNamespacePrefix(this XElement element)
+    public static XNamespace? GetNamespacePrefix(this XElement element)
     {
         return element.GetNamespacePrefix(null);
     }
@@ -256,9 +259,12 @@ internal static class Extensions
     /// <param name="element">the xml element</param>
     /// <param name="namespacePrefix">the namespace prefix</param>
     /// <returns>the namespace prefix or default namespace if the <paramref name="namespacePrefix"/> is null or empty</returns>
-    public static XNamespace GetNamespacePrefix(this XElement element, string namespacePrefix)
+    public static XNamespace? GetNamespacePrefix(this XElement element, string? namespacePrefix)
     {
-        var namesp = string.IsNullOrWhiteSpace(namespacePrefix) ? element.GetDefaultNamespace() : element.GetNamespaceOfPrefix(namespacePrefix);
+        var namesp = string.IsNullOrWhiteSpace(namespacePrefix)
+            ? element.GetDefaultNamespace()
+            : element.GetNamespaceOfPrefix(namespacePrefix);
+
         return namesp;
     }
 
@@ -268,9 +274,9 @@ internal static class Extensions
     /// </summary>
     /// <param name="name">the input name</param>
     /// <returns>splitted namespace and name, item1 is null if namespace is empty</returns>
-    private static Tuple<string, string> SplitName(string name)
+    private static Tuple<string?, string> SplitName(string name)
     {
-        string namesp = null;
+        string? namesp = null;
         if (name.Contains(":"))
         {
             int pos = name.IndexOf(':');
@@ -278,6 +284,6 @@ internal static class Extensions
             name = name.Substring(pos + 1);
         }
 
-        return new Tuple<string, string>(namesp, name);
+        return new Tuple<string?, string>(namesp, name);
     }
 }
