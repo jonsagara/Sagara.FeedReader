@@ -68,9 +68,9 @@ public class Feed
     /// <summary>
     /// Gets the whole, original feed as string
     /// </summary>
-    public string OriginalDocument
+    public string? OriginalDocument
     {
-        get { return SpecificFeed.OriginalDocument; }
+        get { return SpecificFeed?.OriginalDocument; }
     }
 
     /// <summary>

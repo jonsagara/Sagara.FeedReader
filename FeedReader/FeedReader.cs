@@ -61,7 +61,7 @@ public static class FeedReader
             else if (Uri.TryCreate(pageUrl + '/' + tmpUrl.TrimStart('/'), UriKind.Absolute, out finalUri))
                 return new HtmlFeedLink(feedLink.Title.HtmlDecode(), finalUri.ToString(), feedLink.FeedType);
         }
-        
+
         throw new UrlNotFoundException($"Could not get the absolute url out of {pageUrl} and {feedLink.Url}");
     }
 
@@ -172,7 +172,7 @@ public static class FeedReader
     /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
     /// <param name="userAgent">override built-in user-agent header</param>
     /// <returns>parsed feed</returns>
-    public static async Task<Feed> ReadAsync(string url, CancellationToken cancellationToken, bool autoRedirect = true, string userAgent=null)
+    public static async Task<Feed> ReadAsync(string url, CancellationToken cancellationToken, bool autoRedirect = true, string? userAgent = null)
     {
         var feedContent = await Helpers.DownloadBytesAsync(GetAbsoluteUrl(url), cancellationToken, autoRedirect, userAgent).ConfigureAwait(false);
         return ReadFromByteArray(feedContent);
@@ -186,7 +186,7 @@ public static class FeedReader
     /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
     /// <param name="userAgent">override built-in user-agent header</param>
     /// <returns>parsed feed</returns>
-    public static Task<Feed> ReadAsync(string url, bool autoRedirect = true, string userAgent=null)
+    public static Task<Feed> ReadAsync(string url, bool autoRedirect = true, string? userAgent = null)
     {
         return ReadAsync(url, CancellationToken.None, autoRedirect, userAgent);
     }
@@ -198,7 +198,7 @@ public static class FeedReader
     /// <returns>parsed feed</returns>
     public static Feed ReadFromFile(string filePath)
     {
-        var feedContent = System.IO.File.ReadAllBytes(filePath);
+        var feedContent = File.ReadAllBytes(filePath);
         return ReadFromByteArray(feedContent);
     }
 
@@ -210,20 +210,7 @@ public static class FeedReader
     /// <returns>parsed feed</returns>
     public static async Task<Feed> ReadFromFileAsync(string filePath, CancellationToken cancellationToken)
     {
-        byte[] result;
-#if NETCOREAPP2_1
-        {
-            result = await System.IO.File.ReadAllBytesAsync(filePath, cancellationToken).ConfigureAwait(false);
-        }
-#else
-        {
-            using (var stream = System.IO.File.Open(filePath, System.IO.FileMode.Open))
-            {
-                result = new byte[stream.Length];
-                await stream.ReadAsync(result, 0, (int)stream.Length, cancellationToken).ConfigureAwait(false);
-            }
-        }
-        #endif
+        byte[] result = await File.ReadAllBytesAsync(filePath, cancellationToken).ConfigureAwait(false);
         return ReadFromByteArray(result);
     }
 
