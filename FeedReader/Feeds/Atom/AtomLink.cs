@@ -64,7 +64,7 @@ public class AtomLink
     /// Returns the Href of the link
     /// </summary>
     /// <returns>the href of the link</returns>
-    public override string ToString()
+    public override string? ToString()
     {
         return Href;
     }

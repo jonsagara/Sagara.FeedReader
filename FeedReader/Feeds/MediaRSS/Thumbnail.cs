@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace CodeHollow.FeedReader.Feeds.MediaRSS;
 
@@ -10,7 +7,7 @@ namespace CodeHollow.FeedReader.Feeds.MediaRSS;
 /// </summary>
 public class Thumbnail
 {
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Thumbnail"/> class.
     /// Reads a rss feed item enclosure based on the xml given in element
@@ -22,7 +19,7 @@ public class Thumbnail
         this.Height = Helpers.TryParseInt(element.GetAttributeValue("height"));
         this.Width = Helpers.TryParseInt(element.GetAttributeValue("width"));
         this.Time = element.GetAttributeValue("time");
-        
+
     }
 
     /// <summary>

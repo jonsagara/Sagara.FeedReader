@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CodeHollow.FeedReader.Feeds.MediaRSS;
+﻿namespace CodeHollow.FeedReader.Feeds.MediaRSS;
 
 /// <summary>
 /// Specifies the type of an object
@@ -37,9 +33,5 @@ public enum Medium
     /// <summary>
     /// Type could not be determined
     /// </summary>
-    Unknown
-
-
-
-
+    Unknown,
 }

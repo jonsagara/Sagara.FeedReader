@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace CodeHollow.FeedReader.Feeds.MediaRSS;
 
@@ -11,7 +7,7 @@ namespace CodeHollow.FeedReader.Feeds.MediaRSS;
 /// </summary>
 public class Media
 {
-    
+
     /// <summary>
     /// Gets the underlying XElement in order to allow reading properties that are not available in the class itself
     /// </summary>
@@ -25,11 +21,11 @@ public class Media
     public Media(XElement element)
     {
         this.Element = element;
-        
+
         this.Url = element.GetAttributeValue("url");
         this.FileSize = Helpers.TryParseInt(element.GetAttributeValue("fileSize"));
         this.Type = element.GetAttributeValue("type");
-        this.Medium  = Helpers.TryParseMedium(element.GetAttributeValue("medium"));
+        this.Medium = Helpers.TryParseMedium(element.GetAttributeValue("medium"));
         this.isDefault = Helpers.TryParseBool(element.GetAttributeValue("isDefault"));
         this.Duration = Helpers.TryParseInt(element.GetAttributeValue("duration"));
         this.Height = Helpers.TryParseInt(element.GetAttributeValue("height"));
@@ -87,7 +83,7 @@ public class Media
     /// The primary language encapsulated in the media object. Language codes possible are detailed in RFC 3066. This attribute is used similar to the xml:lang attribute detailed in the XML 1.0 Specification (Third Edition). It is an optional attribute.
     /// </summary>
     public string Language { get; set; }
-    
+
     /// <summary>
     /// Representative images for the media object
     /// </summary>
