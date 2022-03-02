@@ -48,7 +48,7 @@ public class ItunesTest
         Assert.NotNull(item1.Image);
         Eq("http://example.com/podcasts/everything/AllAboutEverything/Episode1.jpg", item1.Image.Href);
         Assert.NotNull(item1.Duration);
-        Eq(4, item1.Duration.Value.Seconds);
+        Eq(4, item1.Duration!.Value.Seconds);
         Eq(7, item1.Duration.Value.Minutes);
         Eq(false, item1.Explicit);
 
@@ -58,7 +58,7 @@ public class ItunesTest
         Assert.NotNull(item2.Image);
         Eq("http://example.com/podcasts/everything/AllAboutEverything/Episode2.jpg", item2.Image.Href);
         Assert.NotNull(item2.Duration);
-        Eq(34, item2.Duration.Value.Seconds);
+        Eq(34, item2.Duration!.Value.Seconds);
         Eq(4, item2.Duration.Value.Minutes);
         Eq(false, item2.Explicit);
 
@@ -68,7 +68,7 @@ public class ItunesTest
         Assert.NotNull(item3.Image);
         Eq("http://example.com/podcasts/everything/AllAboutEverything/Episode3.jpg", item3.Image.Href);
         Assert.NotNull(item3.Duration);
-        Eq(34, item3.Duration.Value.Seconds);
+        Eq(34, item3.Duration!.Value.Seconds);
         Eq(4, item3.Duration.Value.Minutes);
         Eq(false, item3.Explicit);
         Eq(true, item3.IsClosedCaptioned);
@@ -79,7 +79,7 @@ public class ItunesTest
         Assert.NotNull(item4.Image);
         Eq("http://example.com/podcasts/everything/AllAboutEverything/Episode4.jpg", item4.Image.Href);
         Assert.NotNull(item4.Duration);
-        Eq(59, item4.Duration.Value.Seconds);
+        Eq(59, item4.Duration!.Value.Seconds);
         Eq(3, item4.Duration.Value.Minutes);
         Eq(false, item4.Explicit);
 
@@ -123,7 +123,7 @@ public class ItunesTest
         Assert.NotNull(item1.Image);
         Eq("http://example.com/podcasts/everything/AllAboutEverything/Episode1.jpg", item1.Image.Href);
         Assert.NotNull(item1.Duration);
-        Eq(4, item1.Duration.Value.Seconds);
+        Eq(4, item1.Duration!.Value.Seconds);
         Eq(7, item1.Duration.Value.Minutes);
         Eq(false, item1.Explicit);
 
@@ -133,7 +133,7 @@ public class ItunesTest
         Assert.NotNull(item2.Image);
         Eq("http://example.com/podcasts/everything/AllAboutEverything/Episode2.jpg", item2.Image.Href);
         Assert.NotNull(item2.Duration);
-        Eq(34, item2.Duration.Value.Seconds);
+        Eq(34, item2.Duration!.Value.Seconds);
         Eq(4, item2.Duration.Value.Minutes);
         Eq(false, item2.Explicit);
 
@@ -143,7 +143,7 @@ public class ItunesTest
         Assert.NotNull(item3.Image);
         Eq("http://example.com/podcasts/everything/AllAboutEverything/Episode3.jpg", item3.Image.Href);
         Assert.NotNull(item3.Duration);
-        Eq(34, item3.Duration.Value.Seconds);
+        Eq(34, item3.Duration!.Value.Seconds);
         Eq(4, item3.Duration.Value.Minutes);
         Eq(false, item3.Explicit);
         Eq(true, item3.IsClosedCaptioned);
@@ -154,7 +154,7 @@ public class ItunesTest
         Assert.NotNull(item4.Image);
         Eq("http://example.com/podcasts/everything/AllAboutEverything/Episode4.jpg", item4.Image.Href);
         Assert.NotNull(item4.Duration);
-        Eq(59, item4.Duration.Value.Seconds);
+        Eq(59, item4.Duration!.Value.Seconds);
         Eq(3, item4.Duration.Value.Minutes);
         Eq(false, item4.Explicit);
 
