@@ -2,10 +2,10 @@
 
 class Program
 {
-    static void Main()
+    static async Task Main()
     {
-        string hlp = "Please enter feed url or exit to stop the program:";
-        Console.WriteLine(hlp);
+        const string prompt = "Please enter feed url or exit to stop the program:";
+        Console.WriteLine(prompt);
 
         while (true)
         {
@@ -13,18 +13,26 @@ class Program
             {
                 string? url = Console.ReadLine();
                 if (url?.Equals("exit", StringComparison.InvariantCultureIgnoreCase) == true)
+                {
                     break;
+                }
 
-                var urlsTask = FeedReader.GetFeedUrlsFromUrlAsync(url);
-                var urls = urlsTask.Result;
+                var urls = (await FeedReader.GetFeedUrlsFromUrlAsync(url)).ToArray();
 
                 string? feedUrl;
-                if (urls == null || urls.Count() < 1)
+                if (urls is null || urls.Length < 1)
+                {
                     feedUrl = url;
-                else if (urls.Count() == 1)
+                }
+                else if (urls.Length == 1)
+                {
                     feedUrl = urls.First().Url;
-                else if (urls.Count() == 2) // if 2 urls, then its usually a feed and a comments feed, so take the first per default
+                }
+                else if (urls.Length == 2)
+                {
+                    // if 2 urls, then its usually a feed and a comments feed, so take the first per default
                     feedUrl = urls.First().Url;
+                }
                 else
                 {
                     int i = 1;
@@ -35,21 +43,21 @@ class Program
                     }
                     var input = Console.ReadLine();
 
-                    if (!int.TryParse(input, out int index) || index < 1 || index > urls.Count())
+                    if (!int.TryParse(input, out int index) || index < 1 || index > urls.Length)
                     {
                         Console.WriteLine("Wrong input. Press key to exit");
                         Console.ReadKey();
                         return;
                     }
+
                     feedUrl = urls.ElementAt(index).Url;
                 }
 
-                var readerTask = FeedReader.ReadAsync(feedUrl);
-                readerTask.ConfigureAwait(false);
+                var feed = await FeedReader.ReadAsync(feedUrl);
 
-                foreach (var item in readerTask.Result.Items)
+                foreach (var item in feed.Items)
                 {
-                    Console.WriteLine(item.Title + " - " + item.Link);
+                    Console.WriteLine($"{item.Title} - {item.Link}");
                 }
             }
             catch (Exception ex)
@@ -59,7 +67,7 @@ class Program
             finally
             {
                 Console.WriteLine("================================================");
-                Console.WriteLine(hlp);
+                Console.WriteLine(prompt);
             }
         }
     }
