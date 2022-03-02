@@ -203,10 +203,10 @@ public class MediaRssFeed : BaseFeed
         }
 
         // if publishingDateString is set but PublishingDate is null - try to parse with culture of "Language" property
-        bool parseLocalizedPublishingDate = PublishingDate == null && !string.IsNullOrWhiteSpace(PublishingDateString);
+        bool parseLocalizedPublishingDate = PublishingDate is null && !string.IsNullOrWhiteSpace(PublishingDateString);
 
         // if LastBuildDateString is set but LastBuildDate is null - try to parse with culture of "Language" property
-        bool parseLocalizedLastBuildDate = LastBuildDate == null && !string.IsNullOrWhiteSpace(LastBuildDateString);
+        bool parseLocalizedLastBuildDate = LastBuildDate is null && !string.IsNullOrWhiteSpace(LastBuildDateString);
 
         // if both dates are set - return
         if (!parseLocalizedPublishingDate && !parseLocalizedLastBuildDate)

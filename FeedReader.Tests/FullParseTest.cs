@@ -390,17 +390,19 @@ public class FullParseTest
     [Fact]
     public void TestAllFilesForException()
     {
-        var linkless = new System.Collections.Generic.List<string>() { "AtomBattleNet.xml" };
+        var linkless = new List<string>() { "AtomBattleNet.xml" };
 
-        var files = System.IO.Directory.EnumerateFiles("Feeds");
+        var files = Directory.EnumerateFiles("Feeds");
         foreach (var file in files)
         {
             var feed = FeedReader.ReadFromFile(file);
-            if (feed != null)
+            if (feed is not null)
             {
-                string filename = System.IO.Path.GetFileName(file);
+                string filename = Path.GetFileName(file);
                 if (!linkless.Contains(filename))
+                {
                     Assert.True(!string.IsNullOrEmpty(feed.Link));
+                }
 
                 TestItunesParsingForException(feed);
             }
@@ -757,17 +759,19 @@ public class FullParseTest
     [Fact]
     public async Task TestAllFilesForException_Async()
     {
-        var linkless = new System.Collections.Generic.List<string>() { "AtomBattleNet.xml" };
+        var linkless = new List<string>() { "AtomBattleNet.xml" };
 
-        var files = System.IO.Directory.EnumerateFiles("Feeds");
+        var files = Directory.EnumerateFiles("Feeds");
         foreach (var file in files)
         {
             var feed = await FeedReader.ReadFromFileAsync(file).ConfigureAwait(false);
-            if (feed != null)
+            if (feed is not null)
             {
-                string filename = System.IO.Path.GetFileName(file);
+                string filename = Path.GetFileName(file);
                 if (!linkless.Contains(filename))
+                {
                     Assert.True(!string.IsNullOrEmpty(feed.Link));
+                }
 
                 TestItunesParsingForException(feed);
             }
@@ -781,6 +785,8 @@ public class FullParseTest
         Assert.NotNull(feed.GetItunesChannel());
 
         foreach (var item in feed.Items)
+        {
             Assert.NotNull(item.GetItunesItem());
+        }
     }
 }

@@ -28,8 +28,11 @@ internal static class Extensions
     /// <returns></returns>
     public static bool EqualsIgnoreCase(this string text, string compareTo)
     {
-        if (text == null)
-            return compareTo == null;
+        if (text is null)
+        {
+            return compareTo is null;
+        }
+
         return text.Equals(compareTo, StringComparison.OrdinalIgnoreCase);
     }
 
@@ -41,11 +44,14 @@ internal static class Extensions
     /// <returns></returns>
     public static bool EqualsIgnoreCase(this string text, params string[] compareTo)
     {
-        foreach(string value in compareTo)
+        foreach (string value in compareTo)
         {
             if (text.EqualsIgnoreCase(value))
+            {
                 return true;
+            }
         }
+
         return false;
     }
 
@@ -68,10 +74,14 @@ internal static class Extensions
     public static string ToUtf8(this string text, Encoding encoding)
     {
         if (encoding == Encoding.UTF8)
+        {
             return text;
+        }
 
         if (encoding == Encoding.GetEncoding(0))
+        {
             return text;
+        }
 
         var utf = Encoding.UTF8;
         var convertedBytes = Encoding.Convert(encoding, utf, encoding.GetBytes(text));
@@ -85,8 +95,10 @@ internal static class Extensions
     /// <returns>value of the element utf8 encoded</returns>
     public static string GetValue(this XElement element)
     {
-        if (element == null)
+        if (element is null)
+        {
             return null;
+        }
 
         return element.Value;
     }
@@ -121,8 +133,10 @@ internal static class Extensions
     /// <returns>value</returns>
     public static string GetValue(this XAttribute attribute)
     {
-        if (attribute == null)
+        if (attribute is null)
+        {
             return null;
+        }
 
         return attribute.Value;
     }
@@ -188,7 +202,11 @@ internal static class Extensions
     public static XElement GetElement(this XElement element, string namespacePrefix, string name)
     {
         var namesp = element.GetNamespacePrefix(namespacePrefix);
-        if (namesp == null) return null;
+        if (namesp is null)
+        {
+            return null;
+        }
+
         return element.Element(namesp + name);
     }
 
@@ -214,7 +232,11 @@ internal static class Extensions
     public static IEnumerable<XElement> GetElements(this XElement element, string namespacePrefix, string name)
     {
         var namesp = element.GetNamespacePrefix(namespacePrefix);
-        if (namesp == null) return null;
+        if (namesp is null)
+        {
+            return null;
+        }
+
         return element.Elements(namesp + name);
     }
 

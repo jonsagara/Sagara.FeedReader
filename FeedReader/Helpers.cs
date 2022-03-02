@@ -272,7 +272,7 @@ public static class Helpers
         foreach (Match m in rex.Matches(htmlContent))
         {
             var hfl = GetFeedLinkFromLinkTag(m.Value);
-            if (hfl != null)
+            if (hfl is not null)
             {
                 result.Add(hfl);
             }

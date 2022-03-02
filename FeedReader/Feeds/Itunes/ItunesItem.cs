@@ -17,7 +17,7 @@ public class ItunesItem
         Block = itemElement.GetValue(ItunesChannel.NAMESPACEPREFIX, "block").EqualsIgnoreCase("yes");
         var imageElement = itemElement.GetElement(ItunesChannel.NAMESPACEPREFIX, "image");
 
-        if (imageElement != null)
+        if (imageElement is not null)
         {
             Image = new ItunesImage(imageElement);
         }

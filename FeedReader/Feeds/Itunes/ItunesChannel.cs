@@ -21,14 +21,14 @@ public class ItunesChannel
         Categories = GetItunesCategories(channelElement);
 
         var imageElement = channelElement.GetElement(NAMESPACEPREFIX, "image");
-        if (imageElement != null)
+        if (imageElement is not null)
         {
             Image = new ItunesImage(imageElement);
         }
 
         var explicitValue = channelElement.GetValue(NAMESPACEPREFIX, "explicit");
         Explicit = explicitValue.EqualsIgnoreCase("yes", "explicit", "true");
-        
+
         Complete = channelElement.GetValue(NAMESPACEPREFIX, "complete").EqualsIgnoreCase("yes");
 
         if (Uri.TryCreate(channelElement.GetValue(NAMESPACEPREFIX, "new-feed-url"), UriKind.Absolute, out var newFeedUrl))
@@ -38,7 +38,7 @@ public class ItunesChannel
 
         var ownerElement = channelElement.GetElement(NAMESPACEPREFIX, "owner");
 
-        if (ownerElement != null)
+        if (ownerElement is not null)
         {
             Owner = new ItunesOwner(ownerElement);
         }
@@ -105,12 +105,14 @@ public class ItunesChannel
     private ItunesCategory[] GetItunesCategories(XElement element)
     {
         var categoryElements = element.GetElements(NAMESPACEPREFIX, "category");
-        if (categoryElements == null)
+        if (categoryElements is null)
+        {
             return new ItunesCategory[0];
+        }
 
         var query = from categoryElement in categoryElements
-            let children = GetItunesCategories(categoryElement)
-            select new ItunesCategory(categoryElement.GetAttributeValue("text"), children);
+                    let children = GetItunesCategories(categoryElement)
+                    select new ItunesCategory(categoryElement.GetAttributeValue("text"), children);
 
         return query.ToArray();
     }

@@ -1,8 +1,6 @@
 ﻿namespace CodeHollow.FeedReader.Parser;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
@@ -19,33 +17,45 @@ internal static class FeedParser
     public static FeedType ParseFeedType(XDocument doc)
     {
         string rootElement = doc.Root.Name.LocalName;
-        
+
         if (rootElement.EqualsIgnoreCase("feed"))
+        {
             return FeedType.Atom;
+        }
 
         if (rootElement.EqualsIgnoreCase("rdf"))
+        {
             return FeedType.Rss_1_0;
+        }
 
         if (rootElement.EqualsIgnoreCase("rss"))
         {
             string version = doc.Root.Attribute("version").Value;
-            if (version.EqualsIgnoreCase("2.0")) {
-                if (doc.Root.Attribute(XName.Get("media", XNamespace.Xmlns.NamespaceName)) != null) {
+            if (version.EqualsIgnoreCase("2.0"))
+            {
+                if (doc.Root.Attribute(XName.Get("media", XNamespace.Xmlns.NamespaceName)) is not null)
+                {
                     return FeedType.MediaRss;
-                } else {
+                }
+                else
+                {
                     return FeedType.Rss_2_0;
                 }
             }
 
             if (version.EqualsIgnoreCase("0.91"))
+            {
                 return FeedType.Rss_0_91;
+            }
 
             if (version.EqualsIgnoreCase("0.92"))
+            {
                 return FeedType.Rss_0_92;
+            }
 
             return FeedType.Rss;
         }
-        
+
         throw new FeedTypeNotSupportedException($"unknown feed type {rootElement}");
     }
 
@@ -80,7 +90,7 @@ internal static class FeedParser
 
         return feed.ToFeed();
     }
-    
+
     /// <summary>
     /// Returns the parsed feed
     /// </summary>
@@ -116,7 +126,7 @@ internal static class FeedParser
                 encoding = Encoding.GetEncoding(encodingStr);
 
         }
-        catch(Exception) { } // ignore and return default encoding
+        catch (Exception) { } // ignore and return default encoding
         return encoding;
     }
 
