@@ -10,7 +10,7 @@ public class Rss091FeedImage : FeedImage
     /// <summary>
     /// The "description" element
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// The "width" element
@@ -39,8 +39,8 @@ public class Rss091FeedImage : FeedImage
     public Rss091FeedImage(XElement element)
         : base(element)
     {
-        this.Description = element.GetValue("description");
-        this.Width = Helpers.TryParseInt(element.GetValue("width"));
-        this.Height = Helpers.TryParseInt(element.GetValue("height"));
+        Description = element.GetValue("description");
+        Width = Helpers.TryParseInt(element.GetValue("width"));
+        Height = Helpers.TryParseInt(element.GetValue("height"));
     }
 }

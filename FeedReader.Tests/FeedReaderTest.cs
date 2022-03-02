@@ -18,7 +18,7 @@ public class FeedReaderTest
     {
         // results in 403 Forbidden if webclient does not have the accept header set
         var feed = await FeedReader.ReadAsync("http://www.girlsguidetopm.com/feed/").ConfigureAwait(false);
-        string title = feed.Title;
+        string? title = feed.Title;
         Assert.True(feed.Items.Count > 2);
         Assert.True(!string.IsNullOrEmpty(title));
     }
@@ -50,13 +50,28 @@ public class FeedReaderTest
     }
 
     [Fact]
-    public async Task TestParseRssLinksHeise() { await TestParseRssLinksAsync("http://heise.de/", 2).ConfigureAwait(false); }
+    public async Task TestParseRssLinksHeise()
+    {
+        await TestParseRssLinksAsync("http://heise.de/", 2).ConfigureAwait(false);
+    }
+
     [Fact]
-    public async Task TestParseRssLinksHeise2() { await TestParseRssLinksAsync("heise.de", 2).ConfigureAwait(false); }
+    public async Task TestParseRssLinksHeise2()
+    {
+        await TestParseRssLinksAsync("heise.de", 2).ConfigureAwait(false);
+    }
+
     [Fact]
-    public async Task TestParseRssLinksHeise3() { await TestParseRssLinksAsync("www.heise.de", 2).ConfigureAwait(false); }
+    public async Task TestParseRssLinksHeise3()
+    {
+        await TestParseRssLinksAsync("www.heise.de", 2).ConfigureAwait(false);
+    }
+
     [Fact]
-    public async Task TestParseRssLinksNYTimes() { await TestParseRssLinksAsync("nytimes.com", 1).ConfigureAwait(false); }
+    public async Task TestParseRssLinksNYTimes()
+    {
+        await TestParseRssLinksAsync("nytimes.com", 1).ConfigureAwait(false);
+    }
 
     private static async Task TestParseRssLinksAsync(string url, int expectedNumberOfLinks)
     {
@@ -90,7 +105,7 @@ public class FeedReaderTest
     public async Task TestReadAdobeFeed()
     {
         var feed = await FeedReader.ReadAsync("https://theblog.adobe.com/news/feed").ConfigureAwait(false);
-        string title = feed.Title;
+        string? title = feed.Title;
         Assert.Equal("Adobe Blog", title);
     }
 
@@ -98,7 +113,7 @@ public class FeedReaderTest
     public async Task TestReadSimpleFeed()
     {
         var feed = await FeedReader.ReadAsync("https://arminreiter.com/feed").ConfigureAwait(false);
-        string title = feed.Title;
+        string? title = feed.Title;
         Assert.Equal("arminreiter.com", title);
         Assert.Equal(10, feed.Items.Count());
     }
@@ -107,7 +122,7 @@ public class FeedReaderTest
     public async Task TestReadRss20GermanFeed()
     {
         var feed = await FeedReader.ReadAsync("http://guidnew.com/feed").ConfigureAwait(false);
-        string title = feed.Title;
+        string? title = feed.Title;
         Assert.Equal("Guid.New", title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -116,7 +131,7 @@ public class FeedReaderTest
     public async Task TestReadRss10GermanFeed()
     {
         var feed = await FeedReader.ReadAsync("http://rss.orf.at/news.xml").ConfigureAwait(false);
-        string title = feed.Title;
+        string? title = feed.Title;
         Assert.Equal("news.ORF.at", title);
         Assert.True(feed.Items.Count > 10);
     }

@@ -69,12 +69,12 @@ public class Rss091Feed : BaseFeed
     /// <summary>
     /// All "day" elements in "skipDays"
     /// </summary>
-    public ICollection<string> SkipDays { get; set; }
+    public List<string> SkipDays { get; private set; } = new();
 
     /// <summary>
     /// All "hour" elements in "skipHours"
     /// </summary>
-    public ICollection<string> SkipHours { get; set; }
+    public List<string> SkipHours { get; private set; } = new();
 
     /// <summary>
     /// The "textInput" element
@@ -98,8 +98,8 @@ public class Rss091Feed : BaseFeed
     public Rss091Feed()
         : base()
     {
-        this.SkipDays = new List<string>();
-        this.SkipHours = new List<string>();
+        SkipDays = new List<string>();
+        SkipHours = new List<string>();
     }
 
     /// <summary>
@@ -111,33 +111,37 @@ public class Rss091Feed : BaseFeed
     public Rss091Feed(string feedXml, XElement channel)
         : base(feedXml, channel)
     {
-        this.Description = channel.GetValue("description");
-        this.Language = channel.GetValue("language");
-        this.Image = new Rss091FeedImage(channel.GetElement("image"));
-        this.Copyright = channel.GetValue("copyright");
-        this.ManagingEditor = channel.GetValue("managingEditor");
-        this.WebMaster = channel.GetValue("webMaster");
-        this.Rating = channel.GetValue("rating");
+        Description = channel.GetValue("description");
+        Language = channel.GetValue("language");
+        Image = new Rss091FeedImage(channel.GetElement("image"));
+        Copyright = channel.GetValue("copyright");
+        ManagingEditor = channel.GetValue("managingEditor");
+        WebMaster = channel.GetValue("webMaster");
+        Rating = channel.GetValue("rating");
 
-        this.PublishingDateString = channel.GetValue("pubDate");
-        this.PublishingDate = Helpers.TryParseDateTime(this.PublishingDateString);
+        PublishingDateString = channel.GetValue("pubDate");
+        PublishingDate = Helpers.TryParseDateTime(PublishingDateString);
 
-        this.LastBuildDateString = channel.GetValue("lastBuildDate");
-        this.LastBuildDate = Helpers.TryParseDateTime(this.LastBuildDateString);
+        LastBuildDateString = channel.GetValue("lastBuildDate");
+        LastBuildDate = Helpers.TryParseDateTime(LastBuildDateString);
 
-        this.Docs = channel.GetValue("docs");
+        Docs = channel.GetValue("docs");
 
-        this.TextInput = new FeedTextInput(channel.GetElement("textinput"));
+        TextInput = new FeedTextInput(channel.GetElement("textinput"));
 
-        this.Sy = new Syndication(channel);
+        Sy = new Syndication(channel);
 
         var skipHours = channel.GetElement("skipHours");
-        if (skipHours != null)
-            this.SkipHours = skipHours.GetElements("hour")?.Select(x => x.GetValue()).ToList();
+        if (skipHours is not null)
+        {
+            SkipHours = skipHours.GetElements("hour")?.Select(x => x.GetValue()).ToList();
+        }
 
         var skipDays = channel.GetElement("skipDays");
-        if (skipDays != null)
-            this.SkipDays = skipDays.GetElements("day")?.Select(x => x.GetValue()).ToList();
+        if (skipDays is not null)
+        {
+            SkipDays = skipDays.GetElements("day")?.Select(x => x.GetValue()).ToList();
+        }
 
         var items = channel.GetElements("item");
 
@@ -150,16 +154,17 @@ public class Rss091Feed : BaseFeed
     /// <returns>feed</returns>
     public override Feed ToFeed()
     {
-        Feed f = new Feed(this)
+        Feed f = new(this)
         {
-            Copyright = this.Copyright,
-            Description = this.Description,
-            ImageUrl = this.Image?.Url,
-            Language = this.Language,
-            LastUpdatedDate = this.LastBuildDate,
-            LastUpdatedDateString = this.LastBuildDateString,
+            Copyright = Copyright,
+            Description = Description,
+            ImageUrl = Image?.Url,
+            Language = Language,
+            LastUpdatedDate = LastBuildDate,
+            LastUpdatedDateString = LastBuildDateString,
             Type = FeedType.Rss_0_91
         };
+
         return f;
     }
 
@@ -171,7 +176,7 @@ public class Rss091Feed : BaseFeed
     {
         foreach (var item in items)
         {
-            this.Items.Add(new Rss091FeedItem(item));
+            Items.Add(new Rss091FeedItem(item));
         }
     }
 }

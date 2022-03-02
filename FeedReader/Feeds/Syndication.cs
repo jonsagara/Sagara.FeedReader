@@ -10,17 +10,17 @@ public class Syndication
     /// <summary>
     /// The "updatePeriod" element
     /// </summary>
-    public string UpdatePeriod { get; set; }
+    public string? UpdatePeriod { get; set; }
 
     /// <summary>
     /// The "updateFrequency" element
     /// </summary>
-    public string UpdateFrequency { get; set; }
+    public string? UpdateFrequency { get; set; }
 
     /// <summary>
     /// The "updateBase" element
     /// </summary>
-    public string UpdateBase { get; set; }
+    public string? UpdateBase { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Syndication"/> class.
@@ -37,8 +37,8 @@ public class Syndication
     /// <param name="xelement">syndication element as xml</param>
     public Syndication(XElement xelement)
     {
-        this.UpdateBase = xelement.GetValue("sy:updateBase");
-        this.UpdateFrequency = xelement.GetValue("sy:updateFrequency");
-        this.UpdatePeriod = xelement.GetValue("sy:updatePeriod");
+        UpdateBase = xelement.GetValue("sy:updateBase");
+        UpdateFrequency = xelement.GetValue("sy:updateFrequency");
+        UpdatePeriod = xelement.GetValue("sy:updatePeriod");
     }
 }

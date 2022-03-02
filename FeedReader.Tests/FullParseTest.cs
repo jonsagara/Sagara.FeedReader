@@ -140,13 +140,13 @@ public class FullParseTest
         Eq("dave@userland.com (Dave Winer)", feed.ManagingEditor);
         Eq("dave@userland.com (Dave Winer)", feed.WebMaster);
         Eq("en-us", feed.Language);
-        Assert.True(feed.SkipHours.Contains("6"));
-        Assert.True(feed.SkipHours.Contains("7"));
-        Assert.True(feed.SkipHours.Contains("8"));
-        Assert.True(feed.SkipHours.Contains("9"));
-        Assert.True(feed.SkipHours.Contains("10"));
-        Assert.True(feed.SkipHours.Contains("11"));
-        Assert.True(feed.SkipDays.Contains("Sunday"));
+        Assert.Contains("6", feed.SkipHours);
+        Assert.Contains("7", feed.SkipHours);
+        Assert.Contains("8", feed.SkipHours);
+        Assert.Contains("9", feed.SkipHours);
+        Assert.Contains("10", feed.SkipHours);
+        Assert.Contains("11", feed.SkipHours);
+        Assert.Contains("Sunday", feed.SkipDays);
         Eq("(PICS-1.1 \"http://www.rsac.org/ratingsv01.html\" l gen true comment \"RSACi North America Server\" for \"http://www.rsac.org\" on \"1996.04.16T08:15-0500\" r (n 0 s 0 v 0 l 0))", feed.Rating);
 
         Eq(1, feed.Items.Count);
@@ -507,13 +507,13 @@ public class FullParseTest
         Eq("dave@userland.com (Dave Winer)", feed.ManagingEditor);
         Eq("dave@userland.com (Dave Winer)", feed.WebMaster);
         Eq("en-us", feed.Language);
-        Assert.True(feed.SkipHours.Contains("6"));
-        Assert.True(feed.SkipHours.Contains("7"));
-        Assert.True(feed.SkipHours.Contains("8"));
-        Assert.True(feed.SkipHours.Contains("9"));
-        Assert.True(feed.SkipHours.Contains("10"));
-        Assert.True(feed.SkipHours.Contains("11"));
-        Assert.True(feed.SkipDays.Contains("Sunday"));
+        Assert.Contains("6", feed.SkipHours);
+        Assert.Contains("7", feed.SkipHours);
+        Assert.Contains("8", feed.SkipHours);
+        Assert.Contains("9", feed.SkipHours);
+        Assert.Contains("10", feed.SkipHours);
+        Assert.Contains("11", feed.SkipHours);
+        Assert.Contains("Sunday", feed.SkipDays);
         Eq("(PICS-1.1 \"http://www.rsac.org/ratingsv01.html\" l gen true comment \"RSACi North America Server\" for \"http://www.rsac.org\" on \"1996.04.16T08:15-0500\" r (n 0 s 0 v 0 l 0))", feed.Rating);
 
         Eq(1, feed.Items.Count);
