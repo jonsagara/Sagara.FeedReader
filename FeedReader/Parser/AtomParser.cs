@@ -1,14 +1,13 @@
-﻿namespace CodeHollow.FeedReader.Parser
-{
-    using System.Xml.Linq;
-    using Feeds;
+﻿namespace CodeHollow.FeedReader.Parser;
 
-    internal class AtomParser : AbstractXmlFeedParser
+using System.Xml.Linq;
+using Feeds;
+
+internal class AtomParser : AbstractXmlFeedParser
+{
+    public override BaseFeed Parse(string feedXml, XDocument feedDoc)
     {
-        public override BaseFeed Parse(string feedXml, XDocument feedDoc)
-        {
-            AtomFeed feed = new AtomFeed(feedXml, feedDoc.Root);
-            return feed;
-        }
+        AtomFeed feed = new AtomFeed(feedXml, feedDoc.Root);
+        return feed;
     }
 }
