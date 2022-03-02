@@ -44,5 +44,5 @@ public enum FeedType
     /// <summary>
     /// Unknown - default type
     /// </summary>
-    Unknown
+    Unknown,
 }

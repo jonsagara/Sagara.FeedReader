@@ -1,6 +1,5 @@
 ﻿namespace CodeHollow.FeedReader;
 
-using Feeds.MediaRSS;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Feeds.MediaRSS;
 
 /// <summary>
 /// static class with helper functions
@@ -34,25 +34,15 @@ public static class Helpers
     /// Download the content from an url
     /// </summary>
     /// <param name="url">correct url</param>
-    /// <returns>Content as string</returns>
-    [Obsolete("Use the DownloadAsync method")]
-    public static string Download(string url)
-    {
-        return DownloadAsync(url).GetAwaiter().GetResult();
-    }
-
-    /// <summary>
-    /// Download the content from an url
-    /// </summary>
-    /// <param name="url">correct url</param>
     /// <param name="cancellationToken">token to cancel operation</param>
     /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
     /// <param name="userAgent">override built-in user-agent header</param>
     /// <returns>Content as byte array</returns>
     public static async Task<byte[]> DownloadBytesAsync(string url, CancellationToken cancellationToken, bool autoRedirect = true, string userAgent = USER_AGENT_VALUE)
     {
-        url = System.Net.WebUtility.UrlDecode(url);
+        url = WebUtility.UrlDecode(url);
         HttpResponseMessage response;
+
         using (var request = new HttpRequestMessage(HttpMethod.Get, url))
         {
             request.Headers.TryAddWithoutValidation(ACCEPT_HEADER_NAME, ACCEPT_HEADER_VALUE);
@@ -60,9 +50,11 @@ public static class Helpers
 
             response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
         }
+
         if (!response.IsSuccessStatusCode)
         {
             var statusCode = (int)response.StatusCode;
+
             // redirect if statuscode = 301 - Moved Permanently, 302 - Moved temporarly 308 - Permanent redirect
             if (autoRedirect && (statusCode == 301 || statusCode == 302 || statusCode == 308))
             {
@@ -74,7 +66,9 @@ public static class Helpers
                 response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
             }
         }
+
         var content = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+
         return content;
     }
 
@@ -101,6 +95,7 @@ public static class Helpers
     public static async Task<string> DownloadAsync(string url, CancellationToken cancellationToken, bool autoRedirect = true)
     {
         var content = await DownloadBytesAsync(url, cancellationToken, autoRedirect).ConfigureAwait(false);
+
         return Encoding.UTF8.GetString(content);
     }
 
@@ -123,7 +118,7 @@ public static class Helpers
     /// <param name="datetime">datetime as string</param>
     /// <param name="cultureInfo">The cultureInfo for parsing</param>
     /// <returns>datetime or null</returns>
-    public static DateTime? TryParseDateTime(string datetime, CultureInfo cultureInfo = null)
+    public static DateTime? TryParseDateTime(string datetime, CultureInfo? cultureInfo = null)
     {
         if (string.IsNullOrWhiteSpace(datetime))
             return null;
@@ -146,21 +141,21 @@ public static class Helpers
             {
                 string newdtstring = datetime.Substring(0, datetime.LastIndexOf(" ")).Trim();
 
-                parseSuccess = DateTimeOffset.TryParse(newdtstring, dateTimeFormat, DateTimeStyles.AssumeUniversal,
-                    out dt);
+                parseSuccess = DateTimeOffset.TryParse(newdtstring, dateTimeFormat, DateTimeStyles.AssumeUniversal, out dt);
             }
-            
+
             if (!parseSuccess)
             {
                 string newdtstring = datetime.Substring(0, datetime.LastIndexOf(" ")).Trim();
-                
-                parseSuccess = DateTimeOffset.TryParse(newdtstring, dateTimeFormat, DateTimeStyles.None,
-                    out dt);
+
+                parseSuccess = DateTimeOffset.TryParse(newdtstring, dateTimeFormat, DateTimeStyles.None, out dt);
             }
         }
 
         if (!parseSuccess)
+        {
             return null;
+        }
 
         return dt.UtcDateTime;
     }
@@ -173,7 +168,10 @@ public static class Helpers
     public static int? TryParseInt(string input)
     {
         if (!int.TryParse(input, out int tmp))
+        {
             return null;
+        }
+
         return tmp;
     }
 
@@ -243,7 +241,9 @@ public static class Helpers
         string type = GetAttributeFromLinkTag("type", linkTag).ToLower();
 
         if (!type.Contains("application/rss") && !type.Contains("application/atom"))
+        {
             return null;
+        }
 
         HtmlFeedLink hfl = new HtmlFeedLink();
         string title = GetAttributeFromLinkTag("title", linkTag);
@@ -265,15 +265,17 @@ public static class Helpers
         // <link rel="alternate" type="application/rss+xml" title="Microsoft Bot Framework Blog" href="http://blog.botframework.com/feed.xml">
         // <link rel="alternate" type="application/atom+xml" title="Aktuelle News von heise online" href="https://www.heise.de/newsticker/heise-atom.xml">
 
-        Regex rex = new Regex("<link[^>]*rel=\"alternate\"[^>]*>", RegexOptions.Singleline);
+        var rex = new Regex("<link[^>]*rel=\"alternate\"[^>]*>", RegexOptions.Singleline);
 
-        List<HtmlFeedLink> result = new List<HtmlFeedLink>();
+        List<HtmlFeedLink> result = new();
 
         foreach (Match m in rex.Matches(htmlContent))
         {
             var hfl = GetFeedLinkFromLinkTag(m.Value);
             if (hfl != null)
+            {
                 result.Add(hfl);
+            }
         }
 
         return result;
@@ -290,7 +292,10 @@ public static class Helpers
         var res = Regex.Match(htmlTag, attribute + "\\s*=\\s*\"(?<val>[^\"]*)\"", RegexOptions.IgnoreCase & RegexOptions.IgnorePatternWhitespace);
 
         if (res.Groups.Count > 1)
+        {
             return res.Groups[1].Value;
+        }
+
         return string.Empty;
     }
 }
