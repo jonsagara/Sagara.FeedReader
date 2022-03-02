@@ -209,8 +209,8 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadTechRep()
     {
-        var feed = await FeedReader.ReadAsync("http://www.techrepublic.com/rssfeeds/topic/project-management/").ConfigureAwait(false);
-        Assert.Equal("Project Management on TechRepublic", feed.Title);
+        var feed = await FeedReader.ReadAsync("https://www.techrepublic.com/rssfeeds/topic/project-management/").ConfigureAwait(false);
+        Assert.Equal("Project Management | TechRepublic", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
 
