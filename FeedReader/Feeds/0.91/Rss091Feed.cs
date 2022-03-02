@@ -14,32 +14,32 @@ public class Rss091Feed : BaseFeed
     /// <summary>
     /// The required field "description"
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// The required field "language"
     /// /// </summary>
-    public string Language { get; set; }
+    public string? Language { get; set; }
 
     /// <summary>
     /// The "copyright" field
     /// </summary>
-    public string Copyright { get; set; }
+    public string? Copyright { get; set; }
 
     /// <summary>
     /// The "docs" field
     /// </summary>
-    public string Docs { get; set; }
+    public string? Docs { get; set; }
 
     /// <summary>
     /// The "image" element
     /// </summary>
-    public FeedImage Image { get; set; }
+    public FeedImage? Image { get; set; }
 
     /// <summary>
     /// The "lastBuildDate" element
     /// </summary>
-    public string LastBuildDateString { get; set; }
+    public string? LastBuildDateString { get; set; }
 
     /// <summary>
     /// The "lastBuildDate" as DateTime. Null if parsing failed or lastBuildDate is empty.
@@ -49,12 +49,12 @@ public class Rss091Feed : BaseFeed
     /// <summary>
     /// The "managingEditor" field
     /// </summary>
-    public string ManagingEditor { get; set; }
+    public string? ManagingEditor { get; set; }
 
     /// <summary>
     /// The "pubDate" field
     /// </summary>
-    public string PublishingDateString { get; set; }
+    public string? PublishingDateString { get; set; }
 
     /// <summary>
     /// The "pubDate" field as DateTime. Null if parsing failed or pubDate is empty.
@@ -64,7 +64,7 @@ public class Rss091Feed : BaseFeed
     /// <summary>
     /// The "rating" field
     /// </summary>
-    public string Rating { get; set; }
+    public string? Rating { get; set; }
 
     /// <summary>
     /// All "day" elements in "skipDays"
@@ -79,17 +79,17 @@ public class Rss091Feed : BaseFeed
     /// <summary>
     /// The "textInput" element
     /// </summary>
-    public FeedTextInput TextInput { get; set; }
+    public FeedTextInput? TextInput { get; set; }
 
     /// <summary>
     /// The "webMaster" element
     /// </summary>
-    public string WebMaster { get; set; }
+    public string? WebMaster { get; set; }
 
     /// <summary>
     /// All elements that start with "sy:"
     /// </summary>
-    public Syndication Sy { get; set; }
+    public Syndication? Sy { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Rss091Feed"/> class.
@@ -162,7 +162,7 @@ public class Rss091Feed : BaseFeed
             Language = Language,
             LastUpdatedDate = LastBuildDate,
             LastUpdatedDateString = LastBuildDateString,
-            Type = FeedType.Rss_0_91
+            Type = FeedType.Rss_0_91,
         };
 
         return f;

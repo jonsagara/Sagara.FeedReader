@@ -31,7 +31,7 @@ public class Rss092Feed : Rss091Feed
     public Rss092Feed(string feedXml, XElement channel)
         : base(feedXml, channel)
     {
-        this.Cloud = new FeedCloud(channel.GetElement("cloud"));
+        Cloud = new FeedCloud(channel.GetElement("cloud"));
     }
 
     /// <inheritdoc/>
@@ -39,7 +39,7 @@ public class Rss092Feed : Rss091Feed
     {
         foreach (var item in items)
         {
-            this.Items.Add(new Rss092FeedItem(item));
+            Items.Add(new Rss092FeedItem(item));
         }
     }
 

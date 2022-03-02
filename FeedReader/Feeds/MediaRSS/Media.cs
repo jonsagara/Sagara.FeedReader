@@ -20,27 +20,27 @@ public class Media
     /// <param name="element">enclosure element as xml</param>
     public Media(XElement element)
     {
-        this.Element = element;
+        Element = element;
 
-        this.Url = element.GetAttributeValue("url");
-        this.FileSize = Helpers.TryParseInt(element.GetAttributeValue("fileSize"));
-        this.Type = element.GetAttributeValue("type");
-        this.Medium = Helpers.TryParseMedium(element.GetAttributeValue("medium"));
-        this.isDefault = Helpers.TryParseBool(element.GetAttributeValue("isDefault"));
-        this.Duration = Helpers.TryParseInt(element.GetAttributeValue("duration"));
-        this.Height = Helpers.TryParseInt(element.GetAttributeValue("height"));
-        this.Width = Helpers.TryParseInt(element.GetAttributeValue("width"));
-        this.Language = element.GetAttributeValue("lang");
+        Url = element.GetAttributeValue("url");
+        FileSize = Helpers.TryParseInt(element.GetAttributeValue("fileSize"));
+        Type = element.GetAttributeValue("type");
+        Medium = Helpers.TryParseMedium(element.GetAttributeValue("medium"));
+        isDefault = Helpers.TryParseBool(element.GetAttributeValue("isDefault"));
+        Duration = Helpers.TryParseInt(element.GetAttributeValue("duration"));
+        Height = Helpers.TryParseInt(element.GetAttributeValue("height"));
+        Width = Helpers.TryParseInt(element.GetAttributeValue("width"));
+        Language = element.GetAttributeValue("lang");
 
         var thumbnails = element.GetElements("media", "thumbnail");
-        this.Thumbnails = thumbnails.Select(x => new Thumbnail(x)).ToList();
+        Thumbnails = thumbnails.Select(x => new Thumbnail(x)).ToList();
 
     }
 
     /// <summary>
     /// The direct URL to the media object
     /// </summary>
-    public string Url { get; set; }
+    public string? Url { get; set; }
 
     /// <summary>
     /// Number of bytes of the media object. Optional attribute
@@ -50,7 +50,7 @@ public class Media
     /// <summary>
     /// Standard MIME type of the object. Optional attribute
     /// </summary>
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     /// <summary>
     /// Type of object. Optional attribute
@@ -82,12 +82,12 @@ public class Media
     /// <summary>
     /// The primary language encapsulated in the media object. Language codes possible are detailed in RFC 3066. This attribute is used similar to the xml:lang attribute detailed in the XML 1.0 Specification (Third Edition). It is an optional attribute.
     /// </summary>
-    public string Language { get; set; }
+    public string? Language { get; set; }
 
     /// <summary>
     /// Representative images for the media object
     /// </summary>
-    public ICollection<Thumbnail> Thumbnails { get; set; }
+    public List<Thumbnail> Thumbnails { get; private set; } = new();
 
 }
 

@@ -11,8 +11,8 @@ class Program
         {
             try
             {
-                string? url = Console.ReadLine();
-                if (url?.Equals("exit", StringComparison.InvariantCultureIgnoreCase) == true)
+                string url = Console.ReadLine() ?? string.Empty;
+                if (url.Equals("exit", StringComparison.InvariantCultureIgnoreCase) == true)
                 {
                     break;
                 }

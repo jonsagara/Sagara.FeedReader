@@ -30,7 +30,9 @@ internal static class FeedParser
 
         if (rootElement.EqualsIgnoreCase("rss"))
         {
-            string version = doc.Root.Attribute("version").Value;
+            // Version is a required attribute.
+            string version = doc.Root.Attribute("version")!.Value;
+
             if (version.EqualsIgnoreCase("2.0"))
             {
                 if (doc.Root.Attribute(XName.Get("media", XNamespace.Xmlns.NamespaceName)) is not null)

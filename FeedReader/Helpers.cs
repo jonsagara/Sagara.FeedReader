@@ -118,10 +118,12 @@ public static class Helpers
     /// <param name="datetime">datetime as string</param>
     /// <param name="cultureInfo">The cultureInfo for parsing</param>
     /// <returns>datetime or null</returns>
-    public static DateTime? TryParseDateTime(string datetime, CultureInfo? cultureInfo = null)
+    public static DateTime? TryParseDateTime(string? datetime, CultureInfo? cultureInfo = null)
     {
         if (string.IsNullOrWhiteSpace(datetime))
+        {
             return null;
+        }
 
         var dateTimeFormat = cultureInfo?.DateTimeFormat ?? DateTimeFormatInfo.CurrentInfo;
         bool parseSuccess = DateTimeOffset.TryParse(datetime, dateTimeFormat, DateTimeStyles.None, out var dt);
@@ -165,7 +167,7 @@ public static class Helpers
     /// </summary>
     /// <param name="input">int as string</param>
     /// <returns>integer or null</returns>
-    public static int? TryParseInt(string input)
+    public static int? TryParseInt(string? input)
     {
         if (!int.TryParse(input, out int tmp))
         {
@@ -180,7 +182,7 @@ public static class Helpers
     /// </summary>
     /// <param name="medium">media type as string</param>
     /// <returns><see cref="Medium"/></returns>
-    public static Medium TryParseMedium(string medium)
+    public static Medium TryParseMedium(string? medium)
     {
         if (string.IsNullOrEmpty(medium))
         {
@@ -209,17 +211,15 @@ public static class Helpers
     /// </summary>
     /// <param name="input">int as string</param>
     /// <returns>integer or null</returns>
-    public static bool? TryParseBool(string input)
+    public static bool? TryParseBool(string? input)
     {
         if (!string.IsNullOrEmpty(input))
         {
-            input = input.ToLower();
-
-            if (input == "true")
+            if (string.Equals(input, "true", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
-            else if (input == "false")
+            else if (string.Equals(input, "false", StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
@@ -235,7 +235,7 @@ public static class Helpers
     /// </summary>
     /// <param name="input">link tag, e.g. &lt;link rel="alternate" type="application/rss+xml" title="codehollow &gt; Feed" href="https://codehollow.com/feed/" /&gt;</param>
     /// <returns>Parsed HtmlFeedLink</returns>
-    public static HtmlFeedLink GetFeedLinkFromLinkTag(string input)
+    public static HtmlFeedLink? GetFeedLinkFromLinkTag(string input)
     {
         string linkTag = input.HtmlDecode();
         string type = GetAttributeFromLinkTag("type", linkTag).ToLower();

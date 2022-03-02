@@ -45,9 +45,9 @@ public class HelpersTest
     private static void TestLinkTagParse(string input, HtmlFeedLink expectedResult)
     {
         var res = Helpers.GetFeedLinkFromLinkTag(input);
-        Assert.Equal(expectedResult.Title, res.Title);
-        Assert.Equal(expectedResult.Url, res.Url);
-        Assert.Equal(expectedResult.FeedType, res.FeedType);
+        Assert.Equal(expectedResult.Title, res?.Title);
+        Assert.Equal(expectedResult.Url, res?.Url);
+        Assert.Equal(expectedResult.FeedType, res?.FeedType);
     }
 
     #endregion

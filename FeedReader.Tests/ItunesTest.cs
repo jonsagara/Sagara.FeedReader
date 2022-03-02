@@ -5,7 +5,7 @@ namespace CodeHollow.FeedReader.Tests;
 
 public class ItunesTest
 {
-    private void Eq(object expected, object actual)
+    private void Eq(object? expected, object? actual)
     {
         Assert.Equal(expected, actual);
     }
@@ -29,10 +29,10 @@ public class ItunesTest
         Eq("All About Everything is a show about everything. Each week we dive into any subject known to man and talk about it as much as we can. Look for our podcast in the Podcasts app or in the iTunes Store", itunesChannel.Summary);
 
         Assert.NotNull(itunesChannel.Owner);
-        Eq("John Doe", itunesChannel.Owner.Name);
+        Eq("John Doe", itunesChannel.Owner!.Name);
         Eq("john.doe@example.com", itunesChannel.Owner.Email);
         Assert.NotNull(itunesChannel.Image);
-        Eq("http://example.com/podcasts/everything/AllAboutEverything.jpg", itunesChannel.Image.Href);
+        Eq("http://example.com/podcasts/everything/AllAboutEverything.jpg", itunesChannel.Image!.Href);
         Assert.NotNull(itunesChannel.Categories);
         Eq("Technology", itunesChannel.Categories[0].Text);
         Assert.NotNull(itunesChannel.Categories[0].Children);
@@ -104,10 +104,10 @@ public class ItunesTest
         Eq("All About Everything is a show about everything. Each week we dive into any subject known to man and talk about it as much as we can. Look for our podcast in the Podcasts app or in the iTunes Store", itunesChannel.Summary);
 
         Assert.NotNull(itunesChannel.Owner);
-        Eq("John Doe", itunesChannel.Owner.Name);
+        Eq("John Doe", itunesChannel.Owner!.Name);
         Eq("john.doe@example.com", itunesChannel.Owner.Email);
         Assert.NotNull(itunesChannel.Image);
-        Eq("http://example.com/podcasts/everything/AllAboutEverything.jpg", itunesChannel.Image.Href);
+        Eq("http://example.com/podcasts/everything/AllAboutEverything.jpg", itunesChannel.Image!.Href);
         Assert.NotNull(itunesChannel.Categories);
         Eq("Technology", itunesChannel.Categories[0].Text);
         Assert.NotNull(itunesChannel.Categories[0].Children);

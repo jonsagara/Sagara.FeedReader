@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Xml.Linq;
 
@@ -15,10 +16,8 @@ internal static class Extensions
     /// </summary>
     /// <param name="text">html text</param>
     /// <returns>decoded html</returns>
-    public static string HtmlDecode(this string text)
-    {
-        return System.Net.WebUtility.HtmlDecode(text);
-    }
+    public static string? HtmlDecode(this string? text)
+        => WebUtility.HtmlDecode(text);
 
     /// <summary>
     /// Determines whether this string and another string object have the same value.
@@ -26,15 +25,8 @@ internal static class Extensions
     /// <param name="text">the string</param>
     /// <param name="compareTo">the string to compare to</param>
     /// <returns></returns>
-    public static bool EqualsIgnoreCase(this string text, string compareTo)
-    {
-        if (text is null)
-        {
-            return compareTo is null;
-        }
-
-        return text.Equals(compareTo, StringComparison.OrdinalIgnoreCase);
-    }
+    public static bool EqualsIgnoreCase(this string? text, string? compareTo)
+        => string.Equals(text, compareTo, StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Determines whether this string equals one of the given strings.
@@ -93,15 +85,8 @@ internal static class Extensions
     /// </summary>
     /// <param name="element">the xml element</param>
     /// <returns>value of the element utf8 encoded</returns>
-    public static string? GetValue(this XElement element)
-    {
-        if (element is null)
-        {
-            return null;
-        }
-
-        return element.Value;
-    }
+    public static string? GetValue(this XElement? element)
+        => element?.Value;
 
     /// <summary>
     /// Gets the value of the element "name"

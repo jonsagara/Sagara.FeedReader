@@ -137,7 +137,7 @@ public class FullParseTest
         Eq("News and commentary from the cross-platform scripting community.", feed.Description);
         Eq("http://www.scripting.com/", feed.Link);
         Eq("Scripting News", feed.Title);
-        Eq("http://www.scripting.com/", feed.Image.Link);
+        Eq("http://www.scripting.com/", feed.Image!.Link);
         Eq("Scripting News", feed.Image.Title);
         Eq("http://www.scripting.com/gifs/tinyScriptingNews.gif", feed.Image.Url);
         Eq(40, ((Rss091FeedImage)feed.Image).Height);
@@ -161,7 +161,7 @@ public class FullParseTest
         Eq("http://bar", item.Link);
         Eq("This is an article about some stuff", item.Description);
 
-        Eq("Search Now!", feed.TextInput.Title);
+        Eq("Search Now!", feed.TextInput!.Title);
         Eq("Enter your search terms", feed.TextInput.Description);
         Eq("find", feed.TextInput.Name);
         Eq("http://my.site.com/search.cgi", feed.TextInput.Link);
@@ -506,7 +506,7 @@ public class FullParseTest
         Eq("News and commentary from the cross-platform scripting community.", feed.Description);
         Eq("http://www.scripting.com/", feed.Link);
         Eq("Scripting News", feed.Title);
-        Eq("http://www.scripting.com/", feed.Image.Link);
+        Eq("http://www.scripting.com/", feed.Image!.Link);
         Eq("Scripting News", feed.Image.Title);
         Eq("http://www.scripting.com/gifs/tinyScriptingNews.gif", feed.Image.Url);
         Eq(40, ((Rss091FeedImage)feed.Image).Height);
@@ -530,7 +530,7 @@ public class FullParseTest
         Eq("http://bar", item.Link);
         Eq("This is an article about some stuff", item.Description);
 
-        Eq("Search Now!", feed.TextInput.Title);
+        Eq("Search Now!", feed.TextInput!.Title);
         Eq("Enter your search terms", feed.TextInput.Description);
         Eq("find", feed.TextInput.Name);
         Eq("http://my.site.com/search.cgi", feed.TextInput.Link);

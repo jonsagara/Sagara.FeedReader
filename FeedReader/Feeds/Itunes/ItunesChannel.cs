@@ -50,7 +50,7 @@ public class ItunesChannel
     /// <summary>
     /// The itunes:author element
     /// </summary>
-    public string Author { get; }
+    public string? Author { get; }
 
     /// <summary>
     /// The itunes:block element
@@ -65,7 +65,7 @@ public class ItunesChannel
     /// <summary>
     /// The itunes:image element
     /// </summary>
-    public ItunesImage Image { get; }
+    public ItunesImage? Image { get; }
 
     /// <summary>
     /// The itunes:explicit element
@@ -80,22 +80,22 @@ public class ItunesChannel
     /// <summary>
     /// The itunes:new-feed-url element
     /// </summary>
-    public Uri NewFeedUrl { get; }
+    public Uri? NewFeedUrl { get; }
 
     /// <summary>
     /// The itunes:owner element
     /// </summary>
-    public ItunesOwner Owner { get; }
+    public ItunesOwner? Owner { get; }
 
     /// <summary>
     /// The itunes:subtitle element
     /// </summary>
-    public string Subtitle { get; }
+    public string? Subtitle { get; }
 
     /// <summary>
     /// The itunes:summary element
     /// </summary>
-    public string Summary { get; }
+    public string? Summary { get; }
 
     /// <summary>
     /// Sets the itunes categories
