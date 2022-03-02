@@ -1,45 +1,40 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Xunit;
 
 namespace CodeHollow.FeedReader.Tests
 {
-    [TestClass]
     public class HelpersTest
     {
         #region
 
-        [TestMethod]
+        [Fact]
         public void TestCodeHollowLinkTag01()
         {
             string input = "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"codehollow &raquo; Feed\" href=\"https://codehollow.com/feed/\" />";
             TestLinkTagParse(input, new HtmlFeedLink("codehollow » Feed", "https://codehollow.com/feed/", FeedType.Rss));
         }
 
-        [TestMethod]
+        [Fact]
         public void TestCodeHollowLinkTag01Reordered1()
         {
             string input = "<link title=\"codehollow &raquo; Feed\" rel=\"alternate\" type=\"application/rss+xml\" href=\"https://codehollow.com/feed/\" />";
             TestLinkTagParse(input, new HtmlFeedLink("codehollow » Feed", "https://codehollow.com/feed/", FeedType.Rss));
         }
 
-        [TestMethod]
+        [Fact]
         public void TestCodeHollowLinkTag01Reordered2()
         {
             string input = "<link type=\"application/rss+xml\"   href=\"https://codehollow.com/feed/\" title=\"codehollow &raquo; Feed\" rel=\"alternate\" />";
             TestLinkTagParse(input, new HtmlFeedLink("codehollow » Feed", "https://codehollow.com/feed/", FeedType.Rss));
         }
 
-        [TestMethod]
+        [Fact]
         public void TestCodeHollowLinkTagWhitespaces()
         {
             string input = "<link        rel  = \"alternate\"   type= \"application/rss+xml\"         title=\"codehollow &raquo; Feed\"      href=\"https://codehollow.com/feed/\" />";
             TestLinkTagParse(input, new HtmlFeedLink("codehollow » Feed", "https://codehollow.com/feed/", FeedType.Rss));
         }
 
-        [TestMethod]
+        [Fact]
         public void TestCodeHollowLinkTagNewLine()
         {
             string input = $"<link rel=\"alternate\" " +
@@ -50,16 +45,16 @@ namespace CodeHollow.FeedReader.Tests
         private static void TestLinkTagParse(string input, HtmlFeedLink expectedResult)
         {
             var res = Helpers.GetFeedLinkFromLinkTag(input);
-            Assert.AreEqual(expectedResult.Title, res.Title);
-            Assert.AreEqual(expectedResult.Url, res.Url);
-            Assert.AreEqual(expectedResult.FeedType, res.FeedType);
+            Assert.Equal(expectedResult.Title, res.Title);
+            Assert.Equal(expectedResult.Url, res.Url);
+            Assert.Equal(expectedResult.FeedType, res.FeedType);
         }
 
         #endregion
 
 
         #region ParseFeedUrlsFromHtml Test -  test full html feed parse
-        [TestMethod]
+        [Fact]
         public void ParseFeedsCodeHollow()
         {
             TestHtmlLinkParse("Html/codehollow.html", new List<HtmlFeedLink>()
@@ -70,7 +65,7 @@ namespace CodeHollow.FeedReader.Tests
 
         }
 
-        [TestMethod]
+        [Fact]
         public void ParseFeedsHeise()
         {
 
@@ -82,7 +77,7 @@ namespace CodeHollow.FeedReader.Tests
 
         }
 
-        [TestMethod]
+        [Fact]
         public void ParseFeedsJapanTimes()
         {
 
@@ -92,7 +87,7 @@ namespace CodeHollow.FeedReader.Tests
             });
 
         }
-        [TestMethod]
+        [Fact]
         public void ParseFeedsOrfAt()
         {
 
@@ -102,7 +97,7 @@ namespace CodeHollow.FeedReader.Tests
             });
 
         }
-        [TestMethod]
+        [Fact]
         public void ParseFeedsStackOverflow()
         {
 
@@ -112,7 +107,7 @@ namespace CodeHollow.FeedReader.Tests
             });
 
         }
-        [TestMethod]
+        [Fact]
         public void ParseFeedsStadtfeuerwehrWeiz()
         {
 
@@ -122,7 +117,7 @@ namespace CodeHollow.FeedReader.Tests
             });
 
         }
-        [TestMethod]
+        [Fact]
         public void ParseFeedsTheVerge()
         {
 
@@ -139,7 +134,7 @@ namespace CodeHollow.FeedReader.Tests
             var content = System.IO.File.ReadAllText(path);
 
             var links = Helpers.ParseFeedUrlsFromHtml(content);
-            Assert.AreEqual(expectedLinks.Count(), links.Count());
+            Assert.Equal(expectedLinks.Count(), links.Count());
 
             foreach (var l in links)
             {

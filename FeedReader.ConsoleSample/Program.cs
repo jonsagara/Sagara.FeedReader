@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace CodeHollow.FeedReader.ConsoleSample
+﻿namespace CodeHollow.FeedReader.ConsoleSample
 {
     class Program
     {
@@ -14,14 +11,14 @@ namespace CodeHollow.FeedReader.ConsoleSample
             {
                 try
                 {
-                    string url = Console.ReadLine();
-                    if (url.Equals("exit", StringComparison.InvariantCultureIgnoreCase))
+                    string? url = Console.ReadLine();
+                    if (url?.Equals("exit", StringComparison.InvariantCultureIgnoreCase) == true)
                         break;
 
                     var urlsTask = FeedReader.GetFeedUrlsFromUrlAsync(url);
                     var urls = urlsTask.Result;
 
-                    string feedUrl;
+                    string? feedUrl;
                     if (urls == null || urls.Count() < 1)
                         feedUrl = url;
                     else if (urls.Count() == 1)
@@ -54,10 +51,10 @@ namespace CodeHollow.FeedReader.ConsoleSample
                     {
                         Console.WriteLine(item.Title + " - " + item.Link);
                     }
-                }             
+                }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"An error occurred: {ex.InnerException.Message}{Environment.NewLine}{ex.InnerException}");
+                    Console.WriteLine($"An error occurred: {ex.InnerException?.Message}{Environment.NewLine}{ex.InnerException}");
                 }
                 finally
                 {

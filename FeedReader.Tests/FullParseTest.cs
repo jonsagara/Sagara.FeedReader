@@ -1,23 +1,19 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
-using System.Threading.Tasks;
-using CodeHollow.FeedReader.Feeds;
+﻿using CodeHollow.FeedReader.Feeds;
 using CodeHollow.FeedReader.Feeds.Itunes;
+using Xunit;
 
 namespace CodeHollow.FeedReader.Tests
 {
-    [TestClass]
     public class FullParseTest
     {
-        private void Eq(object expected, object actual)
+        private void Eq(object? expected, object? actual)
         {
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         #region Synchronous 
 
-                [TestMethod]
+        [Fact]
         public void TestAtomParseAdobe()
         {
             var feed = (AtomFeed)FeedReader.ReadFromFile("Feeds/AtomAdobe.xml").SpecificFeed;
@@ -32,7 +28,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq(null, item.Link); // The post href is store in the id element
         }
 
-        [TestMethod]
+        [Fact]
         public void TestAtomParseTheVerge()
         {
             var feed = (AtomFeed)FeedReader.ReadFromFile("Feeds/AtomTheVerge.xml").SpecificFeed;
@@ -40,7 +36,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq("The Verge -  Front Pages", feed.Title);
             Eq("https://cdn2.vox-cdn.com/community_logos/34086/verge-fv.png", feed.Icon);
             Eq("2017-01-07T09:00:01-05:00", feed.UpdatedDateString);
-            Eq(new DateTime(2017,1,7,14,0,1), feed.UpdatedDate);
+            Eq(new DateTime(2017, 1, 7, 14, 0, 1), feed.UpdatedDate);
             Eq("http://www.theverge.com/rss/group/front-page/index.xml", feed.Id);
 
             var item = (AtomFeedItem)feed.Items.First();
@@ -53,12 +49,12 @@ namespace CodeHollow.FeedReader.Tests
             Eq("http://www.theverge.com/ces/2017/1/7/14195588/hulu-live-tv-streaming-internet-ces-2017", item.Id);
             Eq("http://www.theverge.com/ces/2017/1/7/14195588/hulu-live-tv-streaming-internet-ces-2017", item.Link);
 
-            Assert.IsTrue(item.Content.Trim().StartsWith("<img alt=\"\""));
+            Assert.StartsWith("<img alt=\"\"", item.Content.Trim());
 
             Eq("Chris Welch", item.Author.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestAtomParseBattleNet()
         {
             var feed = (AtomFeed)FeedReader.ReadFromFile("Feeds/AtomBattleNet.xml").SpecificFeed;
@@ -70,7 +66,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq("3", feed.Id);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestAtomYouTubeInvestmentPunk()
         {
             var feed = (AtomFeed)FeedReader.ReadFromFile("Feeds/AtomYoutubeInvestmentPunk.xml").SpecificFeed;
@@ -90,7 +86,7 @@ namespace CodeHollow.FeedReader.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void TestAtomWiganwarriors()
         {
             var feed = (AtomFeed)FeedReader.ReadFromFile("Feeds/AtomWiganwarriors.xml").SpecificFeed;
@@ -102,7 +98,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq("Community & Education", item.Categories.First());
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRss091ParseStadtFWeiz()
         {
             var feed = (Rss091Feed)FeedReader.ReadFromFile("Feeds/Rss091Stadtfeuerwehr.xml").SpecificFeed;
@@ -116,7 +112,7 @@ namespace CodeHollow.FeedReader.Tests
             var item = (Rss091FeedItem)feed.Items.First();
 
             Eq(@"[19.08.2018 - 07:08 Uhr] Brandmeldeanlagenalarm", item.Title.Trim());
-            Assert.IsTrue(item.Description.Contains("Weitere Informationen"));
+            Assert.Contains("Weitere Informationen", item.Description);
             Eq("http://www.stadtfeuerwehr-weiz.at/einsaetze/einsatz-detail/5220/", item.Link);
             Eq("Sun, 19 Aug 2018 07:08:00 +0100", item.PublishingDateString);
             Eq(new DateTime(2018, 8, 19, 6, 08, 0), item.PublishingDate);
@@ -124,7 +120,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq(15, feed.Items.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRss091ParseFullSample()
         {
             var feed = (Rss091Feed)FeedReader.ReadFromFile("Feeds/Rss091FullSample.xml").SpecificFeed;
@@ -144,13 +140,13 @@ namespace CodeHollow.FeedReader.Tests
             Eq("dave@userland.com (Dave Winer)", feed.ManagingEditor);
             Eq("dave@userland.com (Dave Winer)", feed.WebMaster);
             Eq("en-us", feed.Language);
-            Assert.IsTrue(feed.SkipHours.Contains("6"));
-            Assert.IsTrue(feed.SkipHours.Contains("7"));
-            Assert.IsTrue(feed.SkipHours.Contains("8"));
-            Assert.IsTrue(feed.SkipHours.Contains("9"));
-            Assert.IsTrue(feed.SkipHours.Contains("10"));
-            Assert.IsTrue(feed.SkipHours.Contains("11"));
-            Assert.IsTrue(feed.SkipDays.Contains("Sunday"));
+            Assert.True(feed.SkipHours.Contains("6"));
+            Assert.True(feed.SkipHours.Contains("7"));
+            Assert.True(feed.SkipHours.Contains("8"));
+            Assert.True(feed.SkipHours.Contains("9"));
+            Assert.True(feed.SkipHours.Contains("10"));
+            Assert.True(feed.SkipHours.Contains("11"));
+            Assert.True(feed.SkipDays.Contains("Sunday"));
             Eq("(PICS-1.1 \"http://www.rsac.org/ratingsv01.html\" l gen true comment \"RSACi North America Server\" for \"http://www.rsac.org\" on \"1996.04.16T08:15-0500\" r (n 0 s 0 v 0 l 0))", feed.Rating);
 
             Eq(1, feed.Items.Count);
@@ -165,7 +161,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq("http://my.site.com/search.cgi", feed.TextInput.Link);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRss092ParseFullSample()
         {
             var feed = (Rss092Feed)FeedReader.ReadFromFile("Feeds/Rss092FullSample.xml").SpecificFeed;
@@ -195,7 +191,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq("Scripting News", secondItem.Source.Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRss10ParseFullSample()
         {
             var feed = (Rss10Feed)FeedReader.ReadFromFile("Feeds/Rss10FeedWebResourceSample.xml").SpecificFeed;
@@ -222,7 +218,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq(186, item.Description.Length);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRss10ParseOrfAt()
         {
             var feed = (Rss10Feed)FeedReader.ReadFromFile("Feeds/Rss10OrfAt.xml").SpecificFeed;
@@ -247,7 +243,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq("2017-01-23T20:51:06+01:00", item.DC.DateString);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRss20ParseWebResourceSampleFull()
         {
             var feed = (Rss20Feed)FeedReader.ReadFromFile("Feeds/Rss20FeedWebResourceSample.xml").SpecificFeed;
@@ -269,13 +265,13 @@ namespace CodeHollow.FeedReader.Tests
             var item = (Rss20FeedItem)feed.Items.Last();
             Eq("Really early morning no-coffee notes", item.Title);
             Eq("http://scriptingnews.userland.com/backissues/2002/09/29#reallyEarlyMorningNocoffeeNotes", item.Link);
-            Assert.IsTrue(item.Description.Contains("<p>One of the lessons I've learned"));
+            Assert.Contains("<p>One of the lessons I've learned", item.Description);
             Eq("Sun, 29 Sep 2002 11:13:10 GMT", item.PublishingDateString);
             Eq(new DateTime(2002, 09, 29, 11, 13, 10), item.PublishingDate);
             Eq("http://scriptingnews.userland.com/backissues/2002/09/29#reallyEarlyMorningNocoffeeNotes", item.Guid);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRss20ParseCodeHollow()
         {
             var feed = (Rss20Feed)FeedReader.ReadFromFile("Feeds/Rss20CodeHollowCom.xml").SpecificFeed;
@@ -289,7 +285,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq("hourly", feed.Sy.UpdatePeriod);
             Eq("1", feed.Sy.UpdateFrequency);
             Eq("https://wordpress.org/?v=4.7", feed.Generator);
-            
+
             var item = (Rss20FeedItem)feed.Items.First();
 
             Eq("Export Azure RateCard data to CSV with C# and Billing API", item.Title);
@@ -299,14 +295,14 @@ namespace CodeHollow.FeedReader.Tests
             Eq(new DateTime(2016, 12, 22, 7, 0, 28), item.PublishingDate);
             Eq("Armin Reiter", item.DC.Creator);
             Eq(4, item.Categories.Count);
-            Assert.IsTrue(item.Categories.Contains("BillingAPI"));
+            Assert.True(item.Categories.Contains("BillingAPI"));
             Eq("https://codehollow.com/?p=749", item.Guid);
-            Assert.IsTrue(item.Description.StartsWith("<p>The Azure Billing API allows to programmatically read Azure"));
-            Assert.IsTrue(item.Content.Contains("<add key=\"Tenant\" "));
+            Assert.StartsWith("<p>The Azure Billing API allows to programmatically read Azure", item.Description);
+            Assert.Contains("<add key=\"Tenant\" ", item.Content);
 
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRss20ParseContentWindGerman()
         {
             var feed = (Rss20Feed)FeedReader.ReadFromFile("Feeds/Rss20ContentWindCom.xml").SpecificFeed;
@@ -329,7 +325,7 @@ namespace CodeHollow.FeedReader.Tests
 
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRss20ParseMoscowTimes()
         {
             var feed = (Rss20Feed)FeedReader.ReadFromFile("Feeds/Rss20MoscowTimes.xml").SpecificFeed;
@@ -355,14 +351,14 @@ namespace CodeHollow.FeedReader.Tests
             Eq("https://themoscowtimes.com/articles/dont-say-it-56774", item.Guid);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRss20ParseSwedishFeedWithIso8859_1()
         {
             var feed = (Rss20Feed)FeedReader.ReadFromFile("Feeds/Rss20ISO88591Intranet30.xml").SpecificFeed;
             Eq("intranet30", feed.Title);
             Eq("http://www.retriever-info.com", feed.Link);
             Eq("RSS 2.0 News feed from Retriever Norge AS", feed.Description);
-            
+
             var item = (Rss20FeedItem)feed.Items.First();
             Eq("SVART MÅNAD - DÖDSOLYCKA i Vetlanda", item.Title);
             Eq("https://www.retriever-info.com/go/?a=30338&d=00201120180819281555686&p=200108&s=2011&sa=2016177&u=http%3A%2F%2Fwww.hoglandsnytt.se%2Fsvart-manad-dodsolycka-i-vetlanda%2F&x=33d88e677ce6481d9882de22c76e4234", item.Link);
@@ -373,7 +369,7 @@ namespace CodeHollow.FeedReader.Tests
 
         }
 
-        [TestMethod]
+        [Fact]
         public void TestRss20CityDogKyrillicNoEncodingDefined()
         {
             var feed = FeedReader.ReadFromFile("Feeds/Rss20CityDog.xml");
@@ -385,21 +381,21 @@ namespace CodeHollow.FeedReader.Tests
             Eq("http://citydog.by/post/zaden-serebrianaya-svadba-v-otpuske/", item.Id);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestAllFilesForException()
         {
             var linkless = new System.Collections.Generic.List<string>() { "AtomBattleNet.xml" };
 
             var files = System.IO.Directory.EnumerateFiles("Feeds");
-            foreach(var file in files)
+            foreach (var file in files)
             {
                 var feed = FeedReader.ReadFromFile(file);
                 if (feed != null)
                 {
                     string filename = System.IO.Path.GetFileName(file);
                     if (!linkless.Contains(filename))
-                        Assert.IsTrue(!string.IsNullOrEmpty(feed.Link));
-                    
+                        Assert.True(!string.IsNullOrEmpty(feed.Link));
+
                     TestItunesParsingForException(feed);
                 }
             }
@@ -409,7 +405,7 @@ namespace CodeHollow.FeedReader.Tests
 
         #region Asynchronous 
 
-        [TestMethod]
+        [Fact]
         public async Task TestAtomParseAdobe_Async()
         {
             var feed = (AtomFeed)(await FeedReader.ReadFromFileAsync("Feeds/AtomAdobe.xml").ConfigureAwait(false)).SpecificFeed;
@@ -424,7 +420,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq(null, item.Link); // The post href is store in the id element
         }
 
-        [TestMethod]
+        [Fact]
         public async Task TestAtomParseTheVerge_Async()
         {
             var feed = (AtomFeed)(await FeedReader.ReadFromFileAsync("Feeds/AtomTheVerge.xml").ConfigureAwait(false)).SpecificFeed;
@@ -432,7 +428,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq("The Verge -  Front Pages", feed.Title);
             Eq("https://cdn2.vox-cdn.com/community_logos/34086/verge-fv.png", feed.Icon);
             Eq("2017-01-07T09:00:01-05:00", feed.UpdatedDateString);
-            Eq(new DateTime(2017,1,7,14,0,1), feed.UpdatedDate);
+            Eq(new DateTime(2017, 1, 7, 14, 0, 1), feed.UpdatedDate);
             Eq("http://www.theverge.com/rss/group/front-page/index.xml", feed.Id);
 
             var item = (AtomFeedItem)feed.Items.First();
@@ -445,12 +441,12 @@ namespace CodeHollow.FeedReader.Tests
             Eq("http://www.theverge.com/ces/2017/1/7/14195588/hulu-live-tv-streaming-internet-ces-2017", item.Id);
             Eq("http://www.theverge.com/ces/2017/1/7/14195588/hulu-live-tv-streaming-internet-ces-2017", item.Link);
 
-            Assert.IsTrue(item.Content.Trim().StartsWith("<img alt=\"\""));
+            Assert.StartsWith("<img alt=\"\"", item.Content.Trim());
 
             Eq("Chris Welch", item.Author.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task TestAtomYouTubeInvestmentPunk_Async()
         {
             var feed = (AtomFeed)(await FeedReader.ReadFromFileAsync("Feeds/AtomYoutubeInvestmentPunk.xml").ConfigureAwait(false)).SpecificFeed;
@@ -469,7 +465,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq("2017-01-20T16:00:00+00:00", item.PublishedDateString);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task TestRss091ParseStadtFWeiz_Async()
         {
             var feed = (Rss091Feed)(await FeedReader.ReadFromFileAsync("Feeds/Rss091Stadtfeuerwehr.xml").ConfigureAwait(false)).SpecificFeed;
@@ -483,7 +479,7 @@ namespace CodeHollow.FeedReader.Tests
             var item = (Rss091FeedItem)feed.Items.First();
 
             Eq(@"[19.08.2018 - 07:08 Uhr] Brandmeldeanlagenalarm", item.Title.Trim());
-            Assert.IsTrue(item.Description.Contains("Weitere Informationen"));
+            Assert.Contains("Weitere Informationen", item.Description);
             Eq("http://www.stadtfeuerwehr-weiz.at/einsaetze/einsatz-detail/5220/", item.Link);
             Eq("Sun, 19 Aug 2018 07:08:00 +0100", item.PublishingDateString);
             Eq(new DateTime(2018, 8, 19, 6, 08, 0), item.PublishingDate);
@@ -491,7 +487,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq(15, feed.Items.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task TestRss091ParseFullSample_Async()
         {
             var feed = (Rss091Feed)(await FeedReader.ReadFromFileAsync("Feeds/Rss091FullSample.xml").ConfigureAwait(false)).SpecificFeed;
@@ -511,13 +507,13 @@ namespace CodeHollow.FeedReader.Tests
             Eq("dave@userland.com (Dave Winer)", feed.ManagingEditor);
             Eq("dave@userland.com (Dave Winer)", feed.WebMaster);
             Eq("en-us", feed.Language);
-            Assert.IsTrue(feed.SkipHours.Contains("6"));
-            Assert.IsTrue(feed.SkipHours.Contains("7"));
-            Assert.IsTrue(feed.SkipHours.Contains("8"));
-            Assert.IsTrue(feed.SkipHours.Contains("9"));
-            Assert.IsTrue(feed.SkipHours.Contains("10"));
-            Assert.IsTrue(feed.SkipHours.Contains("11"));
-            Assert.IsTrue(feed.SkipDays.Contains("Sunday"));
+            Assert.True(feed.SkipHours.Contains("6"));
+            Assert.True(feed.SkipHours.Contains("7"));
+            Assert.True(feed.SkipHours.Contains("8"));
+            Assert.True(feed.SkipHours.Contains("9"));
+            Assert.True(feed.SkipHours.Contains("10"));
+            Assert.True(feed.SkipHours.Contains("11"));
+            Assert.True(feed.SkipDays.Contains("Sunday"));
             Eq("(PICS-1.1 \"http://www.rsac.org/ratingsv01.html\" l gen true comment \"RSACi North America Server\" for \"http://www.rsac.org\" on \"1996.04.16T08:15-0500\" r (n 0 s 0 v 0 l 0))", feed.Rating);
 
             Eq(1, feed.Items.Count);
@@ -532,7 +528,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq("http://my.site.com/search.cgi", feed.TextInput.Link);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task TestRss092ParseFullSample_Async()
         {
             var feed = (Rss092Feed)(await FeedReader.ReadFromFileAsync("Feeds/Rss092FullSample.xml").ConfigureAwait(false)).SpecificFeed;
@@ -562,7 +558,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq("Scripting News", secondItem.Source.Value);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task TestRss10ParseFullSample_Async()
         {
             var feed = (Rss10Feed)(await FeedReader.ReadFromFileAsync("Feeds/Rss10FeedWebResourceSample.xml").ConfigureAwait(false)).SpecificFeed;
@@ -589,7 +585,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq(186, item.Description.Length);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task TestRss10ParseOrfAt_Async()
         {
             var feed = (Rss10Feed)(await FeedReader.ReadFromFileAsync("Feeds/Rss10OrfAt.xml").ConfigureAwait(false)).SpecificFeed;
@@ -614,7 +610,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq("2017-01-23T20:51:06+01:00", item.DC.DateString);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task TestRss20ParseWebResourceSampleFull_Async()
         {
             var feed = (Rss20Feed)(await FeedReader.ReadFromFileAsync("Feeds/Rss20FeedWebResourceSample.xml").ConfigureAwait(false)).SpecificFeed;
@@ -636,13 +632,13 @@ namespace CodeHollow.FeedReader.Tests
             var item = (Rss20FeedItem)feed.Items.Last();
             Eq("Really early morning no-coffee notes", item.Title);
             Eq("http://scriptingnews.userland.com/backissues/2002/09/29#reallyEarlyMorningNocoffeeNotes", item.Link);
-            Assert.IsTrue(item.Description.Contains("<p>One of the lessons I've learned"));
+            Assert.Contains("<p>One of the lessons I've learned", item.Description);
             Eq("Sun, 29 Sep 2002 11:13:10 GMT", item.PublishingDateString);
             Eq(new DateTime(2002, 09, 29, 11, 13, 10), item.PublishingDate);
             Eq("http://scriptingnews.userland.com/backissues/2002/09/29#reallyEarlyMorningNocoffeeNotes", item.Guid);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task TestRss20ParseCodeHollow_Async()
         {
             var feed = (Rss20Feed)(await FeedReader.ReadFromFileAsync("Feeds/Rss20CodeHollowCom.xml").ConfigureAwait(false)).SpecificFeed;
@@ -656,7 +652,7 @@ namespace CodeHollow.FeedReader.Tests
             Eq("hourly", feed.Sy.UpdatePeriod);
             Eq("1", feed.Sy.UpdateFrequency);
             Eq("https://wordpress.org/?v=4.7", feed.Generator);
-            
+
             var item = (Rss20FeedItem)feed.Items.First();
 
             Eq("Export Azure RateCard data to CSV with C# and Billing API", item.Title);
@@ -666,14 +662,14 @@ namespace CodeHollow.FeedReader.Tests
             Eq(new DateTime(2016, 12, 22, 7, 0, 28), item.PublishingDate);
             Eq("Armin Reiter", item.DC.Creator);
             Eq(4, item.Categories.Count);
-            Assert.IsTrue(item.Categories.Contains("BillingAPI"));
+            Assert.True(item.Categories.Contains("BillingAPI"));
             Eq("https://codehollow.com/?p=749", item.Guid);
-            Assert.IsTrue(item.Description.StartsWith("<p>The Azure Billing API allows to programmatically read Azure"));
-            Assert.IsTrue(item.Content.Contains("<add key=\"Tenant\" "));
+            Assert.StartsWith("<p>The Azure Billing API allows to programmatically read Azure", item.Description);
+            Assert.Contains("<add key=\"Tenant\" ", item.Content);
 
         }
 
-        [TestMethod]
+        [Fact]
         public async Task TestRss20ParseContentWindGerman_Async()
         {
             var feed = (Rss20Feed)(await FeedReader.ReadFromFileAsync("Feeds/Rss20ContentWindCom.xml").ConfigureAwait(false)).SpecificFeed;
@@ -696,7 +692,7 @@ namespace CodeHollow.FeedReader.Tests
 
         }
 
-        [TestMethod]
+        [Fact]
         public async Task TestRss20ParseMoscowTimes_Async()
         {
             var feed = (Rss20Feed)(await FeedReader.ReadFromFileAsync("Feeds/Rss20MoscowTimes.xml").ConfigureAwait(false)).SpecificFeed;
@@ -722,14 +718,14 @@ namespace CodeHollow.FeedReader.Tests
             Eq("https://themoscowtimes.com/articles/dont-say-it-56774", item.Guid);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task TestRss20ParseSwedishFeedWithIso8859_1_Async()
         {
             var feed = (Rss20Feed)(await FeedReader.ReadFromFileAsync("Feeds/Rss20ISO88591Intranet30.xml").ConfigureAwait(false)).SpecificFeed;
             Eq("intranet30", feed.Title);
             Eq("http://www.retriever-info.com", feed.Link);
             Eq("RSS 2.0 News feed from Retriever Norge AS", feed.Description);
-            
+
             var item = (Rss20FeedItem)feed.Items.First();
             Eq("SVART MÅNAD - DÖDSOLYCKA i Vetlanda", item.Title);
             Eq("https://www.retriever-info.com/go/?a=30338&d=00201120180819281555686&p=200108&s=2011&sa=2016177&u=http%3A%2F%2Fwww.hoglandsnytt.se%2Fsvart-manad-dodsolycka-i-vetlanda%2F&x=33d88e677ce6481d9882de22c76e4234", item.Link);
@@ -740,7 +736,7 @@ namespace CodeHollow.FeedReader.Tests
 
         }
 
-        [TestMethod]
+        [Fact]
         public async Task TestRss20CityDogKyrillicNoEncodingDefined_Async()
         {
             var feed = await FeedReader.ReadFromFileAsync("Feeds/Rss20CityDog.xml").ConfigureAwait(false);
@@ -752,20 +748,20 @@ namespace CodeHollow.FeedReader.Tests
             Eq("http://citydog.by/post/zaden-serebrianaya-svadba-v-otpuske/", item.Id);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task TestAllFilesForException_Async()
         {
             var linkless = new System.Collections.Generic.List<string>() { "AtomBattleNet.xml" };
 
             var files = System.IO.Directory.EnumerateFiles("Feeds");
-            foreach(var file in files)
+            foreach (var file in files)
             {
                 var feed = await FeedReader.ReadFromFileAsync(file).ConfigureAwait(false);
                 if (feed != null)
                 {
                     string filename = System.IO.Path.GetFileName(file);
                     if (!linkless.Contains(filename))
-                        Assert.IsTrue(!string.IsNullOrEmpty(feed.Link));
+                        Assert.True(!string.IsNullOrEmpty(feed.Link));
 
                     TestItunesParsingForException(feed);
                 }
@@ -776,10 +772,10 @@ namespace CodeHollow.FeedReader.Tests
 
         private static void TestItunesParsingForException(Feed feed)
         {
-            Assert.IsNotNull(feed.GetItunesChannel());
+            Assert.NotNull(feed.GetItunesChannel());
 
             foreach (var item in feed.Items)
-                Assert.IsNotNull(item.GetItunesItem());
+                Assert.NotNull(item.GetItunesItem());
         }
     }
 }
