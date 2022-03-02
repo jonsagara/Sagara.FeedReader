@@ -10,17 +10,17 @@ public class FeedImage
     /// <summary>
     /// The "title" element
     /// </summary>
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     /// <summary>
     /// The "url" element
     /// </summary>
-    public string Url { get; set; }
+    public string? Url { get; set; }
 
     /// <summary>
     /// The "link" element
     /// </summary>
-    public string Link { get; set; }
+    public string? Link { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FeedImage"/> class.
@@ -37,8 +37,8 @@ public class FeedImage
     /// <param name="element">feed image as xml</param>
     public FeedImage(XElement element)
     {
-        this.Title = element.GetValue("title");
-        this.Url = element.GetValue("url");
-        this.Link = element.GetValue("link");
+        Title = element.GetValue("title");
+        Url = element.GetValue("url");
+        Link = element.GetValue("link");
     }
 }

@@ -13,32 +13,32 @@ public class AtomFeedItem : BaseFeedItem
     /// <summary>
     /// The "author" element
     /// </summary>
-    public AtomPerson Author { get; set; }
+    public AtomPerson? Author { get; set; }
 
     /// <summary>
     /// All "category" elements
     /// </summary>
-    public ICollection<string> Categories { get; set; }
+    public List<string> Categories { get; private set; } = new();
 
     /// <summary>
     /// The "content" element
     /// </summary>
-    public string Content { get; set; }
+    public string? Content { get; set; }
 
     /// <summary>
     /// The "contributor" element
     /// </summary>
-    public AtomPerson Contributor { get; set; }
+    public AtomPerson? Contributor { get; set; }
 
     /// <summary>
     /// The "id" element
     /// </summary>
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// The "published" date as string
     /// </summary>
-    public string PublishedDateString { get; set; }
+    public string? PublishedDateString { get; set; }
 
     /// <summary>
     /// The "published" element as DateTime. Null if parsing failed or published is empty.
@@ -48,22 +48,22 @@ public class AtomFeedItem : BaseFeedItem
     /// <summary>
     /// The "rights" element
     /// </summary>
-    public string Rights { get; set; }
+    public string? Rights { get; set; }
 
     /// <summary>
     /// The "source" element
     /// </summary>
-    public string Source { get; set; }
+    public string? Source { get; set; }
 
     /// <summary>
     /// The "summary" element
     /// </summary>
-    public string Summary { get; set; }
+    public string? Summary { get; set; }
 
     /// <summary>
     /// The "updated" element
     /// </summary>
-    public string UpdatedDateString { get; set; }
+    public string? UpdatedDateString { get; set; }
 
     /// <summary>
     /// The "updated" element as DateTime. Null if parsing failed or updated is empty
@@ -73,7 +73,7 @@ public class AtomFeedItem : BaseFeedItem
     /// <summary>
     /// All "link" elements
     /// </summary>
-    public ICollection<AtomLink> Links { get; set; }
+    public List<AtomLink> Links { get; private set; } = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AtomFeedItem"/> class.
@@ -92,43 +92,43 @@ public class AtomFeedItem : BaseFeedItem
     public AtomFeedItem(XElement item)
         : base(item)
     {
-        this.Link = item.GetElement("link")?.Attribute("href")?.Value;
+        Link = item.GetElement("link")?.Attribute("href")?.Value;
 
-        this.Author = new AtomPerson(item.GetElement("author"));
+        Author = new AtomPerson(item.GetElement("author"));
 
         var categories = item.GetElements("category");
-        this.Categories = categories.Select(x => (string)x.Attribute("term")).ToList();
+        Categories = categories.Select(x => (string)x.Attribute("term")).ToList();
 
-        this.Content = item.GetValue("content").HtmlDecode();
-        this.Contributor = new AtomPerson(item.GetElement("contributor"));
-        this.Id = item.GetValue("id");
+        Content = item.GetValue("content").HtmlDecode();
+        Contributor = new AtomPerson(item.GetElement("contributor"));
+        Id = item.GetValue("id");
 
-        this.PublishedDateString = item.GetValue("published");
-        this.PublishedDate = Helpers.TryParseDateTime(this.PublishedDateString);
-        this.Links = item.GetElements("link").Select(x => new AtomLink(x)).ToList();
+        PublishedDateString = item.GetValue("published");
+        PublishedDate = Helpers.TryParseDateTime(PublishedDateString);
+        Links = item.GetElements("link").Select(x => new AtomLink(x)).ToList();
 
-        this.Rights = item.GetValue("rights");
-        this.Source = item.GetValue("source");
-        this.Summary = item.GetValue("summary");
+        Rights = item.GetValue("rights");
+        Source = item.GetValue("source");
+        Summary = item.GetValue("summary");
 
-        this.UpdatedDateString = item.GetValue("updated");
-        this.UpdatedDate = Helpers.TryParseDateTime(this.UpdatedDateString);
+        UpdatedDateString = item.GetValue("updated");
+        UpdatedDate = Helpers.TryParseDateTime(UpdatedDateString);
     }
 
     /// <inheritdoc/>
     internal override FeedItem ToFeedItem()
     {
-        var fi = new FeedItem(this)
+        FeedItem fi = new(this)
         {
-            Author = this.Author?.ToString(),
-            Content = this.Content,
-            Description = this.Summary,
-            Id = this.Id,
-            PublishingDate = this.PublishedDate,
-            PublishingDateString = this.PublishedDateString
+            Author = Author?.ToString(),
+            Content = Content,
+            Description = Summary,
+            Id = Id,
+            PublishingDate = PublishedDate,
+            PublishingDateString = PublishedDateString
         };
 
-        fi.Categories.AddRange(this.Categories);
+        fi.Categories.AddRange(Categories);
 
         return fi;
     }

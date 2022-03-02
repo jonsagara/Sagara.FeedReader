@@ -14,32 +14,32 @@ public class Rss20Feed : BaseFeed
     /// <summary>
     /// The "description" element
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// The "language" element
     /// </summary>
-    public string Language { get; set; }
+    public string? Language { get; set; }
 
     /// <summary>
     /// The "copyright" element
     /// </summary>
-    public string Copyright { get; set; }
+    public string? Copyright { get; set; }
 
     /// <summary>
     /// The "docs" element
     /// </summary>
-    public string Docs { get; set; }
+    public string? Docs { get; set; }
 
     /// <summary>
     /// The "image" element
     /// </summary>
-    public FeedImage Image { get; set; }
+    public FeedImage? Image { get; set; }
 
     /// <summary>
     /// The "lastBuildDate" element as string
     /// </summary>
-    public string LastBuildDateString { get; set; }
+    public string? LastBuildDateString { get; set; }
 
     /// <summary>
     /// The "lastBuildDate" element as DateTime. Null if parsing failed of lastBuildDate is empty.
@@ -49,12 +49,12 @@ public class Rss20Feed : BaseFeed
     /// <summary>
     /// The "managingEditor" element
     /// </summary>
-    public string ManagingEditor { get; set; }
+    public string? ManagingEditor { get; set; }
 
     /// <summary>
     /// The "pubDate" field
     /// </summary>
-    public string PublishingDateString { get; set; }
+    public string? PublishingDateString { get; set; }
 
     /// <summary>
     /// The "pubDate" field as DateTime. Null if parsing failed or pubDate is empty.
@@ -64,47 +64,47 @@ public class Rss20Feed : BaseFeed
     /// <summary>
     /// The "webMaster" field
     /// </summary>
-    public string WebMaster { get; set; }
+    public string? WebMaster { get; set; }
 
     /// <summary>
     /// All "category" elements
     /// </summary>
-    public ICollection<string> Categories { get; set; } // category
+    public List<string> Categories { get; private set; } = new();
 
     /// <summary>
     /// The "generator" element
     /// </summary>
-    public string Generator { get; set; }
+    public string? Generator { get; set; }
 
     /// <summary>
     /// The "cloud" element
     /// </summary>
-    public FeedCloud Cloud { get; set; }
+    public FeedCloud? Cloud { get; set; }
 
     /// <summary>
     /// The time to life "ttl" element
     /// </summary>
-    public string TTL { get; set; }
+    public string? TTL { get; set; }
 
     /// <summary>
     /// All "day" elements in "skipDays"
     /// </summary>
-    public ICollection<string> SkipDays { get; set; }
+    public List<string> SkipDays { get; private set; } = new();
 
     /// <summary>
     /// All "hour" elements in "skipHours"
     /// </summary>
-    public ICollection<string> SkipHours { get; set; }
+    public List<string> SkipHours { get; private set; } = new();
 
     /// <summary>
     /// The "textInput" element
     /// </summary>
-    public FeedTextInput TextInput { get; set; }
+    public FeedTextInput? TextInput { get; set; }
 
     /// <summary>
     /// All elements starting with "sy:"
     /// </summary>
-    public Syndication Sy { get; set; }
+    public Syndication? Sy { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Rss20Feed"/> class.
@@ -124,39 +124,43 @@ public class Rss20Feed : BaseFeed
     public Rss20Feed(string feedXml, XElement channel)
         : base(feedXml, channel)
     {
-        this.Description = channel.GetValue("description");
-        this.Language = channel.GetValue("language");
-        this.Copyright = channel.GetValue("copyright");
-        this.ManagingEditor = channel.GetValue("managingEditor");
-        this.WebMaster = channel.GetValue("webMaster");
-        this.Docs = channel.GetValue("docs");
-        this.PublishingDateString = channel.GetValue("pubDate");
-        this.LastBuildDateString = channel.GetValue("lastBuildDate");
-        this.ParseDates(this.Language, this.PublishingDateString, this.LastBuildDateString);
+        Description = channel.GetValue("description");
+        Language = channel.GetValue("language");
+        Copyright = channel.GetValue("copyright");
+        ManagingEditor = channel.GetValue("managingEditor");
+        WebMaster = channel.GetValue("webMaster");
+        Docs = channel.GetValue("docs");
+        PublishingDateString = channel.GetValue("pubDate");
+        LastBuildDateString = channel.GetValue("lastBuildDate");
+        ParseDates(Language, PublishingDateString, LastBuildDateString);
 
         var categories = channel.GetElements("category");
-        this.Categories = categories.Select(x => x.GetValue()).ToList();
+        Categories = categories.Select(x => x.GetValue()).ToList();
 
-        this.Sy = new Syndication(channel);
-        this.Generator = channel.GetValue("generator");
-        this.TTL = channel.GetValue("ttl");
-        this.Image = new Rss20FeedImage(channel.GetElement("image"));
-        this.Cloud = new FeedCloud(channel.GetElement("cloud"));
-        this.TextInput = new FeedTextInput(channel.GetElement("textinput"));
+        Sy = new Syndication(channel);
+        Generator = channel.GetValue("generator");
+        TTL = channel.GetValue("ttl");
+        Image = new Rss20FeedImage(channel.GetElement("image"));
+        Cloud = new FeedCloud(channel.GetElement("cloud"));
+        TextInput = new FeedTextInput(channel.GetElement("textinput"));
 
         var skipHours = channel.GetElement("skipHours");
-        if (skipHours != null)
-            this.SkipHours = skipHours.GetElements("hour")?.Select(x => x.GetValue()).ToList();
+        if (skipHours is not null)
+        {
+            SkipHours = skipHours.GetElements("hour")?.Select(x => x.GetValue()).ToList();
+        }
 
         var skipDays = channel.GetElement("skipDays");
-        if (skipDays != null)
-            this.SkipDays = skipDays.GetElements("day")?.Select(x => x.GetValue()).ToList();
+        if (skipDays is not null)
+        {
+            SkipDays = skipDays.GetElements("day")?.Select(x => x.GetValue()).ToList();
+        }
 
         var items = channel.GetElements("item");
 
         foreach (var item in items)
         {
-            this.Items.Add(new Rss20FeedItem(item));
+            Items.Add(new Rss20FeedItem(item));
         }
     }
 
@@ -166,16 +170,17 @@ public class Rss20Feed : BaseFeed
     /// <returns>feed</returns>
     public override Feed ToFeed()
     {
-        Feed f = new Feed(this)
+        Feed f = new(this)
         {
-            Copyright = this.Copyright,
-            Description = this.Description,
-            ImageUrl = this.Image?.Url,
-            Language = this.Language,
-            LastUpdatedDate = this.LastBuildDate,
-            LastUpdatedDateString = this.LastBuildDateString,
+            Copyright = Copyright,
+            Description = Description,
+            ImageUrl = Image?.Url,
+            Language = Language,
+            LastUpdatedDate = LastBuildDate,
+            LastUpdatedDateString = LastBuildDateString,
             Type = FeedType.Rss_2_0
         };
+
         return f;
     }
 
@@ -188,18 +193,18 @@ public class Rss20Feed : BaseFeed
     /// <param name="lastBuildDate">last build date as string</param>
     private void ParseDates(string language, string publishingDate, string lastBuildDate)
     {
-        this.PublishingDate = Helpers.TryParseDateTime(publishingDate);
-        this.LastBuildDate = Helpers.TryParseDateTime(lastBuildDate);
+        PublishingDate = Helpers.TryParseDateTime(publishingDate);
+        LastBuildDate = Helpers.TryParseDateTime(lastBuildDate);
 
         // check if language is set - if so, check if dates could be parsed or try to parse it with culture of the language
         if (string.IsNullOrWhiteSpace(language))
             return;
 
         // if publishingDateString is set but PublishingDate is null - try to parse with culture of "Language" property
-        bool parseLocalizedPublishingDate = this.PublishingDate == null && !string.IsNullOrWhiteSpace(this.PublishingDateString);
+        bool parseLocalizedPublishingDate = PublishingDate == null && !string.IsNullOrWhiteSpace(PublishingDateString);
 
         // if LastBuildDateString is set but LastBuildDate is null - try to parse with culture of "Language" property
-        bool parseLocalizedLastBuildDate = this.LastBuildDate == null && !string.IsNullOrWhiteSpace(this.LastBuildDateString);
+        bool parseLocalizedLastBuildDate = LastBuildDate == null && !string.IsNullOrWhiteSpace(LastBuildDateString);
 
         // if both dates are set - return
         if (!parseLocalizedPublishingDate && !parseLocalizedLastBuildDate)
@@ -209,7 +214,7 @@ public class Rss20Feed : BaseFeed
         CultureInfo culture;
         try
         {
-            culture = new CultureInfo(this.Language);
+            culture = new CultureInfo(Language);
 
         }
         catch (CultureNotFoundException)
@@ -223,12 +228,12 @@ public class Rss20Feed : BaseFeed
 
         if (parseLocalizedPublishingDate)
         {
-            this.PublishingDate = Helpers.TryParseDateTime(this.PublishingDateString, culture);
+            PublishingDate = Helpers.TryParseDateTime(PublishingDateString, culture);
         }
 
         if (parseLocalizedLastBuildDate)
         {
-            this.LastBuildDate = Helpers.TryParseDateTime(this.LastBuildDateString, culture);
+            LastBuildDate = Helpers.TryParseDateTime(LastBuildDateString, culture);
         }
     }
 }

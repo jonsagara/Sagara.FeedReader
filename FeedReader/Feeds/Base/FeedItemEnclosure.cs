@@ -10,7 +10,7 @@ public class FeedItemEnclosure
     /// <summary>
     /// The "url" element
     /// </summary>
-    public string Url { get; set; }
+    public string? Url { get; set; }
 
     /// <summary>
     /// The "length" element as int
@@ -20,7 +20,7 @@ public class FeedItemEnclosure
     /// <summary>
     /// The "type" element
     /// </summary>
-    public string MediaType { get; set; }
+    public string? MediaType { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FeedItemEnclosure"/> class.
@@ -37,8 +37,8 @@ public class FeedItemEnclosure
     /// <param name="element">enclosure element as xml</param>
     public FeedItemEnclosure(XElement element)
     {
-        this.Url = element.GetAttributeValue("url");
-        this.Length = Helpers.TryParseInt(element.GetAttributeValue("length"));
-        this.MediaType = element.GetAttributeValue("type");
+        Url = element.GetAttributeValue("url");
+        Length = Helpers.TryParseInt(element.GetAttributeValue("length"));
+        MediaType = element.GetAttributeValue("type");
     }
 }

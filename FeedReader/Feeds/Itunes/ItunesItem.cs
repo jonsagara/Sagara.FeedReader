@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace CodeHollow.FeedReader.Feeds.Itunes;
 
@@ -42,8 +41,10 @@ public class ItunesItem
 
     private static TimeSpan? ParseDuration(string duration)
     {
-        if (String.IsNullOrWhiteSpace(duration))
+        if (string.IsNullOrWhiteSpace(duration))
+        {
             return null;
+        }
 
         var durationArray = duration.Split(':');
 
@@ -71,7 +72,7 @@ public class ItunesItem
     /// <summary>
     /// The itunes:author element
     /// </summary>
-    public string Author { get; }
+    public string? Author { get; }
 
     /// <summary>
     /// The itunes:block element
@@ -81,7 +82,7 @@ public class ItunesItem
     /// <summary>
     /// The itunes:image element
     /// </summary>
-    public ItunesImage Image { get; }
+    public ItunesImage? Image { get; }
 
     /// <summary>
     /// The itunes:duration element
@@ -106,10 +107,10 @@ public class ItunesItem
     /// <summary>
     /// The itunes:subtitle element
     /// </summary>
-    public string Subtitle { get; }
+    public string? Subtitle { get; }
 
     /// <summary>
     /// The itunes:summary element
     /// </summary>
-    public string Summary { get; }
+    public string? Summary { get; }
 }

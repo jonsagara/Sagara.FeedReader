@@ -10,7 +10,7 @@ public class Rss10FeedTextInput : FeedTextInput
     /// <summary>
     /// The "about" attribute of the element
     /// </summary>
-    public string About { get; set; }
+    public string? About { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Rss10FeedTextInput"/> class.
@@ -29,6 +29,6 @@ public class Rss10FeedTextInput : FeedTextInput
     public Rss10FeedTextInput(XElement element)
         : base(element)
     {
-        this.About = element.GetAttribute("rdf:about").GetValue();
+        About = element.GetAttribute("rdf:about").GetValue();
     }
 }

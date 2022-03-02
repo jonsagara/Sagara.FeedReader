@@ -11,7 +11,7 @@ public class Rss092Feed : Rss091Feed
     /// <summary>
     /// The "cloud" field
     /// </summary>
-    public FeedCloud Cloud { get; set; }
+    public FeedCloud? Cloud { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Rss092Feed"/> class.

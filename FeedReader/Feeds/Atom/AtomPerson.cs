@@ -10,17 +10,17 @@ public class AtomPerson
     /// <summary>
     /// The "name" element
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// The "email" element
     /// </summary>
-    public string EMail { get; set; }
+    public string? EMail { get; set; }
 
     /// <summary>
     /// The "uri" element
     /// </summary>
-    public string Uri { get; set; }
+    public string? Uri { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AtomPerson"/> class.
@@ -37,20 +37,22 @@ public class AtomPerson
     /// <param name="element">person element as xml</param>
     public AtomPerson(XElement element)
     {
-        this.Name = element.GetValue("name");
-        this.EMail = element.GetValue("email");
-        this.Uri = element.GetValue("uri");
+        Name = element.GetValue("name");
+        EMail = element.GetValue("email");
+        Uri = element.GetValue("uri");
     }
 
     /// <summary>
     /// returns the name of the author including the email if available
     /// </summary>
     /// <returns>name of the author with email if available</returns>
-    public override string ToString()
+    public override string? ToString()
     {
-        if (string.IsNullOrEmpty(this.EMail))
-            return this.Name;
+        if (string.IsNullOrEmpty(EMail))
+        {
+            return Name;
+        }
 
-        return $"{this.Name} <{this.EMail}>".Trim();
+        return $"{Name} <{EMail}>".Trim();
     }
 }

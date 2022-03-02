@@ -55,9 +55,9 @@ public class FullParseTest
         Eq("http://www.theverge.com/ces/2017/1/7/14195588/hulu-live-tv-streaming-internet-ces-2017", item.Id);
         Eq("http://www.theverge.com/ces/2017/1/7/14195588/hulu-live-tv-streaming-internet-ces-2017", item.Link);
 
-        Assert.StartsWith("<img alt=\"\"", item.Content.Trim());
+        Assert.StartsWith("<img alt=\"\"", item.Content!.Trim());
 
-        Eq("Chris Welch", item.Author.Name);
+        Eq("Chris Welch", item.Author!.Name);
     }
 
     [Fact]
@@ -81,7 +81,7 @@ public class FullParseTest
         Eq("yt:channel:UCmEN5ZnsHUXIxgpLitRTmWw", feed.Id);
         Eq("Investment Punk Academy by Gerald Hörhan", feed.Title);
         Eq("http://www.youtube.com/channel/UCmEN5ZnsHUXIxgpLitRTmWw", feed.Links.ElementAt(1).Href);
-        Eq("Investment Punk Academy by Gerald Hörhan", feed.Author.Name);
+        Eq("Investment Punk Academy by Gerald Hörhan", feed.Author!.Name);
         Eq("http://www.youtube.com/channel/UCmEN5ZnsHUXIxgpLitRTmWw", feed.Author.Uri);
         var item = (AtomFeedItem)feed.Items.First();
         Eq("yt:video:AFA8ZtMwrvc", item.Id);
@@ -117,7 +117,7 @@ public class FullParseTest
 
         var item = (Rss091FeedItem)feed.Items.First();
 
-        Eq(@"[19.08.2018 - 07:08 Uhr] Brandmeldeanlagenalarm", item.Title.Trim());
+        Eq(@"[19.08.2018 - 07:08 Uhr] Brandmeldeanlagenalarm", item.Title!.Trim());
         Assert.Contains("Weitere Informationen", item.Description);
         Eq("http://www.stadtfeuerwehr-weiz.at/einsaetze/einsatz-detail/5220/", item.Link);
         Eq("Sun, 19 Aug 2018 07:08:00 +0100", item.PublishingDateString);
@@ -179,7 +179,7 @@ public class FullParseTest
         Eq("http://backend.userland.com/rss092", feed.Docs);
         Eq("dave@userland.com (Dave Winer)", feed.ManagingEditor);
         Eq("dave@userland.com (Dave Winer)", feed.WebMaster);
-        Eq("data.ourfavoritesongs.com", feed.Cloud.Domain);
+        Eq("data.ourfavoritesongs.com", feed.Cloud!.Domain);
         Eq("80", feed.Cloud.Port);
         Eq("/RPC2", feed.Cloud.Path);
         Eq("ourFavoriteSongs.rssPleaseNotify", feed.Cloud.RegisterProcedure);
@@ -188,12 +188,12 @@ public class FullParseTest
         Eq(22, feed.Items.Count);
         var item = (Rss092FeedItem)feed.Items.ElementAt(20);
         Eq("A touch of gray, kinda suits you anyway..", item.Description);
-        Eq("http://www.scripting.com/mp3s/touchOfGrey.mp3", item.Enclosure.Url);
+        Eq("http://www.scripting.com/mp3s/touchOfGrey.mp3", item.Enclosure!.Url);
         Eq(5588242, item.Enclosure.Length);
         Eq("audio/mpeg", item.Enclosure.MediaType);
 
         var secondItem = (Rss092FeedItem)feed.Items.ElementAt(1);
-        Eq("http://scriptingnews.userland.com/xml/scriptingNews2.xml", secondItem.Source.Url);
+        Eq("http://scriptingnews.userland.com/xml/scriptingNews2.xml", secondItem.Source!.Url);
         Eq("Scripting News", secondItem.Source.Value);
     }
 
@@ -205,12 +205,12 @@ public class FullParseTest
         Eq("XML.com", feed.Title);
         Eq("http://xml.com/pub", feed.Link);
         Eq("\n      XML.com features a rich mix of information and services\n      for the XML community.\n    ", feed.Description);
-        var image = (Rss10FeedImage)feed.Image;
+        var image = (Rss10FeedImage)feed.Image!;
         Eq("http://xml.com/universal/images/xml_tiny.gif", image.About);
         Eq("XML.com", image.Title);
         Eq("http://www.xml.com", image.Link);
         Eq("http://xml.com/universal/images/xml_tiny.gif", image.Url);
-        Eq("Search XML.com", feed.TextInput.Title);
+        Eq("Search XML.com", feed.TextInput!.Title);
         Eq("Search XML.com's XML collection", feed.TextInput.Description);
         Eq("s", feed.TextInput.Name);
         Eq("http://search.xml.com", ((Rss10FeedTextInput)feed.TextInput).About);
@@ -221,7 +221,7 @@ public class FullParseTest
         Eq("http://xml.com/pub/2000/08/09/rdfdb/index.html", item.About);
         Eq("Putting RDF to Work", item.Title);
         Eq("http://xml.com/pub/2000/08/09/rdfdb/index.html", item.Link);
-        Eq(186, item.Description.Length);
+        Eq(186, item.Description!.Length);
     }
 
     [Fact]
@@ -230,13 +230,13 @@ public class FullParseTest
         var feed = (Rss10Feed)FeedReader.ReadFromFile("Feeds/Rss10OrfAt.xml").SpecificFeed!;
         Eq("news.ORF.at", feed.Title);
         Eq("http://orf.at/", feed.Link);
-        Eq("2017-01-23T21:54:55+01:00", feed.DC.DateString);
+        Eq("2017-01-23T21:54:55+01:00", feed.DC!.DateString);
         Eq("Die aktuellsten Nachrichten auf einen Blick - aus Österreich und der ganzen Welt. In Text, Bild und Video.", feed.Description);
         Eq("ORF Österreichischer Rundfunk, Wien", feed.DC.Publisher);
         Eq("ORF Online und Teletext GmbH & Co KG", feed.DC.Creator);
         Eq("de", feed.DC.Language);
         Eq("Copyright © 2017 ORF Online und Teletext GmbH & Co KG", feed.DC.Rights);
-        Eq("hourly", feed.Sy.UpdatePeriod);
+        Eq("hourly", feed.Sy!.UpdatePeriod);
         Eq("2", feed.Sy.UpdateFrequency);
         Eq("2000-01-01T00:00:00Z", feed.Sy.UpdateBase);
         Eq(50, feed.Items.Count);
@@ -245,7 +245,7 @@ public class FullParseTest
 
         Eq("Feldsperling erstmals häufigster Vogel", item.Title);
         Eq("http://orf.at/stories/2376365/", item.Link);
-        Eq("Chronik", item.DC.Subject);
+        Eq("Chronik", item.DC!.Subject);
         Eq("2017-01-23T20:51:06+01:00", item.DC.DateString);
     }
 
@@ -288,7 +288,7 @@ public class FullParseTest
         Eq("Fri, 23 Dec 2016 09:01:55 +0000", feed.LastBuildDateString);
         Eq(new DateTime(2016, 12, 23, 09, 01, 55), feed.LastBuildDate);
         Eq("en-US", feed.Language);
-        Eq("hourly", feed.Sy.UpdatePeriod);
+        Eq("hourly", feed.Sy!.UpdatePeriod);
         Eq("1", feed.Sy.UpdateFrequency);
         Eq("https://wordpress.org/?v=4.7", feed.Generator);
 
@@ -299,9 +299,9 @@ public class FullParseTest
         Eq("https://codehollow.com/2016/12/export-azure-ratecard-data-csv-csharp-billing-api/#respond", item.Comments);
         Eq("Thu, 22 Dec 2016 07:00:28 +0000", item.PublishingDateString);
         Eq(new DateTime(2016, 12, 22, 7, 0, 28), item.PublishingDate);
-        Eq("Armin Reiter", item.DC.Creator);
+        Eq("Armin Reiter", item.DC!.Creator);
         Eq(4, item.Categories.Count);
-        Assert.True(item.Categories.Contains("BillingAPI"));
+        Assert.Contains("BillingAPI", item.Categories);
         Eq("https://codehollow.com/?p=749", item.Guid);
         Assert.StartsWith("<p>The Azure Billing API allows to programmatically read Azure", item.Description);
         Assert.Contains("<add key=\"Tenant\" ", item.Content);
@@ -317,7 +317,7 @@ public class FullParseTest
         Eq("Do, 22 Dez 2016 17:36:00 +0000", feed.LastBuildDateString);
         Eq(new DateTime(2016, 12, 22, 17, 36, 00), feed.LastBuildDate);
         Eq("de-DE", feed.Language);
-        Eq("hourly", feed.Sy.UpdatePeriod);
+        Eq("hourly", feed.Sy!.UpdatePeriod);
         Eq("1", feed.Sy.UpdateFrequency);
         Eq("https://wordpress.org/?v=4.7", feed.Generator);
 
@@ -327,7 +327,7 @@ public class FullParseTest
         Eq("http://content-wind.com/2016/12/22/wachstum-influencer-marketing/#respond", item.Comments);
         Eq("Thu, 22 Dec 2016 13:09:51 +0000", item.PublishingDateString);
         Eq(new DateTime(2016, 12, 22, 13, 09, 51), item.PublishingDate);
-        Eq("Harald Schaffernak", item.DC.Creator);
+        Eq("Harald Schaffernak", item.DC!.Creator);
 
     }
 
@@ -447,9 +447,9 @@ public class FullParseTest
         Eq("http://www.theverge.com/ces/2017/1/7/14195588/hulu-live-tv-streaming-internet-ces-2017", item.Id);
         Eq("http://www.theverge.com/ces/2017/1/7/14195588/hulu-live-tv-streaming-internet-ces-2017", item.Link);
 
-        Assert.StartsWith("<img alt=\"\"", item.Content.Trim());
+        Assert.StartsWith("<img alt=\"\"", item.Content!.Trim());
 
-        Eq("Chris Welch", item.Author.Name);
+        Eq("Chris Welch", item.Author!.Name);
     }
 
     [Fact]
@@ -461,7 +461,7 @@ public class FullParseTest
         Eq("yt:channel:UCmEN5ZnsHUXIxgpLitRTmWw", feed.Id);
         Eq("Investment Punk Academy by Gerald Hörhan", feed.Title);
         Eq("http://www.youtube.com/channel/UCmEN5ZnsHUXIxgpLitRTmWw", feed.Links.ElementAt(1).Href);
-        Eq("Investment Punk Academy by Gerald Hörhan", feed.Author.Name);
+        Eq("Investment Punk Academy by Gerald Hörhan", feed.Author!.Name);
         Eq("http://www.youtube.com/channel/UCmEN5ZnsHUXIxgpLitRTmWw", feed.Author.Uri);
         var item = (AtomFeedItem)feed.Items.First();
         Eq("yt:video:AFA8ZtMwrvc", item.Id);
@@ -484,7 +484,7 @@ public class FullParseTest
 
         var item = (Rss091FeedItem)feed.Items.First();
 
-        Eq(@"[19.08.2018 - 07:08 Uhr] Brandmeldeanlagenalarm", item.Title.Trim());
+        Eq(@"[19.08.2018 - 07:08 Uhr] Brandmeldeanlagenalarm", item.Title!.Trim());
         Assert.Contains("Weitere Informationen", item.Description);
         Eq("http://www.stadtfeuerwehr-weiz.at/einsaetze/einsatz-detail/5220/", item.Link);
         Eq("Sun, 19 Aug 2018 07:08:00 +0100", item.PublishingDateString);
@@ -546,7 +546,7 @@ public class FullParseTest
         Eq("http://backend.userland.com/rss092", feed.Docs);
         Eq("dave@userland.com (Dave Winer)", feed.ManagingEditor);
         Eq("dave@userland.com (Dave Winer)", feed.WebMaster);
-        Eq("data.ourfavoritesongs.com", feed.Cloud.Domain);
+        Eq("data.ourfavoritesongs.com", feed.Cloud!.Domain);
         Eq("80", feed.Cloud.Port);
         Eq("/RPC2", feed.Cloud.Path);
         Eq("ourFavoriteSongs.rssPleaseNotify", feed.Cloud.RegisterProcedure);
@@ -555,12 +555,12 @@ public class FullParseTest
         Eq(22, feed.Items.Count);
         var item = (Rss092FeedItem)feed.Items.ElementAt(20);
         Eq("A touch of gray, kinda suits you anyway..", item.Description);
-        Eq("http://www.scripting.com/mp3s/touchOfGrey.mp3", item.Enclosure.Url);
+        Eq("http://www.scripting.com/mp3s/touchOfGrey.mp3", item.Enclosure!.Url);
         Eq(5588242, item.Enclosure.Length);
         Eq("audio/mpeg", item.Enclosure.MediaType);
 
         var secondItem = (Rss092FeedItem)feed.Items.ElementAt(1);
-        Eq("http://scriptingnews.userland.com/xml/scriptingNews2.xml", secondItem.Source.Url);
+        Eq("http://scriptingnews.userland.com/xml/scriptingNews2.xml", secondItem.Source!.Url);
         Eq("Scripting News", secondItem.Source.Value);
     }
 
@@ -572,12 +572,12 @@ public class FullParseTest
         Eq("XML.com", feed.Title);
         Eq("http://xml.com/pub", feed.Link);
         Eq("\n      XML.com features a rich mix of information and services\n      for the XML community.\n    ", feed.Description);
-        var image = (Rss10FeedImage)feed.Image;
+        var image = (Rss10FeedImage)feed.Image!;
         Eq("http://xml.com/universal/images/xml_tiny.gif", image.About);
         Eq("XML.com", image.Title);
         Eq("http://www.xml.com", image.Link);
         Eq("http://xml.com/universal/images/xml_tiny.gif", image.Url);
-        Eq("Search XML.com", feed.TextInput.Title);
+        Eq("Search XML.com", feed.TextInput!.Title);
         Eq("Search XML.com's XML collection", feed.TextInput.Description);
         Eq("s", feed.TextInput.Name);
         Eq("http://search.xml.com", ((Rss10FeedTextInput)feed.TextInput).About);
@@ -588,7 +588,7 @@ public class FullParseTest
         Eq("http://xml.com/pub/2000/08/09/rdfdb/index.html", item.About);
         Eq("Putting RDF to Work", item.Title);
         Eq("http://xml.com/pub/2000/08/09/rdfdb/index.html", item.Link);
-        Eq(186, item.Description.Length);
+        Eq(186, item.Description!.Length);
     }
 
     [Fact]
@@ -597,13 +597,13 @@ public class FullParseTest
         var feed = (Rss10Feed)(await FeedReader.ReadFromFileAsync("Feeds/Rss10OrfAt.xml").ConfigureAwait(false)).SpecificFeed!;
         Eq("news.ORF.at", feed.Title);
         Eq("http://orf.at/", feed.Link);
-        Eq("2017-01-23T21:54:55+01:00", feed.DC.DateString);
+        Eq("2017-01-23T21:54:55+01:00", feed.DC!.DateString);
         Eq("Die aktuellsten Nachrichten auf einen Blick - aus Österreich und der ganzen Welt. In Text, Bild und Video.", feed.Description);
         Eq("ORF Österreichischer Rundfunk, Wien", feed.DC.Publisher);
         Eq("ORF Online und Teletext GmbH & Co KG", feed.DC.Creator);
         Eq("de", feed.DC.Language);
         Eq("Copyright © 2017 ORF Online und Teletext GmbH & Co KG", feed.DC.Rights);
-        Eq("hourly", feed.Sy.UpdatePeriod);
+        Eq("hourly", feed.Sy!.UpdatePeriod);
         Eq("2", feed.Sy.UpdateFrequency);
         Eq("2000-01-01T00:00:00Z", feed.Sy.UpdateBase);
         Eq(50, feed.Items.Count);
@@ -612,7 +612,7 @@ public class FullParseTest
 
         Eq("Feldsperling erstmals häufigster Vogel", item.Title);
         Eq("http://orf.at/stories/2376365/", item.Link);
-        Eq("Chronik", item.DC.Subject);
+        Eq("Chronik", item.DC!.Subject);
         Eq("2017-01-23T20:51:06+01:00", item.DC.DateString);
     }
 
@@ -655,7 +655,7 @@ public class FullParseTest
         Eq("Fri, 23 Dec 2016 09:01:55 +0000", feed.LastBuildDateString);
         Eq(new DateTime(2016, 12, 23, 09, 01, 55), feed.LastBuildDate);
         Eq("en-US", feed.Language);
-        Eq("hourly", feed.Sy.UpdatePeriod);
+        Eq("hourly", feed.Sy!.UpdatePeriod);
         Eq("1", feed.Sy.UpdateFrequency);
         Eq("https://wordpress.org/?v=4.7", feed.Generator);
 
@@ -666,9 +666,9 @@ public class FullParseTest
         Eq("https://codehollow.com/2016/12/export-azure-ratecard-data-csv-csharp-billing-api/#respond", item.Comments);
         Eq("Thu, 22 Dec 2016 07:00:28 +0000", item.PublishingDateString);
         Eq(new DateTime(2016, 12, 22, 7, 0, 28), item.PublishingDate);
-        Eq("Armin Reiter", item.DC.Creator);
+        Eq("Armin Reiter", item.DC!.Creator);
         Eq(4, item.Categories.Count);
-        Assert.True(item.Categories.Contains("BillingAPI"));
+        Assert.Contains("BillingAPI", item.Categories);
         Eq("https://codehollow.com/?p=749", item.Guid);
         Assert.StartsWith("<p>The Azure Billing API allows to programmatically read Azure", item.Description);
         Assert.Contains("<add key=\"Tenant\" ", item.Content);
@@ -684,7 +684,7 @@ public class FullParseTest
         Eq("Do, 22 Dez 2016 17:36:00 +0000", feed.LastBuildDateString);
         Eq(new DateTime(2016, 12, 22, 17, 36, 00), feed.LastBuildDate);
         Eq("de-DE", feed.Language);
-        Eq("hourly", feed.Sy.UpdatePeriod);
+        Eq("hourly", feed.Sy!.UpdatePeriod);
         Eq("1", feed.Sy.UpdateFrequency);
         Eq("https://wordpress.org/?v=4.7", feed.Generator);
 
@@ -694,7 +694,7 @@ public class FullParseTest
         Eq("http://content-wind.com/2016/12/22/wachstum-influencer-marketing/#respond", item.Comments);
         Eq("Thu, 22 Dec 2016 13:09:51 +0000", item.PublishingDateString);
         Eq(new DateTime(2016, 12, 22, 13, 09, 51), item.PublishingDate);
-        Eq("Harald Schaffernak", item.DC.Creator);
+        Eq("Harald Schaffernak", item.DC!.Creator);
 
     }
 

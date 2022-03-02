@@ -1,6 +1,4 @@
 ﻿namespace CodeHollow.FeedReader.Feeds;
-
-using System;
 using System.Xml.Linq;
 
 /// <summary>
@@ -11,32 +9,32 @@ public class Rss10Feed : BaseFeed
     /// <summary>
     /// The "about" attribute of the element
     /// </summary>
-    public string About { get; set; }
+    public string? About { get; set; }
 
     /// <summary>
     /// All elements starting with "dc:"
     /// </summary>
-    public DublinCore DC { get; set; }
+    public DublinCore? DC { get; set; }
 
     /// <summary>
     /// All elements starting with "sy:"
     /// </summary>
-    public Syndication Sy { get; set; }
+    public Syndication? Sy { get; set; }
 
     /// <summary>
     /// The "description" field
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// The "image" element
     /// </summary>
-    public FeedImage Image { get; set; }
+    public FeedImage? Image { get; set; }
 
     /// <summary>
     /// The "textInput" element
     /// </summary>
-    public FeedTextInput TextInput { get; set; }
+    public FeedTextInput? TextInput { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Rss10Feed"/> class.
@@ -56,18 +54,18 @@ public class Rss10Feed : BaseFeed
     public Rss10Feed(string feedXml, XElement channel)
         : base(feedXml, channel)
     {
-        this.About = channel.GetAttribute("rdf:about").GetValue();
-        this.DC = new DublinCore(channel);
-        this.Sy = new Syndication(channel);
-        this.Description = channel.GetValue("description");
+        About = channel.GetAttribute("rdf:about").GetValue();
+        DC = new DublinCore(channel);
+        Sy = new Syndication(channel);
+        Description = channel.GetValue("description");
 
-        this.Image = new Rss10FeedImage(channel.Parent.GetElement("image"));
-        this.TextInput = new Rss10FeedTextInput(channel.Parent.GetElement("textinput"));
+        Image = new Rss10FeedImage(channel.Parent.GetElement("image"));
+        TextInput = new Rss10FeedTextInput(channel.Parent.GetElement("textinput"));
 
         var items = channel.Parent.GetElements("item");
         foreach (var item in items)
         {
-            this.Items.Add(new Rss10FeedItem(item));
+            Items.Add(new Rss10FeedItem(item));
         }
     }
 
@@ -79,16 +77,16 @@ public class Rss10Feed : BaseFeed
     {
         Feed f = new Feed(this);
 
-        if (this.DC != null)
+        if (DC is not null)
         {
-            f.Copyright = this.DC.Rights;
-            f.Language = this.DC.Language;
-            f.LastUpdatedDate = this.DC.Date;
-            f.LastUpdatedDateString = this.DC.DateString;
+            f.Copyright = DC.Rights;
+            f.Language = DC.Language;
+            f.LastUpdatedDate = DC.Date;
+            f.LastUpdatedDateString = DC.DateString;
         }
 
-        f.Description = this.Description;
-        f.ImageUrl = this.Image?.Url;
+        f.Description = Description;
+        f.ImageUrl = Image?.Url;
         f.Type = FeedType.Rss_1_0;
 
         return f;

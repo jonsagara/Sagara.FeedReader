@@ -10,22 +10,22 @@ public class FeedTextInput
     /// <summary>
     /// The "title" element
     /// </summary>
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     /// <summary>
     /// The "link" element
     /// </summary>
-    public string Link { get; set; }
+    public string? Link { get; set; }
 
     /// <summary>
     /// The "description" field
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// The "name" element
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FeedTextInput"/> class.
@@ -42,9 +42,9 @@ public class FeedTextInput
     /// <param name="element">text input element as xml</param>
     public FeedTextInput(XElement element)
     {
-        this.Title = element.GetValue("title");
-        this.Link = element.GetValue("link");
-        this.Description = element.GetValue("description");
-        this.Name = element.GetValue("name");
+        Title = element.GetValue("title");
+        Link = element.GetValue("link");
+        Description = element.GetValue("description");
+        Name = element.GetValue("name");
     }
 }

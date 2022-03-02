@@ -10,12 +10,12 @@ public class FeedItemSource
     /// <summary>
     /// The "url" element
     /// </summary>
-    public string Url { get; set; }
+    public string? Url { get; set; }
 
     /// <summary>
     /// The value of the element
     /// </summary>
-    public string Value { get; set; }
+    public string? Value { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FeedItemSource"/> class.
@@ -32,7 +32,7 @@ public class FeedItemSource
     /// <param name="element">item source element as xml</param>
     public FeedItemSource(XElement element)
     {
-        this.Url = element.GetAttributeValue("url");
-        this.Value = element.GetValue();
+        Url = element.GetAttributeValue("url");
+        Value = element.GetValue();
     }
 }

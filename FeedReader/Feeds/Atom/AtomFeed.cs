@@ -13,52 +13,52 @@ public class AtomFeed : BaseFeed
     /// <summary>
     /// The "author" element
     /// </summary>
-    public AtomPerson Author { get; set; }
+    public AtomPerson? Author { get; set; }
 
     /// <summary>
     /// All "category" elements
     /// </summary>
-    public ICollection<string> Categories { get; set; }
+    public List<string> Categories { get; private set; } = new();
 
     /// <summary>
     /// The "contributor" element
     /// </summary>
-    public AtomPerson Contributor { get; set; }
+    public AtomPerson? Contributor { get; set; }
 
     /// <summary>
     /// The "generator" element
     /// </summary>
-    public string Generator { get; set; }
+    public string? Generator { get; set; }
 
     /// <summary>
     /// The "icon" element
     /// </summary>
-    public string Icon { get; set; }
+    public string? Icon { get; set; }
 
     /// <summary>
     /// The "id" element
     /// </summary>
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// The "logo" element
     /// </summary>
-    public string Logo { get; set; }
+    public string? Logo { get; set; }
 
     /// <summary>
     /// The "rights" element
     /// </summary>
-    public string Rights { get; set; }
+    public string? Rights { get; set; }
 
     /// <summary>
     /// The "subtitle" element
     /// </summary>
-    public string Subtitle { get; set; }
+    public string? Subtitle { get; set; }
 
     /// <summary>
     /// The "updated" element as string
     /// </summary>
-    public string UpdatedDateString { get; set; }
+    public string? UpdatedDateString { get; set; }
 
     /// <summary>
     /// The "updated" element as DateTime. Null if parsing failed of updatedDate is empty.
@@ -68,7 +68,7 @@ public class AtomFeed : BaseFeed
     /// <summary>
     /// All "link" elements
     /// </summary>
-    public ICollection<AtomLink> Links { get; set; }
+    public List<AtomLink> Links { get; private set; } = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AtomFeed"/> class.
@@ -88,31 +88,31 @@ public class AtomFeed : BaseFeed
     public AtomFeed(string feedXml, XElement feed)
         : base(feedXml, feed)
     {
-        this.Link = feed.GetElement("link")?.Attribute("href")?.Value;
+        Link = feed.GetElement("link")?.Attribute("href")?.Value;
 
-        this.Author = new AtomPerson(feed.GetElement("author"));
+        Author = new AtomPerson(feed.GetElement("author"));
 
         var categories = feed.GetElements("category");
-        this.Categories = categories.Select(x => x.GetValue()).ToList();
+        Categories = categories.Select(x => x.GetValue()).ToList();
 
-        this.Contributor = new AtomPerson(feed.GetElement("contributor"));
-        this.Generator = feed.GetValue("generator");
-        this.Icon = feed.GetValue("icon");
-        this.Id = feed.GetValue("id");
-        this.Logo = feed.GetValue("logo");
-        this.Rights = feed.GetValue("rights");
-        this.Subtitle = feed.GetValue("subtitle");
+        Contributor = new AtomPerson(feed.GetElement("contributor"));
+        Generator = feed.GetValue("generator");
+        Icon = feed.GetValue("icon");
+        Id = feed.GetValue("id");
+        Logo = feed.GetValue("logo");
+        Rights = feed.GetValue("rights");
+        Subtitle = feed.GetValue("subtitle");
 
-        this.Links = feed.GetElements("link").Select(x => new AtomLink(x)).ToList();
+        Links = feed.GetElements("link").Select(x => new AtomLink(x)).ToList();
 
-        this.UpdatedDateString = feed.GetValue("updated");
-        this.UpdatedDate = Helpers.TryParseDateTime(this.UpdatedDateString);
+        UpdatedDateString = feed.GetValue("updated");
+        UpdatedDate = Helpers.TryParseDateTime(UpdatedDateString);
 
         var items = feed.GetElements("entry");
 
         foreach (var item in items)
         {
-            this.Items.Add(new AtomFeedItem(item));
+            Items.Add(new AtomFeedItem(item));
         }
     }
 
@@ -122,16 +122,17 @@ public class AtomFeed : BaseFeed
     /// <returns>feed</returns>
     public override Feed ToFeed()
     {
-        Feed f = new Feed(this)
+        Feed f = new(this)
         {
-            Copyright = this.Rights,
+            Copyright = Rights,
             Description = null,
-            ImageUrl = this.Icon,
+            ImageUrl = Icon,
             Language = null,
-            LastUpdatedDate = this.UpdatedDate,
-            LastUpdatedDateString = this.UpdatedDateString,
+            LastUpdatedDate = UpdatedDate,
+            LastUpdatedDateString = UpdatedDateString,
             Type = FeedType.Atom
         };
+
         return f;
     }
 }

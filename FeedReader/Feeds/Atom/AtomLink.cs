@@ -10,27 +10,27 @@ public class AtomLink
     /// <summary>
     /// The "href" element
     /// </summary>
-    public string Href { get; set; }
+    public string? Href { get; set; }
 
     /// <summary>
     /// The "rel" element
     /// </summary>
-    public string Relation { get; set; } // rel
+    public string? Relation { get; set; } // rel
 
     /// <summary>
     /// The "type" element
     /// </summary>
-    public string LinkType { get; set; } // type
+    public string? LinkType { get; set; } // type
 
     /// <summary>
     /// The "hreflang" element
     /// </summary>
-    public string HrefLanguage { get; set; } // hreflang
+    public string? HrefLanguage { get; set; } // hreflang
 
     /// <summary>
     /// The "title" element
     /// </summary>
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     /// <summary>
     /// The "length" elemnt as int
@@ -52,12 +52,12 @@ public class AtomLink
     /// <param name="element">link as xml</param>
     public AtomLink(XElement element)
     {
-        this.Href = element.GetAttributeValue("href");
-        this.Relation = element.GetAttributeValue("rel");
-        this.LinkType = element.GetAttributeValue("type");
-        this.HrefLanguage = element.GetAttributeValue("hreflang");
-        this.Title = element.GetAttributeValue("title");
-        this.Length = Helpers.TryParseInt(element.GetAttributeValue("length"));
+        Href = element.GetAttributeValue("href");
+        Relation = element.GetAttributeValue("rel");
+        LinkType = element.GetAttributeValue("type");
+        HrefLanguage = element.GetAttributeValue("hreflang");
+        Title = element.GetAttributeValue("title");
+        Length = Helpers.TryParseInt(element.GetAttributeValue("length"));
     }
 
     /// <summary>
@@ -66,6 +66,6 @@ public class AtomLink
     /// <returns>the href of the link</returns>
     public override string ToString()
     {
-        return this.Href;
+        return Href;
     }
 }

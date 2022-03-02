@@ -12,17 +12,17 @@ public class Rss092FeedItem : Rss091FeedItem
     /// <summary>
     /// All entries "category" entries
     /// </summary>
-    public ICollection<string> Categories { get; set; }
+    public List<string> Categories { get; private set; } = new();
 
     /// <summary>
     /// The "enclosure" field
     /// </summary>
-    public FeedItemEnclosure Enclosure { get; set; }
+    public FeedItemEnclosure? Enclosure { get; set; }
 
     /// <summary>
     /// The "source" field
     /// </summary>
-    public FeedItemSource Source { get; set; }
+    public FeedItemSource? Source { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Rss092FeedItem"/> class.
@@ -41,10 +41,10 @@ public class Rss092FeedItem : Rss091FeedItem
     public Rss092FeedItem(XElement item)
         : base(item)
     {
-        this.Enclosure = new FeedItemEnclosure(item.GetElement("enclosure"));
-        this.Source = new FeedItemSource(item.GetElement("source"));
+        Enclosure = new FeedItemEnclosure(item.GetElement("enclosure"));
+        Source = new FeedItemSource(item.GetElement("source"));
 
         var categories = item.GetElements("category");
-        this.Categories = categories.Select(x => x.GetValue()).ToList();
+        Categories = categories.Select(x => x.GetValue()).ToList();
     }
 }

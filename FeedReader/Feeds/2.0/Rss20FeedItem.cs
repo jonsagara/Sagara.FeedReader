@@ -13,32 +13,32 @@ public class Rss20FeedItem : BaseFeedItem
     /// <summary>
     /// The "description" field of the feed item
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// The "author" field of the feed item
     /// </summary>
-    public string Author { get; set; }
+    public string? Author { get; set; }
 
     /// <summary>
     /// The "comments" field of the feed item
     /// </summary>
-    public string Comments { get; set; }
+    public string? Comments { get; set; }
 
     /// <summary>
     /// The "enclosure" field
     /// </summary>
-    public FeedItemEnclosure Enclosure { get; set; }
+    public FeedItemEnclosure? Enclosure { get; set; }
 
     /// <summary>
     /// The "guid" field
     /// </summary>
-    public string Guid { get; set; }
+    public string? Guid { get; set; }
 
     /// <summary>
     /// The "pubDate" field
     /// </summary>
-    public string PublishingDateString { get; set; }
+    public string? PublishingDateString { get; set; }
 
     /// <summary>
     /// The "pubDate" field as DateTime. Null if parsing failed or pubDate is empty.
@@ -48,22 +48,22 @@ public class Rss20FeedItem : BaseFeedItem
     /// <summary>
     /// The "source" field
     /// </summary>
-    public FeedItemSource Source { get; set; }
+    public FeedItemSource? Source { get; set; }
 
     /// <summary>
     /// All entries "category" entries
     /// </summary>
-    public ICollection<string> Categories { get; set; }
+    public List<string> Categories { get; private set; } = new();
 
     /// <summary>
     /// The "content:encoded" field
     /// </summary>
-    public string Content { get; set; }
+    public string? Content { get; set; }
 
     /// <summary>
     /// All elements starting with "dc:"
     /// </summary>
-    public DublinCore DC { get; set; }
+    public DublinCore? DC { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Rss20FeedItem"/> class.
@@ -82,36 +82,36 @@ public class Rss20FeedItem : BaseFeedItem
     public Rss20FeedItem(XElement item)
         : base(item)
     {
-        this.Comments = item.GetValue("comments");
-        this.Author = item.GetValue("author");
-        this.Enclosure = new FeedItemEnclosure(item.GetElement("enclosure"));
-        this.PublishingDateString = item.GetValue("pubDate");
-        this.PublishingDate = Helpers.TryParseDateTime(this.PublishingDateString);
-        this.DC = new DublinCore(item);
-        this.Source = new FeedItemSource(item.GetElement("source"));
+        Comments = item.GetValue("comments");
+        Author = item.GetValue("author");
+        Enclosure = new FeedItemEnclosure(item.GetElement("enclosure"));
+        PublishingDateString = item.GetValue("pubDate");
+        PublishingDate = Helpers.TryParseDateTime(PublishingDateString);
+        DC = new DublinCore(item);
+        Source = new FeedItemSource(item.GetElement("source"));
 
         var categories = item.GetElements("category");
-        this.Categories = categories.Select(x => x.GetValue()).ToList();
+        Categories = categories.Select(x => x.GetValue()).ToList();
 
-        this.Guid = item.GetValue("guid");
-        this.Description = item.GetValue("description");
-        this.Content = item.GetValue("content:encoded")?.HtmlDecode();
+        Guid = item.GetValue("guid");
+        Description = item.GetValue("description");
+        Content = item.GetValue("content:encoded")?.HtmlDecode();
     }
 
     /// <inheritdoc/>
     internal override FeedItem ToFeedItem()
     {
-        var fi = new FeedItem(this)
+        FeedItem fi = new(this)
         {
-            Author = this.Author,
-            Content = this.Content,
-            Description = this.Description,
-            Id = this.Guid,
-            PublishingDate = this.PublishingDate,
-            PublishingDateString = this.PublishingDateString
+            Author = Author,
+            Content = Content,
+            Description = Description,
+            Id = Guid,
+            PublishingDate = PublishingDate,
+            PublishingDateString = PublishingDateString
         };
 
-        fi.Categories.AddRange(this.Categories);
+        fi.Categories.AddRange(Categories);
 
         return fi;
     }

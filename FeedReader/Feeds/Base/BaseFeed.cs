@@ -17,27 +17,27 @@ public abstract class BaseFeed
     /// <summary>
     /// The title of the feed
     /// </summary>
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     /// <summary>
     /// The link (url) to the feed
     /// </summary>
-    public string Link { get; set; }
+    public string? Link { get; set; }
 
     /// <summary>
     /// The items that are in the feed
     /// </summary>
-    public ICollection<BaseFeedItem> Items { get; set; }
+    public List<BaseFeedItem> Items { get; private set; } = new();
 
     /// <summary>
     /// Gets the whole, original feed as string
     /// </summary>
-    public string OriginalDocument { get; private set; }
+    public string? OriginalDocument { get; private set; }
 
     /// <summary>
     /// Gets the underlying XElement in order to allow reading properties that are not available in the class itself
     /// </summary>
-    public XElement Element { get; }
+    public XElement? Element { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BaseFeed"/> class.
@@ -45,7 +45,7 @@ public abstract class BaseFeed
     /// </summary>
     protected BaseFeed()
     {
-        this.Items = new List<BaseFeedItem>();
+        Items = new List<BaseFeedItem>();
     }
 
     /// <summary>
@@ -57,10 +57,10 @@ public abstract class BaseFeed
     protected BaseFeed(string feedXml, XElement channel)
         : this()
     {
-        this.OriginalDocument = feedXml;
+        OriginalDocument = feedXml;
 
-        this.Title = channel.GetValue("title");
-        this.Link = channel.GetValue("link");
-        this.Element = channel;
+        Title = channel.GetValue("title");
+        Link = channel.GetValue("link");
+        Element = channel;
     }
 }
