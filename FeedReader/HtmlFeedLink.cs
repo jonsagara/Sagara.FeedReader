@@ -13,7 +13,7 @@ public class HtmlFeedLink
     /// <summary>
     /// The url to the feed
     /// </summary>
-    public string? Url { get; set; }
+    public string Url { get; set; } = null!;
 
     /// <summary>
     /// The type of the feed - rss or atom
@@ -35,10 +35,10 @@ public class HtmlFeedLink
     /// <param name="title">title fo the feed</param>
     /// <param name="url">url of the feed</param>
     /// <param name="feedtype">type of the feed (rss 1.0, 2.0, ...)</param>
-    public HtmlFeedLink(string title, string url, FeedType feedtype)
+    public HtmlFeedLink(string? title, string url, FeedType feedtype)
     {
-        this.Title = title;
-        this.Url = url;
-        this.FeedType = feedtype;
+        Title = title;
+        Url = url;
+        FeedType = feedtype;
     }
 }

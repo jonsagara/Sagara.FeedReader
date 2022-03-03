@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 using Parser;
 
 /// <summary>
-/// The static FeedReader class which allows to read feeds from a given url. Use it to
-/// parse a feed from an url <see cref="Read(string)"/>, a file <see cref="ReadFromFile(string)"/> or <see cref="ReadFromFileAsync(string)"/>, a byte array <see cref="ReadFromByteArray(byte[])"/>
-/// or a string <see cref="ReadFromString(string)"/>. If the feed url is not known, <see cref="ParseFeedUrlsFromHtml(string)"/>
+/// The static FeedReader class which allows to read feeds from a given url. Use it to parse a feed 
+/// from an url <see cref="ReadAsync(string, bool, string?)"/>, a file <see cref="ReadFromFile(string)"/> 
+/// or <see cref="ReadFromFileAsync(string)"/>, a byte array <see cref="ReadFromByteArray(byte[])"/> or a 
+/// string <see cref="ReadFromString(string)"/>. If the feed url is not known, <see cref="ParseFeedUrlsFromHtml(string)"/> 
 /// returns all feed links on a given page.
 /// </summary>
 /// <example>
@@ -22,17 +23,6 @@ using Parser;
 public static class FeedReader
 {
     /// <summary>
-    /// gets a url (with or without http) and returns the full url
-    /// </summary>
-    /// <param name="url">url with or without http</param>
-    /// <returns>full url</returns>
-    /// <example>GetUrl("codehollow.com"); => returns https://codehollow.com</example>
-    public static string GetAbsoluteUrl(string url)
-    {
-        return new UriBuilder(url).ToString();
-    }
-
-    /// <summary>
     /// Returns the absolute url of a link on a page. If you got the feed links via
     /// GetFeedUrlsFromUrl(url) and the url is relative, you can use this method to get the full url.
     /// </summary>
@@ -42,7 +32,11 @@ public static class FeedReader
     /// <example>GetAbsoluteFeedUrl("codehollow.com", myRelativeFeedLink);</example>
     public static HtmlFeedLink GetAbsoluteFeedUrl(string pageUrl, HtmlFeedLink feedLink)
     {
-        string tmpUrl = feedLink.Url.HtmlDecode();
+        ArgumentNullException.ThrowIfNull(pageUrl);
+        ArgumentNullException.ThrowIfNull(feedLink);
+        ArgumentNullException.ThrowIfNull(feedLink.Url);
+
+        string tmpUrl = feedLink.Url.HtmlDecode()!;
         pageUrl = GetAbsoluteUrl(pageUrl);
 
         if (tmpUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
@@ -213,5 +207,21 @@ public static class FeedReader
     public static Feed ReadFromByteArray(byte[] feedContent)
     {
         return FeedParser.GetFeed(feedContent);
+    }
+
+
+    //
+    // Private methods
+    //
+
+    /// <summary>
+    /// gets a url (with or without http) and returns the full url
+    /// </summary>
+    /// <param name="url">url with or without http</param>
+    /// <returns>full url</returns>
+    /// <example>GetUrl("codehollow.com"); => returns https://codehollow.com</example>
+    private static string GetAbsoluteUrl(string url)
+    {
+        return new UriBuilder(url).Uri.ToString();
     }
 }

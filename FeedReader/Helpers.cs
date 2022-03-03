@@ -38,7 +38,7 @@ public static class Helpers
     /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
     /// <param name="userAgent">override built-in user-agent header</param>
     /// <returns>Content as byte array</returns>
-    public static async Task<byte[]> DownloadBytesAsync(string url, CancellationToken cancellationToken, bool autoRedirect = true, string userAgent = USER_AGENT_VALUE)
+    public static async Task<byte[]> DownloadBytesAsync(string url, CancellationToken cancellationToken, bool autoRedirect = true, string? userAgent = USER_AGENT_VALUE)
     {
         url = WebUtility.UrlDecode(url);
         HttpResponseMessage response;
@@ -261,6 +261,8 @@ public static class Helpers
     /// <returns>all RSS/feed links</returns>
     public static IEnumerable<HtmlFeedLink> ParseFeedUrlsFromHtml(string htmlContent)
     {
+        ArgumentNullException.ThrowIfNull(htmlContent);
+
         // sample link:
         // <link rel="alternate" type="application/rss+xml" title="Microsoft Bot Framework Blog" href="http://blog.botframework.com/feed.xml">
         // <link rel="alternate" type="application/atom+xml" title="Aktuelle News von heise online" href="https://www.heise.de/newsticker/heise-atom.xml">

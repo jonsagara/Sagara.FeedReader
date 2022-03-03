@@ -116,15 +116,8 @@ internal static class Extensions
     /// </summary>
     /// <param name="attribute">the xml attribute</param>
     /// <returns>value</returns>
-    public static string? GetValue(this XAttribute attribute)
-    {
-        if (attribute is null)
-        {
-            return null;
-        }
-
-        return attribute.Value;
-    }
+    public static string? GetValue(this XAttribute? attribute)
+        => attribute?.Value;
 
     /// <summary>
     /// Gets the value of the attribute <paramref name="name"/>
