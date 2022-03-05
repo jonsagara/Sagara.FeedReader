@@ -16,8 +16,8 @@ public class ItunesChannel
     /// <param name="channelElement"></param>
     public ItunesChannel(XElement channelElement)
     {
-        Author = channelElement.GetValue(NAMESPACEPREFIX, "author");
-        Block = channelElement.GetValue(NAMESPACEPREFIX, "block").EqualsIgnoreCase("yes");
+        Author = channelElement.GetChildElementValue(NAMESPACEPREFIX, "author");
+        Block = channelElement.GetChildElementValue(NAMESPACEPREFIX, "block").EqualsIgnoreCase("yes");
         Categories = GetItunesCategories(channelElement);
 
         var imageElement = channelElement.GetElement(NAMESPACEPREFIX, "image");
@@ -26,12 +26,12 @@ public class ItunesChannel
             Image = new ItunesImage(imageElement);
         }
 
-        var explicitValue = channelElement.GetValue(NAMESPACEPREFIX, "explicit");
+        var explicitValue = channelElement.GetChildElementValue(NAMESPACEPREFIX, "explicit");
         Explicit = explicitValue.EqualsAnyIgnoreCase("yes", "explicit", "true");
 
-        Complete = channelElement.GetValue(NAMESPACEPREFIX, "complete").EqualsIgnoreCase("yes");
+        Complete = channelElement.GetChildElementValue(NAMESPACEPREFIX, "complete").EqualsIgnoreCase("yes");
 
-        if (Uri.TryCreate(channelElement.GetValue(NAMESPACEPREFIX, "new-feed-url"), UriKind.Absolute, out var newFeedUrl))
+        if (Uri.TryCreate(channelElement.GetChildElementValue(NAMESPACEPREFIX, "new-feed-url"), UriKind.Absolute, out var newFeedUrl))
         {
             NewFeedUrl = newFeedUrl;
         }
@@ -43,8 +43,8 @@ public class ItunesChannel
             Owner = new ItunesOwner(ownerElement);
         }
 
-        Subtitle = channelElement.GetValue(NAMESPACEPREFIX, "subtitle");
-        Summary = channelElement.GetValue(NAMESPACEPREFIX, "summary");
+        Subtitle = channelElement.GetChildElementValue(NAMESPACEPREFIX, "subtitle");
+        Summary = channelElement.GetChildElementValue(NAMESPACEPREFIX, "summary");
     }
 
     /// <summary>
@@ -105,9 +105,9 @@ public class ItunesChannel
     private ItunesCategory[] GetItunesCategories(XElement element)
     {
         var categoryElements = element.GetElements(NAMESPACEPREFIX, "category");
-        if (categoryElements is null)
+        if (categoryElements.Count == 0)
         {
-            return new ItunesCategory[0];
+            return Array.Empty<ItunesCategory>();
         }
 
         var query = from categoryElement in categoryElements

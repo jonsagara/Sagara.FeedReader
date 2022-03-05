@@ -113,11 +113,16 @@ internal static class Extensions
     /// </summary>
     /// <param name="element">xml element</param>
     /// <param name="namespacePrefix">the namespace prefix of the element that should be returned</param>
-    /// <param name="name">name of the element</param>
+    /// <param name="elementName">name of the element</param>
     /// <returns>the value of the XElement</returns>
-    public static string? GetValue(this XElement element, string namespacePrefix, string name)
+    public static string? GetChildElementValue(this XElement element, string namespacePrefix, string elementName)
     {
-        return element?.GetElement(namespacePrefix, name)?.GetValue();
+        ArgumentNullException.ThrowIfNull(namespacePrefix);
+        ArgumentNullException.ThrowIfNull(elementName);
+
+        return element
+            ?.GetElement(namespacePrefix, elementName)
+            ?.GetValue();
     }
 
     /// <summary>
@@ -218,16 +223,15 @@ internal static class Extensions
     /// <param name="namespacePrefix">the namespace prefix of the elements that should be returned</param>
     /// <param name="name">Name of the elements that should be returned</param>
     /// <returns>all "name" elements of the given XElement</returns>
-    public static IEnumerable<XElement> GetElements(this XElement element, string? namespacePrefix, string name)
+    public static IReadOnlyCollection<XElement> GetElements(this XElement element, string? namespacePrefix, string name)
     {
         var namesp = element.GetNamespacePrefix(namespacePrefix);
         if (namesp is null)
         {
-#warning Shouldn't this return Array.Empty?
-            return null;
+            return Array.Empty<XElement>();
         }
 
-        return element.Elements(namesp + name);
+        return element.Elements(namesp + name).ToArray();
     }
 
     /// <summary>

@@ -13,8 +13,8 @@ public class ItunesItem
     /// <param name="itemElement"></param>
     public ItunesItem(XElement itemElement)
     {
-        Author = itemElement.GetValue(ItunesChannel.NAMESPACEPREFIX, "author");
-        Block = itemElement.GetValue(ItunesChannel.NAMESPACEPREFIX, "block").EqualsIgnoreCase("yes");
+        Author = itemElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "author");
+        Block = itemElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "block").EqualsIgnoreCase("yes");
         var imageElement = itemElement.GetElement(ItunesChannel.NAMESPACEPREFIX, "image");
 
         if (imageElement is not null)
@@ -22,21 +22,21 @@ public class ItunesItem
             Image = new ItunesImage(imageElement);
         }
 
-        var duration = itemElement.GetValue(ItunesChannel.NAMESPACEPREFIX, "duration");
+        var duration = itemElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "duration");
         Duration = ParseDuration(duration);
 
-        var explicitValue = itemElement.GetValue(ItunesChannel.NAMESPACEPREFIX, "explicit");
+        var explicitValue = itemElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "explicit");
         Explicit = explicitValue.EqualsAnyIgnoreCase("yes", "explicit", "true");
 
-        IsClosedCaptioned = itemElement.GetValue(ItunesChannel.NAMESPACEPREFIX, "isClosedCaptioned").EqualsIgnoreCase("yes");
+        IsClosedCaptioned = itemElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "isClosedCaptioned").EqualsIgnoreCase("yes");
 
-        if (int.TryParse(itemElement.GetValue(ItunesChannel.NAMESPACEPREFIX, "order"), out var order))
+        if (int.TryParse(itemElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "order"), out var order))
         {
             Order = order;
         }
 
-        Subtitle = itemElement.GetValue(ItunesChannel.NAMESPACEPREFIX, "subtitle");
-        Summary = itemElement.GetValue(ItunesChannel.NAMESPACEPREFIX, "summary");
+        Subtitle = itemElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "subtitle");
+        Summary = itemElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "summary");
     }
 
     private static TimeSpan? ParseDuration(string duration)
