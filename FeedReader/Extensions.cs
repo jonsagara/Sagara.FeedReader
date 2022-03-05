@@ -152,8 +152,9 @@ internal static class Extensions
     /// <returns>the xml attribute</returns>
     public static XAttribute? GetAttribute(this XElement element, string name)
     {
-        var splitted = SplitName(name);
-        return element?.GetAttribute(splitted.Item1, splitted.Item2);
+        var nsAndName = SplitName(name);
+
+        return element?.GetAttribute(namespacePrefix: nsAndName.Namespace, name: nsAndName.Name);
     }
 
     /// <summary>
@@ -182,8 +183,9 @@ internal static class Extensions
     /// <returns>the "name" element of the XElement</returns>
     public static XElement? GetElement(this XElement element, string name)
     {
-        var splitted = SplitName(name);
-        return element?.GetElement(splitted.Item1, splitted.Item2);
+        var nsAndName = SplitName(name);
+
+        return element?.GetElement(namespacePrefix: nsAndName.Namespace, name: nsAndName.Name);
     }
 
     /// <summary>
@@ -212,8 +214,9 @@ internal static class Extensions
     /// <returns>all "name" elements of the given XElement</returns>
     public static IEnumerable<XElement> GetElements(this XElement element, string name)
     {
-        var splitted = SplitName(name);
-        return element.GetElements(splitted.Item1, splitted.Item2);
+        var nsAndName = SplitName(name);
+
+        return element.GetElements(namespacePrefix: nsAndName.Namespace, name: nsAndName.Name);
     }
 
     /// <summary>
@@ -259,22 +262,37 @@ internal static class Extensions
         return namesp;
     }
 
+
+    //
+    // Private methods
+    //
+
     /// <summary>
-    /// splits the name into namespace and name if it contains a :
-    /// if it does not contain a namespace, item1 is null and item2 is the original name
+    /// Splits the name into namespace and name if it contains a ':'. If it does not contain a 
+    /// namespace, the returned namespace is null and name is the original name.
     /// </summary>
     /// <param name="name">the input name</param>
     /// <returns>splitted namespace and name, item1 is null if namespace is empty</returns>
-    private static Tuple<string?, string> SplitName(string name)
+    private static NamespaceAndName SplitName(string name)
     {
-        string? namesp = null;
-        if (name.Contains(":"))
-        {
-            int pos = name.IndexOf(':');
-            namesp = name.Substring(0, pos);
-            name = name.Substring(pos + 1);
-        }
+        // Example expected input: atom:updated
+        //   This would be split into namespace 'atom' and name 'updated'.
+        // Example expected input: pubDate
+        //   The split would not have the correct number of parts, and we would return the 
+        //   original name 'pubDate' as the name.
 
-        return new Tuple<string?, string>(namesp, name);
+        // Split on the first occurrence of ':'
+        var parts = name.Split(":", count: 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+        return parts.Length == 2
+            ? new NamespaceAndName(parts[0], parts[1])
+            : new NamespaceAndName(Namespace: null, Name: name);
     }
+
+
+    //
+    // Classes
+    //
+
+    private record struct NamespaceAndName(string? Namespace, string Name);
 }
