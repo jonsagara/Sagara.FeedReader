@@ -75,7 +75,7 @@ public class Rss10Feed : BaseFeed
     /// <returns>feed</returns>
     public override Feed ToFeed()
     {
-        Feed f = new Feed(this);
+        Feed f = new(this);
 
         if (DC is not null)
         {

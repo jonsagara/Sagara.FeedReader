@@ -15,7 +15,7 @@ public class FeedItemSource
     /// <summary>
     /// The value of the element
     /// </summary>
-    public string Value { get; set; } = null!;
+    public string? Value { get; set; } = null!;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FeedItemSource"/> class.
@@ -30,9 +30,9 @@ public class FeedItemSource
     /// Reads a rss feed item based on the xml given in element
     /// </summary>
     /// <param name="element">item source element as xml</param>
-    public FeedItemSource(XElement element)
+    public FeedItemSource(XElement? element)
     {
         Url = element.GetAttributeValue("url");
-        Value = element.Value;
+        Value = element?.Value;
     }
 }
