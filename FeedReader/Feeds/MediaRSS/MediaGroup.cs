@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace CodeHollow.FeedReader.Feeds.MediaRSS;
 
@@ -11,7 +7,7 @@ namespace CodeHollow.FeedReader.Feeds.MediaRSS;
 /// </summary>
 public class MediaGroup
 {
-    
+
     /// <summary>
     /// Gets the underlying XElement in order to allow reading properties that are not available in the class itself
     /// </summary>
@@ -22,16 +18,17 @@ public class MediaGroup
     /// Reads a rss media group item enclosure based on the xml given in element
     /// </summary>
     /// <param name="element">enclosure element as xml</param>
-    public MediaGroup (XElement element)
+    public MediaGroup(XElement element)
     {
-        this.Element = element;
+        Element = element;
+
         var media = element.GetElements("media", "content");
-        this.Media = media.Select(x => new Media(x)).ToList();
+        Media.AddRange(media.Select(m => new Media(m)));
     }
 
     /// <summary>
     /// Media object
     /// </summary>
-    public ICollection<Media> Media { get; set; }
+    public List<Media> Media { get; private set; } = new();
 
 }

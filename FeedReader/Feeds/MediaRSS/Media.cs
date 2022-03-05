@@ -33,7 +33,7 @@ public class Media
         Language = element.GetAttributeValue("lang");
 
         var thumbnails = element.GetElements("media", "thumbnail");
-        Thumbnails = thumbnails.Select(x => new Thumbnail(x)).ToList();
+        Thumbnails.AddRange(thumbnails.Select(t => new Thumbnail(t)));
 
     }
 

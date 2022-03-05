@@ -102,10 +102,10 @@ public class MediaRssFeedItem : BaseFeedItem
         Source = new FeedItemSource(item.GetElement("source"));
 
         var media = item.GetElements("media", "content");
-        Media = media.Select(x => new Media(x)).ToList();
+        Media.AddRange(media.Select(m => new Media(m)));
 
         var mediaGroups = item.GetElements("media", "group");
-        MediaGroups = mediaGroups.Select(x => new MediaGroup(x)).ToList();
+        MediaGroups.AddRange(mediaGroups.Select(mg => new MediaGroup(mg)));
 
         var categories = item.GetElements("category");
         Categories.AddRange(categories.Select(ce => ce.Value));
