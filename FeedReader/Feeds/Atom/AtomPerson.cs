@@ -35,7 +35,7 @@ public class AtomPerson
     /// Reads an atom person based on the xml given in element
     /// </summary>
     /// <param name="element">person element as xml</param>
-    public AtomPerson(XElement element)
+    public AtomPerson(XElement? element)
     {
         Name = element.GetChildElementValue("name");
         EMail = element.GetChildElementValue("email");

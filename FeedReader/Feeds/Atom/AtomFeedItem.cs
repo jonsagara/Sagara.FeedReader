@@ -96,8 +96,12 @@ public class AtomFeedItem : BaseFeedItem
 
         Author = new AtomPerson(item.GetElement("author"));
 
-        var categories = item.GetElements("category");
-        Categories = categories.Select(x => (string)x.Attribute("term")).ToList();
+        var categories = item
+            .GetElements("category")
+            .Select(ce => ce.GetAttributeValue("term"))
+            .Where(t => !string.IsNullOrWhiteSpace(t))
+            .Select(t => t!);
+        Categories.AddRange(categories);
 
         Content = item.GetChildElementValue("content").HtmlDecode();
         Contributor = new AtomPerson(item.GetElement("contributor"));
