@@ -40,7 +40,7 @@ public class FeedTextInput
     /// Reads a rss textInput element based on the xml given in element
     /// </summary>
     /// <param name="element">text input element as xml</param>
-    public FeedTextInput(XElement element)
+    public FeedTextInput(XElement? element)
     {
         Title = element.GetChildElementValue("title");
         Link = element.GetChildElementValue("link");

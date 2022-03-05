@@ -35,7 +35,7 @@ public class FeedImage
     /// Reads a feed image based on the xml given in element
     /// </summary>
     /// <param name="element">feed image as xml</param>
-    public FeedImage(XElement element)
+    public FeedImage(XElement? element)
     {
         Title = element.GetChildElementValue("title");
         Url = element.GetChildElementValue("url");

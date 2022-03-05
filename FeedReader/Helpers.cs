@@ -169,12 +169,9 @@ public static class Helpers
     /// <returns>integer or null</returns>
     public static int? TryParseInt(string? input)
     {
-        if (!int.TryParse(input, out int tmp))
-        {
-            return null;
-        }
-
-        return tmp;
+        return int.TryParse(input, out var result)
+            ? result
+            : null;
     }
 
     /// <summary>

@@ -36,7 +36,7 @@ public class Rss091FeedImage : FeedImage
     /// Creates this object based on the xml in the XElement parameter.
     /// </summary>
     /// <param name="element">feed image as xml</param>
-    public Rss091FeedImage(XElement element)
+    public Rss091FeedImage(XElement? element)
         : base(element)
     {
         Description = element.GetChildElementValue("description");

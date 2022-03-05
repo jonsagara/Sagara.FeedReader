@@ -86,11 +86,12 @@ internal static class Extensions
     }
 
     /// <summary>
-    /// Gets the value of the element "name"
+    /// Gets the value of the element with name <paramref name="elementName"/>. If the element is
+    /// null, returns null.
     /// </summary>
     /// <param name="element">xml element</param>
     /// <param name="elementName">name of the element</param>
-    /// <returns>the value of the XElement</returns>
+    /// <returns>The value of the XElement</returns>
     public static string? GetChildElementValue(this XElement? element, string elementName)
     {
         ArgumentNullException.ThrowIfNull(elementName);
