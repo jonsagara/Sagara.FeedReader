@@ -42,9 +42,9 @@ public class FeedTextInput
     /// <param name="element">text input element as xml</param>
     public FeedTextInput(XElement element)
     {
-        Title = element.GetValue("title");
-        Link = element.GetValue("link");
-        Description = element.GetValue("description");
-        Name = element.GetValue("name");
+        Title = element.GetChildElementValue("title");
+        Link = element.GetChildElementValue("link");
+        Description = element.GetChildElementValue("description");
+        Name = element.GetChildElementValue("name");
     }
 }

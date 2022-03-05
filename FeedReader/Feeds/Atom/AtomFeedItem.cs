@@ -99,19 +99,19 @@ public class AtomFeedItem : BaseFeedItem
         var categories = item.GetElements("category");
         Categories = categories.Select(x => (string)x.Attribute("term")).ToList();
 
-        Content = item.GetValue("content").HtmlDecode();
+        Content = item.GetChildElementValue("content").HtmlDecode();
         Contributor = new AtomPerson(item.GetElement("contributor"));
-        Id = item.GetValue("id");
+        Id = item.GetChildElementValue("id");
 
-        PublishedDateString = item.GetValue("published");
+        PublishedDateString = item.GetChildElementValue("published");
         PublishedDate = Helpers.TryParseDateTime(PublishedDateString);
         Links = item.GetElements("link").Select(x => new AtomLink(x)).ToList();
 
-        Rights = item.GetValue("rights");
-        Source = item.GetValue("source");
-        Summary = item.GetValue("summary");
+        Rights = item.GetChildElementValue("rights");
+        Source = item.GetChildElementValue("source");
+        Summary = item.GetChildElementValue("summary");
 
-        UpdatedDateString = item.GetValue("updated");
+        UpdatedDateString = item.GetChildElementValue("updated");
         UpdatedDate = Helpers.TryParseDateTime(UpdatedDateString);
     }
 

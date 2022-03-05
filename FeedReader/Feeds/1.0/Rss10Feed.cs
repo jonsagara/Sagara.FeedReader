@@ -57,7 +57,7 @@ public class Rss10Feed : BaseFeed
         About = channel.GetAttribute("rdf:about").GetValue();
         DC = new DublinCore(channel);
         Sy = new Syndication(channel);
-        Description = channel.GetValue("description");
+        Description = channel.GetChildElementValue("description");
 
         Image = new Rss10FeedImage(channel.Parent.GetElement("image"));
         TextInput = new Rss10FeedTextInput(channel.Parent.GetElement("textinput"));

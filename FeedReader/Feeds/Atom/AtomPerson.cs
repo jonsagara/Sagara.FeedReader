@@ -37,9 +37,9 @@ public class AtomPerson
     /// <param name="element">person element as xml</param>
     public AtomPerson(XElement element)
     {
-        Name = element.GetValue("name");
-        EMail = element.GetValue("email");
-        Uri = element.GetValue("uri");
+        Name = element.GetChildElementValue("name");
+        EMail = element.GetChildElementValue("email");
+        Uri = element.GetChildElementValue("uri");
     }
 
     /// <summary>

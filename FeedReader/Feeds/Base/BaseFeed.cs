@@ -59,8 +59,8 @@ public abstract class BaseFeed
     {
         OriginalDocument = feedXml;
 
-        Title = channel.GetValue("title");
-        Link = channel.GetValue("link");
+        Title = channel.GetChildElementValue("title");
+        Link = channel.GetChildElementValue("link");
         Element = channel;
     }
 }

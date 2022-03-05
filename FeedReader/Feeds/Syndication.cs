@@ -37,8 +37,8 @@ public class Syndication
     /// <param name="xelement">syndication element as xml</param>
     public Syndication(XElement xelement)
     {
-        UpdateBase = xelement.GetValue("sy:updateBase");
-        UpdateFrequency = xelement.GetValue("sy:updateFrequency");
-        UpdatePeriod = xelement.GetValue("sy:updatePeriod");
+        UpdateBase = xelement.GetChildElementValue("sy:updateBase");
+        UpdateFrequency = xelement.GetChildElementValue("sy:updateFrequency");
+        UpdatePeriod = xelement.GetChildElementValue("sy:updatePeriod");
     }
 }

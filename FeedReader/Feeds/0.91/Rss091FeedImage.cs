@@ -39,8 +39,8 @@ public class Rss091FeedImage : FeedImage
     public Rss091FeedImage(XElement element)
         : base(element)
     {
-        Description = element.GetValue("description");
-        Width = Helpers.TryParseInt(element.GetValue("width"));
-        Height = Helpers.TryParseInt(element.GetValue("height"));
+        Description = element.GetChildElementValue("description");
+        Width = Helpers.TryParseInt(element.GetChildElementValue("width"));
+        Height = Helpers.TryParseInt(element.GetChildElementValue("height"));
     }
 }

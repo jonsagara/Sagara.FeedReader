@@ -124,22 +124,22 @@ public class Rss20Feed : BaseFeed
     public Rss20Feed(string feedXml, XElement channel)
         : base(feedXml, channel)
     {
-        Description = channel.GetValue("description");
-        Language = channel.GetValue("language");
-        Copyright = channel.GetValue("copyright");
-        ManagingEditor = channel.GetValue("managingEditor");
-        WebMaster = channel.GetValue("webMaster");
-        Docs = channel.GetValue("docs");
-        PublishingDateString = channel.GetValue("pubDate");
-        LastBuildDateString = channel.GetValue("lastBuildDate");
+        Description = channel.GetChildElementValue("description");
+        Language = channel.GetChildElementValue("language");
+        Copyright = channel.GetChildElementValue("copyright");
+        ManagingEditor = channel.GetChildElementValue("managingEditor");
+        WebMaster = channel.GetChildElementValue("webMaster");
+        Docs = channel.GetChildElementValue("docs");
+        PublishingDateString = channel.GetChildElementValue("pubDate");
+        LastBuildDateString = channel.GetChildElementValue("lastBuildDate");
         ParseDates(Language, PublishingDateString, LastBuildDateString);
 
         var categories = channel.GetElements("category");
         Categories = categories.Select(x => x.GetValue()).ToList();
 
         Sy = new Syndication(channel);
-        Generator = channel.GetValue("generator");
-        TTL = channel.GetValue("ttl");
+        Generator = channel.GetChildElementValue("generator");
+        TTL = channel.GetChildElementValue("ttl");
         Image = new Rss20FeedImage(channel.GetElement("image"));
         Cloud = new FeedCloud(channel.GetElement("cloud"));
         TextInput = new FeedTextInput(channel.GetElement("textinput"));

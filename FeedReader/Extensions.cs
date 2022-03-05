@@ -55,6 +55,7 @@ internal static class Extensions
     /// </summary>
     /// <param name="text">text to convert</param>
     /// <returns>text as utf8 encoded string</returns>
+    [Obsolete("Not called. Remove.", error: true)]
     public static string ToUtf8(this string text)
     {
         return Encoding.UTF8.GetString(Encoding.GetEncoding(0).GetBytes(text));
@@ -66,6 +67,7 @@ internal static class Extensions
     /// <param name="text">text to convert</param>
     /// <param name="encoding">the encoding of the text</param>
     /// <returns>text as utf8 encoded string</returns>
+    [Obsolete("Not called. Remove.", error: true)]
     public static string ToUtf8(this string text, Encoding encoding)
     {
         if (encoding == Encoding.UTF8)
@@ -95,11 +97,15 @@ internal static class Extensions
     /// Gets the value of the element "name"
     /// </summary>
     /// <param name="element">xml element</param>
-    /// <param name="name">name of the element</param>
+    /// <param name="elementName">name of the element</param>
     /// <returns>the value of the XElement</returns>
-    public static string? GetValue(this XElement element, string name)
+    public static string? GetChildElementValue(this XElement? element, string elementName)
     {
-        return element?.GetElement(name)?.GetValue();
+        ArgumentNullException.ThrowIfNull(elementName);
+
+        return element
+            ?.GetElement(elementName)
+            ?.GetValue();
     }
 
     /// <summary>

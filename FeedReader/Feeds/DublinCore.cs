@@ -103,21 +103,21 @@ public class DublinCore
     /// <param name="item">item element as xml</param>
     public DublinCore(XElement item)
     {
-        Title = item.GetValue("dc:title");
-        Creator = item.GetValue("dc:creator");
-        Subject = item.GetValue("dc:subject");
-        Description = item.GetValue("dc:description");
-        Publisher = item.GetValue("dc:publisher");
-        Contributor = item.GetValue("dc:contributor");
-        DateString = item.GetValue("dc:date");
+        Title = item.GetChildElementValue("dc:title");
+        Creator = item.GetChildElementValue("dc:creator");
+        Subject = item.GetChildElementValue("dc:subject");
+        Description = item.GetChildElementValue("dc:description");
+        Publisher = item.GetChildElementValue("dc:publisher");
+        Contributor = item.GetChildElementValue("dc:contributor");
+        DateString = item.GetChildElementValue("dc:date");
         Date = Helpers.TryParseDateTime(DateString);
-        Type = item.GetValue("dc:type");
-        Format = item.GetValue("dc:format");
-        Identifier = item.GetValue("dc:identifier");
-        Source = item.GetValue("dc:source");
-        Language = item.GetValue("dc:language");
-        Relation = item.GetValue("dc:relation");
-        Coverage = item.GetValue("dc:coverage");
-        Rights = item.GetValue("dc:rights");
+        Type = item.GetChildElementValue("dc:type");
+        Format = item.GetChildElementValue("dc:format");
+        Identifier = item.GetChildElementValue("dc:identifier");
+        Source = item.GetChildElementValue("dc:source");
+        Language = item.GetChildElementValue("dc:language");
+        Relation = item.GetChildElementValue("dc:relation");
+        Coverage = item.GetChildElementValue("dc:coverage");
+        Rights = item.GetChildElementValue("dc:rights");
     }
 }

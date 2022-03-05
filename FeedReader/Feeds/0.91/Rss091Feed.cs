@@ -111,21 +111,21 @@ public class Rss091Feed : BaseFeed
     public Rss091Feed(string feedXml, XElement channel)
         : base(feedXml, channel)
     {
-        Description = channel.GetValue("description");
-        Language = channel.GetValue("language");
+        Description = channel.GetChildElementValue("description");
+        Language = channel.GetChildElementValue("language");
         Image = new Rss091FeedImage(channel.GetElement("image"));
-        Copyright = channel.GetValue("copyright");
-        ManagingEditor = channel.GetValue("managingEditor");
-        WebMaster = channel.GetValue("webMaster");
-        Rating = channel.GetValue("rating");
+        Copyright = channel.GetChildElementValue("copyright");
+        ManagingEditor = channel.GetChildElementValue("managingEditor");
+        WebMaster = channel.GetChildElementValue("webMaster");
+        Rating = channel.GetChildElementValue("rating");
 
-        PublishingDateString = channel.GetValue("pubDate");
+        PublishingDateString = channel.GetChildElementValue("pubDate");
         PublishingDate = Helpers.TryParseDateTime(PublishingDateString);
 
-        LastBuildDateString = channel.GetValue("lastBuildDate");
+        LastBuildDateString = channel.GetChildElementValue("lastBuildDate");
         LastBuildDate = Helpers.TryParseDateTime(LastBuildDateString);
 
-        Docs = channel.GetValue("docs");
+        Docs = channel.GetChildElementValue("docs");
 
         TextInput = new FeedTextInput(channel.GetElement("textinput"));
 

@@ -82,10 +82,10 @@ public class Rss20FeedItem : BaseFeedItem
     public Rss20FeedItem(XElement item)
         : base(item)
     {
-        Comments = item.GetValue("comments");
-        Author = item.GetValue("author");
+        Comments = item.GetChildElementValue("comments");
+        Author = item.GetChildElementValue("author");
         Enclosure = new FeedItemEnclosure(item.GetElement("enclosure"));
-        PublishingDateString = item.GetValue("pubDate");
+        PublishingDateString = item.GetChildElementValue("pubDate");
         PublishingDate = Helpers.TryParseDateTime(PublishingDateString);
         DC = new DublinCore(item);
         Source = new FeedItemSource(item.GetElement("source"));
@@ -93,9 +93,9 @@ public class Rss20FeedItem : BaseFeedItem
         var categories = item.GetElements("category");
         Categories = categories.Select(x => x.GetValue()).ToList();
 
-        Guid = item.GetValue("guid");
-        Description = item.GetValue("description");
-        Content = item.GetValue("content:encoded")?.HtmlDecode();
+        Guid = item.GetChildElementValue("guid");
+        Description = item.GetChildElementValue("description");
+        Content = item.GetChildElementValue("content:encoded")?.HtmlDecode();
     }
 
     /// <inheritdoc/>

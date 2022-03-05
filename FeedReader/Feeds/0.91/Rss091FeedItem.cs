@@ -40,8 +40,8 @@ public class Rss091FeedItem : BaseFeedItem
     public Rss091FeedItem(XElement item)
         : base(item)
     {
-        Description = item.GetValue("description");
-        PublishingDateString = item.GetValue("pubDate");
+        Description = item.GetChildElementValue("description");
+        PublishingDateString = item.GetChildElementValue("pubDate");
         PublishingDate = Helpers.TryParseDateTime(PublishingDateString);
     }
 

@@ -96,16 +96,16 @@ public class AtomFeed : BaseFeed
         Categories = categories.Select(x => x.GetValue()).ToList();
 
         Contributor = new AtomPerson(feed.GetElement("contributor"));
-        Generator = feed.GetValue("generator");
-        Icon = feed.GetValue("icon");
-        Id = feed.GetValue("id");
-        Logo = feed.GetValue("logo");
-        Rights = feed.GetValue("rights");
-        Subtitle = feed.GetValue("subtitle");
+        Generator = feed.GetChildElementValue("generator");
+        Icon = feed.GetChildElementValue("icon");
+        Id = feed.GetChildElementValue("id");
+        Logo = feed.GetChildElementValue("logo");
+        Rights = feed.GetChildElementValue("rights");
+        Subtitle = feed.GetChildElementValue("subtitle");
 
         Links = feed.GetElements("link").Select(x => new AtomLink(x)).ToList();
 
-        UpdatedDateString = feed.GetValue("updated");
+        UpdatedDateString = feed.GetChildElementValue("updated");
         UpdatedDate = Helpers.TryParseDateTime(UpdatedDateString);
 
         var items = feed.GetElements("entry");

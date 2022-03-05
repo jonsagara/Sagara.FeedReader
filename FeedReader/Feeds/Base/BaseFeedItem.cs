@@ -39,8 +39,8 @@ public abstract class BaseFeedItem
     /// <param name="item">feed item as xml</param>
     protected BaseFeedItem(XElement item)
     {
-        Title = item.GetValue("title");
-        Link = item.GetValue("link");
+        Title = item.GetChildElementValue("title");
+        Link = item.GetChildElementValue("link");
         Element = item;
     }
 }

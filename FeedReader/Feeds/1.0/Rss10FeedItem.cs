@@ -47,7 +47,7 @@ public class Rss10FeedItem : BaseFeedItem
         Sy = new Syndication(item);
 
         About = item.GetAttribute("rdf:about").GetValue();
-        Description = item.GetValue("description");
+        Description = item.GetChildElementValue("description");
     }
 
     /// <inheritdoc/>
