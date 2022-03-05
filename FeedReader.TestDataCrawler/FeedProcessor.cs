@@ -35,7 +35,7 @@ public static class FeedProcessor
 
                 // Keep only English characters for the file we're about to write out.
                 title = _nonEnglishLetters.Replace(title, "");
-                var outputFilePath = Path.Combine(outputFolder, title + "_" + Guid.NewGuid().ToString() + ".xml");
+                var outputFilePath = Path.Combine(outputFolder, $"{title}_{Guid.NewGuid()}.xml");
                 File.WriteAllText(outputFilePath, content);
 
                 // Progress indicator.
