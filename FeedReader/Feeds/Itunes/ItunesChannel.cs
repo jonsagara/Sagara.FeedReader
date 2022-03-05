@@ -27,7 +27,7 @@ public class ItunesChannel
         }
 
         var explicitValue = channelElement.GetValue(NAMESPACEPREFIX, "explicit");
-        Explicit = explicitValue.EqualsIgnoreCase("yes", "explicit", "true");
+        Explicit = explicitValue.EqualsAnyIgnoreCase("yes", "explicit", "true");
 
         Complete = channelElement.GetValue(NAMESPACEPREFIX, "complete").EqualsIgnoreCase("yes");
 
