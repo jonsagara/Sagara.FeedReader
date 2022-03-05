@@ -86,13 +86,6 @@ internal static class Extensions
     }
 
     /// <summary>
-    /// Gets the value of an XML element if the element is not null. Otherwise, returns null.
-    /// </summary>
-    /// <param name="element">The XML element whose value we want to retrieve.</param>
-    public static string? GetValue(this XElement? element)
-        => element?.Value;
-
-    /// <summary>
     /// Gets the value of the element "name"
     /// </summary>
     /// <param name="element">xml element</param>
@@ -104,7 +97,7 @@ internal static class Extensions
 
         return element
             ?.GetElement(elementName)
-            ?.GetValue();
+            ?.Value;
     }
 
     /// <summary>
@@ -121,7 +114,7 @@ internal static class Extensions
 
         return element
             ?.GetElement(namespacePrefix, elementName)
-            ?.GetValue();
+            ?.Value;
     }
 
     /// <summary>
@@ -140,7 +133,9 @@ internal static class Extensions
     /// <returns>value of the attribute</returns>
     public static string? GetAttributeValue(this XElement element, string name)
     {
-        return element.GetAttribute(name)?.GetValue();
+        return element
+            .GetAttribute(name)
+            ?.GetValue();
     }
 
     /// <summary>

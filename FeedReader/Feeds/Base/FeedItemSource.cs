@@ -15,7 +15,7 @@ public class FeedItemSource
     /// <summary>
     /// The value of the element
     /// </summary>
-    public string? Value { get; set; }
+    public string Value { get; set; } = null!;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FeedItemSource"/> class.
@@ -33,6 +33,6 @@ public class FeedItemSource
     public FeedItemSource(XElement element)
     {
         Url = element.GetAttributeValue("url");
-        Value = element.GetValue();
+        Value = element.Value;
     }
 }
