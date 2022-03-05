@@ -59,10 +59,10 @@ public class Rss10Feed : BaseFeed
         Sy = new Syndication(channel);
         Description = channel.GetChildElementValue("description");
 
-        Image = new Rss10FeedImage(channel.Parent.GetElement("image"));
-        TextInput = new Rss10FeedTextInput(channel.Parent.GetElement("textinput"));
+        Image = new Rss10FeedImage(channel.Parent!.GetElement("image"));
+        TextInput = new Rss10FeedTextInput(channel.Parent!.GetElement("textinput"));
 
-        var items = channel.Parent.GetElements("item");
+        var items = channel.Parent!.GetElements("item");
         foreach (var item in items)
         {
             Items.Add(new Rss10FeedItem(item));

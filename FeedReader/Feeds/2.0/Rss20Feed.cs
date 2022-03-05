@@ -191,7 +191,7 @@ public class Rss20Feed : BaseFeed
     /// <param name="language">language of the feed</param>
     /// <param name="publishingDate">publishing date as string</param>
     /// <param name="lastBuildDate">last build date as string</param>
-    private void ParseDates(string language, string publishingDate, string lastBuildDate)
+    private void ParseDates(string? language, string? publishingDate, string? lastBuildDate)
     {
         PublishingDate = Helpers.TryParseDateTime(publishingDate);
         LastBuildDate = Helpers.TryParseDateTime(lastBuildDate);
