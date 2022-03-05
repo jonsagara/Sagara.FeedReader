@@ -54,7 +54,7 @@ public class Rss10Feed : BaseFeed
     public Rss10Feed(string feedXml, XElement channel)
         : base(feedXml, channel)
     {
-        About = channel.GetAttribute("rdf:about").GetValue();
+        About = channel.GetAttribute("rdf:about")?.Value;
         DC = new DublinCore(channel);
         Sy = new Syndication(channel);
         Description = channel.GetChildElementValue("description");

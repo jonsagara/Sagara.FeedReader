@@ -118,25 +118,13 @@ internal static class Extensions
     }
 
     /// <summary>
-    /// Gets the value of the given attribute
-    /// </summary>
-    /// <param name="attribute">the xml attribute</param>
-    /// <returns>value</returns>
-    public static string? GetValue(this XAttribute? attribute)
-        => attribute?.Value;
-
-    /// <summary>
     /// Gets the value of the attribute <paramref name="name"/>
     /// </summary>
     /// <param name="element">the xml element</param>
     /// <param name="name">the name of the attribute</param>
     /// <returns>value of the attribute</returns>
     public static string? GetAttributeValue(this XElement element, string name)
-    {
-        return element
-            .GetAttribute(name)
-            ?.GetValue();
-    }
+        => element.GetAttribute(name)?.Value;
 
     /// <summary>
     /// Gets the attribute <paramref name="name"/> of the given XElement

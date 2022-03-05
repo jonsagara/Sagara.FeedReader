@@ -29,6 +29,6 @@ public class Rss10FeedImage : FeedImage
     public Rss10FeedImage(XElement element)
         : base(element)
     {
-        About = element.GetAttribute("rdf:about").GetValue();
+        About = element.GetAttribute("rdf:about")?.Value;
     }
 }

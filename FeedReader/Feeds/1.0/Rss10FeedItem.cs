@@ -46,7 +46,7 @@ public class Rss10FeedItem : BaseFeedItem
         DC = new DublinCore(item);
         Sy = new Syndication(item);
 
-        About = item.GetAttribute("rdf:about").GetValue();
+        About = item.GetAttribute("rdf:about")?.Value;
         Description = item.GetChildElementValue("description");
     }
 
