@@ -134,17 +134,16 @@ public class Rss091Feed : BaseFeed
         var skipHours = channel.GetElement("skipHours");
         if (skipHours is not null)
         {
-            SkipHours = skipHours.GetElements("hour")?.Select(x => x.GetValue()).ToList();
+            SkipHours.AddRange(skipHours.GetElements("hour").Select(he => he.Value));
         }
 
         var skipDays = channel.GetElement("skipDays");
         if (skipDays is not null)
         {
-            SkipDays = skipDays.GetElements("day")?.Select(x => x.GetValue()).ToList();
+            SkipDays.AddRange(skipDays.GetElements("day").Select(de => de.Value));
         }
 
         var items = channel.GetElements("item");
-
         AddItems(items);
     }
 

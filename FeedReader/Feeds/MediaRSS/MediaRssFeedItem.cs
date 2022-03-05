@@ -108,7 +108,7 @@ public class MediaRssFeedItem : BaseFeedItem
         MediaGroups = mediaGroups.Select(x => new MediaGroup(x)).ToList();
 
         var categories = item.GetElements("category");
-        Categories = categories.Select(x => x.GetValue()).ToList();
+        Categories.AddRange(categories.Select(ce => ce.Value));
 
         Guid = item.GetChildElementValue("guid");
         Description = item.GetChildElementValue("description");
@@ -125,7 +125,7 @@ public class MediaRssFeedItem : BaseFeedItem
             Description = Description,
             Id = Guid,
             PublishingDate = PublishingDate,
-            PublishingDateString = PublishingDateString
+            PublishingDateString = PublishingDateString,
         };
 
         fi.Categories.AddRange(Categories);

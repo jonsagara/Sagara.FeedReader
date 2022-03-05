@@ -86,10 +86,9 @@ internal static class Extensions
     }
 
     /// <summary>
-    /// Gets the value of an xml element encoded as utf8
+    /// Gets the value of an XML element if the element is not null. Otherwise, returns null.
     /// </summary>
-    /// <param name="element">the xml element</param>
-    /// <returns>value of the element utf8 encoded</returns>
+    /// <param name="element">The XML element whose value we want to retrieve.</param>
     public static string? GetValue(this XElement? element)
         => element?.Value;
 

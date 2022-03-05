@@ -93,7 +93,7 @@ public class AtomFeed : BaseFeed
         Author = new AtomPerson(feed.GetElement("author"));
 
         var categories = feed.GetElements("category");
-        Categories = categories.Select(x => x.GetValue()).ToList();
+        Categories.AddRange(categories.Select(x => x.Value));
 
         Contributor = new AtomPerson(feed.GetElement("contributor"));
         Generator = feed.GetChildElementValue("generator");
@@ -103,7 +103,7 @@ public class AtomFeed : BaseFeed
         Rights = feed.GetChildElementValue("rights");
         Subtitle = feed.GetChildElementValue("subtitle");
 
-        Links = feed.GetElements("link").Select(x => new AtomLink(x)).ToList();
+        Links.AddRange(feed.GetElements("link").Select(le => new AtomLink(le)));
 
         UpdatedDateString = feed.GetChildElementValue("updated");
         UpdatedDate = Helpers.TryParseDateTime(UpdatedDateString);
@@ -130,7 +130,7 @@ public class AtomFeed : BaseFeed
             Language = null,
             LastUpdatedDate = UpdatedDate,
             LastUpdatedDateString = UpdatedDateString,
-            Type = FeedType.Atom
+            Type = FeedType.Atom,
         };
 
         return f;

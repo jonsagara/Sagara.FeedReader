@@ -45,6 +45,6 @@ public class Rss092FeedItem : Rss091FeedItem
         Source = new FeedItemSource(item.GetElement("source"));
 
         var categories = item.GetElements("category");
-        Categories = categories.Select(x => x.GetValue()).ToList();
+        Categories.AddRange(categories.Select(ce => ce.Value));
     }
 }

@@ -91,7 +91,7 @@ public class Rss20FeedItem : BaseFeedItem
         Source = new FeedItemSource(item.GetElement("source"));
 
         var categories = item.GetElements("category");
-        Categories = categories.Select(x => x.GetValue()).ToList();
+        Categories.AddRange(categories.Select(x => x.Value));
 
         Guid = item.GetChildElementValue("guid");
         Description = item.GetChildElementValue("description");
@@ -108,7 +108,7 @@ public class Rss20FeedItem : BaseFeedItem
             Description = Description,
             Id = Guid,
             PublishingDate = PublishingDate,
-            PublishingDateString = PublishingDateString
+            PublishingDateString = PublishingDateString,
         };
 
         fi.Categories.AddRange(Categories);

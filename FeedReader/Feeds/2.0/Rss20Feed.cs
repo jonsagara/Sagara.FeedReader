@@ -135,7 +135,7 @@ public class Rss20Feed : BaseFeed
         ParseDates(Language, PublishingDateString, LastBuildDateString);
 
         var categories = channel.GetElements("category");
-        Categories = categories.Select(x => x.GetValue()).ToList();
+        Categories.AddRange(categories.Select(x => x.Value));
 
         Sy = new Syndication(channel);
         Generator = channel.GetChildElementValue("generator");
@@ -147,13 +147,13 @@ public class Rss20Feed : BaseFeed
         var skipHours = channel.GetElement("skipHours");
         if (skipHours is not null)
         {
-            SkipHours = skipHours.GetElements("hour")?.Select(x => x.GetValue()).ToList();
+            SkipHours.AddRange(skipHours.GetElements("hour").Select(he => he.Value));
         }
 
         var skipDays = channel.GetElement("skipDays");
         if (skipDays is not null)
         {
-            SkipDays = skipDays.GetElements("day")?.Select(x => x.GetValue()).ToList();
+            SkipDays.AddRange(skipDays.GetElements("day").Select(x => x.Value));
         }
 
         var items = channel.GetElements("item");
@@ -178,7 +178,7 @@ public class Rss20Feed : BaseFeed
             Language = Language,
             LastUpdatedDate = LastBuildDate,
             LastUpdatedDateString = LastBuildDateString,
-            Type = FeedType.Rss_2_0
+            Type = FeedType.Rss_2_0,
         };
 
         return f;
@@ -198,7 +198,9 @@ public class Rss20Feed : BaseFeed
 
         // check if language is set - if so, check if dates could be parsed or try to parse it with culture of the language
         if (string.IsNullOrWhiteSpace(language))
+        {
             return;
+        }
 
         // if publishingDateString is set but PublishingDate is null - try to parse with culture of "Language" property
         bool parseLocalizedPublishingDate = PublishingDate is null && !string.IsNullOrWhiteSpace(PublishingDateString);
@@ -208,7 +210,9 @@ public class Rss20Feed : BaseFeed
 
         // if both dates are set - return
         if (!parseLocalizedPublishingDate && !parseLocalizedLastBuildDate)
+        {
             return;
+        }
 
         // dates are set, but one of them couldn't be parsed - so try again with the culture set to the language
         CultureInfo culture;

@@ -135,7 +135,7 @@ public class MediaRssFeed : BaseFeed
         ParseDates(Language, PublishingDateString, LastBuildDateString);
 
         var categories = channel.GetElements("category");
-        Categories = categories.Select(x => x.GetValue()).ToList();
+        Categories.AddRange(categories.Select(x => x.Value));
 
         Sy = new Syndication(channel);
         Generator = channel.GetChildElementValue("generator");
@@ -147,13 +147,13 @@ public class MediaRssFeed : BaseFeed
         var skipHours = channel.GetElement("skipHours");
         if (skipHours is not null)
         {
-            SkipHours = skipHours.GetElements("hour")?.Select(x => x.GetValue()).ToList();
+            SkipHours.AddRange(skipHours.GetElements("hour").Select(x => x.Value));
         }
 
         var skipDays = channel.GetElement("skipDays");
         if (skipDays is not null)
         {
-            SkipDays = skipDays.GetElements("day")?.Select(x => x.GetValue()).ToList();
+            SkipDays.AddRange(skipDays.GetElements("day").Select(de => de.Value));
         }
 
         var items = channel.GetElements("item");
@@ -178,7 +178,7 @@ public class MediaRssFeed : BaseFeed
             Language = Language,
             LastUpdatedDate = LastBuildDate,
             LastUpdatedDateString = LastBuildDateString,
-            Type = FeedType.MediaRss
+            Type = FeedType.MediaRss,
         };
 
         return f;

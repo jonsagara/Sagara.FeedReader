@@ -105,7 +105,7 @@ public class AtomFeedItem : BaseFeedItem
 
         PublishedDateString = item.GetChildElementValue("published");
         PublishedDate = Helpers.TryParseDateTime(PublishedDateString);
-        Links = item.GetElements("link").Select(x => new AtomLink(x)).ToList();
+        Links.AddRange(item.GetElements("link").Select(le => new AtomLink(le)));
 
         Rights = item.GetChildElementValue("rights");
         Source = item.GetChildElementValue("source");
@@ -125,7 +125,7 @@ public class AtomFeedItem : BaseFeedItem
             Description = Summary,
             Id = Id,
             PublishingDate = PublishedDate,
-            PublishingDateString = PublishedDateString
+            PublishingDateString = PublishedDateString,
         };
 
         fi.Categories.AddRange(Categories);
