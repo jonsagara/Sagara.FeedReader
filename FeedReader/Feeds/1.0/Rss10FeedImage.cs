@@ -26,7 +26,7 @@ public class Rss10FeedImage : FeedImage
     /// Reads a rss 1.0 feed image based on the xml given in element
     /// </summary>
     /// <param name="element">feed image as xml</param>
-    public Rss10FeedImage(XElement element)
+    public Rss10FeedImage(XElement? element)
         : base(element)
     {
         About = element.GetAttribute("rdf:about")?.Value;

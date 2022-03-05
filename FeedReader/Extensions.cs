@@ -133,7 +133,7 @@ internal static class Extensions
     /// <param name="element">the xml element</param>
     /// <param name="name">the name of the attribute</param>
     /// <returns>the xml attribute</returns>
-    public static XAttribute? GetAttribute(this XElement element, string name)
+    public static XAttribute? GetAttribute(this XElement? element, string name)
     {
         var nsAndName = SplitName(name);
 

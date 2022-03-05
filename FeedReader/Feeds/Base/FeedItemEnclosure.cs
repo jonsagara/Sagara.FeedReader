@@ -35,7 +35,7 @@ public class FeedItemEnclosure
     /// Reads a rss feed item enclosure based on the xml given in element
     /// </summary>
     /// <param name="element">enclosure element as xml</param>
-    public FeedItemEnclosure(XElement element)
+    public FeedItemEnclosure(XElement? element)
     {
         Url = element.GetAttributeValue("url");
         Length = Helpers.TryParseInt(element.GetAttributeValue("length"));
