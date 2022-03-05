@@ -4,7 +4,7 @@ http://derstandard.at/
 http://www.trendingtopics.at
 http://nytimes.com/
 http://finanzen.net/
-http://blog.botframework.com/
+https://blog.botframework.com/
 http://www.communicationplayground.net/
 http://thomasmaurer.ch/
 http://junge-gruender.de/
@@ -63,7 +63,7 @@ orf.at
 http://www.forbes.com/leadership/feed2/
 http://www.harvardbusinessmanager.de/rss/index.rss
 http://www.oelv.at/news/rss.php
-http://www.techrepublic.com/rssfeeds/topic/project-management/
+https://www.techrepublic.com/rssfeeds/topic/project-management/
 http://strategicleader.webnode.com/rss/all.xml
 https://wn.com
 http://www.express.co.uk/news/world
@@ -101,7 +101,6 @@ http://www.ilmessaggero.it/ROMA/
 http://rpp.pe/
 http://elcomercio.pe/
 http://www.20minutos.es/cataluna/
-http://www.koerant.co.za/
 http://www.bbc.com/arabic
 http://www.skynewsarabia.com/web/home
 http://www.aljazeera.net/portal
