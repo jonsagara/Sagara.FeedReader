@@ -45,7 +45,7 @@ public class FeedCloud
     /// Reads a rss feed cloud element based on the xml given in element
     /// </summary>
     /// <param name="element">cloud element as xml</param>
-    public FeedCloud(XElement element)
+    public FeedCloud(XElement? element)
     {
         Domain = element.GetAttributeValue("domain");
         Port = element.GetAttributeValue("port");

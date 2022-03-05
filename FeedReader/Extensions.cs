@@ -124,8 +124,8 @@ internal static class Extensions
     /// <param name="element">the xml element</param>
     /// <param name="name">the name of the attribute</param>
     /// <returns>value of the attribute</returns>
-    public static string? GetAttributeValue(this XElement element, string name)
-        => element.GetAttribute(name)?.Value;
+    public static string? GetAttributeValue(this XElement? element, string name)
+        => element?.GetAttribute(name)?.Value;
 
     /// <summary>
     /// Gets the attribute <paramref name="name"/> of the given XElement
