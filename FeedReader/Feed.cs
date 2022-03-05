@@ -63,7 +63,7 @@ public class Feed
     /// <summary>
     /// List of items
     /// </summary>
-    public IList<FeedItem> Items { get; private set; } = new List<FeedItem>();
+    public List<FeedItem> Items { get; private set; } = new List<FeedItem>();
 
     /// <summary>
     /// Gets the whole, original feed as string
@@ -99,6 +99,6 @@ public class Feed
         Title = feed.Title;
         Link = feed.Link;
 
-        Items = feed.Items.Select(x => x.ToFeedItem()).ToList();
+        Items.AddRange(feed.Items.Select(x => x.ToFeedItem()));
     }
 }

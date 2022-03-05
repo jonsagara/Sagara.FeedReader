@@ -1,6 +1,4 @@
 ﻿namespace CodeHollow.FeedReader.Parser;
-
-using System;
 using System.Text;
 using System.Xml.Linq;
 
@@ -9,59 +7,6 @@ using System.Xml.Linq;
 /// </summary>
 internal static class FeedParser
 {
-    /// <summary>
-    /// Returns the feed type - rss 1.0, rss 2.0, atom, ...
-    /// </summary>
-    /// <param name="doc">the xml document</param>
-    /// <returns>the feed type</returns>
-    public static FeedType ParseFeedType(XDocument doc)
-    {
-        string rootElement = doc.Root.Name.LocalName;
-
-        if (rootElement.EqualsIgnoreCase("feed"))
-        {
-            return FeedType.Atom;
-        }
-
-        if (rootElement.EqualsIgnoreCase("rdf"))
-        {
-            return FeedType.Rss_1_0;
-        }
-
-        if (rootElement.EqualsIgnoreCase("rss"))
-        {
-            // Version is a required attribute.
-            string version = doc.Root.Attribute("version")!.Value;
-
-            if (version.EqualsIgnoreCase("2.0"))
-            {
-                if (doc.Root.Attribute(XName.Get("media", XNamespace.Xmlns.NamespaceName)) is not null)
-                {
-                    return FeedType.MediaRss;
-                }
-                else
-                {
-                    return FeedType.Rss_2_0;
-                }
-            }
-
-            if (version.EqualsIgnoreCase("0.91"))
-            {
-                return FeedType.Rss_0_91;
-            }
-
-            if (version.EqualsIgnoreCase("0.92"))
-            {
-                return FeedType.Rss_0_92;
-            }
-
-            return FeedType.Rss;
-        }
-
-        throw new FeedTypeNotSupportedException($"unknown feed type {rootElement}");
-    }
-
-
     /// <summary>
     /// Returns the parsed feed.
     /// This method checks the encoding of the received file
@@ -112,6 +57,63 @@ internal static class FeedParser
         return feed.ToFeed();
     }
 
+
+    //
+    // Private methods
+    //
+
+    /// <summary>
+    /// Returns the feed type - rss 1.0, rss 2.0, atom, ...
+    /// </summary>
+    /// <param name="doc">the xml document</param>
+    /// <returns>the feed type</returns>
+    private static FeedType ParseFeedType(XDocument doc)
+    {
+        string rootElement = doc.Root!.Name.LocalName;
+
+        if (rootElement.EqualsIgnoreCase("feed"))
+        {
+            return FeedType.Atom;
+        }
+
+        if (rootElement.EqualsIgnoreCase("rdf"))
+        {
+            return FeedType.Rss_1_0;
+        }
+
+        if (rootElement.EqualsIgnoreCase("rss"))
+        {
+            // Version is a required attribute.
+            string version = doc.Root.Attribute("version")!.Value;
+
+            if (version.EqualsIgnoreCase("2.0"))
+            {
+                if (doc.Root.Attribute(XName.Get("media", XNamespace.Xmlns.NamespaceName)) is not null)
+                {
+                    return FeedType.MediaRss;
+                }
+                else
+                {
+                    return FeedType.Rss_2_0;
+                }
+            }
+
+            if (version.EqualsIgnoreCase("0.91"))
+            {
+                return FeedType.Rss_0_91;
+            }
+
+            if (version.EqualsIgnoreCase("0.92"))
+            {
+                return FeedType.Rss_0_92;
+            }
+
+            return FeedType.Rss;
+        }
+
+        throw new FeedTypeNotSupportedException($"unknown feed type {rootElement}");
+    }
+
     /// <summary>
     /// reads the encoding from a feed document, returns UTF8 by default
     /// </summary>
@@ -123,12 +125,13 @@ internal static class FeedParser
 
         try
         {
-            var encodingStr = feedDoc.Document.Declaration?.Encoding;
+            var encodingStr = feedDoc.Document!.Declaration?.Encoding;
             if (!string.IsNullOrEmpty(encodingStr))
+            {
                 encoding = Encoding.GetEncoding(encodingStr);
-
+            }
         }
-        catch (Exception) { } // ignore and return default encoding
+        catch { } // ignore and return default encoding
         return encoding;
     }
 

@@ -39,7 +39,7 @@ public class ItunesItem
         Summary = itemElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "summary");
     }
 
-    private static TimeSpan? ParseDuration(string duration)
+    private static TimeSpan? ParseDuration(string? duration)
     {
         if (string.IsNullOrWhiteSpace(duration))
         {

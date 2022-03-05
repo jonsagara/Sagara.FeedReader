@@ -15,17 +15,16 @@ public class Thumbnail
     /// <param name="element">enclosure element as xml</param>
     public Thumbnail(XElement element)
     {
-        this.Url = element.GetAttributeValue("url");
-        this.Height = Helpers.TryParseInt(element.GetAttributeValue("height"));
-        this.Width = Helpers.TryParseInt(element.GetAttributeValue("width"));
-        this.Time = element.GetAttributeValue("time");
-
+        Url = element.GetAttributeValue("url");
+        Height = Helpers.TryParseInt(element.GetAttributeValue("height"));
+        Width = Helpers.TryParseInt(element.GetAttributeValue("width"));
+        Time = element.GetAttributeValue("time");
     }
 
     /// <summary>
     /// The url of the thumbnail. Required attribute
     /// </summary>
-    public string Url { get; set; }
+    public string? Url { get; set; }
 
     /// <summary>
     /// Height of the object media. Optional attribute
@@ -40,6 +39,6 @@ public class Thumbnail
     /// <summary>
     /// Specifies the time offset in relation to the media object
     /// </summary>
-    public string Time { get; set; }
+    public string? Time { get; set; }
 
 }
