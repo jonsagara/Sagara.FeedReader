@@ -195,7 +195,7 @@ internal static class FeedReaderExtensions
     /// <param name="element">the xml element</param>
     /// <param name="name">Name of the elements that should be returned</param>
     /// <returns>all "name" elements of the given XElement</returns>
-    public static IEnumerable<XElement> GetElements(this XElement element, string name)
+    public static IReadOnlyCollection<XElement> GetElements(this XElement element, string name)
     {
         var nsAndName = SplitName(name);
 

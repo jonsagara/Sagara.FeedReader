@@ -135,8 +135,7 @@ public class Rss20Feed : BaseFeed
         LastBuildDateString = channel.GetChildElementValue("lastBuildDate");
         ParseDates(Language, PublishingDateString, LastBuildDateString);
 
-        var categories = channel.GetElements("category");
-        Categories = categories.Select(x => x.Value).ToArray();
+        Categories = channel.GetElements("category").Select(ce => ce.Value).ToArray();
 
         Sy = new Syndication(channel);
         Generator = channel.GetChildElementValue("generator");
