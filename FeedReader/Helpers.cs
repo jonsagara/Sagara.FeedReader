@@ -254,6 +254,9 @@ public static class Helpers
         return hfl;
     }
 
+
+    private static readonly Regex _rxLinkTag = new Regex("<link[^>]*rel=\"alternate\"[^>]*>", RegexOptions.Singleline | RegexOptions.Compiled);
+
     /// <summary>
     /// Parses RSS links from html page and returns all links
     /// </summary>
@@ -267,21 +270,24 @@ public static class Helpers
         // <link rel="alternate" type="application/rss+xml" title="Microsoft Bot Framework Blog" href="http://blog.botframework.com/feed.xml">
         // <link rel="alternate" type="application/atom+xml" title="Aktuelle News von heise online" href="https://www.heise.de/newsticker/heise-atom.xml">
 
-        var rex = new Regex("<link[^>]*rel=\"alternate\"[^>]*>", RegexOptions.Singleline);
+        List<HtmlFeedLink> feedLinks = new();
 
-        List<HtmlFeedLink> result = new();
-
-        foreach (Match m in rex.Matches(htmlContent))
+        foreach (Match m in _rxLinkTag.Matches(htmlContent))
         {
             var hfl = GetFeedLinkFromLinkTag(m.Value);
             if (hfl is not null)
             {
-                result.Add(hfl);
+                feedLinks.Add(hfl);
             }
         }
 
-        return result;
+        return feedLinks;
     }
+
+
+    //
+    // Private methods
+    //
 
     /// <summary>
     /// reads an attribute from an html tag
@@ -291,7 +297,7 @@ public static class Helpers
     /// <returns>the value of the attribute, e.g. my title</returns>
     private static string GetAttributeFromLinkTag(string attribute, string htmlTag)
     {
-        var res = Regex.Match(htmlTag, attribute + "\\s*=\\s*\"(?<val>[^\"]*)\"", RegexOptions.IgnoreCase & RegexOptions.IgnorePatternWhitespace);
+        var res = Regex.Match(htmlTag, attribute + "\\s*=\\s*\"(?<val>[^\"]*)\"", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
 
         if (res.Groups.Count > 1)
         {
