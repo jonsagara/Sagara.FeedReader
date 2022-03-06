@@ -10,12 +10,15 @@ using CodeHollow.FeedReader.Extensions;
 internal static class FeedParser
 {
     /// <summary>
-    /// Returns the parsed feed. This method checks the encoding of the received file.
+    /// Returns the parsed feed. This method tries to use the encoding of the received file.
+    /// If none found, or it's invalid, it uses UTF8.
     /// </summary>
     /// <param name="feedContentData">The feed document as a byte array.</param>
     /// <returns>Parsed feed</returns>
     public static Feed GetFeedFromBytes(byte[] feedContentData)
     {
+        ArgumentNullException.ThrowIfNull(feedContentData);
+
         // 1.) get string of the content
         string feedContent = Encoding.UTF8.GetString(feedContentData);
         feedContent = RemoveWrongChars(feedContent);
@@ -50,6 +53,8 @@ internal static class FeedParser
     /// <returns>Parsed feed</returns>
     public static Feed GetFeedFromString(string feedContent)
     {
+        ArgumentNullException.ThrowIfNull(feedContent);
+
         feedContent = RemoveWrongChars(feedContent);
 
         XDocument feedDoc = XDocument.Parse(feedContent);
@@ -119,7 +124,8 @@ internal static class FeedParser
     }
 
     /// <summary>
-    /// reads the encoding from a feed document, returns UTF8 by default
+    /// Tries to read the encoding from the document's XML declaration. If none found, or if it's invalid,
+    /// returns UTF8.
     /// </summary>
     /// <param name="feedDoc">rss feed document</param>
     /// <returns>encoding or utf8 by default</returns>

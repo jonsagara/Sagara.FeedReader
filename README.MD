@@ -74,7 +74,7 @@ If the url to the feed is not known, then you can use FeedReader.GetFeedUrlsFrom
 ```
 
 
-The code contains a sample console application: https://github.com/codehollow/FeedReader/tree/master/FeedReader.ConsoleSample
+The code contains a sample console application: https://github.com/codehollow/FeedReader/tree/master/FeedReader.StaticConsoleSample
 
 
 ## Specifications
