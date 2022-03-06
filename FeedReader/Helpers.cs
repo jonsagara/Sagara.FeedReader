@@ -54,6 +54,7 @@ public static class Helpers
             response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
         }
 
+#warning This is unnecessary in .NET 6. HttpClient follows up to 50 redirects by default. Replace with Polly and retry once for same behavior.
         if (!response.IsSuccessStatusCode)
         {
             var statusCode = (int)response.StatusCode;
