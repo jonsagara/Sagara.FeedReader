@@ -166,7 +166,7 @@ public static class FeedReader
     {
         ArgumentNullException.ThrowIfNull(feedContent);
 
-        return FeedParser.GetFeed(feedContent);
+        return FeedParser.GetFeedFromString(feedContent);
     }
 
     /// <summary>
@@ -179,7 +179,7 @@ public static class FeedReader
     {
         ArgumentNullException.ThrowIfNull(feedContent);
 
-        return FeedParser.GetFeed(feedContent);
+        return FeedParser.GetFeedFromBytes(feedContent);
     }
 
 

@@ -14,7 +14,7 @@ internal static class FeedParser
     /// </summary>
     /// <param name="feedContentData">The feed document as a byte array.</param>
     /// <returns>Parsed feed</returns>
-    public static Feed GetFeed(byte[] feedContentData)
+    public static Feed GetFeedFromBytes(byte[] feedContentData)
     {
         // 1.) get string of the content
         string feedContent = Encoding.UTF8.GetString(feedContentData);
@@ -48,7 +48,7 @@ internal static class FeedParser
     /// </summary>
     /// <param name="feedContent">The feed document's content as a string.</param>
     /// <returns>Parsed feed</returns>
-    public static Feed GetFeed(string feedContent)
+    public static Feed GetFeedFromString(string feedContent)
     {
         feedContent = RemoveWrongChars(feedContent);
 
