@@ -9,7 +9,7 @@ using CodeHollow.FeedReader.Extensions;
 using Parser;
 
 /// <summary>
-/// The static FeedReader class which allows to read feeds from a given url. Use it to parse a feed 
+/// The FeedReader class allows to read feeds from a given url. Use it to parse a feed 
 /// from an url <see cref="ReadAsync(string, bool, string?, CancellationToken)"/>, a file <see cref="ReadFromFile(string)"/> 
 /// or <see cref="ReadFromFileAsync(string, CancellationToken)"/>, a byte array <see cref="ReadFromByteArray(byte[])"/> or a 
 /// string <see cref="ReadFromString(string)"/>. If the feed url is not known, <see cref="ParseFeedUrlsFromHtml(string)"/> 
@@ -21,7 +21,7 @@ using Parser;
 /// var feed = FeedReader.Read(firstLink.Url);
 /// Console.WriteLine(feed.Title);
 /// </example>
-public static class FeedReader
+public class FeedReader
 {
     /// <summary>
     /// Returns the absolute url of a link on a page. If you got the feed links via
