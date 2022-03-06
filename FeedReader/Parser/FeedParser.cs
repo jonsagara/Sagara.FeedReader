@@ -1,4 +1,5 @@
 ﻿namespace CodeHollow.FeedReader.Parser;
+
 using System.Text;
 using System.Xml.Linq;
 using CodeHollow.FeedReader.Extensions;
@@ -9,30 +10,33 @@ using CodeHollow.FeedReader.Extensions;
 internal static class FeedParser
 {
     /// <summary>
-    /// Returns the parsed feed.
-    /// This method checks the encoding of the received file
+    /// Returns the parsed feed. This method checks the encoding of the received file.
     /// </summary>
-    /// <param name="feedContentData">the feed document</param>
-    /// <returns>parsed feed</returns>
+    /// <param name="feedContentData">The feed document as a byte array.</param>
+    /// <returns>Parsed feed</returns>
     public static Feed GetFeed(byte[] feedContentData)
     {
-        string feedContent = Encoding.UTF8.GetString(feedContentData); // 1.) get string of the content
+        // 1.) get string of the content
+        string feedContent = Encoding.UTF8.GetString(feedContentData);
         feedContent = RemoveWrongChars(feedContent);
 
-        XDocument feedDoc = XDocument.Parse(feedContent); // 2.) read document to get the used encoding
+        // 2.) read document to get the used encoding
+        XDocument feedDoc = XDocument.Parse(feedContent);
 
-        Encoding encoding = GetEncoding(feedDoc); // 3.) get used encoding
+        // 3.) get used encoding
+        Encoding encoding = GetEncoding(feedDoc);
 
-        if (encoding != Encoding.UTF8) // 4.) if not UTF8 - reread the data :
-                                       // in some cases - ISO-8859-1 - Encoding.UTF8.GetString doesn't work correct, so converting
-                                       // from UTF8 to ISO-8859-1 doesn't work and result is wrong. see: FullParseTest.TestRss20ParseSwedishFeedWithIso8859_1
+        // 4.) if not UTF8 - reread the data.
+        // In some cases - ISO-8859-1 - Encoding.UTF8.GetString doesn't work correctly, so converting
+        //   from UTF8 to ISO-8859-1 doesn't work and the result is wrong.
+        //   See: FullParseTest.TestRss20ParseSwedishFeedWithIso8859_1
+        if (encoding != Encoding.UTF8)
         {
             feedContent = encoding.GetString(feedContentData);
             feedContent = RemoveWrongChars(feedContent);
         }
 
         var feedType = ParseFeedType(feedDoc);
-
         var parser = Factory.GetParser(feedType);
         var feed = parser.Parse(feedContent);
 
@@ -40,10 +44,10 @@ internal static class FeedParser
     }
 
     /// <summary>
-    /// Returns the parsed feed
+    /// Returns the parsed feed. This method does NOT check the encoding of the received file.
     /// </summary>
-    /// <param name="feedContent">the feed document</param>
-    /// <returns>parsed feed</returns>
+    /// <param name="feedContent">The feed document's content as a string.</param>
+    /// <returns>Parsed feed</returns>
     public static Feed GetFeed(string feedContent)
     {
         feedContent = RemoveWrongChars(feedContent);
@@ -51,7 +55,6 @@ internal static class FeedParser
         XDocument feedDoc = XDocument.Parse(feedContent);
 
         var feedType = ParseFeedType(feedDoc);
-
         var parser = Factory.GetParser(feedType);
         var feed = parser.Parse(feedContent);
 
@@ -70,19 +73,19 @@ internal static class FeedParser
     /// <returns>the feed type</returns>
     private static FeedType ParseFeedType(XDocument doc)
     {
-        string rootElement = doc.Root!.Name.LocalName;
+        string rootElementName = doc.Root!.Name.LocalName;
 
-        if (rootElement.EqualsIgnoreCase("feed"))
+        if (rootElementName.EqualsIgnoreCase("feed"))
         {
             return FeedType.Atom;
         }
 
-        if (rootElement.EqualsIgnoreCase("rdf"))
+        if (rootElementName.EqualsIgnoreCase("rdf"))
         {
             return FeedType.Rss_1_0;
         }
 
-        if (rootElement.EqualsIgnoreCase("rss"))
+        if (rootElementName.EqualsIgnoreCase("rss"))
         {
             // Version is a required attribute.
             string version = doc.Root.Attribute("version")!.Value;
@@ -112,7 +115,7 @@ internal static class FeedParser
             return FeedType.Rss;
         }
 
-        throw new FeedTypeNotSupportedException($"unknown feed type {rootElement}");
+        throw new FeedTypeNotSupportedException($"Unknown feed type {rootElementName}");
     }
 
     /// <summary>
@@ -137,23 +140,29 @@ internal static class FeedParser
     }
 
     /// <summary>
-    /// removes some characters at the beginning of the document. These shouldn't be there,
-    /// but unfortunately they are sometimes there. If they are not removed - xml parsing would fail.
+    /// Removes some characters at the beginning of the document. These shouldn't be there, but 
+    /// unfortunately they are sometimes there. If they are not removed, xml parsing would fail.
     /// </summary>
-    /// <param name="feedContent">rss feed content</param>
-    /// <returns>cleaned up rss feed content</returns>
+    /// <param name="feedContent">RSS feed content.</param>
+    /// <returns>Cleaned up RSS feed content.</returns>
     private static string RemoveWrongChars(string feedContent)
     {
-        // replaces all control characters except CR LF (\r\n) and TAB.
+        // Replaces all control characters except CR LF (\r\n) and TAB.
         for (int charCode = 0; charCode <= 31; charCode++)
         {
-            if (charCode == 0x0D || charCode == 0x0A || charCode == 0x09) continue;
+            if (charCode == 0x0D || charCode == 0x0A || charCode == 0x09)
+            {
+                continue;
+            }
 
             feedContent = feedContent.Replace(((char)charCode).ToString(), string.Empty);
         }
 
-        feedContent = feedContent.Replace(((char)127).ToString(), string.Empty);   // replace DEL
-        feedContent = feedContent.Replace(((char)65279).ToString(), string.Empty); // replaces special char, fixes issues with at least one feed
+        // Replace DEL.
+        feedContent = feedContent.Replace(((char)127).ToString(), string.Empty);
+
+        // Replaces special char, fixes issues with at least one feed.
+        feedContent = feedContent.Replace(((char)65279).ToString(), string.Empty);
 
         return feedContent.Trim();
     }

@@ -211,19 +211,9 @@ public static class Helpers
     /// <returns>integer or null</returns>
     public static bool? TryParseBool(string? input)
     {
-        if (!string.IsNullOrEmpty(input))
-        {
-            if (string.Equals(input, "true", StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-            else if (string.Equals(input, "false", StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
-        }
-
-        return null;
+        return bool.TryParse(input, out var result)
+            ? result
+            : null;
     }
 
     /// <summary>
@@ -245,11 +235,9 @@ public static class Helpers
             return null;
         }
 
-        HtmlFeedLink hfl = new HtmlFeedLink();
-        string title = GetAttributeFromLinkTag("title", linkTag);
-        string href = GetAttributeFromLinkTag("href", linkTag);
-        hfl.Title = title;
-        hfl.Url = href;
+        HtmlFeedLink hfl = new();
+        hfl.Title = GetAttributeFromLinkTag("title", linkTag);
+        hfl.Url = GetAttributeFromLinkTag("href", linkTag);
         hfl.FeedType = type.Contains("rss") ? FeedType.Rss : FeedType.Atom;
         return hfl;
     }

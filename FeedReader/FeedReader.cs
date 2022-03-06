@@ -216,10 +216,10 @@ public static class FeedReader
     //
 
     /// <summary>
-    /// gets a url (with or without http) and returns the full url
+    /// Takes a url (with or without http) and returns the full url.
     /// </summary>
-    /// <param name="url">url with or without http</param>
-    /// <returns>full url</returns>
+    /// <param name="url">Url with or without http.</param>
+    /// <returns>Tull url</returns>
     /// <example>GetUrl("codehollow.com"); => returns https://codehollow.com</example>
     private static string GetAbsoluteUrl(string url)
     {
