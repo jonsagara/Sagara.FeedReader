@@ -129,16 +129,21 @@ public class HelpersTest
 
     }
 
-    private static void TestHtmlLinkParse(string path, IEnumerable<HtmlFeedLink> expectedLinks)
+    private static void TestHtmlLinkParse(string path, IReadOnlyCollection<HtmlFeedLink> expectedLinks)
     {
-        var content = System.IO.File.ReadAllText(path);
+        var content = File.ReadAllText(path);
 
         var links = Helpers.ParseFeedUrlsFromHtml(content);
-        Assert.Equal(expectedLinks.Count(), links.Count());
+        Assert.Equal(expectedLinks.Count, links.Count);
 
         foreach (var l in links)
         {
-            expectedLinks.First(e => e.FeedType == l.FeedType && e.Title == l.Title && e.Url == l.Url); // throws exception if link doesn't exist
+            // Throws exception if link doesn't exist
+            expectedLinks.First(e =>
+                e.FeedType == l.FeedType
+                && e.Title == l.Title
+                && e.Url == l.Url
+                );
         }
     }
     #endregion

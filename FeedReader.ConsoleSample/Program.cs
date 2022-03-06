@@ -13,18 +13,18 @@ while (true)
             break;
         }
 
-        var urls = (await FeedReader.GetFeedUrlsFromUrlAsync(url)).ToArray();
+        var urls = await FeedReader.GetFeedUrlsFromUrlAsync(url);
 
         string? feedUrl;
-        if (urls is null || urls.Length < 1)
+        if (urls is null || urls.Count < 1)
         {
             feedUrl = url;
         }
-        else if (urls.Length == 1)
+        else if (urls.Count == 1)
         {
             feedUrl = urls.First().Url;
         }
-        else if (urls.Length == 2)
+        else if (urls.Count == 2)
         {
             // if 2 urls, then its usually a feed and a comments feed, so take the first per default
             feedUrl = urls.First().Url;
@@ -39,7 +39,7 @@ while (true)
             }
             var input = Console.ReadLine();
 
-            if (!int.TryParse(input, out int index) || index < 1 || index > urls.Length)
+            if (!int.TryParse(input, out int index) || index < 1 || index > urls.Count)
             {
                 Console.WriteLine("Wrong input. Press key to exit");
                 Console.ReadKey();

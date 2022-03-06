@@ -36,7 +36,7 @@ public class Rss092Feed : Rss091Feed
     }
 
     /// <inheritdoc/>
-    internal override void AddItems(IEnumerable<XElement> items)
+    internal override void AddItems(IReadOnlyCollection<XElement> items)
     {
         foreach (var item in items)
         {

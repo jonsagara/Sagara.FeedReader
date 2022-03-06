@@ -75,7 +75,7 @@ public static class FeedReader
     /// <returns>a list of links including the type and title, an empty list if no links are found</returns>
     /// <example>FeedReader.GetFeedUrlsFromUrl("codehollow.com"); // returns a list of all available feeds at
     /// https://codehollow.com </example>
-    public static async Task<IEnumerable<HtmlFeedLink>> GetFeedUrlsFromUrlAsync(string url, bool autoRedirect = true, CancellationToken cancellationToken = default)
+    public static async Task<IReadOnlyCollection<HtmlFeedLink>> GetFeedUrlsFromUrlAsync(string url, bool autoRedirect = true, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(url);
 

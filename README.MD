@@ -1,6 +1,6 @@
 # *** Forked Version ***
 
-This is a heavily-modified, forked version of the official repository. Please refer to the original repo, upon which the `CodeHollow.FeedReader` nuget package is based:
+This is a heavily-modified fork of the official repository. Please refer to the original repo, upon which the `CodeHollow.FeedReader` nuget package is based:
 
 https://github.com/arminreiter/FeedReader
 

@@ -172,7 +172,7 @@ public class Rss091Feed : BaseFeed
     /// Adds feed items to the items collection
     /// </summary>
     /// <param name="items">feed items as XElements</param>
-    internal virtual void AddItems(IEnumerable<XElement> items)
+    internal virtual void AddItems(IReadOnlyCollection<XElement> items)
     {
         foreach (var item in items)
         {
