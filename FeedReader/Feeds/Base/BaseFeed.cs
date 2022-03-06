@@ -46,7 +46,6 @@ public abstract class BaseFeed
     /// </summary>
     protected BaseFeed()
     {
-        Items = new List<BaseFeedItem>();
     }
 
     /// <summary>

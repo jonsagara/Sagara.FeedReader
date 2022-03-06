@@ -9,9 +9,7 @@ public class ItunesCategory
     /// Initializes a new instance of the <see cref="ItunesCategory"/> class.
     /// itunes:category element
     /// </summary>
-    /// <param name="text"></param>
-    /// <param name="children"></param>
-    internal ItunesCategory(string text, ItunesCategory[] children)
+    internal ItunesCategory(string? text, ItunesCategory[] children)
     {
         Text = text;
         Children = children;
@@ -20,7 +18,7 @@ public class ItunesCategory
     /// <summary>
     /// The text attribute
     /// </summary>
-    public string Text { get; }
+    public string? Text { get; }
 
     /// <summary>
     /// All child itunes:category elements

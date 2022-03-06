@@ -12,7 +12,7 @@ public static class ItunesExtensions
     /// <returns>ItunesChannel object which contains itunes:... properties</returns>
     public static ItunesChannel GetItunesChannel(this Feed feed)
     {
-        return new ItunesChannel(feed.SpecificFeed.Element);
+        return new ItunesChannel(feed.SpecificFeed!.Element!);
     }
 
     /// <summary>
@@ -22,6 +22,6 @@ public static class ItunesExtensions
     /// <returns>ItunesItem object which contains itunes:... properties</returns>
     public static ItunesItem GetItunesItem(this FeedItem item)
     {
-        return new ItunesItem(item.SpecificItem.Element);
+        return new ItunesItem(item.SpecificItem!.Element!);
     }
 }
