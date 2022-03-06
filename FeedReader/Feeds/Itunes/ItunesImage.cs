@@ -14,11 +14,15 @@ public class ItunesImage
     /// <param name="image">The itunes:image element</param>
     public ItunesImage(XElement image)
     {
+        // The code that calls this constructor does a null check, so this should really
+        //   never be null.
+        ArgumentNullException.ThrowIfNull(image);
+
         Href = image.GetAttributeValue("href");
     }
 
     /// <summary>
     /// The value of the href attribute
     /// </summary>
-    public string Href { get; }
+    public string? Href { get; }
 }

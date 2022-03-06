@@ -8,9 +8,20 @@ internal class Rss10Parser : AbstractXmlFeedParser
 {
     public override BaseFeed Parse(string feedXml, XDocument feedDoc)
     {
-        var rdf = feedDoc.Root;
+        ArgumentNullException.ThrowIfNull(feedXml);
+        ArgumentNullException.ThrowIfNull(feedDoc);
+
+        // There has to be a root element, or else XDocument.Parse would have thrown.
+        var rdf = feedDoc.Root!;
+
+        // Ensure there is a channel element. It doesn't make sense to try to parse an RSS feed
+        //   without one.
         var channel = rdf.GetElement("channel");
-        Rss10Feed feed = new Rss10Feed(feedXml, channel);
-        return feed;
+        if (channel is null)
+        {
+            throw new ArgumentException($"Document does not contain a 'channel' element. Unable to parse {nameof(Rss10Feed)} from {nameof(feedXml)}: {feedXml}", nameof(feedDoc));
+        }
+
+        return new Rss10Feed(feedXml, channel);
     }
 }

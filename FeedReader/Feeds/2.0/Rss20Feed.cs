@@ -219,7 +219,7 @@ public class Rss20Feed : BaseFeed
         CultureInfo culture;
         try
         {
-            culture = new CultureInfo(Language);
+            culture = new CultureInfo(language);
 
         }
         catch (CultureNotFoundException)
