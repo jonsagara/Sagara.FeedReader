@@ -10,8 +10,8 @@ using Parser;
 
 /// <summary>
 /// The static FeedReader class which allows to read feeds from a given url. Use it to parse a feed 
-/// from an url <see cref="ReadAsync(string, bool, string?)"/>, a file <see cref="ReadFromFile(string)"/> 
-/// or <see cref="ReadFromFileAsync(string)"/>, a byte array <see cref="ReadFromByteArray(byte[])"/> or a 
+/// from an url <see cref="ReadAsync(string, bool, string?, CancellationToken)"/>, a file <see cref="ReadFromFile(string)"/> 
+/// or <see cref="ReadFromFileAsync(string, CancellationToken)"/>, a byte array <see cref="ReadFromByteArray(byte[])"/> or a 
 /// string <see cref="ReadFromString(string)"/>. If the feed url is not known, <see cref="ParseFeedUrlsFromHtml(string)"/> 
 /// returns all feed links on a given page.
 /// </summary>
@@ -71,14 +71,16 @@ public static class FeedReader
     /// </summary>
     /// <param name="url">the url of the page</param>
     /// <param name="cancellationToken">token to cancel operation</param>
-    /// /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
+    /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
     /// <returns>a list of links including the type and title, an empty list if no links are found</returns>
     /// <example>FeedReader.GetFeedUrlsFromUrl("codehollow.com"); // returns a list of all available feeds at
     /// https://codehollow.com </example>
-    public static async Task<IEnumerable<HtmlFeedLink>> GetFeedUrlsFromUrlAsync(string url, CancellationToken cancellationToken, bool autoRedirect = true)
+    public static async Task<IEnumerable<HtmlFeedLink>> GetFeedUrlsFromUrlAsync(string url, bool autoRedirect = true, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(url);
+
         url = GetAbsoluteUrl(url);
-        string pageContent = await Helpers.DownloadAsync(url, cancellationToken, autoRedirect).ConfigureAwait(false);
+        string pageContent = await Helpers.DownloadAsync(url, autoRedirect: autoRedirect, cancellationToken: cancellationToken).ConfigureAwait(false);
         var links = ParseFeedUrlsFromHtml(pageContent);
         return links;
     }
@@ -87,34 +89,15 @@ public static class FeedReader
     /// Opens a webpage and reads all feed urls from it (link rel="alternate" type="application/...")
     /// </summary>
     /// <param name="url">the url of the page</param>
-    /// /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
-    /// <returns>a list of links including the type and title, an empty list if no links are found</returns>
-    /// <example>FeedReader.GetFeedUrlsFromUrl("codehollow.com"); // returns a list of all available feeds at
-    /// https://codehollow.com </example>
-    public static Task<IEnumerable<HtmlFeedLink>> GetFeedUrlsFromUrlAsync(string url, bool autoRedirect = true)
-    {
-        return GetFeedUrlsFromUrlAsync(url, CancellationToken.None, autoRedirect);
-    }
-
-    /// <summary>
-    /// Opens a webpage and reads all feed urls from it (link rel="alternate" type="application/...")
-    /// </summary>
-    /// <param name="url">the url of the page</param>
     /// <param name="cancellationToken">token to cancel operation</param>
     /// <returns>a list of links, an empty list if no links are found</returns>
-    public static async Task<string[]> ParseFeedUrlsAsStringAsync(string url, CancellationToken cancellationToken)
+    public static async Task<IReadOnlyCollection<string>> ParseFeedUrlsAsStringAsync(string url, CancellationToken cancellationToken = default)
     {
-        return (await GetFeedUrlsFromUrlAsync(url, cancellationToken).ConfigureAwait(false)).Select(x => x.Url).ToArray();
-    }
+        ArgumentNullException.ThrowIfNull(url);
 
-    /// <summary>
-    /// Opens a webpage and reads all feed urls from it (link rel="alternate" type="application/...")
-    /// </summary>
-    /// <param name="url">the url of the page</param>
-    /// <returns>a list of links, an empty list if no links are found</returns>
-    public static Task<string[]> ParseFeedUrlsAsStringAsync(string url)
-    {
-        return ParseFeedUrlsAsStringAsync(url, CancellationToken.None);
+        return (await GetFeedUrlsFromUrlAsync(url, cancellationToken: cancellationToken).ConfigureAwait(false))
+            .Select(x => x.Url)
+            .ToArray();
     }
 
     /// <summary>
@@ -122,71 +105,56 @@ public static class FeedReader
     /// </summary>
     /// <param name="htmlContent">the content of the html page</param>
     /// <returns>all RSS/feed links</returns>
-    public static IEnumerable<HtmlFeedLink> ParseFeedUrlsFromHtml(string htmlContent)
+    public static IReadOnlyCollection<HtmlFeedLink> ParseFeedUrlsFromHtml(string htmlContent)
     {
+        ArgumentNullException.ThrowIfNull(htmlContent);
+
         // left the method here for downward compatibility
         return Helpers.ParseFeedUrlsFromHtml(htmlContent);
     }
 
     /// <summary>
-    /// reads a feed from an url. the url must be a feed. Use ParseFeedUrlsFromHtml to
-    /// parse the feeds from a url which is not a feed.
+    /// Reads a feed from an url. the url must be a feed. Use <see cref="ParseFeedUrlsAsStringAsync(string, CancellationToken)"/> 
+    /// to parse the feeds from a url which is not a feed.
     /// </summary>
     /// <param name="url">the url to a feed</param>
     /// <param name="cancellationToken">token to cancel operation</param>
     /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
     /// <param name="userAgent">override built-in user-agent header</param>
     /// <returns>parsed feed</returns>
-    public static async Task<Feed> ReadAsync(string url, CancellationToken cancellationToken, bool autoRedirect = true, string? userAgent = null)
+    public static async Task<Feed> ReadAsync(string url, bool autoRedirect = true, string? userAgent = null, CancellationToken cancellationToken = default)
     {
-        var feedContent = await Helpers.DownloadBytesAsync(GetAbsoluteUrl(url), cancellationToken, autoRedirect, userAgent).ConfigureAwait(false);
+        ArgumentNullException.ThrowIfNull(url);
+
+        var feedContent = await Helpers.DownloadBytesAsync(GetAbsoluteUrl(url), autoRedirect: autoRedirect, userAgent: userAgent, cancellationToken: cancellationToken).ConfigureAwait(false);
         return ReadFromByteArray(feedContent);
     }
 
     /// <summary>
-    /// reads a feed from an url. the url must be a feed. Use ParseFeedUrlsFromHtml to
-    /// parse the feeds from a url which is not a feed.
+    /// Reads a feed from a file.
     /// </summary>
-    /// <param name="url">the url to a feed</param>
-    /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
-    /// <param name="userAgent">override built-in user-agent header</param>
-    /// <returns>parsed feed</returns>
-    public static Task<Feed> ReadAsync(string url, bool autoRedirect = true, string? userAgent = null)
-    {
-        return ReadAsync(url, CancellationToken.None, autoRedirect, userAgent);
-    }
-
-    /// <summary>
-    /// reads a feed from a file
-    /// </summary>
-    /// <param name="filePath">the path to the feed file</param>
-    /// <returns>parsed feed</returns>
+    /// <param name="filePath">The path to the feed file</param>
+    /// <returns>Parsed feed</returns>
     public static Feed ReadFromFile(string filePath)
     {
+        ArgumentNullException.ThrowIfNull(filePath);
+
         var feedContent = File.ReadAllBytes(filePath);
         return ReadFromByteArray(feedContent);
     }
 
     /// <summary>
-    /// reads a feed from a file
+    /// Reads a feed from a file.
     /// </summary>
     /// <param name="filePath">the path to the feed file</param>
     /// <param name="cancellationToken">token to cancel operation</param>
     /// <returns>parsed feed</returns>
-    public static async Task<Feed> ReadFromFileAsync(string filePath, CancellationToken cancellationToken)
+    public static async Task<Feed> ReadFromFileAsync(string filePath, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(filePath);
+
         byte[] result = await File.ReadAllBytesAsync(filePath, cancellationToken).ConfigureAwait(false);
         return ReadFromByteArray(result);
-    }
-
-    /// <summary>
-    /// reads a feed from a file
-    /// </summary>
-    /// <param name="filePath">the path to the feed file</param>
-    /// <returns>parsed feed</returns>
-    public static Task<Feed> ReadFromFileAsync(string filePath)
-    {
-        return ReadFromFileAsync(filePath, CancellationToken.None);
     }
 
     /// <summary>
@@ -196,6 +164,8 @@ public static class FeedReader
     /// <returns>parsed feed</returns>
     public static Feed ReadFromString(string feedContent)
     {
+        ArgumentNullException.ThrowIfNull(feedContent);
+
         return FeedParser.GetFeed(feedContent);
     }
 
@@ -207,6 +177,8 @@ public static class FeedReader
     /// <returns></returns>
     public static Feed ReadFromByteArray(byte[] feedContent)
     {
+        ArgumentNullException.ThrowIfNull(feedContent);
+
         return FeedParser.GetFeed(feedContent);
     }
 
@@ -222,7 +194,5 @@ public static class FeedReader
     /// <returns>Tull url</returns>
     /// <example>GetUrl("codehollow.com"); => returns https://codehollow.com</example>
     private static string GetAbsoluteUrl(string url)
-    {
-        return new UriBuilder(url).Uri.ToString();
-    }
+        => new UriBuilder(url).Uri.ToString();
 }

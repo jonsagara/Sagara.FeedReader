@@ -39,8 +39,10 @@ public static class Helpers
     /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
     /// <param name="userAgent">override built-in user-agent header</param>
     /// <returns>Content as byte array</returns>
-    public static async Task<byte[]> DownloadBytesAsync(string url, CancellationToken cancellationToken, bool autoRedirect = true, string? userAgent = USER_AGENT_VALUE)
+    public static async Task<byte[]> DownloadBytesAsync(string url, bool autoRedirect = true, string? userAgent = USER_AGENT_VALUE, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(url);
+
         url = WebUtility.UrlDecode(url);
         HttpResponseMessage response;
 
@@ -74,43 +76,21 @@ public static class Helpers
     }
 
     /// <summary>
-    /// Download the content from an url
-    /// </summary>
-    /// <param name="url">correct url</param>
-    /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
-    /// <returns>Content as byte array</returns>
-    public static Task<byte[]> DownloadBytesAsync(string url, bool autoRedirect = true)
-    {
-        return DownloadBytesAsync(url, CancellationToken.None, autoRedirect);
-    }
-
-    /// <summary>
     /// Download the content from an url and returns it as utf8 encoded string.
-    /// Preferred way is to use <see cref="DownloadBytesAsync(string, bool)"/> because it works
+    /// Preferred way is to use <see cref="DownloadBytesAsync(string, bool, string, CancellationToken)"/> because it works
     /// better with encoding.
     /// </summary>
     /// <param name="url">correct url</param>
     /// <param name="cancellationToken">token to cancel operation</param>
     /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
     /// <returns>Content as string</returns>
-    public static async Task<string> DownloadAsync(string url, CancellationToken cancellationToken, bool autoRedirect = true)
+    public static async Task<string> DownloadAsync(string url, bool autoRedirect = true, CancellationToken cancellationToken = default)
     {
-        var content = await DownloadBytesAsync(url, cancellationToken, autoRedirect).ConfigureAwait(false);
+        ArgumentNullException.ThrowIfNull(url);
+
+        var content = await DownloadBytesAsync(url, autoRedirect: autoRedirect, cancellationToken: cancellationToken).ConfigureAwait(false);
 
         return Encoding.UTF8.GetString(content);
-    }
-
-    /// <summary>
-    /// Download the content from an url and returns it as utf8 encoded string.
-    /// Preferred way is to use <see cref="DownloadBytesAsync(string, bool)"/> because it works
-    /// better with encoding.
-    /// </summary>
-    /// <param name="url">correct url</param>
-    /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
-    /// <returns>Content as string</returns>
-    public static Task<string> DownloadAsync(string url, bool autoRedirect = true)
-    {
-        return DownloadAsync(url, CancellationToken.None, autoRedirect);
     }
 
     /// <summary>
@@ -182,7 +162,7 @@ public static class Helpers
     /// <returns><see cref="Medium"/></returns>
     public static Medium TryParseMedium(string? medium)
     {
-        if (string.IsNullOrEmpty(medium))
+        if (string.IsNullOrWhiteSpace(medium))
         {
             return Medium.Unknown;
         }
@@ -250,7 +230,7 @@ public static class Helpers
     /// </summary>
     /// <param name="htmlContent">the content of the html page</param>
     /// <returns>all RSS/feed links</returns>
-    public static IEnumerable<HtmlFeedLink> ParseFeedUrlsFromHtml(string htmlContent)
+    public static IReadOnlyCollection<HtmlFeedLink> ParseFeedUrlsFromHtml(string htmlContent)
     {
         ArgumentNullException.ThrowIfNull(htmlContent);
 
