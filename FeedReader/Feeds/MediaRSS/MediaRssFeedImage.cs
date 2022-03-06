@@ -21,7 +21,7 @@ public class MediaRssFeedImage : Rss091FeedImage
     /// Reads a rss 2.0 feed image based on the xml given in element
     /// </summary>
     /// <param name="element">feed image as xml</param>
-    public MediaRssFeedImage(XElement element)
+    public MediaRssFeedImage(XElement? element)
         : base(element)
     {
     }

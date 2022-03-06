@@ -235,7 +235,9 @@ public static class Helpers
     /// <returns>Parsed HtmlFeedLink</returns>
     public static HtmlFeedLink? GetFeedLinkFromLinkTag(string input)
     {
-        string linkTag = input.HtmlDecode();
+        ArgumentNullException.ThrowIfNull(input);
+
+        string linkTag = input.HtmlDecode()!;
         string type = GetAttributeFromLinkTag("type", linkTag).ToLower();
 
         if (!type.Contains("application/rss") && !type.Contains("application/atom"))

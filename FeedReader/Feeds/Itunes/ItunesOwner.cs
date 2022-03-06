@@ -14,6 +14,9 @@ public class ItunesOwner
     /// <param name="ownerElement">the owner xml element</param>
     public ItunesOwner(XElement ownerElement)
     {
+        // The code that calls this constructor does a null check, so this should never be null.
+        ArgumentNullException.ThrowIfNull(ownerElement);
+
         Name = ownerElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "name");
         Email = ownerElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "email");
     }
@@ -21,10 +24,10 @@ public class ItunesOwner
     /// <summary>
     /// The itunes:email of the owner
     /// </summary>
-    public string Email { get; }
+    public string? Email { get; }
 
     /// <summary>
     /// The itunes:name of the owner
     /// </summary>
-    public string Name { get; }
+    public string? Name { get; }
 }
