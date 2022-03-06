@@ -158,10 +158,10 @@ public static class FeedReader
     }
 
     /// <summary>
-    /// reads a feed from the <paramref name="feedContent" />
+    /// Reads a feed contained in the string argument <paramref name="feedContent" />.
     /// </summary>
-    /// <param name="feedContent">the feed content (xml)</param>
-    /// <returns>parsed feed</returns>
+    /// <param name="feedContent">The feed content (xml).</param>
+    /// <returns>The parsed feed.</returns>
     public static Feed ReadFromString(string feedContent)
     {
         ArgumentNullException.ThrowIfNull(feedContent);
@@ -173,8 +173,8 @@ public static class FeedReader
     /// reads a feed from the bytearray <paramref name="feedContent"/>
     /// This could be useful if some special encoding is used.
     /// </summary>
-    /// <param name="feedContent"></param>
-    /// <returns></returns>
+    /// <param name="feedContent">The feed content as a byte[].</param>
+    /// <returns>The parsed fee.</returns>
     public static Feed ReadFromByteArray(byte[] feedContent)
     {
         ArgumentNullException.ThrowIfNull(feedContent);
