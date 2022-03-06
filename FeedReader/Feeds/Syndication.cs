@@ -1,6 +1,7 @@
 ﻿namespace CodeHollow.FeedReader.Feeds;
 
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// The parsed syndication elements. Those are all elements that start with "sy:"

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// Atom 1.0 feed item object according to specification: https://validator.w3.org/feed/docs/atom.html
@@ -18,7 +19,7 @@ public class AtomFeedItem : BaseFeedItem
     /// <summary>
     /// All "category" elements
     /// </summary>
-    public List<string> Categories { get; private set; } = new();
+    public IReadOnlyCollection<string> Categories { get; private set; } = Array.Empty<string>();
 
     /// <summary>
     /// The "content" element
@@ -73,7 +74,7 @@ public class AtomFeedItem : BaseFeedItem
     /// <summary>
     /// All "link" elements
     /// </summary>
-    public List<AtomLink> Links { get; private set; } = new();
+    public IReadOnlyCollection<AtomLink> Links { get; private set; } = Array.Empty<AtomLink>();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AtomFeedItem"/> class.
@@ -96,12 +97,12 @@ public class AtomFeedItem : BaseFeedItem
 
         Author = new AtomPerson(item.GetElement("author"));
 
-        var categories = item
+        Categories = item
             .GetElements("category")
             .Select(ce => ce.GetAttributeValue("term"))
             .Where(t => !string.IsNullOrWhiteSpace(t))
-            .Select(t => t!);
-        Categories.AddRange(categories);
+            .Select(t => t!)
+            .ToArray();
 
         Content = item.GetChildElementValue("content").HtmlDecode();
         Contributor = new AtomPerson(item.GetElement("contributor"));
@@ -109,7 +110,10 @@ public class AtomFeedItem : BaseFeedItem
 
         PublishedDateString = item.GetChildElementValue("published");
         PublishedDate = Helpers.TryParseDateTime(PublishedDateString);
-        Links.AddRange(item.GetElements("link").Select(le => new AtomLink(le)));
+        Links = item
+            .GetElements("link")
+            .Select(le => new AtomLink(le))
+            .ToArray();
 
         Rights = item.GetChildElementValue("rights");
         Source = item.GetChildElementValue("source");

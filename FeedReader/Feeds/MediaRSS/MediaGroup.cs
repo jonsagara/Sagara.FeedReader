@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 namespace CodeHollow.FeedReader.Feeds.MediaRSS;
 
@@ -21,14 +22,15 @@ public class MediaGroup
     public MediaGroup(XElement element)
     {
         Element = element;
-
-        var media = element.GetElements("media", "content");
-        Media.AddRange(media.Select(m => new Media(m)));
+        Media = element
+            .GetElements("media", "content")
+            .Select(me => new Media(me))
+            .ToArray();
     }
 
     /// <summary>
     /// Media object
     /// </summary>
-    public List<Media> Media { get; private set; } = new();
+    public IReadOnlyCollection<Media> Media { get; private set; } = Array.Empty<Media>();
 
 }

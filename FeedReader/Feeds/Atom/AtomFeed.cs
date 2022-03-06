@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// Atom 1.0 feed object according to specification: https://validator.w3.org/feed/docs/atom.html
@@ -18,7 +19,7 @@ public class AtomFeed : BaseFeed
     /// <summary>
     /// All "category" elements
     /// </summary>
-    public List<string> Categories { get; private set; } = new();
+    public IReadOnlyCollection<string> Categories { get; private set; } = Array.Empty<string>();
 
     /// <summary>
     /// The "contributor" element
@@ -68,7 +69,7 @@ public class AtomFeed : BaseFeed
     /// <summary>
     /// All "link" elements
     /// </summary>
-    public List<AtomLink> Links { get; private set; } = new();
+    public IReadOnlyCollection<AtomLink> Links { get; private set; } = Array.Empty<AtomLink>();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AtomFeed"/> class.
@@ -93,7 +94,7 @@ public class AtomFeed : BaseFeed
         Author = new AtomPerson(feed.GetElement("author"));
 
         var categories = feed.GetElements("category");
-        Categories.AddRange(categories.Select(x => x.Value));
+        Categories = categories.Select(x => x.Value).ToArray();
 
         Contributor = new AtomPerson(feed.GetElement("contributor"));
         Generator = feed.GetChildElementValue("generator");
@@ -103,7 +104,7 @@ public class AtomFeed : BaseFeed
         Rights = feed.GetChildElementValue("rights");
         Subtitle = feed.GetChildElementValue("subtitle");
 
-        Links.AddRange(feed.GetElements("link").Select(le => new AtomLink(le)));
+        Links = feed.GetElements("link").Select(le => new AtomLink(le)).ToArray();
 
         UpdatedDateString = feed.GetChildElementValue("updated");
         UpdatedDate = Helpers.TryParseDateTime(UpdatedDateString);

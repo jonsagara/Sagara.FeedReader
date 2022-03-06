@@ -1,6 +1,7 @@
 ﻿namespace CodeHollow.FeedReader.Parser;
 
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 using Feeds;
 
 internal class Rss10Parser : AbstractXmlFeedParser

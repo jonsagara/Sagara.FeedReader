@@ -1,6 +1,7 @@
 ﻿namespace CodeHollow.FeedReader.Feeds;
 
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// The base object for all feed items

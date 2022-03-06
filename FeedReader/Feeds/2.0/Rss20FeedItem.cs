@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// RSS 2.0 feed item accoring to specification: https://validator.w3.org/feed/docs/rss2.html
@@ -53,7 +54,7 @@ public class Rss20FeedItem : BaseFeedItem
     /// <summary>
     /// All entries "category" entries
     /// </summary>
-    public List<string> Categories { get; private set; } = new();
+    public IReadOnlyCollection<string> Categories { get; private set; } = Array.Empty<string>();
 
     /// <summary>
     /// The "content:encoded" field
@@ -91,7 +92,7 @@ public class Rss20FeedItem : BaseFeedItem
         Source = new FeedItemSource(item.GetElement("source"));
 
         var categories = item.GetElements("category");
-        Categories.AddRange(categories.Select(x => x.Value));
+        Categories = categories.Select(x => x.Value).ToArray();
 
         Guid = item.GetChildElementValue("guid");
         Description = item.GetChildElementValue("description");

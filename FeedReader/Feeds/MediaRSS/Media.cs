@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 namespace CodeHollow.FeedReader.Feeds.MediaRSS;
 
@@ -32,8 +33,10 @@ public class Media
         Width = Helpers.TryParseInt(element.GetAttributeValue("width"));
         Language = element.GetAttributeValue("lang");
 
-        var thumbnails = element.GetElements("media", "thumbnail");
-        Thumbnails.AddRange(thumbnails.Select(t => new Thumbnail(t)));
+        Thumbnails = element
+            .GetElements("media", "thumbnail")
+            .Select(te => new Thumbnail(te))
+            .ToArray();
 
     }
 
@@ -87,7 +90,7 @@ public class Media
     /// <summary>
     /// Representative images for the media object
     /// </summary>
-    public List<Thumbnail> Thumbnails { get; private set; } = new();
+    public IReadOnlyCollection<Thumbnail> Thumbnails { get; private set; } = Array.Empty<Thumbnail>();
 
 }
 

@@ -1,6 +1,7 @@
 ﻿namespace CodeHollow.FeedReader.Feeds;
 
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// Atom 1.0 link according to specification: https://validator.w3.org/feed/docs/atom.html#link

@@ -1,4 +1,4 @@
-﻿namespace CodeHollow.FeedReader;
+﻿namespace CodeHollow.FeedReader.Extensions;
 
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Xml.Linq;
 /// <summary>
 /// Extension methods
 /// </summary>
-internal static class Extensions
+internal static class FeedReaderExtensions
 {
     /// <summary>
     /// Decodes a html encoded string

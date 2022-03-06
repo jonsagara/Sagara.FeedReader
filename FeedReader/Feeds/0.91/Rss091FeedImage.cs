@@ -1,6 +1,7 @@
 ﻿namespace CodeHollow.FeedReader.Feeds;
 
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// Rss 0.91 Feed Image according to specification: http://www.rssboard.org/rss-0-9-1-netscape#image

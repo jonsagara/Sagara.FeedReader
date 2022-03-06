@@ -1,6 +1,7 @@
 ﻿namespace CodeHollow.FeedReader.Parser;
 using System.Text;
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// Internal FeedParser - returns the type of the feed or the parsed feed.

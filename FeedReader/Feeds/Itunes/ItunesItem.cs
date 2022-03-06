@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 namespace CodeHollow.FeedReader.Feeds.Itunes;
 

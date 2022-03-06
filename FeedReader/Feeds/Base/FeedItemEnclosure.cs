@@ -1,6 +1,7 @@
 ﻿namespace CodeHollow.FeedReader.Feeds;
 
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// Enclosure object of Rss 2.0 according to specification: https://validator.w3.org/feed/docs/rss2.html

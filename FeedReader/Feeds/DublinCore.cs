@@ -2,6 +2,7 @@
 
 using System;
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// The parsed "dc:" elements in a feed

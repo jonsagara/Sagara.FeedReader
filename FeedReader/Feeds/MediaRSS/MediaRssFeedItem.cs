@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 using CodeHollow.FeedReader.Feeds.MediaRSS;
 
 /// <summary>
@@ -54,17 +55,17 @@ public class MediaRssFeedItem : BaseFeedItem
     /// <summary>
     /// All entries "category" entries
     /// </summary>
-    public List<string> Categories { get; private set; } = new();
+    public IReadOnlyCollection<string> Categories { get; private set; } = Array.Empty<string>();
 
     /// <summary>
     /// All entries from the "media:content" elements.
     /// </summary>
-    public List<Media> Media { get; private set; } = new();
+    public IReadOnlyCollection<Media> Media { get; private set; } = Array.Empty<Media>();
 
     /// <summary>
     /// All entries from the "media:group" elements. 
     /// </summary>
-    public List<MediaGroup> MediaGroups { get; private set; } = new();
+    public IReadOnlyCollection<MediaGroup> MediaGroups { get; private set; } = Array.Empty<MediaGroup>();
 
     /// <summary>
     /// The "content:encoded" field
@@ -101,14 +102,20 @@ public class MediaRssFeedItem : BaseFeedItem
         DC = new DublinCore(item);
         Source = new FeedItemSource(item.GetElement("source"));
 
-        var media = item.GetElements("media", "content");
-        Media.AddRange(media.Select(m => new Media(m)));
+        Media = item
+            .GetElements("media", "content")
+            .Select(me => new Media(me))
+            .ToArray();
 
-        var mediaGroups = item.GetElements("media", "group");
-        MediaGroups.AddRange(mediaGroups.Select(mg => new MediaGroup(mg)));
+        MediaGroups = item
+            .GetElements("media", "group")
+            .Select(mge => new MediaGroup(mge))
+            .ToArray();
 
-        var categories = item.GetElements("category");
-        Categories.AddRange(categories.Select(ce => ce.Value));
+        Categories = item
+            .GetElements("category")
+            .Select(ce => ce.Value)
+            .ToArray();
 
         Guid = item.GetChildElementValue("guid");
         Description = item.GetChildElementValue("description");

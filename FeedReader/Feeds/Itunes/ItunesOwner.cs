@@ -1,6 +1,7 @@
 ﻿namespace CodeHollow.FeedReader.Feeds.Itunes;
 
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// The itunes:owner xml element
@@ -16,7 +17,7 @@ public class ItunesOwner
         Name = ownerElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "name");
         Email = ownerElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "email");
     }
-    
+
     /// <summary>
     /// The itunes:email of the owner
     /// </summary>

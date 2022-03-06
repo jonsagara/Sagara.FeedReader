@@ -1,5 +1,6 @@
 ﻿namespace CodeHollow.FeedReader.Feeds;
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// Rss 1.0 Feed according to specification: http://web.resource.org/rss/1.0/spec

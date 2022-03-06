@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// Rss 0.92 feed item according to specification: http://backend.userland.com/rss092
@@ -12,7 +13,7 @@ public class Rss092FeedItem : Rss091FeedItem
     /// <summary>
     /// All entries "category" entries
     /// </summary>
-    public List<string> Categories { get; private set; } = new();
+    public IReadOnlyCollection<string> Categories { get; private set; } = Array.Empty<string>();
 
     /// <summary>
     /// The "enclosure" field
@@ -45,6 +46,6 @@ public class Rss092FeedItem : Rss091FeedItem
         Source = new FeedItemSource(item.GetElement("source"));
 
         var categories = item.GetElements("category");
-        Categories.AddRange(categories.Select(ce => ce.Value));
+        Categories = categories.Select(ce => ce.Value).ToArray();
     }
 }

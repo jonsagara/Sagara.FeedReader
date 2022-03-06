@@ -1,6 +1,7 @@
 ﻿namespace CodeHollow.FeedReader.Feeds.Itunes;
 
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// The itunes:image xml element

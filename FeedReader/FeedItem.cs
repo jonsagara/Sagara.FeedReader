@@ -53,7 +53,7 @@ public class FeedItem
     /// <summary>
     /// The categories of the feeditem
     /// </summary>
-    public List<string> Categories { get; private set; } = new List<string>();
+    public ICollection<string> Categories { get; private set; } = new List<string>();
 
     /// <summary>
     /// The content of the feed item
@@ -81,9 +81,8 @@ public class FeedItem
     /// <param name="feedItem">BaseFeedItem which is a <see cref="Rss20FeedItem"/> , <see cref="Rss10FeedItem"/>, or another.</param>
     public FeedItem(BaseFeedItem feedItem)
     {
-        this.Title = feedItem.Title;
-        this.Link = feedItem.Link;
-        this.Categories = new List<string>();
-        this.SpecificItem = feedItem;
+        Title = feedItem.Title;
+        Link = feedItem.Link;
+        SpecificItem = feedItem;
     }
 }

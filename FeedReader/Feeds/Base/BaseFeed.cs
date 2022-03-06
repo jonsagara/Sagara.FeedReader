@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// BaseFeed object which contains the basic properties that each feed has.
@@ -27,7 +28,7 @@ public abstract class BaseFeed
     /// <summary>
     /// The items that are in the feed
     /// </summary>
-    public List<BaseFeedItem> Items { get; private set; } = new();
+    public ICollection<BaseFeedItem> Items { get; private set; } = new List<BaseFeedItem>();
 
     /// <summary>
     /// Gets the whole, original feed as string

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// Rss Feed according to Rss 0.91 specification:
@@ -69,12 +70,12 @@ public class Rss091Feed : BaseFeed
     /// <summary>
     /// All "day" elements in "skipDays"
     /// </summary>
-    public List<string> SkipDays { get; private set; } = new();
+    public IReadOnlyCollection<string> SkipDays { get; private set; } = Array.Empty<string>();
 
     /// <summary>
     /// All "hour" elements in "skipHours"
     /// </summary>
-    public List<string> SkipHours { get; private set; } = new();
+    public IReadOnlyCollection<string> SkipHours { get; private set; } = Array.Empty<string>();
 
     /// <summary>
     /// The "textInput" element
@@ -134,13 +135,13 @@ public class Rss091Feed : BaseFeed
         var skipHours = channel.GetElement("skipHours");
         if (skipHours is not null)
         {
-            SkipHours.AddRange(skipHours.GetElements("hour").Select(he => he.Value));
+            SkipHours = skipHours.GetElements("hour").Select(he => he.Value).ToArray();
         }
 
         var skipDays = channel.GetElement("skipDays");
         if (skipDays is not null)
         {
-            SkipDays.AddRange(skipDays.GetElements("day").Select(de => de.Value));
+            SkipDays = skipDays.GetElements("day").Select(de => de.Value).ToArray();
         }
 
         var items = channel.GetElements("item");

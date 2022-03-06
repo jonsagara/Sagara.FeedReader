@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Xml.Linq;
+using CodeHollow.FeedReader.Extensions;
 
 /// <summary>
 /// Rss 0.92 feed according to specification: http://backend.userland.com/rss092
