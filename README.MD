@@ -1,3 +1,13 @@
+# *** Forked Version ***
+
+This is a heavily-modified, forked version of the official repository. Please refer to the original repo, upon which the `CodeHollow.FeedReader` nuget package is based:
+
+https://github.com/arminreiter/FeedReader
+
+Original readme follows.
+
+-----
+
 # FeedReader
 FeedReader is a .net library used for reading and parsing RSS and ATOM feeds. Supports **RSS 0.91, 0.92, 1.0, 2.0 and ATOM**.
 Developed because tested existing libraries do not work with different languages, encodings or have other issues. 
