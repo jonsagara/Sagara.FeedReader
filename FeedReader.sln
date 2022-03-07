@@ -30,6 +30,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedReader.TestDataCrawler.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E53EE766-0AD7-424D-8586-6268C8223E6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedReader.Benchmarks", "FeedReader.Benchmarks\FeedReader.Benchmarks.csproj", "{4413C499-23DB-4B3C-B28E-0AA5CE815D4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{A439CF52-C25D-4BDE-859B-E8091853727E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A439CF52-C25D-4BDE-859B-E8091853727E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A439CF52-C25D-4BDE-859B-E8091853727E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4413C499-23DB-4B3C-B28E-0AA5CE815D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4413C499-23DB-4B3C-B28E-0AA5CE815D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4413C499-23DB-4B3C-B28E-0AA5CE815D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4413C499-23DB-4B3C-B28E-0AA5CE815D4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{872D88BF-6B38-40C3-BB30-C92B462535EB} = {305D3DDE-41ED-4AB7-9D56-297B97C1EB6B}
 		{D3718547-80AE-4EFC-BE77-BE7686ABE745} = {38C12CFC-710B-4CF6-878A-1F8D1D2AAE21}
 		{A439CF52-C25D-4BDE-859B-E8091853727E} = {305D3DDE-41ED-4AB7-9D56-297B97C1EB6B}
+		{4413C499-23DB-4B3C-B28E-0AA5CE815D4E} = {305D3DDE-41ED-4AB7-9D56-297B97C1EB6B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {87312FAC-10C3-4339-A730-B9F7C493AE5C}

@@ -59,7 +59,9 @@ internal static class FeedParser
         // Get the correct parser based on the feed type.
         var parser = Factory.GetParser(feedType);
 
-        // Let this parser parse the XDocument again with the string in the declared encoding.
+        // The parser will parse the XDocument again. If the declared encoding is UTF-8, then this isn't strictly
+        //   necessary because we didn't re-read the stream. Maybe we can optimize by passing in the XDocument
+        //   that we arleady parsed above?
         var feed = parser.Parse(feedContent);
 
         return feed.ToFeed();
