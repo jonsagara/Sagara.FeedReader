@@ -18,6 +18,7 @@ await Parallel.ForEachAsync<string>(
             }
             catch (Exception ex)
             {
+                Console.Error.WriteLine();
                 Console.Error.WriteLine($"Unhandled exception for feed '{rawFeedUrl}': {ex}");
             }
         }

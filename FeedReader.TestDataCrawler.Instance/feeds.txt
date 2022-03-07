@@ -18,7 +18,7 @@ http://feeds.washingtonpost.com/rss/politics
 http://hosted.ap.org/lineups/USHEADS-rss_2.0.xml?SITE=RANDOM&SECTION=HOME
 http://rssfeeds.usatoday.com/usatoday-NewsTopStories
 http://www.npr.org/rss/rss.php?id=1001
-http://feeds.reuters.com/reuters/topNews
+https://www.reutersagency.com/feed/?taxonomy=best-sectors&post_type=best
 http://newsrss.bbc.co.uk/rss/newsonline_world_edition/americas/rss.xml
 http://www.sltrib.com/rss/feed/?sec=/News/Utah/&level=1
 http://www.deseretnews.com/business/index.rss
@@ -88,7 +88,6 @@ http://www.chinadaily.com.cn
 http://www.china.org.cn
 http://www.japantimes.co.jp/
 https://www.japantoday.com/
-http://www.tokyotimes.com/
 http://www.leparisien.fr/
 http://www.france24.com/fr/france/
 http://www.lemonde.fr/
@@ -97,7 +96,6 @@ http://www.lejdd.fr/JDD-Paris
 http://www.romatoday.it/
 http://romanews.eu/
 http://roma.corriere.it/
-http://www.ilmessaggero.it/ROMA/
 http://rpp.pe/
 http://elcomercio.pe/
 http://www.20minutos.es/cataluna/
