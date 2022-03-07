@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CodeHollow.FeedReader.Html;
@@ -43,21 +42,6 @@ public static class FeedReader
     }
 
     /// <summary>
-    /// Opens a webpage and reads all feed urls from it (link rel="alternate" type="application/...")
-    /// </summary>
-    /// <param name="url">the url of the page</param>
-    /// <param name="cancellationToken">token to cancel operation</param>
-    /// <returns>a list of links, an empty list if no links are found</returns>
-    public static async Task<IReadOnlyCollection<string>> ParseFeedUrlsAsStringAsync(string url, CancellationToken cancellationToken = default)
-    {
-        ArgumentNullException.ThrowIfNull(url);
-
-        return (await GetFeedUrlsFromUrlAsync(url, cancellationToken: cancellationToken).ConfigureAwait(false))
-            .Select(x => x.Url)
-            .ToArray();
-    }
-
-    /// <summary>
     /// Parses RSS links from html page and returns all links
     /// </summary>
     /// <param name="htmlContent">the content of the html page</param>
@@ -71,7 +55,7 @@ public static class FeedReader
     }
 
     /// <summary>
-    /// Reads a feed from an url. the url must be a feed. Use <see cref="ParseFeedUrlsAsStringAsync(string, CancellationToken)"/> 
+    /// Reads a feed from an url. the url must be a feed. Use <see cref="GetFeedUrlsFromUrlAsync(string, CancellationToken)"/> 
     /// to parse the feeds from a url which is not a feed.
     /// </summary>
     /// <param name="url">the url to a feed</param>

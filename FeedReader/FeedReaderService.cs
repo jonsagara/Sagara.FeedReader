@@ -32,18 +32,20 @@ public class FeedReaderService : IFeedReaderService
 
 
     /// <summary>
-    /// Reads a feed from an url. the url must be a feed. Use <see cref="ParseFeedUrlsAsStringAsync(string, CancellationToken)"/> 
-    /// to parse the feeds from a url which is not a feed.
+    /// Reads a feed from an url. The url MUST be a feed, and not an HTML page URL.
     /// </summary>
-    /// <param name="url">the url to a feed</param>
+    /// <remarks>
+    /// Use <see cref="GetFeedUrlsFromPageUrlAsync(string, CancellationToken)"/> to parse the feeds from a url which is not a feed.
+    /// </remarks>
+    /// <param name="feedUrl">The url to a feed</param>
     /// <param name="cancellationToken">token to cancel operation</param>
     /// <param name="userAgent">override built-in user-agent header</param>
     /// <returns>parsed feed</returns>
-    public async Task<Feed> ReadAsync(string url, string? userAgent = null, CancellationToken cancellationToken = default)
+    public async Task<Feed> ReadAsync(string feedUrl, string? userAgent = null, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(url);
+        ArgumentNullException.ThrowIfNull(feedUrl);
 
-        var absoluteUrl = Helpers.GetAbsoluteUrl(url);
+        var absoluteUrl = Helpers.GetAbsoluteUrl(feedUrl);
 
         using var feedContentStream = await _httpClientService
             .DownloadStreamAsync(
@@ -53,26 +55,24 @@ public class FeedReaderService : IFeedReaderService
             )
             .ConfigureAwait(false);
 
-        return await ReadFromMemoryStreamAsync(feedContentStream);
+        return await ReadFromStreamAsync(feedContentStream).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Instance API. Opens a webpage and reads all feed urls from it (link rel="alternate" type="application/...")
+    /// Opens a webpage and reads all feed urls from link tags within it (&lt;link rel="alternate" type="application/..." /&gt;).
     /// </summary>
-    /// <param name="url">the url of the page</param>
+    /// <param name="pageUrl">the url of the page</param>
     /// <param name="cancellationToken">token to cancel operation</param>
-    /// <returns>a list of links including the type and title, an empty list if no links are found</returns>
-    /// <example>FeedReader.GetFeedUrlsFromUrl("codehollow.com"); // returns a list of all available feeds at
-    /// https://codehollow.com </example>
-    public async Task<IReadOnlyCollection<HtmlFeedLink>> GetFeedUrlsFromUrlAsync(string url, CancellationToken cancellationToken = default)
+    /// <returns>A list of links including the type and title, an empty list if no links are found</returns>
+    public async Task<IReadOnlyCollection<HtmlFeedLink>> GetFeedUrlsFromPageUrlAsync(string pageUrl, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(url);
+        ArgumentNullException.ThrowIfNull(pageUrl);
 
-        var absoluteUrl = Helpers.GetAbsoluteUrl(url);
+        var absolutePageUrl = Helpers.GetAbsoluteUrl(pageUrl);
 
         var pageHtml = await _httpClientService
             .DownloadStringAsync(
-                url: absoluteUrl,
+                url: absolutePageUrl,
                 cancellationToken: cancellationToken
             )
             .ConfigureAwait(false);
@@ -81,15 +81,17 @@ public class FeedReaderService : IFeedReaderService
     }
 
     /// <summary>
-    /// reads a feed from the bytearray <paramref name="feedContentStream"/>
+    /// Reads a feed from the Stream <paramref name="feedContentStream"/>
     /// This could be useful if some special encoding is used.
     /// </summary>
-    /// <param name="feedContentStream">The feed content as a MemoryStream.</param>
+    /// <param name="feedContentStream">The feed content as a Stream.</param>
     /// <returns>The parsed feed.</returns>
-    public static async Task<Feed> ReadFromMemoryStreamAsync(MemoryStream feedContentStream)
+    public static async Task<Feed> ReadFromStreamAsync(Stream feedContentStream)
     {
         ArgumentNullException.ThrowIfNull(feedContentStream);
 
-        return await FeedParser.GetFeedFromMemoryStreamAsync(feedContentStream);
+        return await FeedParser
+            .GetFeedFromStreamAsync(feedContentStream)
+            .ConfigureAwait(false);
     }
 }

@@ -13,9 +13,9 @@ internal static class FeedParser
     /// Returns the parsed feed. This method tries to use the encoding of the received file.
     /// If none found, or it's invalid, it uses UTF8.
     /// </summary>
-    /// <param name="feedContentStream">The feed document as a MemoryStream.</param>
+    /// <param name="feedContentStream">The feed document as a Stream.</param>
     /// <returns>Parsed feed</returns>
-    public static async Task<Feed> GetFeedFromMemoryStreamAsync(MemoryStream feedContentStream)
+    public static async Task<Feed> GetFeedFromStreamAsync(Stream feedContentStream)
     {
         ArgumentNullException.ThrowIfNull(feedContentStream);
 

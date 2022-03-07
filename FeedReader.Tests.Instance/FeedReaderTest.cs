@@ -75,8 +75,11 @@ public class FeedReaderTest
 
     private static async Task TestParseRssLinksAsync(string url, int expectedNumberOfLinks)
     {
-        var urls = await FeedReader.ParseFeedUrlsAsStringAsync(url).ConfigureAwait(false);
-        Assert.Equal(expectedNumberOfLinks, urls.Count);
+        var urls = (await FeedReader.GetFeedUrlsFromUrlAsync(url).ConfigureAwait(false))
+            .Select(hfl => hfl.Url)
+            .ToArray();
+
+        Assert.Equal(expectedNumberOfLinks, urls.Length);
     }
 
     #endregion

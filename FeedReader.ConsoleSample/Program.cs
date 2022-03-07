@@ -37,7 +37,7 @@ try
                     break;
                 }
 
-                var urls = await feedReaderSvc.GetFeedUrlsFromUrlAsync(url);
+                var urls = await feedReaderSvc.GetFeedUrlsFromPageUrlAsync(url);
 
                 string? feedUrl;
                 if (urls is null || urls.Count < 1)
