@@ -1,5 +1,5 @@
 ﻿using CodeHollow.FeedReader;
-using FeedReader.ConsoleSample;
+using CodeHollow.FeedReader.ConsoleSample.Instance;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 

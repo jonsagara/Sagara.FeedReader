@@ -1,12 +1,11 @@
-﻿using CodeHollow.FeedReader;
-using CodeHollow.FeedReader.Http;
+﻿using CodeHollow.FeedReader.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IO;
 using Serilog;
 
-namespace FeedReader.ConsoleSample;
+namespace CodeHollow.FeedReader.ConsoleSample.Instance;
 
 public static class HostBuilderHelper
 {

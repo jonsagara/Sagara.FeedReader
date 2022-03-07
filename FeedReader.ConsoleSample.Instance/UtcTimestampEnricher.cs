@@ -1,7 +1,7 @@
 ﻿using Serilog.Core;
 using Serilog.Events;
 
-namespace FeedReader.ConsoleSample;
+namespace CodeHollow.FeedReader.ConsoleSample.Instance;
 
 /// <summary>
 /// Serilog enricher that converts the log event's timestamp to UTC.
