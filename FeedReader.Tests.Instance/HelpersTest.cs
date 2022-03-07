@@ -5,8 +5,6 @@ namespace CodeHollow.FeedReader.Tests.Instance;
 
 public class HelpersTest
 {
-    #region
-
     [Fact]
     public void TestCodeHollowLinkTag01()
     {
@@ -51,10 +49,11 @@ public class HelpersTest
         Assert.Equal(expectedResult.FeedType, res?.FeedType);
     }
 
-    #endregion
 
+    //
+    // ParseFeedUrlsFromHtml Test -  test full html feed parse
+    //
 
-    #region ParseFeedUrlsFromHtml Test -  test full html feed parse
     [Fact]
     public void ParseFeedsCodeHollow()
     {
@@ -63,71 +62,62 @@ public class HelpersTest
             new HtmlFeedLink("codehollow » Feed", "https://codehollow.com/feed/", FeedType.Rss),
             new HtmlFeedLink("codehollow » Comments Feed", "https://codehollow.com/comments/feed/", FeedType.Rss)
         });
-
     }
 
     [Fact]
     public void ParseFeedsHeise()
     {
-
         TestHtmlLinkParse("Html/heise.html", new List<HtmlFeedLink>()
         {
             new HtmlFeedLink("Aktuelle News von heise online", "https://www.heise.de/rss/heise-atom.xml", FeedType.Atom),
             new HtmlFeedLink("Aktuelle News von heise online (für ältere RSS-Reader)", "https://www.heise.de/rss/heise.rdf", FeedType.Rss)
         });
-
     }
 
     [Fact]
     public void ParseFeedsJapanTimes()
     {
-
         TestHtmlLinkParse("Html/japantimes.html", new List<HtmlFeedLink>()
         {
             new HtmlFeedLink("Japan Times RSS Feed - Top Stories", "https://www.japantimes.co.jp/feed/topstories", FeedType.Rss),
         });
-
     }
+
     [Fact]
     public void ParseFeedsOrfAt()
     {
-
         TestHtmlLinkParse("Html/orf.html", new List<HtmlFeedLink>()
         {
             new HtmlFeedLink("Newsfeed - news.ORF.at", "https://rss.orf.at/news.xml", FeedType.Rss),
         });
-
     }
+
     [Fact]
     public void ParseFeedsStackOverflow()
     {
-
         TestHtmlLinkParse("Html/stackoverflow.html", new List<HtmlFeedLink>()
         {
             new HtmlFeedLink("Feed of recent questions", "/feeds", FeedType.Atom),
         });
-
     }
+
     [Fact]
     public void ParseFeedsStadtfeuerwehrWeiz()
     {
-
         TestHtmlLinkParse("Html/stadtfeuerwehrweiz.html", new List<HtmlFeedLink>()
         {
             new HtmlFeedLink("Stadtfeuerwehr Weiz - Einsätze", "http://www.stadtfeuerwehr-weiz.at/rss/einsaetze.xml", FeedType.Rss),
         });
-
     }
+
     [Fact]
     public void ParseFeedsTheVerge()
     {
-
         TestHtmlLinkParse("Html/theverge.html", new List<HtmlFeedLink>()
         {
             new HtmlFeedLink("The Verge", "/rss/index.xml", FeedType.Rss),
             new HtmlFeedLink("Front Page", "https://www.theverge.com/rss/front-page/index.xml", FeedType.Rss)
         });
-
     }
 
     private static void TestHtmlLinkParse(string path, IReadOnlyCollection<HtmlFeedLink> expectedLinks)
@@ -147,5 +137,4 @@ public class HelpersTest
                 );
         }
     }
-    #endregion
 }

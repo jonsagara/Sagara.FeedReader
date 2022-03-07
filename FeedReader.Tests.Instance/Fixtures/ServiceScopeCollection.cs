@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace CodeHollow.FeedReader.Tests.Instance;
+namespace CodeHollow.FeedReader.Tests.Instance.Fixtures;
 
 [CollectionDefinition(nameof(ServiceScopeCollection))]
 public class ServiceScopeCollection : ICollectionFixture<HostFixture>

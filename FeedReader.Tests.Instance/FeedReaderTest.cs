@@ -1,4 +1,5 @@
 ﻿using CodeHollow.FeedReader.Http;
+using CodeHollow.FeedReader.Tests.Instance.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

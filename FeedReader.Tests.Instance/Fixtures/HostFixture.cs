@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IO;
 
-namespace CodeHollow.FeedReader.Tests.Instance;
+namespace CodeHollow.FeedReader.Tests.Instance.Fixtures;
 
 public class HostFixture : IDisposable
 {
