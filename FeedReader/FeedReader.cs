@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CodeHollow.FeedReader.Extensions;
+using CodeHollow.FeedReader.Http;
 using Parser;
 
 /// <summary>
@@ -21,8 +22,17 @@ using Parser;
 /// var feed = FeedReader.Read(firstLink.Url);
 /// Console.WriteLine(feed.Title);
 /// </example>
-public class FeedReader
+public class FeedReader : IFeedReaderService
 {
+    //
+    // Instance API
+    //
+
+
+    //
+    // Static API
+    //
+
     /// <summary>
     /// Returns the absolute url of a link on a page. If you got the feed links via
     /// GetFeedUrlsFromUrl(url) and the url is relative, you can use this method to get the full url.
@@ -71,16 +81,15 @@ public class FeedReader
     /// </summary>
     /// <param name="url">the url of the page</param>
     /// <param name="cancellationToken">token to cancel operation</param>
-    /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
     /// <returns>a list of links including the type and title, an empty list if no links are found</returns>
     /// <example>FeedReader.GetFeedUrlsFromUrl("codehollow.com"); // returns a list of all available feeds at
     /// https://codehollow.com </example>
-    public static async Task<IReadOnlyCollection<HtmlFeedLink>> GetFeedUrlsFromUrlAsync(string url, bool autoRedirect = true, CancellationToken cancellationToken = default)
+    public static async Task<IReadOnlyCollection<HtmlFeedLink>> GetFeedUrlsFromUrlAsync(string url, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(url);
 
         url = GetAbsoluteUrl(url);
-        string pageContent = await Helpers.DownloadAsync(url, autoRedirect: autoRedirect, cancellationToken: cancellationToken).ConfigureAwait(false);
+        string pageContent = await Helpers.DownloadAsync(url, cancellationToken: cancellationToken).ConfigureAwait(false);
         var links = ParseFeedUrlsFromHtml(pageContent);
         return links;
     }
@@ -126,7 +135,7 @@ public class FeedReader
     {
         ArgumentNullException.ThrowIfNull(url);
 
-        var feedContent = await Helpers.DownloadBytesAsync(GetAbsoluteUrl(url), autoRedirect: autoRedirect, userAgent: userAgent, cancellationToken: cancellationToken).ConfigureAwait(false);
+        var feedContent = await HttpClientHelper.DownloadBytesAsync(GetAbsoluteUrl(url), userAgent: userAgent, cancellationToken: cancellationToken).ConfigureAwait(false);
         return ReadFromByteArray(feedContent);
     }
 

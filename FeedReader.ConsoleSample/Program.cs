@@ -16,6 +16,7 @@ try
     using (var serviceScope = host.Services.CreateScope())
     {
         var services = serviceScope.ServiceProvider;
+        var feedReader = services.GetRequiredService<CodeHollow.FeedReader.FeedReader>();
 
 
     }

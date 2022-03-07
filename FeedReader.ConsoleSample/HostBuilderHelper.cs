@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using CodeHollow.FeedReader;
+using CodeHollow.FeedReader.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IO;
@@ -56,21 +58,19 @@ public static class HostBuilderHelper
 
     private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
     {
-        services.AddHttpClient();
+        services.AddHttpClient(FeedReaderHttpClientConfiguration.HttpClientName)
+            .ConfigurePrimaryHttpMessageHandler(FeedReaderHttpClientConfiguration.CreateHttpClientHandler)
+            .AddTransientHttpErrorPolicy(FeedReaderHttpClientConfiguration.BuildWaitAndRetryPolicy);
+
         services.AddSingleton<RecyclableMemoryStreamManager>();
 
         // FeedReader services.
-        services.AddScoped<CodeHollow.FeedReader.FeedReader>();
+        services.Scan(scan => scan
+            .FromAssemblyOf<IFeedReaderService>()
+            .AddClasses(classes => classes.AssignableTo<IFeedReaderService>())
+            .AsSelf()
+            .WithScopedLifetime());
     }
-
-    //private static void RegisterAssemblyServices<TService>(IServiceCollection services)
-    //{
-    //    services.Scan(scan => scan
-    //        .FromAssemblyOf<TService>()
-    //        .AddClasses(classes => classes.AssignableTo<TService>())
-    //        .AsSelf()
-    //        .WithScopedLifetime());
-    //}
 
     private static void ConfigureSerilog(HostBuilderContext context, IServiceProvider services, LoggerConfiguration loggerConfig)
     {
