@@ -63,7 +63,7 @@ public class FeedReaderService : IFeedReaderService
     /// </summary>
     /// <param name="feedContentStream">The feed content as a Stream.</param>
     /// <returns>The parsed feed.</returns>
-    public static async Task<Feed> ReadFromStreamAsync(Stream feedContentStream)
+    public async Task<Feed> ReadFromStreamAsync(Stream feedContentStream)
     {
         ArgumentNullException.ThrowIfNull(feedContentStream);
 
@@ -77,7 +77,7 @@ public class FeedReaderService : IFeedReaderService
     /// </summary>
     /// <param name="filePath">the path to the feed file</param>
     /// <returns>parsed feed</returns>
-    public static async Task<Feed> ReadFromFileAsync(string filePath)
+    public async Task<Feed> ReadFromFileAsync(string filePath)
     {
         ArgumentNullException.ThrowIfNull(filePath);
 
@@ -93,7 +93,7 @@ public class FeedReaderService : IFeedReaderService
     /// </summary>
     /// <param name="feedContent">The feed content (xml).</param>
     /// <returns>The parsed feed.</returns>
-    public static Feed ReadFromString(string feedContent)
+    public Feed ReadFromString(string feedContent)
     {
         ArgumentNullException.ThrowIfNull(feedContent);
 
