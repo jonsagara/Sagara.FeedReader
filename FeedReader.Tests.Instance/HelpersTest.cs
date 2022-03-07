@@ -1,7 +1,7 @@
 ﻿using CodeHollow.FeedReader.Html;
 using Xunit;
 
-namespace CodeHollow.FeedReader.Tests;
+namespace CodeHollow.FeedReader.Tests.Instance;
 
 public class HelpersTest
 {

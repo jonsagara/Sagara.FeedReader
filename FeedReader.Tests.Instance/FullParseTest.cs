@@ -2,7 +2,7 @@
 using CodeHollow.FeedReader.Feeds.Itunes;
 using Xunit;
 
-namespace CodeHollow.FeedReader.Tests;
+namespace CodeHollow.FeedReader.Tests.Instance;
 
 public class FullParseTest
 {

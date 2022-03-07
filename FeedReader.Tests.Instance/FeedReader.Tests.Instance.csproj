@@ -3,10 +3,10 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
-		<AssemblyName>FeedReader.Tests</AssemblyName>
-		<PackageId>FeedReader.Tests</PackageId>
-		<Title>FeedReader.Tests</Title>
-		<Product>FeedReader.Tests</Product>
+		<AssemblyName>FeedReader.Tests.Instance</AssemblyName>
+		<PackageId>FeedReader.Tests.Instance</PackageId>
+		<Title>FeedReader.Tests.Instance</Title>
+		<Product>FeedReader.Tests.Instance</Product>
 		<Copyright>Copyright © 2017</Copyright>
 		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
 		<RuntimeIdentifiers>win8-x64;win10-x64</RuntimeIdentifiers>
