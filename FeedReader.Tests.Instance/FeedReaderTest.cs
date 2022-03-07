@@ -75,7 +75,7 @@ public class FeedReaderTest
 
     private static async Task TestParseRssLinksAsync(string url, int expectedNumberOfLinks)
     {
-        var urls = (await FeedReader.GetFeedUrlsFromUrlAsync(url).ConfigureAwait(false))
+        var urls = (await FeedReader.GetFeedUrlsFromPageAsync(url).ConfigureAwait(false))
             .Select(hfl => hfl.Url)
             .ToArray();
 
@@ -90,7 +90,7 @@ public class FeedReaderTest
     public async Task TestParseAndAbsoluteUrlDerStandard1()
     {
         string url = "derstandard.at";
-        var links = await FeedReader.GetFeedUrlsFromUrlAsync(url).ConfigureAwait(false);
+        var links = await FeedReader.GetFeedUrlsFromPageAsync(url).ConfigureAwait(false);
 
         foreach (var link in links)
         {

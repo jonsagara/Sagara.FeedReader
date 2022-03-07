@@ -13,7 +13,7 @@ while (true)
             break;
         }
 
-        var urls = await FeedReader.GetFeedUrlsFromUrlAsync(url);
+        var urls = await FeedReader.GetFeedUrlsFromPageAsync(url);
 
         string? feedUrl;
         if (urls is null || urls.Count < 1)

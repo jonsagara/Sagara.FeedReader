@@ -11,7 +11,7 @@ public static class FeedProcessor
     /// </summary>
     public static async Task ReadFeedAsync(string rawFeedUrl, string outputFolder)
     {
-        var feedLinks = await FeedReader.GetFeedUrlsFromUrlAsync(rawFeedUrl);
+        var feedLinks = await FeedReader.GetFeedUrlsFromPageAsync(rawFeedUrl);
 
         foreach (var fileFeedLink in feedLinks)
         {
