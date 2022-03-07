@@ -26,7 +26,7 @@ internal static class FeedParser
         // Try to load the document with the default encoding so that we can read its declared encoding.
         feedContentStream.Position = 0L;
 
-        using (var streamReader = new StreamReader(feedContentStream, Encoding.UTF8, leaveOpen: true))
+        using (var streamReader = new StreamReader(feedContentStream, encoding, leaveOpen: true))
         {
             // Read it into a string so that we can remove invalid characters.
             feedContent = await streamReader.ReadToEndAsync().ConfigureAwait(false);
@@ -37,8 +37,12 @@ internal static class FeedParser
             encoding = GetEncoding(feedDoc);
         }
 
+        var encodingChanged = false;
+
         if (encoding != Encoding.UTF8)
         {
+            encodingChanged = true;
+
             // Re-read the stream with the declared encoding.
             // In some cases - ISO-8859-1 - Encoding.UTF8.GetString doesn't work correctly, so converting
             //   from UTF8 to ISO-8859-1 doesn't work and the result is wrong.
@@ -59,10 +63,12 @@ internal static class FeedParser
         // Get the correct parser based on the feed type.
         var parser = Factory.GetParser(feedType);
 
-        // The parser will parse the XDocument again. If the declared encoding is UTF-8, then this isn't strictly
-        //   necessary because we didn't re-read the stream. Maybe we can optimize by passing in the XDocument
-        //   that we arleady parsed above?
-        var feed = parser.Parse(feedContent);
+        // If the declared encoding is not UTF-8, then the parser will parse the newly-updated feedContent
+        //   string again. Otherwise, we already have the UTF-8-based XDocument instance, and we can just
+        //   pass that to the parser and skip reparsing the document.
+        var feed = encodingChanged
+            ? parser.Parse(feedContent)
+            : parser.Parse(feedContent, feedDoc);
 
         return feed.ToFeed();
     }
