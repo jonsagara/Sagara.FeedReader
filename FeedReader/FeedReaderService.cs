@@ -6,7 +6,7 @@ namespace CodeHollow.FeedReader;
 
 /// <summary>
 /// The FeedReader class allows to read feeds from a given url. Use it to parse a feed 
-/// from an url <see cref="ReadAsync(string, string?, CancellationToken)"/>, a file <see cref="ReadFromFileAsync(string, CancellationToken)"/>, 
+/// from an url <see cref="ReadAsync(string, string?, CancellationToken)"/>, a file <see cref="ReadFromFileAsync(string)"/>, 
 /// or a string <see cref="ReadFromString(string)"/>. If the feed url is not known, <see cref="GetFeedUrlsFromPageAsync(string, CancellationToken)"/> 
 /// returns all feed links on a given page.
 /// </summary>
@@ -76,9 +76,8 @@ public class FeedReaderService : IFeedReaderService
     /// Reads a feed from a file.
     /// </summary>
     /// <param name="filePath">the path to the feed file</param>
-    /// <param name="cancellationToken">token to cancel operation</param>
     /// <returns>parsed feed</returns>
-    public static async Task<Feed> ReadFromFileAsync(string filePath, CancellationToken cancellationToken = default)
+    public static async Task<Feed> ReadFromFileAsync(string filePath)
     {
         ArgumentNullException.ThrowIfNull(filePath);
 
