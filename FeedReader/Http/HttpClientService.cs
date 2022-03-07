@@ -1,4 +1,5 @@
-﻿using Microsoft.IO;
+﻿using System.Net;
+using Microsoft.IO;
 
 namespace CodeHollow.FeedReader.Http;
 
@@ -6,7 +7,7 @@ namespace CodeHollow.FeedReader.Http;
 /// New instance-based class that makes HTTP requests to download the feeds themselves, 
 /// or pages to look for feed links.
 /// </summary>
-public class HttpClientService : IFeedReaderService
+internal class HttpClientService : IFeedReaderService
 {
     private readonly HttpClient _httpClient;
     private readonly RecyclableMemoryStreamManager _recyclableMemoryStreamManager;
@@ -34,7 +35,31 @@ public class HttpClientService : IFeedReaderService
     {
         ArgumentNullException.ThrowIfNull(url);
 
-        await Task.CompletedTask;
-        throw new NotImplementedException();
+        url = WebUtility.UrlDecode(url);
+
+        // Make an initial request. Note that HttpClient will follow up to 50 redirects by default.
+        using var requestMsg = new HttpRequestMessage(HttpMethod.Get, url);
+
+        requestMsg.Headers.TryAddWithoutValidation(FeedReaderHttpClientConfiguration.ACCEPT_HEADER_NAME, FeedReaderHttpClientConfiguration.ACCEPT_HEADER_VALUE);
+        requestMsg.Headers.TryAddWithoutValidation(FeedReaderHttpClientConfiguration.USER_AGENT_NAME, userAgent);
+
+        using var responseMsg = await _httpClient.SendAsync(requestMsg, cancellationToken).ConfigureAwait(false);
+
+        // Try to read the stream.
+        var responseStream = _recyclableMemoryStreamManager.GetStream(nameof(DownloadStreamAsync));
+        try
+        {
+            await responseMsg.Content.CopyToAsync(responseStream, cancellationToken).ConfigureAwait(false);
+
+            // Be a kind citizen and reset the stream before returning.
+            responseStream.Position = 0L;
+
+            return responseStream;
+        }
+        catch
+        {
+            responseStream?.Dispose();
+            throw;
+        }
     }
 }

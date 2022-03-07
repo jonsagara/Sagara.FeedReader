@@ -6,7 +6,7 @@ namespace CodeHollow.FeedReader.Http;
 /// Original static class that makes HTTP requests to download the feeds themselves, 
 /// or pages to look for feed links.
 /// </summary>
-public static class HttpClientHelper
+internal static class HttpClientHelper
 {
     // The HttpClient instance must be a static field
     // https://aspnetmonsters.com/2016/08/2016-08-27-httpclientwrong/
@@ -34,16 +34,17 @@ public static class HttpClientHelper
                 initialRequest.Headers.TryAddWithoutValidation(FeedReaderHttpClientConfiguration.ACCEPT_HEADER_NAME, FeedReaderHttpClientConfiguration.ACCEPT_HEADER_VALUE);
                 initialRequest.Headers.TryAddWithoutValidation(FeedReaderHttpClientConfiguration.USER_AGENT_NAME, userAgent);
 
-                response = await _httpClient.SendAsync(initialRequest, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
+                response = await _httpClient.SendAsync(initialRequest, cancellationToken).ConfigureAwait(false);
             }
 
             if (!response.IsSuccessStatusCode)
             {
-                // Something went wrong. Retry the request. I'm not sure why we're not adding the
-                //   headers to this request.
+                // Something went wrong. Retry the request. We're not using the injected HttpClient with Polly,
+                //   so we have to do a manual retry here.
+                // NOTE: I'm not sure why we're not adding the headers to this request.
                 using (var retryRequest = new HttpRequestMessage(HttpMethod.Get, url))
                 {
-                    response = await _httpClient.SendAsync(retryRequest, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
+                    response = await _httpClient.SendAsync(retryRequest, cancellationToken).ConfigureAwait(false);
                 }
             }
 
