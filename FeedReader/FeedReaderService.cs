@@ -6,9 +6,8 @@ namespace CodeHollow.FeedReader;
 
 /// <summary>
 /// The FeedReader class allows to read feeds from a given url. Use it to parse a feed 
-/// from an url <see cref="ReadAsync(string, string?, CancellationToken)"/>, a file <see cref="ReadFromFile(string)"/> 
-/// or <see cref="ReadFromFileAsync(string, CancellationToken)"/>, a byte array <see cref="ReadFromByteArray(byte[])"/> or a 
-/// string <see cref="ReadFromString(string)"/>. If the feed url is not known, <see cref="ParseFeedUrlsFromHtml(string)"/> 
+/// from an url <see cref="ReadAsync(string, string?, CancellationToken)"/>, a file <see cref="ReadFromFileAsync(string, CancellationToken)"/>, 
+/// or a string <see cref="ReadFromString(string)"/>. If the feed url is not known, <see cref="GetFeedUrlsFromPageAsync(string, CancellationToken)"/> 
 /// returns all feed links on a given page.
 /// </summary>
 /// <example>
@@ -35,7 +34,7 @@ public class FeedReaderService : IFeedReaderService
     /// Reads a feed from an url. The url MUST be a feed, and not an HTML page URL.
     /// </summary>
     /// <remarks>
-    /// Use <see cref="GetFeedUrlsFromPageUrlAsync(string, CancellationToken)"/> to parse the feeds from a url which is not a feed.
+    /// Use <see cref="GetFeedUrlsFromPageAsync(string, CancellationToken)"/> to parse the feeds from a url which is not a feed.
     /// </remarks>
     /// <param name="feedUrl">The url to a feed</param>
     /// <param name="cancellationToken">token to cancel operation</param>
@@ -59,12 +58,56 @@ public class FeedReaderService : IFeedReaderService
     }
 
     /// <summary>
+    /// Reads a feed from the Stream <paramref name="feedContentStream"/>
+    /// This could be useful if some special encoding is used.
+    /// </summary>
+    /// <param name="feedContentStream">The feed content as a Stream.</param>
+    /// <returns>The parsed feed.</returns>
+    public static async Task<Feed> ReadFromStreamAsync(Stream feedContentStream)
+    {
+        ArgumentNullException.ThrowIfNull(feedContentStream);
+
+        return await FeedParser
+            .GetFeedFromStreamAsync(feedContentStream)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Reads a feed from a file.
+    /// </summary>
+    /// <param name="filePath">the path to the feed file</param>
+    /// <param name="cancellationToken">token to cancel operation</param>
+    /// <returns>parsed feed</returns>
+    public static async Task<Feed> ReadFromFileAsync(string filePath, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(filePath);
+
+        using var fileStream = File.OpenRead(filePath);
+
+        return await FeedParser
+            .GetFeedFromStreamAsync(fileStream)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Reads a feed contained in the string argument <paramref name="feedContent" />.
+    /// </summary>
+    /// <param name="feedContent">The feed content (xml).</param>
+    /// <returns>The parsed feed.</returns>
+    public static Feed ReadFromString(string feedContent)
+    {
+        ArgumentNullException.ThrowIfNull(feedContent);
+
+        return FeedParser.GetFeedFromString(feedContent);
+    }
+
+    /// <summary>
     /// Opens a webpage and reads all feed urls from link tags within it (&lt;link rel="alternate" type="application/..." /&gt;).
     /// </summary>
     /// <param name="pageUrl">the url of the page</param>
     /// <param name="cancellationToken">token to cancel operation</param>
     /// <returns>A list of links including the type and title, an empty list if no links are found</returns>
-    public async Task<IReadOnlyCollection<HtmlFeedLink>> GetFeedUrlsFromPageUrlAsync(string pageUrl, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyCollection<HtmlFeedLink>> GetFeedUrlsFromPageAsync(string pageUrl, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(pageUrl);
 
@@ -78,20 +121,5 @@ public class FeedReaderService : IFeedReaderService
             .ConfigureAwait(false);
 
         return HtmlHelper.ParseFeedUrlsFromHtml(pageHtml);
-    }
-
-    /// <summary>
-    /// Reads a feed from the Stream <paramref name="feedContentStream"/>
-    /// This could be useful if some special encoding is used.
-    /// </summary>
-    /// <param name="feedContentStream">The feed content as a Stream.</param>
-    /// <returns>The parsed feed.</returns>
-    public static async Task<Feed> ReadFromStreamAsync(Stream feedContentStream)
-    {
-        ArgumentNullException.ThrowIfNull(feedContentStream);
-
-        return await FeedParser
-            .GetFeedFromStreamAsync(feedContentStream)
-            .ConfigureAwait(false);
     }
 }
