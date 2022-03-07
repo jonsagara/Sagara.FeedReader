@@ -1,4 +1,4 @@
-﻿using CodeHollow.FeedReader.TestDataCrawler;
+﻿using CodeHollow.FeedReader.StaticTestDataCrawler;
 
 // Get all feed URLs from the file.
 var rawFeedUrls = File.ReadAllLines("feeds.txt");
@@ -22,3 +22,5 @@ await Parallel.ForEachAsync<string>(
             }
         }
     );
+
+Console.WriteLine("Done.");
