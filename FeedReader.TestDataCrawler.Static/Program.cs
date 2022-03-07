@@ -1,4 +1,4 @@
-﻿using CodeHollow.FeedReader.StaticTestDataCrawler;
+﻿using CodeHollow.FeedReader.TestDataCrawler.Static;
 
 // Get all feed URLs from the file.
 var rawFeedUrls = File.ReadAllLines("feeds.txt");

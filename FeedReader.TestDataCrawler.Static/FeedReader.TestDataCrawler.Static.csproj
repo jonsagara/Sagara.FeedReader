@@ -5,11 +5,11 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Company>FeedReader.StaticTestDataCrawler</Company>
+		<Company>FeedReader.TestDataCrawler.Static</Company>
 		<FileVersion>1.0.0.0</FileVersion>
 		<InformationalVersion>1.0.0</InformationalVersion>
-		<Product>FeedReader.StaticTestDataCrawler</Product>
-		<Title>FeedReader.StaticTestDataCrawler</Title>
+		<Product>FeedReader.TestDataCrawler.Static</Product>
+		<Title>FeedReader.TestDataCrawler.Static</Title>
 		<Version>1.0.0.0</Version>
 	</PropertyGroup>
 

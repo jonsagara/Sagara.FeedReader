@@ -1,11 +1,9 @@
-﻿using CodeHollow.FeedReader;
-using CodeHollow.FeedReader.Http;
-using CodeHollow.FeedReader.InstanceTestDataCrawler;
+﻿using CodeHollow.FeedReader.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IO;
 
-namespace FeedReader.InstanceTestDataCrawler;
+namespace CodeHollow.FeedReader.TestDataCrawler.Instance;
 
 public static class HostBuilderHelper
 {

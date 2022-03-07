@@ -1,6 +1,5 @@
 ﻿using CodeHollow.FeedReader;
-using CodeHollow.FeedReader.InstanceTestDataCrawler;
-using FeedReader.InstanceTestDataCrawler;
+using CodeHollow.FeedReader.TestDataCrawler.Instance;
 using Microsoft.Extensions.DependencyInjection;
 
 try

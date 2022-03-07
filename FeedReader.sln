@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedReader", "FeedReader\Fe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedReader.Tests.Static", "FeedReader.Tests.Static\FeedReader.Tests.Static.csproj", "{CE70B54F-0456-4854-8FA9-F6C70F943ABC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedReader.StaticTestDataCrawler", "FeedReader.StaticTestDataCrawler\FeedReader.StaticTestDataCrawler.csproj", "{45875170-DB82-4DF2-9C0E-19E4E5933261}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedReader.TestDataCrawler.Static", "FeedReader.TestDataCrawler.Static\FeedReader.TestDataCrawler.Static.csproj", "{45875170-DB82-4DF2-9C0E-19E4E5933261}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CF0E7DCA-8DB4-4341-B1CF-82A608724819}"
 	ProjectSection(SolutionItems) = preProject
@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{38C12CFC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedReader.Tests.Instance", "FeedReader.Tests.Instance\FeedReader.Tests.Instance.csproj", "{D3718547-80AE-4EFC-BE77-BE7686ABE745}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedReader.InstanceTestDataCrawler", "FeedReader.InstanceTestDataCrawler\FeedReader.InstanceTestDataCrawler.csproj", "{A439CF52-C25D-4BDE-859B-E8091853727E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedReader.TestDataCrawler.Instance", "FeedReader.TestDataCrawler.Instance\FeedReader.TestDataCrawler.Instance.csproj", "{A439CF52-C25D-4BDE-859B-E8091853727E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

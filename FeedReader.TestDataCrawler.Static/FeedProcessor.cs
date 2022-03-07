@@ -1,24 +1,17 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace CodeHollow.FeedReader.InstanceTestDataCrawler;
+namespace CodeHollow.FeedReader.TestDataCrawler.Static;
 
-public class FeedProcessor
+public static class FeedProcessor
 {
     private static readonly Regex _nonEnglishLetters = new Regex("[^a-z]*", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-    private readonly FeedReaderService _feedReaderService;
-
-    public FeedProcessor(FeedReaderService feedReaderSvc)
-    {
-        _feedReaderService = feedReaderSvc;
-    }
 
     /// <summary>
     /// Download the content of an individual feed.
     /// </summary>
-    public async Task ReadFeedAsync(string rawFeedUrl, string outputFolder)
+    public static async Task ReadFeedAsync(string rawFeedUrl, string outputFolder)
     {
-        var feedLinks = await _feedReaderService.GetFeedUrlsFromPageAsync(rawFeedUrl);
+        var feedLinks = await FeedReader.GetFeedUrlsFromPageAsync(rawFeedUrl);
 
         foreach (var fileFeedLink in feedLinks)
         {
