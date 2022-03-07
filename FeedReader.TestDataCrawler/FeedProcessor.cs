@@ -28,7 +28,7 @@ public static class FeedProcessor
                 }
 
                 // Ensure we have an absolute URL before trying to getch its contents.
-                var feedLink = FeedReader.GetAbsoluteFeedUrl(rawFeedUrl, fileFeedLink);
+                var feedLink = Helpers.GetAbsoluteFeedUrl(rawFeedUrl, fileFeedLink);
 
                 // Fetch the feed's contents.
                 var content = await Helpers.DownloadAsync(feedLink.Url);

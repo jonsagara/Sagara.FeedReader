@@ -1,10 +1,8 @@
 ﻿namespace CodeHollow.FeedReader;
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CodeHollow.FeedReader.Extensions;
@@ -16,6 +14,49 @@ using Feeds.MediaRSS;
 /// </summary>
 public static class Helpers
 {
+    /// <summary>
+    /// Returns the absolute url of a link on a page. If you got the feed links via
+    /// GetFeedUrlsFromUrl(url) and the url is relative, you can use this method to get the full url.
+    /// </summary>
+    /// <param name="pageUrl">the original url to the page</param>
+    /// <param name="feedLink">a referenced feed (link)</param>
+    /// <returns>a feed link</returns>
+    /// <example>GetAbsoluteFeedUrl("codehollow.com", myRelativeFeedLink);</example>
+    public static HtmlFeedLink GetAbsoluteFeedUrl(string pageUrl, HtmlFeedLink feedLink)
+    {
+        ArgumentNullException.ThrowIfNull(pageUrl);
+        ArgumentNullException.ThrowIfNull(feedLink);
+        ArgumentNullException.ThrowIfNull(feedLink.Url);
+
+        string tmpUrl = feedLink.Url.HtmlDecode()!;
+        pageUrl = GetAbsoluteUrl(pageUrl);
+
+        if (tmpUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+            || tmpUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+        {
+            return feedLink;
+        }
+
+        if (tmpUrl.StartsWith("//", StringComparison.OrdinalIgnoreCase)) // special case
+        {
+            tmpUrl = "http:" + tmpUrl;
+        }
+
+        if (Uri.TryCreate(tmpUrl, UriKind.RelativeOrAbsolute, out Uri? finalUri))
+        {
+            if (finalUri.IsAbsoluteUri)
+            {
+                return new HtmlFeedLink(feedLink.Title.HtmlDecode(), finalUri.ToString(), feedLink.FeedType);
+            }
+            else if (Uri.TryCreate(pageUrl + '/' + tmpUrl.TrimStart('/'), UriKind.Absolute, out finalUri))
+            {
+                return new HtmlFeedLink(feedLink.Title.HtmlDecode(), finalUri.ToString(), feedLink.FeedType);
+            }
+        }
+
+        throw new UrlNotFoundException($"Could not get the absolute url out of {pageUrl} and {feedLink.Url}");
+    }
+
     /// <summary>
     /// Download the content from an url and returns it as utf8 encoded string.
     /// Preferred way is to use <see cref="HttpClientHelper.DownloadBytesAsync(string, string, CancellationToken)"/> because it works
@@ -136,82 +177,17 @@ public static class Helpers
             : null;
     }
 
-    /// <summary>
-    /// Returns a HtmlFeedLink object from a linktag (link href="" type="")
-    /// only support application/rss and application/atom as type
-    /// if type is not supported, null is returned
-    /// </summary>
-    /// <param name="input">link tag, e.g. &lt;link rel="alternate" type="application/rss+xml" title="codehollow &gt; Feed" href="https://codehollow.com/feed/" /&gt;</param>
-    /// <returns>Parsed HtmlFeedLink</returns>
-    public static HtmlFeedLink? GetFeedLinkFromLinkTag(string input)
-    {
-        ArgumentNullException.ThrowIfNull(input);
-
-        string linkTag = input.HtmlDecode()!;
-        string type = GetAttributeFromLinkTag("type", linkTag).ToLower();
-
-        if (!type.Contains("application/rss") && !type.Contains("application/atom"))
-        {
-            return null;
-        }
-
-        HtmlFeedLink hfl = new();
-        hfl.Title = GetAttributeFromLinkTag("title", linkTag);
-        hfl.Url = GetAttributeFromLinkTag("href", linkTag);
-        hfl.FeedType = type.Contains("rss") ? FeedType.Rss : FeedType.Atom;
-        return hfl;
-    }
-
-
-    private static readonly Regex _rxLinkTag = new Regex("<link[^>]*rel=\"alternate\"[^>]*>", RegexOptions.Singleline | RegexOptions.Compiled);
-
-    /// <summary>
-    /// Parses RSS links from html page and returns all links
-    /// </summary>
-    /// <param name="htmlContent">the content of the html page</param>
-    /// <returns>all RSS/feed links</returns>
-    public static IReadOnlyCollection<HtmlFeedLink> ParseFeedUrlsFromHtml(string htmlContent)
-    {
-        ArgumentNullException.ThrowIfNull(htmlContent);
-
-        // sample link:
-        // <link rel="alternate" type="application/rss+xml" title="Microsoft Bot Framework Blog" href="http://blog.botframework.com/feed.xml">
-        // <link rel="alternate" type="application/atom+xml" title="Aktuelle News von heise online" href="https://www.heise.de/newsticker/heise-atom.xml">
-
-        List<HtmlFeedLink> feedLinks = new();
-
-        foreach (Match m in _rxLinkTag.Matches(htmlContent))
-        {
-            var hfl = GetFeedLinkFromLinkTag(m.Value);
-            if (hfl is not null)
-            {
-                feedLinks.Add(hfl);
-            }
-        }
-
-        return feedLinks;
-    }
-
 
     //
-    // Private methods
+    // Private/internal methods
     //
 
     /// <summary>
-    /// reads an attribute from an html tag
+    /// Takes a url (with or without http) and returns the full url.
     /// </summary>
-    /// <param name="attribute">name of the attribute, e.g. title</param>
-    /// <param name="htmlTag">the html tag, e.g. &lt;link title="my title"&gt;</param>
-    /// <returns>the value of the attribute, e.g. my title</returns>
-    private static string GetAttributeFromLinkTag(string attribute, string htmlTag)
-    {
-        var res = Regex.Match(htmlTag, attribute + "\\s*=\\s*\"(?<val>[^\"]*)\"", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
-
-        if (res.Groups.Count > 1)
-        {
-            return res.Groups[1].Value;
-        }
-
-        return string.Empty;
-    }
+    /// <param name="url">Url with or without http.</param>
+    /// <returns>Tull url</returns>
+    /// <example>GetUrl("codehollow.com"); => returns https://codehollow.com</example>
+    internal static string GetAbsoluteUrl(string url)
+        => new UriBuilder(url).Uri.ToString();
 }

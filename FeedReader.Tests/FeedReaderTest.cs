@@ -91,7 +91,7 @@ public class FeedReaderTest
 
         foreach (var link in links)
         {
-            var absoluteUrl = FeedReader.GetAbsoluteFeedUrl(url, link);
+            var absoluteUrl = Helpers.GetAbsoluteFeedUrl(url, link);
             Assert.StartsWith("http://", absoluteUrl.Url);
         }
 

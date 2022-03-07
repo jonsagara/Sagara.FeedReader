@@ -13,6 +13,62 @@ internal static class FeedParser
     /// Returns the parsed feed. This method tries to use the encoding of the received file.
     /// If none found, or it's invalid, it uses UTF8.
     /// </summary>
+    /// <param name="feedContentStream">The feed document as a MemoryStream.</param>
+    /// <returns>Parsed feed</returns>
+    public static async Task<Feed> GetFeedFromMemoryStreamAsync(MemoryStream feedContentStream)
+    {
+        ArgumentNullException.ThrowIfNull(feedContentStream);
+
+        string? feedContent = null;
+        XDocument? feedDoc = null;
+        Encoding encoding = Encoding.UTF8;
+
+        // Try to load the document with the default encoding so that we can read its declared encoding.
+        feedContentStream.Position = 0L;
+
+        using (var streamReader = new StreamReader(feedContentStream, Encoding.UTF8, leaveOpen: true))
+        {
+            // Read it into a string so that we can remove invalid characters.
+            feedContent = await streamReader.ReadToEndAsync().ConfigureAwait(false);
+            feedContent = RemoveInvalidChars(feedContent);
+
+            // Parse it so that we can try to get the declared encoding, if any.
+            feedDoc = XDocument.Parse(feedContent);
+            encoding = GetEncoding(feedDoc);
+        }
+
+        if (encoding != Encoding.UTF8)
+        {
+            // Re-read the stream with the declared encoding.
+            // In some cases - ISO-8859-1 - Encoding.UTF8.GetString doesn't work correctly, so converting
+            //   from UTF8 to ISO-8859-1 doesn't work and the result is wrong.
+            //   See: FullParseTest.TestRss20ParseSwedishFeedWithIso8859_1
+
+            feedContentStream.Position = 0L;
+
+            using (var streamReader = new StreamReader(feedContentStream, encoding, leaveOpen: true))
+            {
+                feedContent = await streamReader.ReadToEndAsync().ConfigureAwait(false);
+                feedContent = RemoveInvalidChars(feedContent);
+            }
+        }
+
+        // Get the feed type from the original parsed document.
+        var feedType = ParseFeedType(feedDoc);
+
+        // Get the correct parser based on the feed type.
+        var parser = Factory.GetParser(feedType);
+
+        // Let this parser parse the XDocument again with the string in the declared encoding.
+        var feed = parser.Parse(feedContent);
+
+        return feed.ToFeed();
+    }
+
+    /// <summary>
+    /// Returns the parsed feed. This method tries to use the encoding of the received file.
+    /// If none found, or it's invalid, it uses UTF8.
+    /// </summary>
     /// <param name="feedContentData">The feed document as a byte array.</param>
     /// <returns>Parsed feed</returns>
     public static Feed GetFeedFromBytes(byte[] feedContentData)
@@ -21,7 +77,7 @@ internal static class FeedParser
 
         // 1.) get string of the content
         string feedContent = Encoding.UTF8.GetString(feedContentData);
-        feedContent = RemoveWrongChars(feedContent);
+        feedContent = RemoveInvalidChars(feedContent);
 
         // 2.) read document to get the used encoding
         XDocument feedDoc = XDocument.Parse(feedContent);
@@ -36,7 +92,7 @@ internal static class FeedParser
         if (encoding != Encoding.UTF8)
         {
             feedContent = encoding.GetString(feedContentData);
-            feedContent = RemoveWrongChars(feedContent);
+            feedContent = RemoveInvalidChars(feedContent);
         }
 
         var feedType = ParseFeedType(feedDoc);
@@ -55,7 +111,7 @@ internal static class FeedParser
     {
         ArgumentNullException.ThrowIfNull(feedContent);
 
-        feedContent = RemoveWrongChars(feedContent);
+        feedContent = RemoveInvalidChars(feedContent);
 
         XDocument feedDoc = XDocument.Parse(feedContent);
 
@@ -151,7 +207,7 @@ internal static class FeedParser
     /// </summary>
     /// <param name="feedContent">RSS feed content.</param>
     /// <returns>Cleaned up RSS feed content.</returns>
-    private static string RemoveWrongChars(string feedContent)
+    private static string RemoveInvalidChars(string feedContent)
     {
         // Replaces all control characters except CR LF (\r\n) and TAB.
         for (int charCode = 0; charCode <= 31; charCode++)

@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using CodeHollow.FeedReader.Html;
+using Xunit;
 
 namespace CodeHollow.FeedReader.Tests;
 
@@ -44,7 +45,7 @@ public class HelpersTest
 
     private static void TestLinkTagParse(string input, HtmlFeedLink expectedResult)
     {
-        var res = Helpers.GetFeedLinkFromLinkTag(input);
+        var res = HtmlHelper.GetFeedLinkFromLinkTag(input);
         Assert.Equal(expectedResult.Title, res?.Title);
         Assert.Equal(expectedResult.Url, res?.Url);
         Assert.Equal(expectedResult.FeedType, res?.FeedType);
@@ -133,7 +134,7 @@ public class HelpersTest
     {
         var content = File.ReadAllText(path);
 
-        var links = Helpers.ParseFeedUrlsFromHtml(content);
+        var links = HtmlHelper.ParseFeedUrlsFromHtml(content);
         Assert.Equal(expectedLinks.Count, links.Count);
 
         foreach (var l in links)

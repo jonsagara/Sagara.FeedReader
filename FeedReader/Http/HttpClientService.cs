@@ -7,7 +7,7 @@ namespace CodeHollow.FeedReader.Http;
 /// New instance-based class that makes HTTP requests to download the feeds themselves, 
 /// or pages to look for feed links.
 /// </summary>
-internal class HttpClientService : IFeedReaderService
+public class HttpClientService : IFeedReaderService
 {
     private readonly HttpClient _httpClient;
     private readonly RecyclableMemoryStreamManager _recyclableMemoryStreamManager;

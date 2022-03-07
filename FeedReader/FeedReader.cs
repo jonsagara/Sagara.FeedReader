@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CodeHollow.FeedReader.Extensions;
+using CodeHollow.FeedReader.Html;
 using CodeHollow.FeedReader.Http;
 using Parser;
 
 /// <summary>
-/// The FeedReader class allows to read feeds from a given url. Use it to parse a feed 
-/// from an url <see cref="ReadAsync(string, bool, string?, CancellationToken)"/>, a file <see cref="ReadFromFile(string)"/> 
+/// The static FeedReader class allows to read feeds from a given url. Use it to parse a feed 
+/// from an url <see cref="ReadAsync(string, string?, CancellationToken)"/>, a file <see cref="ReadFromFile(string)"/> 
 /// or <see cref="ReadFromFileAsync(string, CancellationToken)"/>, a byte array <see cref="ReadFromByteArray(byte[])"/> or a 
 /// string <see cref="ReadFromString(string)"/>. If the feed url is not known, <see cref="ParseFeedUrlsFromHtml(string)"/> 
 /// returns all feed links on a given page.
@@ -22,62 +22,10 @@ using Parser;
 /// var feed = FeedReader.Read(firstLink.Url);
 /// Console.WriteLine(feed.Title);
 /// </example>
-public class FeedReader : IFeedReaderService
+public static class FeedReader
 {
-    //
-    // Instance API
-    //
-
-
-    //
-    // Static API
-    //
-
     /// <summary>
-    /// Returns the absolute url of a link on a page. If you got the feed links via
-    /// GetFeedUrlsFromUrl(url) and the url is relative, you can use this method to get the full url.
-    /// </summary>
-    /// <param name="pageUrl">the original url to the page</param>
-    /// <param name="feedLink">a referenced feed (link)</param>
-    /// <returns>a feed link</returns>
-    /// <example>GetAbsoluteFeedUrl("codehollow.com", myRelativeFeedLink);</example>
-    public static HtmlFeedLink GetAbsoluteFeedUrl(string pageUrl, HtmlFeedLink feedLink)
-    {
-        ArgumentNullException.ThrowIfNull(pageUrl);
-        ArgumentNullException.ThrowIfNull(feedLink);
-        ArgumentNullException.ThrowIfNull(feedLink.Url);
-
-        string tmpUrl = feedLink.Url.HtmlDecode()!;
-        pageUrl = GetAbsoluteUrl(pageUrl);
-
-        if (tmpUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
-            || tmpUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-        {
-            return feedLink;
-        }
-
-        if (tmpUrl.StartsWith("//", StringComparison.OrdinalIgnoreCase)) // special case
-        {
-            tmpUrl = "http:" + tmpUrl;
-        }
-
-        if (Uri.TryCreate(tmpUrl, UriKind.RelativeOrAbsolute, out Uri? finalUri))
-        {
-            if (finalUri.IsAbsoluteUri)
-            {
-                return new HtmlFeedLink(feedLink.Title.HtmlDecode(), finalUri.ToString(), feedLink.FeedType);
-            }
-            else if (Uri.TryCreate(pageUrl + '/' + tmpUrl.TrimStart('/'), UriKind.Absolute, out finalUri))
-            {
-                return new HtmlFeedLink(feedLink.Title.HtmlDecode(), finalUri.ToString(), feedLink.FeedType);
-            }
-        }
-
-        throw new UrlNotFoundException($"Could not get the absolute url out of {pageUrl} and {feedLink.Url}");
-    }
-
-    /// <summary>
-    /// Opens a webpage and reads all feed urls from it (link rel="alternate" type="application/...")
+    /// Static API. Opens a webpage and reads all feed urls from it (link rel="alternate" type="application/...")
     /// </summary>
     /// <param name="url">the url of the page</param>
     /// <param name="cancellationToken">token to cancel operation</param>
@@ -88,7 +36,7 @@ public class FeedReader : IFeedReaderService
     {
         ArgumentNullException.ThrowIfNull(url);
 
-        url = GetAbsoluteUrl(url);
+        url = Helpers.GetAbsoluteUrl(url);
         string pageContent = await Helpers.DownloadAsync(url, cancellationToken: cancellationToken).ConfigureAwait(false);
         var links = ParseFeedUrlsFromHtml(pageContent);
         return links;
@@ -119,7 +67,7 @@ public class FeedReader : IFeedReaderService
         ArgumentNullException.ThrowIfNull(htmlContent);
 
         // left the method here for downward compatibility
-        return Helpers.ParseFeedUrlsFromHtml(htmlContent);
+        return HtmlHelper.ParseFeedUrlsFromHtml(htmlContent);
     }
 
     /// <summary>
@@ -128,14 +76,13 @@ public class FeedReader : IFeedReaderService
     /// </summary>
     /// <param name="url">the url to a feed</param>
     /// <param name="cancellationToken">token to cancel operation</param>
-    /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
     /// <param name="userAgent">override built-in user-agent header</param>
     /// <returns>parsed feed</returns>
-    public static async Task<Feed> ReadAsync(string url, bool autoRedirect = true, string? userAgent = null, CancellationToken cancellationToken = default)
+    public static async Task<Feed> ReadAsync(string url, string? userAgent = null, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(url);
 
-        var feedContent = await HttpClientHelper.DownloadBytesAsync(GetAbsoluteUrl(url), userAgent: userAgent, cancellationToken: cancellationToken).ConfigureAwait(false);
+        var feedContent = await HttpClientHelper.DownloadBytesAsync(Helpers.GetAbsoluteUrl(url), userAgent: userAgent, cancellationToken: cancellationToken).ConfigureAwait(false);
         return ReadFromByteArray(feedContent);
     }
 
@@ -190,18 +137,4 @@ public class FeedReader : IFeedReaderService
 
         return FeedParser.GetFeedFromBytes(feedContent);
     }
-
-
-    //
-    // Private methods
-    //
-
-    /// <summary>
-    /// Takes a url (with or without http) and returns the full url.
-    /// </summary>
-    /// <param name="url">Url with or without http.</param>
-    /// <returns>Tull url</returns>
-    /// <example>GetUrl("codehollow.com"); => returns https://codehollow.com</example>
-    private static string GetAbsoluteUrl(string url)
-        => new UriBuilder(url).Uri.ToString();
 }
