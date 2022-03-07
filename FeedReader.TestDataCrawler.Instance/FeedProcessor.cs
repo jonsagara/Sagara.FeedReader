@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using CodeHollow.FeedReader.Http;
 
 namespace CodeHollow.FeedReader.TestDataCrawler.Instance;
 
@@ -6,11 +7,13 @@ public class FeedProcessor
 {
     private static readonly Regex _nonEnglishLetters = new Regex("[^a-z]*", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-    private readonly FeedReaderService _feedReaderService;
+    private readonly FeedReaderService _feedReaderSvc;
+    private readonly HttpClientService _httpClientSvc;
 
-    public FeedProcessor(FeedReaderService feedReaderSvc)
+    public FeedProcessor(FeedReaderService feedReaderSvc, HttpClientService httpClientSvc)
     {
-        _feedReaderService = feedReaderSvc;
+        _feedReaderSvc = feedReaderSvc;
+        _httpClientSvc = httpClientSvc;
     }
 
     /// <summary>
@@ -18,7 +21,7 @@ public class FeedProcessor
     /// </summary>
     public async Task ReadFeedAsync(string rawFeedUrl, string outputFolder)
     {
-        var feedLinks = await _feedReaderService.GetFeedUrlsFromPageAsync(rawFeedUrl);
+        var feedLinks = await _feedReaderSvc.GetFeedUrlsFromPageAsync(rawFeedUrl);
 
         foreach (var fileFeedLink in feedLinks)
         {
@@ -38,7 +41,7 @@ public class FeedProcessor
                 var feedLink = Helpers.GetAbsoluteFeedUrl(rawFeedUrl, fileFeedLink);
 
                 // Fetch the feed's contents.
-                var content = await Helpers.DownloadAsync(feedLink.Url);
+                var content = await _httpClientSvc.DownloadStringAsync(feedLink.Url);
 
                 // Keep only English characters for the file we're about to write out.
                 title = _nonEnglishLetters.Replace(title, "");
@@ -50,6 +53,7 @@ public class FeedProcessor
             }
             catch (Exception ex)
             {
+                Console.WriteLine();
                 Console.WriteLine($"{fileFeedLink.Title} - {fileFeedLink.Url}: {ex}");
             }
         }

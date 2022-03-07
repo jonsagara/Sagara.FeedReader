@@ -43,6 +43,7 @@ public static class FeedProcessor
             }
             catch (Exception ex)
             {
+                Console.WriteLine();
                 Console.WriteLine($"{fileFeedLink.Title} - {fileFeedLink.Url}: {ex}");
             }
         }
