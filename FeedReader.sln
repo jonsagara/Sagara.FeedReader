@@ -28,6 +28,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedReader.Tests.Instance",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedReader.TestDataCrawler.Instance", "FeedReader.TestDataCrawler.Instance\FeedReader.TestDataCrawler.Instance.csproj", "{A439CF52-C25D-4BDE-859B-E8091853727E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E53EE766-0AD7-424D-8586-6268C8223E6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{E6D73D4A-2166-4715-A7B0-C3644469959A} = {E53EE766-0AD7-424D-8586-6268C8223E6A}
 		{CE70B54F-0456-4854-8FA9-F6C70F943ABC} = {38C12CFC-710B-4CF6-878A-1F8D1D2AAE21}
 		{45875170-DB82-4DF2-9C0E-19E4E5933261} = {305D3DDE-41ED-4AB7-9D56-297B97C1EB6B}
 		{C2B3ED64-BBE0-44FF-8001-90895C8F4396} = {305D3DDE-41ED-4AB7-9D56-297B97C1EB6B}
