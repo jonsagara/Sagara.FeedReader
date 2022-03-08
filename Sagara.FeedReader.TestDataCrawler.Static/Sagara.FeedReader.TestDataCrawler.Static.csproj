@@ -5,17 +5,20 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Company>FeedReader.StaticConsoleSample</Company>
-		<Copyright>Copyright ©  2017</Copyright>
+		<Company>Sagara.FeedReader.TestDataCrawler.Static</Company>
 		<FileVersion>1.0.0.0</FileVersion>
 		<InformationalVersion>1.0.0</InformationalVersion>
-		<Product>FeedReader.StaticConsoleSample</Product>
-		<Title>FeedReader.StaticConsoleSample</Title>
+		<Product>Sagara.FeedReader.TestDataCrawler.Static</Product>
+		<Title>Sagara.FeedReader.TestDataCrawler.Static</Title>
 		<Version>1.0.0.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\FeedReader\FeedReader.csproj" />
+		<Content Include="feeds.txt" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Sagara.FeedReader\Sagara.FeedReader.csproj" />
 	</ItemGroup>
 
 </Project>

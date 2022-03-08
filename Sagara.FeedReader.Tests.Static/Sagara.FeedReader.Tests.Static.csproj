@@ -3,10 +3,10 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
-		<AssemblyName>FeedReader.Tests.Static</AssemblyName>
-		<PackageId>FeedReader.Tests.Static</PackageId>
-		<Title>FeedReader.Tests.Static</Title>
-		<Product>FeedReader.Tests.Static</Product>
+		<AssemblyName>Sagara.FeedReader.Tests.Static</AssemblyName>
+		<PackageId>Sagara.FeedReader.Tests.Static</PackageId>
+		<Title>Sagara.FeedReader.Tests.Static</Title>
+		<Product>Sagara.FeedReader.Tests.Static</Product>
 		<Copyright>Copyright © 2017</Copyright>
 		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
 		<RuntimeIdentifiers>win8-x64;win10-x64</RuntimeIdentifiers>
@@ -24,7 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\FeedReader\FeedReader.csproj" />
+		<ProjectReference Include="..\Sagara.FeedReader\Sagara.FeedReader.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
