@@ -37,12 +37,8 @@ internal static class FeedParser
             encoding = GetEncoding(feedDoc);
         }
 
-        var encodingChanged = false;
-
         if (encoding != Encoding.UTF8)
         {
-            encodingChanged = true;
-
             // Re-read the stream with the declared encoding.
             // In some cases - ISO-8859-1 - Encoding.UTF8.GetString doesn't work correctly, so converting
             //   from UTF8 to ISO-8859-1 doesn't work and the result is wrong.
@@ -63,12 +59,11 @@ internal static class FeedParser
         // Get the correct parser based on the feed type.
         var parser = Factory.GetParser(feedType);
 
-        // If the declared encoding is not UTF-8, then the parser will parse the newly-updated feedContent
-        //   string again. Otherwise, we already have the UTF-8-based XDocument instance, and we can just
-        //   pass that to the parser and skip reparsing the document.
-        var feed = encodingChanged
-            ? parser.Parse(feedContent)
-            : parser.Parse(feedContent, feedDoc);
+        // If the declared encoding is UTF-8, then we didn't read feedConentData again with a
+        //   different encoding, and there's no need to have the parser reparse the XDocument.
+        var feed = encoding == Encoding.UTF8
+            ? parser.Parse(feedContent, feedDoc)
+            : parser.Parse(feedContent);
 
         return feed.ToFeed();
     }
@@ -105,7 +100,12 @@ internal static class FeedParser
 
         var feedType = ParseFeedType(feedDoc);
         var parser = Factory.GetParser(feedType);
-        var feed = parser.Parse(feedContent);
+
+        // If the declared encoding is UTF-8, then we didn't read feedConentData again with a
+        //   different encoding, and there's no need to have the parser reparse the XDocument.
+        var feed = encoding == Encoding.UTF8
+            ? parser.Parse(feedContent, feedDoc)
+            : parser.Parse(feedContent);
 
         return feed.ToFeed();
     }
@@ -125,7 +125,7 @@ internal static class FeedParser
 
         var feedType = ParseFeedType(feedDoc);
         var parser = Factory.GetParser(feedType);
-        var feed = parser.Parse(feedContent);
+        var feed = parser.Parse(feedContent, feedDoc);
 
         return feed.ToFeed();
     }
