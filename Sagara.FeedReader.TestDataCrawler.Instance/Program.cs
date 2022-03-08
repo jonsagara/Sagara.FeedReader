@@ -1,5 +1,5 @@
-﻿using CodeHollow.FeedReader;
-using CodeHollow.FeedReader.TestDataCrawler.Instance;
+﻿using Sagara.FeedReader;
+using Sagara.FeedReader.TestDataCrawler.Instance;
 using Microsoft.Extensions.DependencyInjection;
 
 try

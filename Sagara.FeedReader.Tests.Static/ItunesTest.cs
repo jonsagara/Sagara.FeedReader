@@ -1,7 +1,7 @@
-﻿using CodeHollow.FeedReader.Feeds.Itunes;
+﻿using Sagara.FeedReader.Feeds.Itunes;
 using Xunit;
 
-namespace CodeHollow.FeedReader.Tests.Static;
+namespace Sagara.FeedReader.Tests.Static;
 
 public class ItunesTest
 {

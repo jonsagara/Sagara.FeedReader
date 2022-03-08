@@ -1,4 +1,4 @@
-﻿namespace CodeHollow.FeedReader.Extensions;
+﻿namespace Sagara.FeedReader.Extensions;
 
 /// <summary>
 /// Extension methods for the ICollection&lt;T&gt; interface.

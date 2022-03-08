@@ -1,7 +1,7 @@
-﻿namespace CodeHollow.FeedReader.Feeds;
+﻿namespace Sagara.FeedReader.Feeds;
 
 using System.Xml.Linq;
-using CodeHollow.FeedReader.Extensions;
+using Sagara.FeedReader.Extensions;
 
 /// <summary>
 /// default text input object for Rss 0.91, 0.92, 1.0, 2.0 and ATOM

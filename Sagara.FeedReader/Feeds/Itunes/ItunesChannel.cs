@@ -1,9 +1,9 @@
-﻿namespace CodeHollow.FeedReader.Feeds.Itunes;
+﻿namespace Sagara.FeedReader.Feeds.Itunes;
 
 using System;
 using System.Linq;
 using System.Xml.Linq;
-using CodeHollow.FeedReader.Extensions;
+using Sagara.FeedReader.Extensions;
 
 /// <summary>
 /// The basic itunes: elements that are part of the channel xml element of an rss2.0 feed

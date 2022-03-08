@@ -1,7 +1,7 @@
-﻿namespace CodeHollow.FeedReader.Feeds;
+﻿namespace Sagara.FeedReader.Feeds;
 
 using System.Xml.Linq;
-using CodeHollow.FeedReader.Extensions;
+using Sagara.FeedReader.Extensions;
 
 /// <summary>
 /// feed image object that is used in feed (rss 0.91, 2.0, atom, ...)

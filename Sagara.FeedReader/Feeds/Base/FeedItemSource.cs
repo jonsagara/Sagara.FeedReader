@@ -1,7 +1,7 @@
-﻿namespace CodeHollow.FeedReader.Feeds;
+﻿namespace Sagara.FeedReader.Feeds;
 
 using System.Xml.Linq;
-using CodeHollow.FeedReader.Extensions;
+using Sagara.FeedReader.Extensions;
 
 /// <summary>
 /// item source object from rss 2.0 according to specification: https://validator.w3.org/feed/docs/rss2.html

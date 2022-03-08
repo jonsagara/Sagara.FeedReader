@@ -1,4 +1,4 @@
-﻿using CodeHollow.FeedReader;
+﻿using Sagara.FeedReader;
 
 const string prompt = "Please enter feed url or exit to stop the program:";
 Console.WriteLine(prompt);

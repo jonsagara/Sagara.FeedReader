@@ -1,4 +1,4 @@
-﻿namespace CodeHollow.FeedReader.Parser;
+﻿namespace Sagara.FeedReader.Parser;
 
 using System.Xml.Linq;
 using Feeds;

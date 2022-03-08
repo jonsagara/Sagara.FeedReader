@@ -1,4 +1,4 @@
-﻿namespace CodeHollow.FeedReader.Feeds.Itunes;
+﻿namespace Sagara.FeedReader.Feeds.Itunes;
 
 /// <summary>
 /// Extension method that allows to access the itunes tags for a feed

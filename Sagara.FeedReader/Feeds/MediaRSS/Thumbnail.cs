@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
-using CodeHollow.FeedReader.Extensions;
+using Sagara.FeedReader.Extensions;
 
-namespace CodeHollow.FeedReader.Feeds.MediaRSS;
+namespace Sagara.FeedReader.Feeds.MediaRSS;
 
 /// <summary>
 /// Allows particular images to be used as representative images for the media object. If multiple thumbnails are included, and time coding is not at play, it is assumed that the images are in order of importance. 

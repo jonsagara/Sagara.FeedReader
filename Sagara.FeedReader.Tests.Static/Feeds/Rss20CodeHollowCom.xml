@@ -326,7 +326,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CodeHollow.MeetupIcal
+namespace Sagara.MeetupIcal
 {
     public class MeetupEvent
     {
@@ -487,7 +487,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CodeHollow.MeetupIcal
+namespace Sagara.MeetupIcal
 {
     public class MeetupEvent
     {

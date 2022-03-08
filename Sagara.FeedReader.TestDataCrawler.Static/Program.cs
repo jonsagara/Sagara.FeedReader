@@ -1,4 +1,4 @@
-﻿using CodeHollow.FeedReader.TestDataCrawler.Static;
+﻿using Sagara.FeedReader.TestDataCrawler.Static;
 
 // Get all feed URLs from the file.
 var rawFeedUrls = File.ReadAllLines("feeds.txt");

@@ -1,11 +1,12 @@
-﻿namespace CodeHollow.FeedReader.Feeds;
+﻿namespace Sagara.FeedReader.Feeds;
 
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
-using CodeHollow.FeedReader.Extensions;
+using Sagara.FeedReader;
+using Sagara.FeedReader.Extensions;
 
 /// <summary>
 /// RSS 2.0 feed accoring to specification: https://validator.w3.org/feed/docs/rss2.html

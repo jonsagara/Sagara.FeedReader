@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
-using CodeHollow.FeedReader.Extensions;
+using Sagara.FeedReader.Extensions;
 
-namespace CodeHollow.FeedReader.Feeds.Itunes;
+namespace Sagara.FeedReader.Feeds.Itunes;
 
 /// <summary>
 /// The itunes:... elements of an rss 2.0 item

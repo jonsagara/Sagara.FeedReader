@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using CodeHollow.FeedReader.Extensions;
+using Sagara.FeedReader.Extensions;
 
-namespace CodeHollow.FeedReader.Html;
+namespace Sagara.FeedReader.Html;
 
 /// <summary>
 /// Contains HTML helper methods.

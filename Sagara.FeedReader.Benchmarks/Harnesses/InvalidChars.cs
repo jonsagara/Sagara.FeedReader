@@ -2,7 +2,7 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
 
-namespace CodeHollow.FeedReader.Benchmarks.Harnesses;
+namespace Sagara.FeedReader.Benchmarks.Harnesses;
 
 [SimpleJob(RuntimeMoniker.Net60)]
 [MemoryDiagnoser]

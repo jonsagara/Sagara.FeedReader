@@ -1,9 +1,9 @@
-﻿using CodeHollow.FeedReader.Http;
+﻿using Sagara.FeedReader.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IO;
 
-namespace CodeHollow.FeedReader.TestDataCrawler.Instance;
+namespace Sagara.FeedReader.TestDataCrawler.Instance;
 
 public static class HostBuilderHelper
 {

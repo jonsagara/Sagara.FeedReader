@@ -1,4 +1,4 @@
-﻿namespace CodeHollow.FeedReader.Feeds.Itunes;
+﻿namespace Sagara.FeedReader.Feeds.Itunes;
 
 /// <summary>
 /// The itunes:category element

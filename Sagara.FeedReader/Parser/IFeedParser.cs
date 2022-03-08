@@ -1,6 +1,6 @@
-﻿using CodeHollow.FeedReader.Feeds;
+﻿using Sagara.FeedReader.Feeds;
 
-namespace CodeHollow.FeedReader.Parser;
+namespace Sagara.FeedReader.Parser;
 
 internal interface IFeedParser
 {

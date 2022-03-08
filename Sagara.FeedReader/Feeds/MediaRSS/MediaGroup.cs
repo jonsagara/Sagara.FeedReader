@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
-using CodeHollow.FeedReader.Extensions;
+using Sagara.FeedReader.Extensions;
 
-namespace CodeHollow.FeedReader.Feeds.MediaRSS;
+namespace Sagara.FeedReader.Feeds.MediaRSS;
 
 /// <summary>
 /// A collection of media that are effectively the same content, yet different representations. For isntance: the same song recorded in both WAV and MP3 format.

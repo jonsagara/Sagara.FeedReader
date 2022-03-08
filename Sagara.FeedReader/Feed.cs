@@ -1,9 +1,9 @@
-﻿namespace CodeHollow.FeedReader;
+﻿namespace Sagara.FeedReader;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Feeds;
+using Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// Generic Feed object that contains some basic properties. If a property is not available

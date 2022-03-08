@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Polly;
 
-namespace CodeHollow.FeedReader.Http;
+namespace Sagara.FeedReader.Http;
 
 /// <summary>
 /// Configuration helper for the non-static version of FeedReader that uses

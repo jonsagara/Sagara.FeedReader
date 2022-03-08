@@ -1,4 +1,4 @@
-﻿namespace CodeHollow.FeedReader;
+﻿namespace Sagara.FeedReader;
 
 /// <summary>
 /// DI marker interface.

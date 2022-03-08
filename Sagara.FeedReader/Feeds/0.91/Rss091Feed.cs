@@ -1,10 +1,10 @@
-﻿namespace CodeHollow.FeedReader.Feeds;
+﻿namespace Sagara.FeedReader.Feeds;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using CodeHollow.FeedReader.Extensions;
+using Sagara.FeedReader.Extensions;
 
 /// <summary>
 /// Rss Feed according to Rss 0.91 specification:

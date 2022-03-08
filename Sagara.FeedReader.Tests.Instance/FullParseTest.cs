@@ -1,11 +1,11 @@
-﻿using CodeHollow.FeedReader.Feeds;
-using CodeHollow.FeedReader.Feeds.Itunes;
-using CodeHollow.FeedReader.Http;
-using CodeHollow.FeedReader.Tests.Instance.Fixtures;
+﻿using Sagara.FeedReader.Feeds;
+using Sagara.FeedReader.Feeds.Itunes;
+using Sagara.FeedReader.Http;
+using Sagara.FeedReader.Tests.Instance.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace CodeHollow.FeedReader.Tests.Instance;
+namespace Sagara.FeedReader.Tests.Instance;
 
 [Collection(nameof(ServiceScopeCollection))]
 public class FullParseTest

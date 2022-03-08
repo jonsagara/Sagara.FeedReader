@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace CodeHollow.FeedReader.Http;
+namespace Sagara.FeedReader.Http;
 
 /// <summary>
 /// Original static class that makes HTTP requests to download the feeds themselves, 

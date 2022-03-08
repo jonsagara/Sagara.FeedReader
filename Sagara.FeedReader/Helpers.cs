@@ -1,13 +1,13 @@
-﻿namespace CodeHollow.FeedReader;
+﻿namespace Sagara.FeedReader;
 
 using System;
 using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using CodeHollow.FeedReader.Extensions;
-using CodeHollow.FeedReader.Http;
 using Feeds.MediaRSS;
+using Sagara.FeedReader.Extensions;
+using Sagara.FeedReader.Http;
 
 /// <summary>
 /// static class with helper functions

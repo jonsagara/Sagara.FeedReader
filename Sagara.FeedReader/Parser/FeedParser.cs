@@ -1,8 +1,8 @@
-﻿namespace CodeHollow.FeedReader.Parser;
+﻿namespace Sagara.FeedReader.Parser;
 
 using System.Text;
 using System.Xml.Linq;
-using CodeHollow.FeedReader.Extensions;
+using Sagara.FeedReader.Extensions;
 
 /// <summary>
 /// Internal FeedParser - returns the type of the feed or the parsed feed.

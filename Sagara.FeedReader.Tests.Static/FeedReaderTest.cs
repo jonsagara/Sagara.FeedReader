@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace CodeHollow.FeedReader.Tests.Static;
+namespace Sagara.FeedReader.Tests.Static;
 
 public class FeedReaderTest
 {

@@ -1,7 +1,7 @@
-﻿namespace CodeHollow.FeedReader.Parser;
+﻿namespace Sagara.FeedReader.Parser;
 
 using System.Xml.Linq;
-using CodeHollow.FeedReader.Extensions;
+using Sagara.FeedReader.Extensions;
 using Feeds;
 
 internal class Rss091Parser : AbstractXmlFeedParser

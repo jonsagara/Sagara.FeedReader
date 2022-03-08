@@ -1,4 +1,4 @@
-﻿namespace CodeHollow.FeedReader.Extensions;
+﻿namespace Sagara.FeedReader.Extensions;
 
 using System;
 using System.Collections.Generic;

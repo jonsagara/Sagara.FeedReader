@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using CodeHollow.FeedReader.Http;
+using Sagara.FeedReader.Http;
 
-namespace CodeHollow.FeedReader.TestDataCrawler.Instance;
+namespace Sagara.FeedReader.TestDataCrawler.Instance;
 
 public class FeedProcessor
 {

@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Microsoft.IO;
 
-namespace CodeHollow.FeedReader.Http;
+namespace Sagara.FeedReader.Http;
 
 /// <summary>
 /// New instance-based class that makes HTTP requests to download the feeds themselves, 

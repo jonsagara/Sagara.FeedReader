@@ -1,11 +1,11 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
-using CodeHollow.FeedReader.Http;
+using Sagara.FeedReader.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IO;
 
-namespace CodeHollow.FeedReader.Benchmarks.Harnesses;
+namespace Sagara.FeedReader.Benchmarks.Harnesses;
 
 [SimpleJob(RuntimeMoniker.Net60)]
 [MemoryDiagnoser]

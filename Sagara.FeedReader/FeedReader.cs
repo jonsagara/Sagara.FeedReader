@@ -1,12 +1,12 @@
-﻿namespace CodeHollow.FeedReader;
+﻿namespace Sagara.FeedReader;
 
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CodeHollow.FeedReader.Html;
-using CodeHollow.FeedReader.Http;
-using Parser;
+using Sagara.FeedReader.Html;
+using Sagara.FeedReader.Http;
+using Sagara.FeedReader.Parser;
 
 /// <summary>
 /// The static FeedReader class allows to read feeds from a given url. Use it to parse a feed 

@@ -1,7 +1,7 @@
-﻿namespace CodeHollow.FeedReader.Feeds.Itunes;
+﻿namespace Sagara.FeedReader.Feeds.Itunes;
 
 using System.Xml.Linq;
-using CodeHollow.FeedReader.Extensions;
+using Sagara.FeedReader.Extensions;
 
 /// <summary>
 /// The itunes:owner xml element

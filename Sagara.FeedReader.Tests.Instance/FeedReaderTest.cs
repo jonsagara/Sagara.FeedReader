@@ -1,9 +1,9 @@
-﻿using CodeHollow.FeedReader.Http;
-using CodeHollow.FeedReader.Tests.Instance.Fixtures;
+﻿using Sagara.FeedReader.Http;
+using Sagara.FeedReader.Tests.Instance.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace CodeHollow.FeedReader.Tests.Instance;
+namespace Sagara.FeedReader.Tests.Instance;
 
 [Collection(nameof(ServiceScopeCollection))]
 public class FeedReaderTest

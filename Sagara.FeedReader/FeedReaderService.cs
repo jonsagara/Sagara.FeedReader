@@ -1,8 +1,8 @@
-﻿using CodeHollow.FeedReader.Html;
-using CodeHollow.FeedReader.Http;
-using CodeHollow.FeedReader.Parser;
+﻿using Sagara.FeedReader.Html;
+using Sagara.FeedReader.Http;
+using Sagara.FeedReader.Parser;
 
-namespace CodeHollow.FeedReader;
+namespace Sagara.FeedReader;
 
 /// <summary>
 /// The FeedReader class allows to read feeds from a given url. Use it to parse a feed 

@@ -1,5 +1,5 @@
 ﻿using BenchmarkDotNet.Running;
-using CodeHollow.FeedReader.Benchmarks.Harnesses;
+using Sagara.FeedReader.Benchmarks.Harnesses;
 
 //
 // Benchmark

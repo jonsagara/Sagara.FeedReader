@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace CodeHollow.FeedReader.TestDataCrawler.Static;
+namespace Sagara.FeedReader.TestDataCrawler.Static;
 
 public static class FeedProcessor
 {

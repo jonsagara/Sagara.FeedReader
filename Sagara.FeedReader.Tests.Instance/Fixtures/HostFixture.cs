@@ -1,9 +1,9 @@
-﻿using CodeHollow.FeedReader.Http;
+﻿using Sagara.FeedReader.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IO;
 
-namespace CodeHollow.FeedReader.Tests.Instance.Fixtures;
+namespace Sagara.FeedReader.Tests.Instance.Fixtures;
 
 public class HostFixture : IDisposable
 {
