@@ -234,6 +234,8 @@ internal static class FeedParser
         // Replaces special char, fixes issues with at least one feed.
         feedContent = feedContent.Replace(((char)65279).ToString(), string.Empty);
 
-        return feedContent.Trim();
+        // We explicitly leave some white space (CR/LF/TAB) alone above, so don't remove it now.
+        //   Calling trim allocates a whole new string.
+        return feedContent;
     }
 }

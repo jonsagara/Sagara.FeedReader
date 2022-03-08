@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IO;
 
-namespace CodeHollow.FeedReader.Benchmarks;
+namespace CodeHollow.FeedReader.Benchmarks.Harnesses;
 
 [SimpleJob(RuntimeMoniker.Net60)]
 [MemoryDiagnoser]
