@@ -79,14 +79,14 @@ public class Rss20FeedItem : BaseFeedItem
     /// Initializes a new instance of the <see cref="Rss20FeedItem"/> class.
     /// Reads a new feed item element based on the given xml item
     /// </summary>
-    /// <param name="item">the xml containing the feed item</param>
+    /// <param name="item">The xml containing the feed item</param>
     public Rss20FeedItem(XElement item)
         : base(item)
     {
         Comments = item.GetChildElementValue("comments");
         Author = item.GetChildElementValue("author");
         Enclosure = new FeedItemEnclosure(item.GetElement("enclosure"));
-        PublishingDateString = item.GetChildElementValue("pubDate");
+        PublishingDateString = GetPublishingDateString(item);
         PublishingDate = Helpers.TryParseDateTime(PublishingDateString);
         DC = new DublinCore(item);
         Source = new FeedItemSource(item.GetElement("source"));
@@ -115,5 +115,33 @@ public class Rss20FeedItem : BaseFeedItem
         fi.Categories.AddRange(Categories);
 
         return fi;
+    }
+
+
+    //
+    // Private methods
+    //
+
+    /// <summary>
+    /// If we can't find a value for pubDate, look for Atom's updated element.
+    /// </summary>
+    /// <param name="item">The xml containing the feed item.</param>
+    private string? GetPublishingDateString(XElement item)
+    {
+        // #1: at least one feed I follow is RSS 2.0, but instead of each item having a
+        //   pubDate element, it has an Atom updated element. Sheesh.
+        //   See: http://feeds.feedburner.com/CrossCuttingConcerns
+
+        string? pubDate = item.GetChildElementValue("pubDate");
+        if (pubDate is not null)
+        {
+            // item has a pubDate child. Nothing further to do! This is good RSS.
+            return pubDate;
+        }
+
+        // Some demon spawn from hell either omitted pubDate or decided to use Atom's 
+        //   updated element instead. Look for atom.
+        var atomNs = XNamespace.Get(Namespaces.Atom);
+        return item.Element(atomNs + "updated")?.Value;
     }
 }

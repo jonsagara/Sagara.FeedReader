@@ -1,6 +1,6 @@
-﻿using Sagara.FeedReader;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Sagara.FeedReader;
 using Sagara.FeedReader.ConsoleSample.Instance;
-using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 // The initial "bootstrap" logger is able to log errors during start-up. It's completely replaced by the
@@ -77,7 +77,7 @@ try
 
                 foreach (var item in feed.Items)
                 {
-                    Console.WriteLine($"{item.Title} - {item.Link}");
+                    Console.WriteLine($"[{item.PublishingDate}] {item.Title} - {item.Link}");
                 }
             }
             catch (Exception ex)
