@@ -1,4 +1,6 @@
-﻿namespace Sagara.FeedReader.Feeds;
+﻿using System.Xml.Linq;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// XML namespace URIs.
@@ -8,5 +10,10 @@ public static class Namespaces
     /// <summary>
     /// The Atom 1.0 XML namespace.
     /// </summary>
-    public const string Atom = "http://www.w3.org/2005/Atom";
+    public const string AtomName = "http://www.w3.org/2005/Atom";
+
+    /// <summary>
+    /// The Atom namespace as an XNamespace.
+    /// </summary>
+    public static readonly XNamespace Atom = XNamespace.Get(AtomName);
 }

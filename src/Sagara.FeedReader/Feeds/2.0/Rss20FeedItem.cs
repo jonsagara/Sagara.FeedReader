@@ -141,7 +141,6 @@ public class Rss20FeedItem : BaseFeedItem
 
         // Some demon spawn from hell either omitted pubDate or decided to use Atom's 
         //   updated element instead. Look for atom.
-        var atomNs = XNamespace.Get(Namespaces.Atom);
-        return item.Element(atomNs + "updated")?.Value;
+        return item.Element(Namespaces.Atom + "updated")?.Value;
     }
 }
