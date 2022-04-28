@@ -37,47 +37,47 @@ try
                     break;
                 }
 
-                var urls = await feedReaderSvc.GetFeedUrlsFromPageAsync(url);
+                var feedUrlsFromPage = await feedReaderSvc.GetFeedUrlsFromPageAsync(url);
 
                 string? feedUrl;
-                if (urls is null || urls.Count < 1)
+                if (feedUrlsFromPage.Count < 1)
                 {
                     feedUrl = url;
                 }
-                else if (urls.Count == 1)
+                else if (feedUrlsFromPage.Count == 1)
                 {
-                    feedUrl = urls.First().Url;
+                    feedUrl = feedUrlsFromPage.First().Url;
                 }
-                else if (urls.Count == 2)
+                else if (feedUrlsFromPage.Count == 2)
                 {
                     // if 2 urls, then its usually a feed and a comments feed, so take the first per default
-                    feedUrl = urls.First().Url;
+                    feedUrl = feedUrlsFromPage.First().Url;
                 }
                 else
                 {
                     int i = 1;
                     Console.WriteLine("Found multiple feed, please choose:");
-                    foreach (var feedurl in urls)
+                    foreach (var feedUrlFromPage in feedUrlsFromPage)
                     {
-                        Console.WriteLine($"{i++} - {feedurl.Title} - {feedurl.Url}");
+                        Console.WriteLine($"{i++} - {feedUrlFromPage.Title} - {feedUrlFromPage.Url}");
                     }
                     var input = Console.ReadLine();
 
-                    if (!int.TryParse(input, out int index) || index < 1 || index > urls.Count)
+                    if (!int.TryParse(input, out int index) || index < 1 || index > feedUrlsFromPage.Count)
                     {
                         Console.WriteLine("Wrong input. Press key to exit");
                         Console.ReadKey();
                         return 0;
                     }
 
-                    feedUrl = urls.ElementAt(index).Url;
+                    feedUrl = feedUrlsFromPage.ElementAt(index).Url;
                 }
 
                 var feed = await feedReaderSvc.ReadAsync(feedUrl);
 
                 foreach (var item in feed.Items)
                 {
-                    Console.WriteLine($"[{item.PublishingDate}] {item.Title} - {item.Link}");
+                    Console.WriteLine($"[{item.PublishingDate:yyyy-MM-dd HH:mm:ss zzzz}] {item.Title} - {item.Link}");
                 }
             }
             catch (Exception ex)
