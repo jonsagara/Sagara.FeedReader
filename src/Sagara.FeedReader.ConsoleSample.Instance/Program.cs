@@ -27,13 +27,16 @@ try
         const string prompt = "Please enter feed url or exit to stop the program:";
         Console.WriteLine(prompt);
 
-        while (true)
+        var keepGoing = true;
+
+        while (keepGoing)
         {
             try
             {
                 string url = Console.ReadLine() ?? string.Empty;
                 if (url.Equals("exit", StringComparison.InvariantCultureIgnoreCase))
                 {
+                    keepGoing = false;
                     break;
                 }
 
@@ -67,6 +70,8 @@ try
                     {
                         Console.WriteLine("Wrong input. Press key to exit");
                         Console.ReadKey();
+
+                        keepGoing = false;
                         return 0;
                     }
 
@@ -93,7 +98,11 @@ try
             finally
             {
                 Console.WriteLine("================================================");
-                Console.WriteLine(prompt);
+
+                if (keepGoing)
+                {
+                    Console.WriteLine(prompt);
+                }
             }
         }
     }
