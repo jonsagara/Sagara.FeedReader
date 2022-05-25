@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IO;
+using Sagara.FeedReader.Extensions;
 using Serilog;
 
 namespace Sagara.FeedReader.ConsoleSample.Instance;
@@ -57,18 +58,7 @@ public static class HostBuilderHelper
 
     private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
     {
-        services.AddHttpClient(FeedReaderHttpClientConfiguration.HttpClientName)
-            .ConfigurePrimaryHttpMessageHandler(FeedReaderHttpClientConfiguration.CreateHttpClientHandler)
-            .AddTransientHttpErrorPolicy(FeedReaderHttpClientConfiguration.BuildWaitAndRetryPolicy);
-
-        services.AddSingleton<RecyclableMemoryStreamManager>();
-
-        // FeedReader services.
-        services.Scan(scan => scan
-            .FromAssemblyOf<IFeedReaderService>()
-            .AddClasses(classes => classes.AssignableTo<IFeedReaderService>())
-            .AsSelf()
-            .WithScopedLifetime());
+        services.AddFeedReaderServices();
     }
 
     private static void ConfigureSerilog(HostBuilderContext context, IServiceProvider services, LoggerConfiguration loggerConfig)

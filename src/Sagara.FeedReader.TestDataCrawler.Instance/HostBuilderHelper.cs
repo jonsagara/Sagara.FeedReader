@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IO;
+using Sagara.FeedReader.Extensions;
 
 namespace Sagara.FeedReader.TestDataCrawler.Instance;
 
@@ -24,18 +25,7 @@ public static class HostBuilderHelper
 
     private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
     {
-        services.AddHttpClient(FeedReaderHttpClientConfiguration.HttpClientName)
-            .ConfigurePrimaryHttpMessageHandler(FeedReaderHttpClientConfiguration.CreateHttpClientHandler)
-            .AddTransientHttpErrorPolicy(FeedReaderHttpClientConfiguration.BuildWaitAndRetryPolicy);
-
-        services.AddSingleton<RecyclableMemoryStreamManager>();
-
-        // FeedReader services.
-        services.Scan(scan => scan
-            .FromAssemblyOf<IFeedReaderService>()
-            .AddClasses(classes => classes.AssignableTo<IFeedReaderService>())
-            .AsSelf()
-            .WithScopedLifetime());
+        services.AddFeedReaderServices();
 
         services.AddScoped<FeedProcessor>();
     }
