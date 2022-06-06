@@ -34,11 +34,12 @@ public class HttpClientService : IFeedReaderService
     /// /// <param name="userAgent">Override built-in user-agent header</param>
     /// <param name="cancellationToken">Token to cancel operation</param>
     /// <returns>A MemoryStream containing the downloaded content.</returns>
-    public async Task<MemoryStream> DownloadStreamAsync(string url, string? userAgent = FeedReaderHttpClientConfiguration.USER_AGENT_VALUE, CancellationToken cancellationToken = default)
+    public async Task<MemoryStream> DownloadStreamAsync(string url, string? userAgent = null, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(url);
 
         url = WebUtility.UrlDecode(url);
+        userAgent ??= FeedReaderHttpClientConfiguration.USER_AGENT_VALUE;
 
         // Make an initial request. Note that HttpClient will follow up to 50 redirects by default.
         using var requestMsg = new HttpRequestMessage(HttpMethod.Get, url);
@@ -69,14 +70,15 @@ public class HttpClientService : IFeedReaderService
     /// Download the content from the specified URL and return it as a string.
     /// </summary>
     /// <param name="url">The URL of the content we are downloading.</param>
-    /// /// <param name="userAgent">Override built-in user-agent header</param>
+    /// <param name="userAgent">Override built-in user-agent header</param>
     /// <param name="cancellationToken">Token to cancel operation.</param>
     /// <returns>A string containing the downloaded content.</returns>
-    public async Task<string> DownloadStringAsync(string url, string? userAgent = FeedReaderHttpClientConfiguration.USER_AGENT_VALUE, CancellationToken cancellationToken = default)
+    public async Task<string> DownloadStringAsync(string url, string? userAgent = null, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(url);
 
         url = WebUtility.UrlDecode(url);
+        userAgent ??= FeedReaderHttpClientConfiguration.USER_AGENT_VALUE;
 
         // Make an initial request. Note that HttpClient will follow up to 50 redirects by default.
         using var requestMsg = new HttpRequestMessage(HttpMethod.Get, url);

@@ -19,11 +19,13 @@ internal static class HttpClientHelper
     /// <param name="cancellationToken">token to cancel operation</param>
     /// <param name="userAgent">override built-in user-agent header</param>
     /// <returns>Content as byte array</returns>
-    public static async Task<byte[]> DownloadBytesAsync(string url, string? userAgent = FeedReaderHttpClientConfiguration.USER_AGENT_VALUE, CancellationToken cancellationToken = default)
+    public static async Task<byte[]> DownloadBytesAsync(string url, string? userAgent = null, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(url);
 
         url = WebUtility.UrlDecode(url);
+        userAgent ??= FeedReaderHttpClientConfiguration.USER_AGENT_VALUE;
+        
         HttpResponseMessage? response = null;
 
         try
