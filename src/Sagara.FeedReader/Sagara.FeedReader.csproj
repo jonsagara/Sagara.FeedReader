@@ -13,8 +13,27 @@
 		<Copyright>Copyright 2022</Copyright>
 		<PackageProjectUrl>https://dev.azure.com/sagarasoftware/Sagara.Common/_git/Sagara.FeedReader</PackageProjectUrl>
 		<RepositoryUrl>https://dev.azure.com/sagarasoftware/Sagara.Common/_git/Sagara.FeedReader</RepositoryUrl>
-		<Version>2.0.0</Version>
+		<!-- 
+			Version: The Version property is the value most commonly set when building .NET Core applications. It 
+			controls the default values of all the version numbers embedded in the build output, such as PackageVersion 
+			and AssemblyVersion so it's often used as the single source of the app/library version.
+			See: https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/#version
+		-->
+		<Version>2.0.1</Version>
+		<!-- 
+			AssemblyVersion: Every assembly you produce as part of your build process has a version number embedded in 
+			it, which forms an important part of the assembly's identity. It's stored in the assembly manifest and is 
+			used by the runtime to ensure correct versions are loaded etc.
+			See: https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/#assemblyversion
+		-->
 		<AssemblyVersion>2.0.0.0</AssemblyVersion>
+		<!--
+			FileVersion: The file version is literally the version number exposed by the DLL to the file system. It's 
+			the number displayed in Windows explorer, which often matches the AssemblyVersion, but it doesn't have to. 
+			The FileVersion number isn't part of the assembly identity as far as the .NET Framework or runtime are 
+			concerned.
+			See: https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/#fileversion
+		-->
 		<FileVersion>2.0.0.0</FileVersion>
 		<PackageTags>feed rss atom</PackageTags>
 		<AssemblyName>Sagara.FeedReader</AssemblyName>
@@ -43,7 +62,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
-	  <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.6" />
+	  <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.7" />
 	  <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.2.0" />
 	  <PackageReference Include="Polly" Version="7.2.3" />
 	  <PackageReference Include="Scrutor" Version="4.2.0" />
