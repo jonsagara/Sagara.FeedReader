@@ -218,7 +218,7 @@ public class FeedReaderTest
     public async Task TestReadTimeDoctor()
     {
         var feed = await _feedReaderSvc.ReadAsync("https://www.timedoctor.com/blog/feed/").ConfigureAwait(false);
-        Assert.Equal("Inside Time Doctor", feed.Title);
+        Assert.Equal("Time Doctor Blog", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
 
