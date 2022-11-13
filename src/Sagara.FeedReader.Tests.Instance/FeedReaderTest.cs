@@ -135,14 +135,15 @@ public class FeedReaderTest
         Assert.Equal(10, feed.Items.Count());
     }
 
-    [Fact]
-    public async Task TestReadRss20GermanFeed()
-    {
-        var feed = await _feedReaderSvc.ReadAsync("http://guidnew.com/feed").ConfigureAwait(false);
-        string? title = feed.Title;
-        Assert.Equal("Guid.New", title);
-        Assert.True(feed.Items.Count > 0);
-    }
+    // 2022-11-13: Feed no longer exists
+    //[Fact]
+    //public async Task TestReadRss20GermanFeed()
+    //{
+    //    var feed = await _feedReaderSvc.ReadAsync("http://guidnew.com/feed").ConfigureAwait(false);
+    //    string? title = feed.Title;
+    //    Assert.Equal("Guid.New", title);
+    //    Assert.True(feed.Items.Count > 0);
+    //}
 
     [Fact]
     public async Task TestReadRss10GermanFeed()
@@ -242,7 +243,7 @@ public class FeedReaderTest
     public async Task TestReadTechRep()
     {
         var feed = await _feedReaderSvc.ReadAsync("https://www.techrepublic.com/rssfeeds/topic/project-management/").ConfigureAwait(false);
-        Assert.Equal("Project Management | TechRepublic", feed.Title);
+        Assert.Equal("Project Management Articles & Tutorials | TechRepublic", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
 
