@@ -38,18 +38,18 @@ public static class HtmlHelper
     }
 
     /// <summary>
-    /// Returns a HtmlFeedLink object from a linktag (link href="" type="")
+    /// Returns a HtmlFeedLink object from a linktag (link href=&quot;&quot; type=&quot;&quot;)
     /// only support application/rss and application/atom as type
     /// if type is not supported, null is returned
     /// </summary>
-    /// <param name="input">link tag, e.g. &lt;link rel="alternate" type="application/rss+xml" title="codehollow &gt; Feed" href="https://codehollow.com/feed/" /&gt;</param>
+    /// <param name="input">link tag, e.g. &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;codehollow &gt; Feed&quot; href=&quot;https://codehollow.com/feed/&quot; /&gt;</param>
     /// <returns>Parsed HtmlFeedLink</returns>
     public static HtmlFeedLink? GetFeedLinkFromLinkTag(string input)
     {
         ArgumentNullException.ThrowIfNull(input);
 
         string linkTag = input.HtmlDecode()!;
-        string type = GetAttributeFromLinkTag("type", linkTag).ToLower();
+        string type = GetTypeAttributeValueFromLinkTag(linkTag).ToLower();
 
         if (!type.Contains("application/rss", StringComparison.Ordinal) && !type.Contains("application/atom", StringComparison.Ordinal))
         {
@@ -57,8 +57,8 @@ public static class HtmlHelper
         }
 
         HtmlFeedLink hfl = new();
-        hfl.Title = GetAttributeFromLinkTag("title", linkTag);
-        hfl.Url = GetAttributeFromLinkTag("href", linkTag);
+        hfl.Title = GetTitleAttributeValueFromLinkTag(linkTag);
+        hfl.Url = GetHREFAttributeValueFromLinkTag(linkTag);
         hfl.FeedType = type.Contains("rss", StringComparison.Ordinal) ? FeedType.Rss : FeedType.Atom;
         return hfl;
     }
@@ -68,21 +68,37 @@ public static class HtmlHelper
     // Private methods
     //
 
+    private static readonly Regex _rxTypeAttributeValue = new Regex("type\\s*=\\s*\"(?<val>[^\"]*)\"", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+    private static readonly Regex _rxTitleAttributeValue = new Regex("title\\s*=\\s*\"(?<val>[^\"]*)\"", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+    private static readonly Regex _rxHREFAttributeValue = new Regex("href\\s*=\\s*\"(?<val>[^\"]*)\"", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+
     /// <summary>
-    /// reads an attribute from an html tag
+    /// Reads the type attribute value from an HTML &lt;link /&gt; tag.
     /// </summary>
-    /// <param name="attribute">name of the attribute, e.g. title</param>
-    /// <param name="htmlTag">the html tag, e.g. &lt;link title="my title"&gt;</param>
-    /// <returns>the value of the attribute, e.g. my title</returns>
-    private static string GetAttributeFromLinkTag(string attribute, string htmlTag)
+    /// <param name="linkTagHtml">The HTML tag, e.g. &lt;link title=&quot;my title&quot;&gt;.</param>
+    private static string GetTypeAttributeValueFromLinkTag(string linkTagHtml)
+        => GetAttributeValueFromLinkTag(linkTagHtml, _rxTypeAttributeValue);
+
+    /// <summary>
+    /// Reads the title attribute value from an HTML &lt;link /&gt; tag.
+    /// </summary>
+    /// <param name="linkTagHtml">The HTML tag, e.g. &lt;link title=&quot;my title&quot;&gt;.</param>
+    private static string GetTitleAttributeValueFromLinkTag(string linkTagHtml)
+        => GetAttributeValueFromLinkTag(linkTagHtml, _rxTitleAttributeValue);
+
+    /// <summary>
+    /// Reads the href attribute value from an HTML &lt;link /&gt; tag.
+    /// </summary>
+    /// <param name="linkTagHtml">The HTML tag, e.g. &lt;link title=&quot;my title&quot;&gt;.</param>
+    private static string GetHREFAttributeValueFromLinkTag(string linkTagHtml)
+        => GetAttributeValueFromLinkTag(linkTagHtml, _rxHREFAttributeValue);
+
+    private static string GetAttributeValueFromLinkTag(string linkTagHtml, Regex rxAttributeValue)
     {
-        var res = Regex.Match(htmlTag, attribute + "\\s*=\\s*\"(?<val>[^\"]*)\"", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+        var matchResult = rxAttributeValue.Match(linkTagHtml);
 
-        if (res.Groups.Count > 1)
-        {
-            return res.Groups[1].Value;
-        }
-
-        return string.Empty;
+        return matchResult.Groups.Count > 1
+            ? matchResult.Groups[1].Value
+            : string.Empty;
     }
 }
