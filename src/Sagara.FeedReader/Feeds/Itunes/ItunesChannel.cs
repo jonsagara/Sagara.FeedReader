@@ -61,7 +61,7 @@ public class ItunesChannel
     /// <summary>
     /// The itunes:category elements
     /// </summary>
-    public ItunesCategory[] Categories { get; }
+    public IReadOnlyCollection<ItunesCategory> Categories { get; }
 
     /// <summary>
     /// The itunes:image element

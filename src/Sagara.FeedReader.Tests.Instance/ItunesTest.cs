@@ -52,13 +52,15 @@ public class ItunesTest
         Assert.NotNull(itunesChannel.Image);
         Eq("http://example.com/podcasts/everything/AllAboutEverything.jpg", itunesChannel.Image!.Href);
         Assert.NotNull(itunesChannel.Categories);
-        Eq("Technology", itunesChannel.Categories[0].Text);
-        Assert.NotNull(itunesChannel.Categories[0].Children);
-        Eq("Gadgets", itunesChannel.Categories[0].Children[0].Text);
-        Eq("TV & Film", itunesChannel.Categories[1].Text);
-        Eq("Arts", itunesChannel.Categories[2].Text);
-        Assert.NotNull(itunesChannel.Categories[2].Children);
-        Eq("Food", itunesChannel.Categories[2].Children[0].Text);
+
+        var itunesChannelCategories = itunesChannel.Categories.ToArray();
+        Eq("Technology", itunesChannelCategories[0].Text);
+        Assert.NotNull(itunesChannelCategories[0].Children);
+        Eq("Gadgets", itunesChannelCategories[0].Children.First().Text);
+        Eq("TV & Film", itunesChannelCategories[1].Text);
+        Eq("Arts", itunesChannelCategories[2].Text);
+        Assert.NotNull(itunesChannelCategories[2].Children);
+        Eq("Food", itunesChannelCategories[2].Children.First().Text);
         Eq(false, itunesChannel.Explicit);
 
 

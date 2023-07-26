@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 using Sagara.FeedReader.Extensions;
 
 namespace Sagara.FeedReader.Html;
@@ -68,9 +69,15 @@ public static class HtmlHelper
     // Private methods
     //
 
-    private static readonly Regex _rxTypeAttributeValue = new Regex("type\\s*=\\s*\"(?<val>[^\"]*)\"", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
-    private static readonly Regex _rxTitleAttributeValue = new Regex("title\\s*=\\s*\"(?<val>[^\"]*)\"", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
-    private static readonly Regex _rxHREFAttributeValue = new Regex("href\\s*=\\s*\"(?<val>[^\"]*)\"", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+    /// <summary>
+    /// Identifies and extracts an HTML attribute value.
+    /// </summary>
+    [StringSyntax(StringSyntaxAttribute.Regex)]
+    private const string AttributeValueRegexFormat = "\\s*=\\s*\"(?<val>[^\"]*)\"";
+
+    private static readonly Regex _rxTypeAttributeValue = new Regex($"type{AttributeValueRegexFormat}", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+    private static readonly Regex _rxTitleAttributeValue = new Regex($"title{AttributeValueRegexFormat}", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+    private static readonly Regex _rxHREFAttributeValue = new Regex($"href{AttributeValueRegexFormat}", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
     /// <summary>
     /// Reads the type attribute value from an HTML &lt;link /&gt; tag.

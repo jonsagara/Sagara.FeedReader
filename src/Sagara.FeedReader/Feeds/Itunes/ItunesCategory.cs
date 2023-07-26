@@ -23,5 +23,5 @@ public class ItunesCategory
     /// <summary>
     /// All child itunes:category elements
     /// </summary>
-    public ItunesCategory[] Children { get; }
+    public IReadOnlyCollection<ItunesCategory> Children { get; }
 }
