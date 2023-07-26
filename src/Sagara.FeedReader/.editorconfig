@@ -1,0 +1,9 @@
+[*.{cs,vb}]
+# No plans to change "url" properties and parameters to type System.Uri.
+dotnet_diagnostic.CA1054.severity = none
+dotnet_diagnostic.CA1056.severity = none
+# No plans to rename enum values to remove underscores from their names.
+dotnet_diagnostic.CA1707.severity = none
+# Don't care about namespace name conflicts.
+dotnet_diagnostic.CA1724.severity = none
+

@@ -6,7 +6,8 @@ using Sagara.FeedReader.Benchmarks.Harnesses;
 //
 
 //BenchmarkRunner.Run<StaticVsInstance>();
-BenchmarkRunner.Run<InvalidChars>();
+//BenchmarkRunner.Run<InvalidChars>();
+BenchmarkRunner.Run<RegexStaticVsInstance>();
 
 
 //
