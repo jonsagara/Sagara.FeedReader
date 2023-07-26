@@ -121,7 +121,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadAdobeFeed()
     {
-        var feed = await _feedReaderSvc.ReadAsync("https://theblog.adobe.com/news/feed").ConfigureAwait(false);
+        var feed = await _feedReaderSvc.ReadAsync("https://blog.adobe.com/feed.xml").ConfigureAwait(false);
         string? title = feed.Title;
         Assert.Equal("Adobe Blog", title);
     }
@@ -263,13 +263,14 @@ public class FeedReaderTest
         Assert.True(feed.Items.Count > 0);
     }
 
-    [Fact]
-    public async Task TestReadTheStudentLawyer()
-    {
-        var feed = await _feedReaderSvc.ReadAsync("http://us10.campaign-archive.com/feed?u=8da2e137a07b178e5d9a71c2c&id=9134b0cc95").ConfigureAwait(false);
-        Assert.Equal("The Student Lawyer Careers Network Archive Feed", feed.Title);
-        Assert.True(feed.Items.Count > 0);
-    }
+    // 2023-07-26: Feed no longer exists
+    //[Fact]
+    //public async Task TestReadTheStudentLawyer()
+    //{
+    //    var feed = await _feedReaderSvc.ReadAsync("http://us10.campaign-archive.com/feed?u=8da2e137a07b178e5d9a71c2c&id=9134b0cc95").ConfigureAwait(false);
+    //    Assert.Equal("The Student Lawyer Careers Network Archive Feed", feed.Title);
+    //    Assert.True(feed.Items.Count > 0);
+    //}
 
     [Fact]
     public async Task TestReadLiveBold()

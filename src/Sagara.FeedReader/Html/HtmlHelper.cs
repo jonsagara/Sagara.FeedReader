@@ -51,7 +51,7 @@ public static class HtmlHelper
         string linkTag = input.HtmlDecode()!;
         string type = GetAttributeFromLinkTag("type", linkTag).ToLower();
 
-        if (!type.Contains("application/rss") && !type.Contains("application/atom"))
+        if (!type.Contains("application/rss", StringComparison.Ordinal) && !type.Contains("application/atom", StringComparison.Ordinal))
         {
             return null;
         }
@@ -59,7 +59,7 @@ public static class HtmlHelper
         HtmlFeedLink hfl = new();
         hfl.Title = GetAttributeFromLinkTag("title", linkTag);
         hfl.Url = GetAttributeFromLinkTag("href", linkTag);
-        hfl.FeedType = type.Contains("rss") ? FeedType.Rss : FeedType.Atom;
+        hfl.FeedType = type.Contains("rss", StringComparison.Ordinal) ? FeedType.Rss : FeedType.Atom;
         return hfl;
     }
 

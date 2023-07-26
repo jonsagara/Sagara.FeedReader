@@ -9,7 +9,7 @@ using Sagara.FeedReader;
 using Sagara.FeedReader.Extensions;
 
 /// <summary>
-/// RSS 2.0 feed accoring to specification: https://validator.w3.org/feed/docs/rss2.html
+/// RSS 2.0 feed according to specification: https://validator.w3.org/feed/docs/rss2.html
 /// </summary>
 public class Rss20Feed : BaseFeed
 {

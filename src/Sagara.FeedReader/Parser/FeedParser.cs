@@ -225,14 +225,14 @@ internal static class FeedParser
                 continue;
             }
 
-            feedContent = feedContent.Replace(((char)charCode).ToString(), string.Empty);
+            feedContent = feedContent.Replace(((char)charCode).ToString(), string.Empty, StringComparison.Ordinal);
         }
 
         // Replace DEL.
-        feedContent = feedContent.Replace(((char)127).ToString(), string.Empty);
+        feedContent = feedContent.Replace(((char)127).ToString(), string.Empty, StringComparison.Ordinal);
 
         // Replaces special char, fixes issues with at least one feed.
-        feedContent = feedContent.Replace(((char)65279).ToString(), string.Empty);
+        feedContent = feedContent.Replace(((char)65279).ToString(), string.Empty, StringComparison.Ordinal);
 
         // XDocument chokes with leading white space, so ensure there isn't any.
         return feedContent.TrimStart();

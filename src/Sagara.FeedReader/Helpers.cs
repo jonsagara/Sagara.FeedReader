@@ -94,23 +94,23 @@ public static class Helpers
         {
             // Do, 22 Dez 2016 17:36:00 +0000
             // note - tried ParseExact with diff formats like "ddd, dd MMM yyyy hh:mm:ss K"
-            if (datetime.Contains(","))
+            if (datetime.Contains(',', StringComparison.Ordinal))
             {
-                int pos = datetime.IndexOf(',') + 1;
+                int pos = datetime.IndexOf(',', StringComparison.Ordinal) + 1;
                 string newdtstring = datetime.Substring(pos).Trim();
 
                 parseSuccess = DateTimeOffset.TryParse(newdtstring, dateTimeFormat, DateTimeStyles.None, out dt);
             }
             if (!parseSuccess)
             {
-                string newdtstring = datetime.Substring(0, datetime.LastIndexOf(" ")).Trim();
+                string newdtstring = datetime.Substring(0, datetime.LastIndexOf(" ", StringComparison.Ordinal)).Trim();
 
                 parseSuccess = DateTimeOffset.TryParse(newdtstring, dateTimeFormat, DateTimeStyles.AssumeUniversal, out dt);
             }
 
             if (!parseSuccess)
             {
-                string newdtstring = datetime.Substring(0, datetime.LastIndexOf(" ")).Trim();
+                string newdtstring = datetime.Substring(0, datetime.LastIndexOf(" ", StringComparison.Ordinal)).Trim();
 
                 parseSuccess = DateTimeOffset.TryParse(newdtstring, dateTimeFormat, DateTimeStyles.None, out dt);
             }
