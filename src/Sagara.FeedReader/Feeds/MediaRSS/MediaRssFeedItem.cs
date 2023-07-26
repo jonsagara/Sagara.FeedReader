@@ -8,7 +8,7 @@ using Sagara.FeedReader.Extensions;
 using Sagara.FeedReader.Feeds.MediaRSS;
 
 /// <summary>
-/// RSS 2.0 feed item accoring to specification: https://validator.w3.org/feed/docs/rss2.html
+/// RSS 2.0 feed item according to specification: https://validator.w3.org/feed/docs/rss2.html
 /// </summary>
 public class MediaRssFeedItem : BaseFeedItem
 {
@@ -35,7 +35,9 @@ public class MediaRssFeedItem : BaseFeedItem
     /// <summary>
     /// The "guid" field
     /// </summary>
+#pragma warning disable CA1720 // Identifier contains type name. Justification: it's in the spec.
     public string? Guid { get; set; }
+#pragma warning restore CA1720 // Identifier contains type name
 
     /// <summary>
     /// The "pubDate" field

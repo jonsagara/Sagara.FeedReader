@@ -3,7 +3,7 @@
 using System.Xml.Linq;
 using Feeds;
 
-internal class AtomParser : AbstractXmlFeedParser
+internal sealed class AtomParser : AbstractXmlFeedParser
 {
     public override BaseFeed Parse(string feedXml, XDocument feedDoc)
     {

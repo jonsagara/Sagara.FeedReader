@@ -94,6 +94,8 @@ public class Feed
     /// <param name="feed">BaseFeed which is a <see cref="Rss20Feed"/> , <see cref="Rss10Feed"/>, or another.</param>
     public Feed(BaseFeed feed)
     {
+        ArgumentNullException.ThrowIfNull(feed);
+
         SpecificFeed = feed;
 
         Title = feed.Title;

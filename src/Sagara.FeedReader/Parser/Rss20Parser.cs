@@ -1,10 +1,10 @@
 ﻿namespace Sagara.FeedReader.Parser;
 
 using System.Xml.Linq;
-using Sagara.FeedReader.Extensions;
 using Feeds;
+using Sagara.FeedReader.Extensions;
 
-internal class Rss20Parser : AbstractXmlFeedParser
+internal sealed class Rss20Parser : AbstractXmlFeedParser
 {
     public override BaseFeed Parse(string feedXml, XDocument feedDoc)
     {

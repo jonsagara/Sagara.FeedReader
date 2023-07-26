@@ -130,11 +130,9 @@ public static class Helpers
     /// <param name="input">int as string</param>
     /// <returns>integer or null</returns>
     public static int? TryParseInt(string? input)
-    {
-        return int.TryParse(input, out var result)
+        => int.TryParse(input, out var result)
             ? result
             : null;
-    }
 
     /// <summary>
     /// Tries to parse a string and returns the media type
@@ -142,28 +140,9 @@ public static class Helpers
     /// <param name="medium">media type as string</param>
     /// <returns><see cref="Medium"/></returns>
     public static Medium TryParseMedium(string? medium)
-    {
-        if (string.IsNullOrWhiteSpace(medium))
-        {
-            return Medium.Unknown;
-        }
-
-        switch (medium.ToLower())
-        {
-            case "image":
-                return Medium.Image;
-            case "audio":
-                return Medium.Audio;
-            case "video":
-                return Medium.Video;
-            case "document":
-                return Medium.Document;
-            case "executable":
-                return Medium.Executable;
-            default:
-                return Medium.Unknown;
-        }
-    }
+        => Enum.TryParse(medium, ignoreCase: true, out Medium result)
+            ? result
+            : Medium.Unknown;
 
     /// <summary>
     /// Tries to parse the string as int and returns null if it fails
@@ -171,11 +150,9 @@ public static class Helpers
     /// <param name="input">int as string</param>
     /// <returns>integer or null</returns>
     public static bool? TryParseBool(string? input)
-    {
-        return bool.TryParse(input, out var result)
+        => bool.TryParse(input, out var result)
             ? result
             : null;
-    }
 
 
     //

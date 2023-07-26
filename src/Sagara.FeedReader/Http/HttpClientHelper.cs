@@ -25,7 +25,7 @@ internal static class HttpClientHelper
 
         url = WebUtility.UrlDecode(url);
         userAgent ??= FeedReaderHttpClientConfiguration.USER_AGENT_VALUE;
-        
+
         HttpResponseMessage? response = null;
 
         try
@@ -50,7 +50,7 @@ internal static class HttpClientHelper
                 }
             }
 
-            var content = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var content = await response.Content.ReadAsByteArrayAsync(cancellationToken).ConfigureAwait(false);
 
             return content;
         }

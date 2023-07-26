@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
 
 /// <summary>
-/// RSS 2.0 feed item accoring to specification: https://validator.w3.org/feed/docs/rss2.html
+/// RSS 2.0 feed item according to specification: https://validator.w3.org/feed/docs/rss2.html
 /// </summary>
 public class Rss20FeedItem : BaseFeedItem
 {
@@ -34,7 +34,9 @@ public class Rss20FeedItem : BaseFeedItem
     /// <summary>
     /// The "guid" field
     /// </summary>
+#pragma warning disable CA1720 // Identifier contains type name. Justification: It's in the spec.
     public string? Guid { get; set; }
+#pragma warning restore CA1720 // Identifier contains type name
 
     /// <summary>
     /// The "pubDate" field
@@ -126,7 +128,7 @@ public class Rss20FeedItem : BaseFeedItem
     /// If we can't find a value for pubDate, look for Atom's updated element.
     /// </summary>
     /// <param name="item">The xml containing the feed item.</param>
-    private string? GetPublishingDateString(XElement item)
+    private static string? GetPublishingDateString(XElement item)
     {
         // #1: at least one feed I follow is RSS 2.0, but instead of each item having a
         //   pubDate element, it has an Atom updated element. Sheesh.

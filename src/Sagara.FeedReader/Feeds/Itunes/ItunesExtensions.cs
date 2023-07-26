@@ -12,6 +12,8 @@ public static class ItunesExtensions
     /// <returns>ItunesChannel object which contains itunes:... properties</returns>
     public static ItunesChannel GetItunesChannel(this Feed feed)
     {
+        ArgumentNullException.ThrowIfNull(feed);
+
         return new ItunesChannel(feed.SpecificFeed!.Element!);
     }
 
@@ -22,6 +24,8 @@ public static class ItunesExtensions
     /// <returns>ItunesItem object which contains itunes:... properties</returns>
     public static ItunesItem GetItunesItem(this FeedItem item)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         return new ItunesItem(item.SpecificItem!.Element!);
     }
 }

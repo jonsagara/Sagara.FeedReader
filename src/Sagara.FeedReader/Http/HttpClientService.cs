@@ -87,7 +87,7 @@ public class HttpClientService : IFeedReaderService
 
         using var responseMsg = await _httpClient.SendAsync(requestMsg, cancellationToken).ConfigureAwait(false);
 
-        return await responseMsg.Content.ReadAsStringAsync().ConfigureAwait(false);
+        return await responseMsg.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -95,7 +95,7 @@ public class HttpClientService : IFeedReaderService
     // Private methods
     //
 
-    private void AddRequestHeaders(HttpRequestMessage requestMsg, string? userAgent)
+    private static void AddRequestHeaders(HttpRequestMessage requestMsg, string? userAgent)
     {
         requestMsg.Headers.TryAddWithoutValidation(FeedReaderHttpClientConfiguration.ACCEPT_HEADER_NAME, FeedReaderHttpClientConfiguration.ACCEPT_HEADER_VALUE);
         requestMsg.Headers.TryAddWithoutValidation(FeedReaderHttpClientConfiguration.USER_AGENT_NAME, userAgent);

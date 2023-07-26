@@ -21,6 +21,8 @@ public class MediaGroup
     /// <param name="element">enclosure element as xml</param>
     public MediaGroup(XElement element)
     {
+        ArgumentNullException.ThrowIfNull(element);
+
         Element = element;
         Media = element
             .GetElements("media", "content")
