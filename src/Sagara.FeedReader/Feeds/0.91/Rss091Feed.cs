@@ -145,7 +145,13 @@ public class Rss091Feed : BaseFeed
         }
 
         var items = channel.GetElements("item");
+
+        // Justification: This is apparently by design. Rss092Feed calls the base constructor (this constructor),
+        //   which then calls Rss092Feed's overloaded AddItems method. I guess it's because Rss091Feed and Rss092Feed
+        //   are so similar. 
+#pragma warning disable CA2214 // Do not call overridable methods in constructors
         AddItems(items);
+#pragma warning restore CA2214 // Do not call overridable methods in constructors
     }
 
     /// <summary>
