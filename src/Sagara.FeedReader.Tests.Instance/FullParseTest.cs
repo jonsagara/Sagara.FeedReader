@@ -10,12 +10,10 @@ namespace Sagara.FeedReader.Tests.Instance;
 [Collection(nameof(ServiceScopeCollection))]
 public class FullParseTest
 {
-    private readonly FeedReaderService _feedReaderSvc;
     private readonly HttpClientService _httpClientSvc;
 
     public FullParseTest(HostFixture hostFixture)
     {
-        _feedReaderSvc = hostFixture.ServiceScope.ServiceProvider.GetRequiredService<FeedReaderService>();
         _httpClientSvc = hostFixture.ServiceScope.ServiceProvider.GetRequiredService<HttpClientService>();
     }
 
@@ -40,7 +38,7 @@ public class FullParseTest
     [Fact]
     public async Task TestAtomParseAdobe_Async()
     {
-        var feed = (AtomFeed)(await _feedReaderSvc.ReadFromFileAsync("Feeds/AtomAdobe.xml").ConfigureAwait(false)).SpecificFeed!;
+        var feed = (AtomFeed)(await FeedReaderService.ReadFromFileAsync("Feeds/AtomAdobe.xml").ConfigureAwait(false)).SpecificFeed!;
 
         Eq("Adobe Blog", feed.Title);
         Eq(null, feed.Icon);
@@ -55,7 +53,7 @@ public class FullParseTest
     [Fact]
     public async Task TestAtomParseTheVerge_Async()
     {
-        var feed = (AtomFeed)(await _feedReaderSvc.ReadFromFileAsync("Feeds/AtomTheVerge.xml").ConfigureAwait(false)).SpecificFeed!;
+        var feed = (AtomFeed)(await FeedReaderService.ReadFromFileAsync("Feeds/AtomTheVerge.xml").ConfigureAwait(false)).SpecificFeed!;
 
         Eq("The Verge -  Front Pages", feed.Title);
         Eq("https://cdn2.vox-cdn.com/community_logos/34086/verge-fv.png", feed.Icon);
@@ -81,7 +79,7 @@ public class FullParseTest
     [Fact]
     public async Task TestAtomYouTubeInvestmentPunk_Async()
     {
-        var feed = (AtomFeed)(await _feedReaderSvc.ReadFromFileAsync("Feeds/AtomYoutubeInvestmentPunk.xml").ConfigureAwait(false)).SpecificFeed!;
+        var feed = (AtomFeed)(await FeedReaderService.ReadFromFileAsync("Feeds/AtomYoutubeInvestmentPunk.xml").ConfigureAwait(false)).SpecificFeed!;
 
         Eq("http://www.youtube.com/feeds/videos.xml?channel_id=UCmEN5ZnsHUXIxgpLitRTmWw", feed.Links.First().Href);
         Eq("yt:channel:UCmEN5ZnsHUXIxgpLitRTmWw", feed.Id);
@@ -100,7 +98,7 @@ public class FullParseTest
     [Fact]
     public async Task TestRss091ParseStadtFWeiz_Async()
     {
-        var feed = (Rss091Feed)(await _feedReaderSvc.ReadFromFileAsync("Feeds/Rss091Stadtfeuerwehr.xml").ConfigureAwait(false)).SpecificFeed!;
+        var feed = (Rss091Feed)(await FeedReaderService.ReadFromFileAsync("Feeds/Rss091Stadtfeuerwehr.xml").ConfigureAwait(false)).SpecificFeed!;
 
         Eq("Stadtfeuerwehr Weiz - Einsätze", feed.Title);
         Eq("http://www.stadtfeuerwehr-weiz.at", feed.Link);
@@ -122,7 +120,7 @@ public class FullParseTest
     [Fact]
     public async Task TestRss091ParseFullSample_Async()
     {
-        var feed = (Rss091Feed)(await _feedReaderSvc.ReadFromFileAsync("Feeds/Rss091FullSample.xml").ConfigureAwait(false)).SpecificFeed!;
+        var feed = (Rss091Feed)(await FeedReaderService.ReadFromFileAsync("Feeds/Rss091FullSample.xml").ConfigureAwait(false)).SpecificFeed!;
         Eq("Copyright 1997-1999 UserLand Software, Inc.", feed.Copyright);
         Eq("Thu, 08 Jul 1999 07:00:00 GMT", feed.PublishingDateString);
         Eq("Thu, 08 Jul 1999 16:20:26 GMT", feed.LastBuildDateString);
@@ -163,7 +161,7 @@ public class FullParseTest
     [Fact]
     public async Task TestRss092ParseFullSample_Async()
     {
-        var feed = (Rss092Feed)(await _feedReaderSvc.ReadFromFileAsync("Feeds/Rss092FullSample.xml").ConfigureAwait(false)).SpecificFeed!;
+        var feed = (Rss092Feed)(await FeedReaderService.ReadFromFileAsync("Feeds/Rss092FullSample.xml").ConfigureAwait(false)).SpecificFeed!;
 
         Eq("Dave Winer: Grateful Dead", feed.Title);
         Eq("http://www.scripting.com/blog/categories/gratefulDead.html", feed.Link);
@@ -193,7 +191,7 @@ public class FullParseTest
     [Fact]
     public async Task TestRss10ParseFullSample_Async()
     {
-        var feed = (Rss10Feed)(await _feedReaderSvc.ReadFromFileAsync("Feeds/Rss10FeedWebResourceSample.xml").ConfigureAwait(false)).SpecificFeed!;
+        var feed = (Rss10Feed)(await FeedReaderService.ReadFromFileAsync("Feeds/Rss10FeedWebResourceSample.xml").ConfigureAwait(false)).SpecificFeed!;
 
         Eq("XML.com", feed.Title);
         Eq("http://xml.com/pub", feed.Link);
@@ -220,7 +218,7 @@ public class FullParseTest
     [Fact]
     public async Task TestRss10ParseOrfAt_Async()
     {
-        var feed = (Rss10Feed)(await _feedReaderSvc.ReadFromFileAsync("Feeds/Rss10OrfAt.xml").ConfigureAwait(false)).SpecificFeed!;
+        var feed = (Rss10Feed)(await FeedReaderService.ReadFromFileAsync("Feeds/Rss10OrfAt.xml").ConfigureAwait(false)).SpecificFeed!;
         Eq("news.ORF.at", feed.Title);
         Eq("http://orf.at/", feed.Link);
         Eq("2017-01-23T21:54:55+01:00", feed.DC!.DateString);
@@ -245,7 +243,7 @@ public class FullParseTest
     [Fact]
     public async Task TestRss20ParseWebResourceSampleFull_Async()
     {
-        var feed = (Rss20Feed)(await _feedReaderSvc.ReadFromFileAsync("Feeds/Rss20FeedWebResourceSample.xml").ConfigureAwait(false)).SpecificFeed!;
+        var feed = (Rss20Feed)(await FeedReaderService.ReadFromFileAsync("Feeds/Rss20FeedWebResourceSample.xml").ConfigureAwait(false)).SpecificFeed!;
 
         Eq("Scripting News", feed.Title);
         Eq("http://www.scripting.com/", feed.Link);
@@ -273,7 +271,7 @@ public class FullParseTest
     [Fact]
     public async Task TestRss20ParseCodeHollow_Async()
     {
-        var feed = (Rss20Feed)(await _feedReaderSvc.ReadFromFileAsync("Feeds/Rss20CodeHollowCom.xml").ConfigureAwait(false)).SpecificFeed!;
+        var feed = (Rss20Feed)(await FeedReaderService.ReadFromFileAsync("Feeds/Rss20CodeHollowCom.xml").ConfigureAwait(false)).SpecificFeed!;
 
         Eq("codehollow", feed.Title);
         Eq("https://codehollow.com", feed.Link);
@@ -304,7 +302,7 @@ public class FullParseTest
     [Fact]
     public async Task TestRss20ParseContentWindGerman_Async()
     {
-        var feed = (Rss20Feed)(await _feedReaderSvc.ReadFromFileAsync("Feeds/Rss20ContentWindCom.xml").ConfigureAwait(false)).SpecificFeed!;
+        var feed = (Rss20Feed)(await FeedReaderService.ReadFromFileAsync("Feeds/Rss20ContentWindCom.xml").ConfigureAwait(false)).SpecificFeed!;
         Eq("ContentWind", feed.Title);
         Eq("http://content-wind.com", feed.Link);
         Eq("Do, 22 Dez 2016 17:36:00 +0000", feed.LastBuildDateString);
@@ -327,7 +325,7 @@ public class FullParseTest
     [Fact]
     public async Task TestRss20ParseMoscowTimes_Async()
     {
-        var feed = (Rss20Feed)(await _feedReaderSvc.ReadFromFileAsync("Feeds/Rss20MoscowTimes.xml").ConfigureAwait(false)).SpecificFeed!;
+        var feed = (Rss20Feed)(await FeedReaderService.ReadFromFileAsync("Feeds/Rss20MoscowTimes.xml").ConfigureAwait(false)).SpecificFeed!;
         Eq("The Moscow Times - News, Business, Culture & Multimedia from Russia", feed.Title);
         Eq("https://themoscowtimes.com/", feed.Link);
         Eq("The Moscow Times offers everything you need to know about Russia: Breaking news, top stories, business, analysis, opinion, multimedia, upcoming cultural events", feed.Description);
@@ -353,7 +351,7 @@ public class FullParseTest
     [Fact]
     public async Task TestRss20ParseSwedishFeedWithIso8859_1_Async()
     {
-        var feed = (Rss20Feed)(await _feedReaderSvc.ReadFromFileAsync("Feeds/Rss20ISO88591Intranet30.xml").ConfigureAwait(false)).SpecificFeed!;
+        var feed = (Rss20Feed)(await FeedReaderService.ReadFromFileAsync("Feeds/Rss20ISO88591Intranet30.xml").ConfigureAwait(false)).SpecificFeed!;
         Eq("intranet30", feed.Title);
         Eq("http://www.retriever-info.com", feed.Link);
         Eq("RSS 2.0 News feed from Retriever Norge AS", feed.Description);
@@ -371,7 +369,7 @@ public class FullParseTest
     [Fact]
     public async Task TestRss20CityDogKyrillicNoEncodingDefined_Async()
     {
-        var feed = await _feedReaderSvc.ReadFromFileAsync("Feeds/Rss20CityDog.xml").ConfigureAwait(false);
+        var feed = await FeedReaderService.ReadFromFileAsync("Feeds/Rss20CityDog.xml").ConfigureAwait(false);
         Eq("Новости - citydog.by", feed.Title);
         Eq("Последние обновления - citydog.by", feed.Description);
 
@@ -388,7 +386,7 @@ public class FullParseTest
         var files = Directory.EnumerateFiles("Feeds");
         foreach (var file in files)
         {
-            var feed = await _feedReaderSvc.ReadFromFileAsync(file).ConfigureAwait(false);
+            var feed = await FeedReaderService.ReadFromFileAsync(file).ConfigureAwait(false);
             if (feed is not null)
             {
                 string filename = Path.GetFileName(file);

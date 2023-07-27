@@ -1,9 +1,9 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
-using Sagara.FeedReader.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IO;
+using Sagara.FeedReader.Http;
 
 namespace Sagara.FeedReader.Benchmarks.Harnesses;
 
@@ -32,7 +32,9 @@ public class StaticVsInstance
     [Benchmark]
     public async Task<Feed> InstanceReadFromFileAsync()
     {
-        return await _feedReaderSvc.ReadFromFileAsync("Feeds/Rss20MicrosoftBotFranework.xml");
+        // This is a static method, but it differs from the original static FeedReader API.
+        //   It parses a stream instead of a byte[].
+        return await FeedReaderService.ReadFromFileAsync("Feeds/Rss20MicrosoftBotFranework.xml");
     }
 
 

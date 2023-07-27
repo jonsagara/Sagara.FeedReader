@@ -19,6 +19,8 @@ public class HttpClientService : IFeedReaderService
     /// <param name="recyclableMemoryStreamManager"></param>
     public HttpClientService(IHttpClientFactory httpClientFactory, RecyclableMemoryStreamManager recyclableMemoryStreamManager)
     {
+        ArgumentNullException.ThrowIfNull(httpClientFactory);
+
         _httpClient = httpClientFactory.CreateClient(FeedReaderHttpClientConfiguration.HttpClientName);
         _recyclableMemoryStreamManager = recyclableMemoryStreamManager;
     }

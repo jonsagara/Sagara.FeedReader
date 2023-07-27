@@ -197,6 +197,8 @@ internal static class FeedParser
     {
         Encoding encoding = Encoding.UTF8;
 
+        // Justification: we catch an error due to an invalid encoding, and then return the default of UTF8.
+#pragma warning disable CA1031 // Do not catch general exception types
         try
         {
             var encodingStr = feedDoc.Document!.Declaration?.Encoding;
@@ -204,9 +206,15 @@ internal static class FeedParser
             {
                 encoding = Encoding.GetEncoding(encodingStr);
             }
+
+            return encoding;
         }
-        catch { } // ignore and return default encoding
-        return encoding;
+        catch
+        {
+            // The document encoding is invalid. Swallow the error and return the default encoding.
+            return encoding;
+        }
+#pragma warning restore CA1031 // Do not catch general exception types
     }
 
     /// <summary>

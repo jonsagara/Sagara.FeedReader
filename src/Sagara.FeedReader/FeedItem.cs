@@ -81,6 +81,8 @@ public class FeedItem
     /// <param name="feedItem">BaseFeedItem which is a <see cref="Rss20FeedItem"/> , <see cref="Rss10FeedItem"/>, or another.</param>
     public FeedItem(BaseFeedItem feedItem)
     {
+        ArgumentNullException.ThrowIfNull(feedItem);
+
         Title = feedItem.Title;
         Link = feedItem.Link;
         SpecificItem = feedItem;

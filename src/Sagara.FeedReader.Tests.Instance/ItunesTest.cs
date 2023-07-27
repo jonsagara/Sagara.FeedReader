@@ -1,7 +1,7 @@
-﻿using Sagara.FeedReader.Feeds.Itunes;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Sagara.FeedReader.Feeds.Itunes;
 using Sagara.FeedReader.Http;
 using Sagara.FeedReader.Tests.Instance.Fixtures;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Sagara.FeedReader.Tests.Instance;
@@ -9,12 +9,10 @@ namespace Sagara.FeedReader.Tests.Instance;
 [Collection(nameof(ServiceScopeCollection))]
 public class ItunesTest
 {
-    private readonly FeedReaderService _feedReaderSvc;
     private readonly HttpClientService _httpClientSvc;
 
     public ItunesTest(HostFixture hostFixture)
     {
-        _feedReaderSvc = hostFixture.ServiceScope.ServiceProvider.GetRequiredService<FeedReaderService>();
         _httpClientSvc = hostFixture.ServiceScope.ServiceProvider.GetRequiredService<HttpClientService>();
     }
 
@@ -38,7 +36,7 @@ public class ItunesTest
     [Fact]
     public async Task TestItunesSampleFeed_Async()
     {
-        var feed = await _feedReaderSvc.ReadFromFileAsync("Feeds/Rss20ItunesSample.xml").ConfigureAwait(false);
+        var feed = await FeedReaderService.ReadFromFileAsync("Feeds/Rss20ItunesSample.xml").ConfigureAwait(false);
 
         var itunesChannel = feed.GetItunesChannel();
 

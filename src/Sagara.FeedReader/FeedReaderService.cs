@@ -61,9 +61,10 @@ public class FeedReaderService : IFeedReaderService
     /// Reads a feed from the Stream <paramref name="feedContentStream"/>
     /// This could be useful if some special encoding is used.
     /// </summary>
+    /// <remarks>Marked as static because it doesn't rely on HttpClient to get the desired data.</remarks>
     /// <param name="feedContentStream">The feed content as a Stream.</param>
     /// <returns>The parsed feed.</returns>
-    public async Task<Feed> ReadFromStreamAsync(Stream feedContentStream)
+    public static async Task<Feed> ReadFromStreamAsync(Stream feedContentStream)
     {
         ArgumentNullException.ThrowIfNull(feedContentStream);
 
@@ -75,9 +76,10 @@ public class FeedReaderService : IFeedReaderService
     /// <summary>
     /// Reads a feed from a file.
     /// </summary>
+    /// <remarks>Marked as static because it doesn't rely on HttpClient to get the desired data.</remarks>
     /// <param name="filePath">the path to the feed file</param>
     /// <returns>parsed feed</returns>
-    public async Task<Feed> ReadFromFileAsync(string filePath)
+    public static async Task<Feed> ReadFromFileAsync(string filePath)
     {
         ArgumentNullException.ThrowIfNull(filePath);
 
@@ -93,7 +95,7 @@ public class FeedReaderService : IFeedReaderService
     /// </summary>
     /// <param name="feedContent">The feed content (xml).</param>
     /// <returns>The parsed feed.</returns>
-    public Feed ReadFromString(string feedContent)
+    public static Feed ReadFromString(string feedContent)
     {
         ArgumentNullException.ThrowIfNull(feedContent);
 
