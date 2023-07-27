@@ -21,6 +21,7 @@ public static class FeedReaderHttpClientConfiguration
         => new()
         {
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+            CheckCertificateRevocationList = true,
         };
 
 

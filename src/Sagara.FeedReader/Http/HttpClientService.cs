@@ -63,7 +63,11 @@ public class HttpClientService : IFeedReaderService
         }
         catch
         {
-            responseStream?.Dispose();
+            if (responseStream is not null)
+            {
+                await responseStream.DisposeAsync().ConfigureAwait(false);
+            }
+
             throw;
         }
     }
