@@ -50,7 +50,11 @@ public static class HtmlHelper
         ArgumentNullException.ThrowIfNull(input);
 
         string linkTag = input.HtmlDecode()!;
-        string type = GetTypeAttributeValueFromLinkTag(linkTag).ToLower();
+
+        // Justification: we know this will be application/rss or similar. We don't need to worry about non-roundtripable characters here.
+#pragma warning disable CA1308 // Normalize strings to uppercase
+        string type = GetTypeAttributeValueFromLinkTag(linkTag).ToLowerInvariant();
+#pragma warning restore CA1308 // Normalize strings to uppercase
 
         if (!type.Contains("application/rss", StringComparison.Ordinal) && !type.Contains("application/atom", StringComparison.Ordinal))
         {

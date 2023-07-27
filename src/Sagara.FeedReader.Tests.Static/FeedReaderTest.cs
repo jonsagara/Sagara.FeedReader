@@ -107,7 +107,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadAdobeFeed()
     {
-        var feed = await FeedReader.ReadAsync("https://theblog.adobe.com/news/feed").ConfigureAwait(false);
+        var feed = await FeedReader.ReadAsync("https://blog.adobe.com/feed.xml").ConfigureAwait(false);
         string? title = feed.Title;
         Assert.Equal("Adobe Blog", title);
     }
@@ -204,7 +204,7 @@ public class FeedReaderTest
     public async Task TestReadTimeDoctor()
     {
         var feed = await FeedReader.ReadAsync("https://www.timedoctor.com/blog/feed/").ConfigureAwait(false);
-        Assert.Equal("Inside Time Doctor", feed.Title);
+        Assert.Equal("Time Doctor Blog", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
 
@@ -228,7 +228,7 @@ public class FeedReaderTest
     public async Task TestReadTechRep()
     {
         var feed = await FeedReader.ReadAsync("https://www.techrepublic.com/rssfeeds/topic/project-management/").ConfigureAwait(false);
-        Assert.Equal("Project Management | TechRepublic", feed.Title);
+        Assert.Equal("Project Management Articles & Tutorials | TechRepublic", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
 
@@ -248,13 +248,14 @@ public class FeedReaderTest
         Assert.True(feed.Items.Count > 0);
     }
 
-    [Fact]
-    public async Task TestReadTheStudentLawyer()
-    {
-        var feed = await FeedReader.ReadAsync("http://us10.campaign-archive.com/feed?u=8da2e137a07b178e5d9a71c2c&id=9134b0cc95").ConfigureAwait(false);
-        Assert.Equal("The Student Lawyer Careers Network Archive Feed", feed.Title);
-        Assert.True(feed.Items.Count > 0);
-    }
+    // 2023-07-26: Feed no longer exists
+    //[Fact]
+    //public async Task TestReadTheStudentLawyer()
+    //{
+    //    var feed = await FeedReader.ReadAsync("http://us10.campaign-archive.com/feed?u=8da2e137a07b178e5d9a71c2c&id=9134b0cc95").ConfigureAwait(false);
+    //    Assert.Equal("The Student Lawyer Careers Network Archive Feed", feed.Title);
+    //    Assert.True(feed.Items.Count > 0);
+    //}
 
     [Fact]
     public async Task TestReadLiveBold()
