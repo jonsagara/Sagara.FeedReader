@@ -103,7 +103,7 @@ public class ItunesChannel
     /// </summary>
     /// <param name="element">the channel element</param>
     /// <returns>the itunes:categries</returns>
-    private ItunesCategory[] GetItunesCategories(XElement element)
+    private static ItunesCategory[] GetItunesCategories(XElement element)
     {
         var categoryElements = element.GetElements(NAMESPACEPREFIX, "category");
         if (categoryElements.Count == 0)
