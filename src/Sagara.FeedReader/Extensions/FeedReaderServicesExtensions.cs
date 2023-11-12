@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http.Resilience;
 using Microsoft.IO;
 using Sagara.FeedReader.Http;
 
@@ -17,12 +18,15 @@ public static class FeedReaderServicesExtensions
     public static IServiceCollection AddFeedReaderServices(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
-        
+
         // Configure the HttpClient used by the instance-based FeedReader.
-        services.AddHttpClient(FeedReaderHttpClientConfiguration.HttpClientName)
+        services.AddHttpClient(NamedHttpClients.FeedReader.Name)
             .ConfigurePrimaryHttpMessageHandler(FeedReaderHttpClientConfiguration.CreateHttpClientHandler)
-            .AddTransientHttpErrorPolicy(FeedReaderHttpClientConfiguration.BuildWaitAndRetryPolicy);
-        
+            .AddResilienceHandler(
+                pipelineName: $"{NamedHttpClients.FeedReader.Name} pipeline",
+                pipelineBuilder => FeedReaderHttpClientConfiguration.ConfigureRetryAndWaitWithExponentialBackoffStrategy(pipelineBuilder, httpClientName: NamedHttpClients.FeedReader.Name, maxRetryAttempts: NamedHttpClients.FeedReader.MaxRetryAttempts)
+                );
+
         // Used to store downloaded streams of bytes. Instead of creating new MemoryStreams all the time, grab them
         //   from a pool.
         services.AddSingleton<RecyclableMemoryStreamManager>();

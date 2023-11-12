@@ -21,7 +21,7 @@ public class HttpClientService : IFeedReaderService
     {
         ArgumentNullException.ThrowIfNull(httpClientFactory);
 
-        _httpClient = httpClientFactory.CreateClient(FeedReaderHttpClientConfiguration.HttpClientName);
+        _httpClient = httpClientFactory.CreateClient(NamedHttpClients.FeedReader.Name);
         _recyclableMemoryStreamManager = recyclableMemoryStreamManager;
     }
 
