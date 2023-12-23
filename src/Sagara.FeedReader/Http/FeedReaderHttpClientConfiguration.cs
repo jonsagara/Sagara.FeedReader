@@ -38,7 +38,7 @@ public static class FeedReaderHttpClientConfiguration
 
         pipelineBuilder.AddRetry(new HttpRetryStrategyOptions
         {
-            ShouldHandle = args => ValueTask.FromResult(HttpClientResiliencePredicates.IsTransientHttpOutcome(args.Outcome)),
+            ShouldHandle = args => ValueTask.FromResult(HttpClientResiliencePredicates.IsTransient(args.Outcome)),
             MaxRetryAttempts = maxRetryAttempts,
             BackoffType = DelayBackoffType.Exponential,
             //OnRetry = args =>
