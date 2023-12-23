@@ -103,14 +103,14 @@ public static class Helpers
             }
             if (!parseSuccess)
             {
-                string newdtstring = datetime.Substring(0, datetime.LastIndexOf(" ", StringComparison.Ordinal)).Trim();
+                string newdtstring = datetime.Substring(0, datetime.LastIndexOf(' ')).Trim();
 
                 parseSuccess = DateTimeOffset.TryParse(newdtstring, dateTimeFormat, DateTimeStyles.AssumeUniversal, out dt);
             }
 
             if (!parseSuccess)
             {
-                string newdtstring = datetime.Substring(0, datetime.LastIndexOf(" ", StringComparison.Ordinal)).Trim();
+                string newdtstring = datetime.Substring(0, datetime.LastIndexOf(' ')).Trim();
 
                 parseSuccess = DateTimeOffset.TryParse(newdtstring, dateTimeFormat, DateTimeStyles.None, out dt);
             }
