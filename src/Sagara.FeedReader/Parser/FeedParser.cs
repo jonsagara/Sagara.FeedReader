@@ -69,48 +69,6 @@ internal static class FeedParser
     }
 
     /// <summary>
-    /// Returns the parsed feed. This method tries to use the encoding of the received file.
-    /// If none found, or it's invalid, it uses UTF8.
-    /// </summary>
-    /// <param name="feedContentData">The feed document as a byte array.</param>
-    /// <returns>Parsed feed</returns>
-    public static Feed GetFeedFromBytes(byte[] feedContentData)
-    {
-        ArgumentNullException.ThrowIfNull(feedContentData);
-
-        // 1.) get string of the content
-        string feedContent = Encoding.UTF8.GetString(feedContentData);
-        feedContent = RemoveInvalidChars(feedContent);
-
-        // 2.) read document to get the used encoding
-        XDocument feedDoc = XDocument.Parse(feedContent);
-
-        // 3.) get used encoding
-        Encoding encoding = GetEncoding(feedDoc);
-
-        // 4.) if not UTF8 - reread the data.
-        // In some cases - ISO-8859-1 - Encoding.UTF8.GetString doesn't work correctly, so converting
-        //   from UTF8 to ISO-8859-1 doesn't work and the result is wrong.
-        //   See: FullParseTest.TestRss20ParseSwedishFeedWithIso8859_1
-        if (encoding != Encoding.UTF8)
-        {
-            feedContent = encoding.GetString(feedContentData);
-            feedContent = RemoveInvalidChars(feedContent);
-        }
-
-        var feedType = ParseFeedType(feedDoc);
-        var parser = Factory.GetParser(feedType);
-
-        // If the declared encoding is UTF-8, then we didn't read feedConentData again with a
-        //   different encoding, and there's no need to have the parser reparse the XDocument.
-        var feed = encoding == Encoding.UTF8
-            ? parser.Parse(feedContent, feedDoc)
-            : parser.Parse(feedContent);
-
-        return feed.ToFeed();
-    }
-
-    /// <summary>
     /// Returns the parsed feed. This method does NOT check the encoding of the received file.
     /// </summary>
     /// <param name="feedContent">The feed document's content as a string.</param>
