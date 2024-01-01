@@ -17,7 +17,7 @@ try
     using (var serviceScope = host.Services.CreateScope())
     {
         var services = serviceScope.ServiceProvider;
-        var feedReaderSvc = services.GetRequiredService<FeedReaderService>();
+        var feedReaderSvc = services.GetRequiredService<FeedReader>();
 
 
         //

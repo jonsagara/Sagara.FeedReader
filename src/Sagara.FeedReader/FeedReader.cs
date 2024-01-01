@@ -16,7 +16,7 @@ namespace Sagara.FeedReader;
 /// var feed = FeedReader.Read(firstLink.Url);
 /// Console.WriteLine(feed.Title);
 /// </example>
-public class FeedReaderService : IFeedReaderService
+public class FeedReader : IFeedReaderService
 {
     private readonly HttpClientService _httpClientService;
 
@@ -24,7 +24,7 @@ public class FeedReaderService : IFeedReaderService
     /// .ctor
     /// </summary>
     /// <param name="httpClientService"></param>
-    public FeedReaderService(HttpClientService httpClientService)
+    public FeedReader(HttpClientService httpClientService)
     {
         _httpClientService = httpClientService;
     }

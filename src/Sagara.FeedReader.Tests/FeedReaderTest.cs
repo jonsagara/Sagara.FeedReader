@@ -8,12 +8,12 @@ namespace Sagara.FeedReader.Tests;
 [Collection(nameof(ServiceScopeCollection))]
 public class FeedReaderTest
 {
-    private readonly FeedReaderService _feedReaderSvc;
+    private readonly FeedReader _feedReaderSvc;
     private readonly HttpClientService _httpClientSvc;
 
     public FeedReaderTest(HostFixture hostFixture)
     {
-        _feedReaderSvc = hostFixture.ServiceScope.ServiceProvider.GetRequiredService<FeedReaderService>();
+        _feedReaderSvc = hostFixture.ServiceScope.ServiceProvider.GetRequiredService<FeedReader>();
         _httpClientSvc = hostFixture.ServiceScope.ServiceProvider.GetRequiredService<HttpClientService>();
     }
 

@@ -8,10 +8,10 @@ public partial class FeedProcessor
     [GeneratedRegex(pattern: "[^a-z]*", options: RegexOptions.IgnoreCase)]
     private static partial Regex NonEnglishLetters();
 
-    private readonly FeedReaderService _feedReaderSvc;
+    private readonly FeedReader _feedReaderSvc;
     private readonly HttpClientService _httpClientSvc;
 
-    public FeedProcessor(FeedReaderService feedReaderSvc, HttpClientService httpClientSvc)
+    public FeedProcessor(FeedReader feedReaderSvc, HttpClientService httpClientSvc)
     {
         _feedReaderSvc = feedReaderSvc;
         _httpClientSvc = httpClientSvc;
