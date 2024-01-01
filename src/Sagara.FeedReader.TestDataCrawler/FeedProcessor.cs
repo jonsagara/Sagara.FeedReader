@@ -3,9 +3,10 @@ using Sagara.FeedReader.Http;
 
 namespace Sagara.FeedReader.TestDataCrawler;
 
-public class FeedProcessor
+public partial class FeedProcessor
 {
-    private static readonly Regex _nonEnglishLetters = new Regex("[^a-z]*", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    [GeneratedRegex(pattern: "[^a-z]*", options: RegexOptions.IgnoreCase)]
+    private static partial Regex NonEnglishLetters();
 
     private readonly FeedReaderService _feedReaderSvc;
     private readonly HttpClientService _httpClientSvc;
@@ -44,7 +45,7 @@ public class FeedProcessor
                 var content = await _httpClientSvc.DownloadStringAsync(feedLink.Url);
 
                 // Keep only English characters for the file we're about to write out.
-                title = _nonEnglishLetters.Replace(title, "");
+                title = NonEnglishLetters().Replace(title, "");
                 var outputFilePath = Path.Combine(outputFolder, $"{title}_{Guid.NewGuid()}.xml");
                 File.WriteAllText(outputFilePath, content);
 

@@ -7,9 +7,10 @@ namespace Sagara.FeedReader.Html;
 /// <summary>
 /// Contains HTML helper methods.
 /// </summary>
-public static class HtmlHelper
+public static partial class HtmlHelper
 {
-    private static readonly Regex _rxLinkTag = new Regex("<link[^>]*rel=\"alternate\"[^>]*>", RegexOptions.Singleline | RegexOptions.Compiled);
+    [GeneratedRegex(pattern: "<link[^>]*rel=\"alternate\"[^>]*>", options: RegexOptions.Singleline)]
+    private static partial Regex LinkTag();
 
     /// <summary>
     /// Parses RSS links from html page and returns all links
@@ -26,7 +27,7 @@ public static class HtmlHelper
 
         List<HtmlFeedLink> feedLinks = new();
 
-        foreach (Match m in _rxLinkTag.Matches(htmlContent))
+        foreach (Match m in LinkTag().Matches(htmlContent))
         {
             var hfl = GetFeedLinkFromLinkTag(m.Value);
             if (hfl is not null)
@@ -79,30 +80,35 @@ public static class HtmlHelper
     [StringSyntax(StringSyntaxAttribute.Regex)]
     private const string AttributeValueRegexFormat = "\\s*=\\s*\"(?<val>[^\"]*)\"";
 
-    private static readonly Regex _rxTypeAttributeValue = new Regex($"type{AttributeValueRegexFormat}", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
-    private static readonly Regex _rxTitleAttributeValue = new Regex($"title{AttributeValueRegexFormat}", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
-    private static readonly Regex _rxHREFAttributeValue = new Regex($"href{AttributeValueRegexFormat}", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+    [GeneratedRegex(pattern: $"type{AttributeValueRegexFormat}", options: RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace)]
+    private static partial Regex TypeAttributeValue();
+
+    [GeneratedRegex(pattern: $"title{AttributeValueRegexFormat}", options: RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace)]
+    private static partial Regex TitleAttributeValue();
+
+    [GeneratedRegex($"href{AttributeValueRegexFormat}", options: RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace)]
+    private static partial Regex HREFAttributeValue();
 
     /// <summary>
     /// Reads the type attribute value from an HTML &lt;link /&gt; tag.
     /// </summary>
     /// <param name="linkTagHtml">The HTML tag, e.g. &lt;link title=&quot;my title&quot;&gt;.</param>
     private static string GetTypeAttributeValueFromLinkTag(string linkTagHtml)
-        => GetAttributeValueFromLinkTag(linkTagHtml, _rxTypeAttributeValue);
+        => GetAttributeValueFromLinkTag(linkTagHtml, TypeAttributeValue());
 
     /// <summary>
     /// Reads the title attribute value from an HTML &lt;link /&gt; tag.
     /// </summary>
     /// <param name="linkTagHtml">The HTML tag, e.g. &lt;link title=&quot;my title&quot;&gt;.</param>
     private static string GetTitleAttributeValueFromLinkTag(string linkTagHtml)
-        => GetAttributeValueFromLinkTag(linkTagHtml, _rxTitleAttributeValue);
+        => GetAttributeValueFromLinkTag(linkTagHtml, TitleAttributeValue());
 
     /// <summary>
     /// Reads the href attribute value from an HTML &lt;link /&gt; tag.
     /// </summary>
     /// <param name="linkTagHtml">The HTML tag, e.g. &lt;link title=&quot;my title&quot;&gt;.</param>
     private static string GetHREFAttributeValueFromLinkTag(string linkTagHtml)
-        => GetAttributeValueFromLinkTag(linkTagHtml, _rxHREFAttributeValue);
+        => GetAttributeValueFromLinkTag(linkTagHtml, HREFAttributeValue());
 
     private static string GetAttributeValueFromLinkTag(string linkTagHtml, Regex rxAttributeValue)
     {
