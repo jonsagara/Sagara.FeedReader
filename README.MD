@@ -1,6 +1,10 @@
 # *** Forked Version ***
 
-This is a heavily-modified fork of the official repository. Please refer to the original repo, upon which the `Sagara.FeedReader` nuget package is based:
+This is a heavily-modified fork of the official repository. I replaced the static API with an instance-based API
+that works with .NET's dependency injection framework.
+
+This version only supports .NET 8 and higher. If you need the static API or support for earlier versions of
+.NET / .NET Framework, please see the original repo:
 
 https://github.com/arminreiter/FeedReader
 
