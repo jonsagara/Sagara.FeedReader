@@ -1,7 +1,5 @@
-﻿using Sagara.FeedReader.Http;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IO;
 using Sagara.FeedReader.Extensions;
 
 namespace Sagara.FeedReader.TestDataCrawler.Instance;
