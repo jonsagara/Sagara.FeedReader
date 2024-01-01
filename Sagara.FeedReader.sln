@@ -15,13 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{305D3DDE-41ED-4AB7-9D56-297B97C1EB6B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sagara.FeedReader.ConsoleSample.Instance", "src\Sagara.FeedReader.ConsoleSample.Instance\Sagara.FeedReader.ConsoleSample.Instance.csproj", "{872D88BF-6B38-40C3-BB30-C92B462535EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sagara.FeedReader.ConsoleSample", "src\Sagara.FeedReader.ConsoleSample\Sagara.FeedReader.ConsoleSample.csproj", "{872D88BF-6B38-40C3-BB30-C92B462535EB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{38C12CFC-710B-4CF6-878A-1F8D1D2AAE21}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sagara.FeedReader.Tests.Instance", "src\Sagara.FeedReader.Tests.Instance\Sagara.FeedReader.Tests.Instance.csproj", "{D3718547-80AE-4EFC-BE77-BE7686ABE745}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sagara.FeedReader.Tests", "src\Sagara.FeedReader.Tests\Sagara.FeedReader.Tests.csproj", "{D3718547-80AE-4EFC-BE77-BE7686ABE745}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sagara.FeedReader.TestDataCrawler.Instance", "src\Sagara.FeedReader.TestDataCrawler.Instance\Sagara.FeedReader.TestDataCrawler.Instance.csproj", "{A439CF52-C25D-4BDE-859B-E8091853727E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sagara.FeedReader.TestDataCrawler", "src\Sagara.FeedReader.TestDataCrawler\Sagara.FeedReader.TestDataCrawler.csproj", "{A439CF52-C25D-4BDE-859B-E8091853727E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E53EE766-0AD7-424D-8586-6268C8223E6A}"
 EndProject

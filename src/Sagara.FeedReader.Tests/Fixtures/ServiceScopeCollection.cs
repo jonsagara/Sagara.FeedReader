@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Sagara.FeedReader.Tests.Instance.Fixtures;
+namespace Sagara.FeedReader.Tests.Fixtures;
 
 [CollectionDefinition(nameof(ServiceScopeCollection))]
 public class ServiceScopeCollection : ICollectionFixture<HostFixture>

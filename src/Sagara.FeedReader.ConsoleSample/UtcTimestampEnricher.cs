@@ -1,7 +1,7 @@
 ﻿using Serilog.Core;
 using Serilog.Events;
 
-namespace Sagara.FeedReader.ConsoleSample.Instance;
+namespace Sagara.FeedReader.ConsoleSample;
 
 /// <summary>
 /// Serilog enricher that converts the log event's timestamp to UTC.

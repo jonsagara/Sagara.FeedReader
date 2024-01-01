@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Sagara.FeedReader;
-using Sagara.FeedReader.ConsoleSample.Instance;
+using Sagara.FeedReader.ConsoleSample;
 using Serilog;
 
 // The initial "bootstrap" logger is able to log errors during start-up. It's completely replaced by the

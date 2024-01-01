@@ -1,11 +1,11 @@
-﻿using Sagara.FeedReader.Feeds;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Sagara.FeedReader.Feeds;
 using Sagara.FeedReader.Feeds.Itunes;
 using Sagara.FeedReader.Http;
-using Sagara.FeedReader.Tests.Instance.Fixtures;
-using Microsoft.Extensions.DependencyInjection;
+using Sagara.FeedReader.Tests.Fixtures;
 using Xunit;
 
-namespace Sagara.FeedReader.Tests.Instance;
+namespace Sagara.FeedReader.Tests;
 
 [Collection(nameof(ServiceScopeCollection))]
 public class FullParseTest

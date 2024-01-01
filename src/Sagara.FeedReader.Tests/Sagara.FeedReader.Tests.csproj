@@ -3,10 +3,10 @@
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
-		<AssemblyName>Sagara.FeedReader.Tests.Instance</AssemblyName>
-		<PackageId>Sagara.FeedReader.Tests.Instance</PackageId>
-		<Title>Sagara.FeedReader.Tests.Instance</Title>
-		<Product>Sagara.FeedReader.Tests.Instance</Product>
+		<AssemblyName>Sagara.FeedReader.Tests</AssemblyName>
+		<PackageId>Sagara.FeedReader.Tests</PackageId>
+		<Title>Sagara.FeedReader.Tests</Title>
+		<Product>Sagara.FeedReader.Tests</Product>
 		<Copyright>Copyright © 2017</Copyright>
 		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
 		<!--<RuntimeIdentifiers>win-x64;win10-x64</RuntimeIdentifiers>-->

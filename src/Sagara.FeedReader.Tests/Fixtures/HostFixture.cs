@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Sagara.FeedReader.Extensions;
 
-namespace Sagara.FeedReader.Tests.Instance.Fixtures;
+namespace Sagara.FeedReader.Tests.Fixtures;
 
 public class HostFixture : IDisposable
 {

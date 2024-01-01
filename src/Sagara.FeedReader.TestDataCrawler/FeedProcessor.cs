@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using Sagara.FeedReader.Http;
 
-namespace Sagara.FeedReader.TestDataCrawler.Instance;
+namespace Sagara.FeedReader.TestDataCrawler;
 
 public class FeedProcessor
 {

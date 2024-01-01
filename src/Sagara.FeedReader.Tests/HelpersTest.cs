@@ -1,7 +1,7 @@
 ﻿using Sagara.FeedReader.Html;
 using Xunit;
 
-namespace Sagara.FeedReader.Tests.Instance;
+namespace Sagara.FeedReader.Tests;
 
 public class HelpersTest
 {

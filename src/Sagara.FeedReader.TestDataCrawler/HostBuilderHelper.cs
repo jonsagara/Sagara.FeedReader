@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Sagara.FeedReader.Extensions;
 
-namespace Sagara.FeedReader.TestDataCrawler.Instance;
+namespace Sagara.FeedReader.TestDataCrawler;
 
 public static class HostBuilderHelper
 {

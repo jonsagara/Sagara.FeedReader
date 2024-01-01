@@ -1,6 +1,6 @@
-﻿using Sagara.FeedReader;
-using Sagara.FeedReader.TestDataCrawler.Instance;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Sagara.FeedReader;
+using Sagara.FeedReader.TestDataCrawler;
 
 try
 {

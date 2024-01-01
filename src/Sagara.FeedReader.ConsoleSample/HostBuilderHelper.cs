@@ -1,12 +1,10 @@
-﻿using Sagara.FeedReader.Http;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IO;
 using Sagara.FeedReader.Extensions;
 using Serilog;
 
-namespace Sagara.FeedReader.ConsoleSample.Instance;
+namespace Sagara.FeedReader.ConsoleSample;
 
 public static class HostBuilderHelper
 {
