@@ -2,9 +2,7 @@
 using BenchmarkDotNet.Jobs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Http.Resilience;
-using Microsoft.IO;
-using Sagara.FeedReader.Http;
+using Sagara.FeedReader.Extensions;
 
 namespace Sagara.FeedReader.Benchmarks.Harnesses;
 
@@ -45,20 +43,6 @@ public class StaticVsInstance
 
     private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
     {
-        services.AddHttpClient(NamedHttpClients.FeedReader.Name)
-            .ConfigurePrimaryHttpMessageHandler(FeedReaderHttpClientConfiguration.CreateHttpClientHandler)
-            .AddResilienceHandler(
-                pipelineName: $"{NamedHttpClients.FeedReader.Name} pipeline",
-                pipelineBuilder => FeedReaderHttpClientConfiguration.ConfigureRetryAndWaitWithExponentialBackoffStrategy(pipelineBuilder, httpClientName: NamedHttpClients.FeedReader.Name, maxRetryAttempts: NamedHttpClients.FeedReader.MaxRetryAttempts)
-                );
-
-        services.AddSingleton<RecyclableMemoryStreamManager>();
-
-        // FeedReader services.
-        services.Scan(scan => scan
-            .FromAssemblyOf<IFeedReaderService>()
-            .AddClasses(classes => classes.AssignableTo<IFeedReaderService>())
-            .AsSelf()
-            .WithScopedLifetime());
+        services.AddFeedReaderServices();
     }
 }

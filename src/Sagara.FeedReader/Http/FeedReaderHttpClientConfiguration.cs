@@ -1,6 +1,4 @@
 ﻿using System.Net;
-using Microsoft.Extensions.Http.Resilience;
-using Polly;
 
 namespace Sagara.FeedReader.Http;
 
@@ -19,43 +17,6 @@ public static class FeedReaderHttpClientConfiguration
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
             CheckCertificateRevocationList = true,
         };
-
-
-    //private static readonly ILogger _logger = Log.Logger.ForContext(typeof(FeedReaderHttpClientConfiguration));
-
-    /// <summary>
-    /// Retry <paramref name="maxRetryAttempts"/> times with exponential backoff.
-    /// </summary>
-    /// <param name="pipelineBuilder">Used to create a resilience pipeline.</param>
-    /// <param name="httpClientName">The HttpClient name. Used in logs when a retry occurs.</param>
-    /// <param name="maxRetryAttempts">The maximum number of retries to use, in addition to the original call. Minimum is 1. Maximum is int.MaxValue.</param>
-    public static void ConfigureRetryAndWaitWithExponentialBackoffStrategy(ResiliencePipelineBuilder<HttpResponseMessage> pipelineBuilder, string httpClientName, int maxRetryAttempts)
-    {
-        ArgumentNullException.ThrowIfNull(pipelineBuilder);
-        ArgumentException.ThrowIfNullOrWhiteSpace(httpClientName);
-        ArgumentOutOfRangeException.ThrowIfLessThan(maxRetryAttempts, 1);
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(maxRetryAttempts, int.MaxValue);
-
-        pipelineBuilder.AddRetry(new HttpRetryStrategyOptions
-        {
-            ShouldHandle = args => ValueTask.FromResult(HttpClientResiliencePredicates.IsTransient(args.Outcome)),
-            MaxRetryAttempts = maxRetryAttempts,
-            BackoffType = DelayBackoffType.Exponential,
-            //OnRetry = args =>
-            //{
-            //    _logger.Warning(args.Outcome.Exception, "[HttpClient={HttpClientName}] Failed to send request to {RequestUri}. StatusCode: {StatusCodeInt} {StatusCode}. The attempt took {Duration}. Retrying after {RetryDelay}...",
-            //        httpClientName,
-            //        args.Outcome.Result?.RequestMessage?.RequestUri,
-            //        (int?)args.Outcome.Result?.StatusCode,
-            //        args.Outcome.Result?.StatusCode,
-            //        args.Duration,
-            //        args.RetryDelay
-            //        );
-
-            //    return ValueTask.CompletedTask;
-            //}
-        });
-    }
 
 
     internal const string ACCEPT_HEADER_NAME = "Accept";
