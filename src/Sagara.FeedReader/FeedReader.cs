@@ -47,11 +47,7 @@ public class FeedReader : IFeedReaderService
         var absoluteUrl = Helpers.GetAbsoluteUrl(feedUrl);
 
         using var feedContentStream = await _httpClientService
-            .DownloadStreamAsync(
-                url: absoluteUrl,
-                userAgent: userAgent,
-                cancellationToken: cancellationToken
-            )
+            .DownloadStreamAsync(url: absoluteUrl, userAgent: userAgent, cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
         return await ReadFromStreamAsync(feedContentStream).ConfigureAwait(false);
@@ -115,10 +111,7 @@ public class FeedReader : IFeedReaderService
         var absolutePageUrl = Helpers.GetAbsoluteUrl(pageUrl);
 
         var pageHtml = await _httpClientService
-            .DownloadStringAsync(
-                url: absolutePageUrl,
-                cancellationToken: cancellationToken
-            )
+            .DownloadStringAsync(url: absolutePageUrl, cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
         return HtmlHelper.ParseFeedUrlsFromHtml(pageHtml);

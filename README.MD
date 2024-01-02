@@ -1,11 +1,11 @@
 # *** Forked Version ***
 
-This is a heavily-modified fork of the official repository. I replaced the static API with an instance-based API
-that works with .NET's dependency injection framework to manage `HttpClient`. Some methods can still be called
-statically.
+This is a heavily-modified fork of `CodeHollow.FeedReader`. The biggest difference is that it uses .NET's dependency 
+injection framework to manage `HttpClient` instead of storing it in a static variable. I also did a fair bit of 
+refactoring and used more modern code constructs in some places.
 
-This version only supports .NET 8 and higher. If you need the static API or support for earlier versions of
-.NET / .NET Framework, please see the original repo:
+This version only supports .NET 8 and higher. If you don't need .NET's DI capabilities, or you need support for earlier 
+versions of .NET / .NET Framework, please use the original package:
 
 https://github.com/arminreiter/FeedReader
 

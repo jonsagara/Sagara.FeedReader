@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Microsoft.IO;
+using Microsoft.Net.Http.Headers;
 
 namespace Sagara.FeedReader.Http;
 
@@ -41,7 +42,7 @@ public class HttpClientService : IFeedReaderService
         ArgumentNullException.ThrowIfNull(url);
 
         url = WebUtility.UrlDecode(url);
-        userAgent ??= FeedReaderHttpClientConfiguration.USER_AGENT_VALUE;
+        userAgent ??= FeedReaderHttpClientConfiguration.DefaultUserAgentHeaderValue;
 
         // Make an initial request. Note that HttpClient will follow up to 50 redirects by default.
         using var requestMsg = new HttpRequestMessage(HttpMethod.Get, url);
@@ -84,7 +85,7 @@ public class HttpClientService : IFeedReaderService
         ArgumentNullException.ThrowIfNull(url);
 
         url = WebUtility.UrlDecode(url);
-        userAgent ??= FeedReaderHttpClientConfiguration.USER_AGENT_VALUE;
+        userAgent ??= FeedReaderHttpClientConfiguration.DefaultUserAgentHeaderValue;
 
         // Make an initial request. Note that HttpClient will follow up to 50 redirects by default.
         using var requestMsg = new HttpRequestMessage(HttpMethod.Get, url);
@@ -103,7 +104,7 @@ public class HttpClientService : IFeedReaderService
 
     private static void AddRequestHeaders(HttpRequestMessage requestMsg, string? userAgent)
     {
-        requestMsg.Headers.TryAddWithoutValidation(FeedReaderHttpClientConfiguration.ACCEPT_HEADER_NAME, FeedReaderHttpClientConfiguration.ACCEPT_HEADER_VALUE);
-        requestMsg.Headers.TryAddWithoutValidation(FeedReaderHttpClientConfiguration.USER_AGENT_NAME, userAgent);
+        requestMsg.Headers.TryAddWithoutValidation(HeaderNames.Accept, FeedReaderHttpClientConfiguration.AcceptHeaderValue);
+        requestMsg.Headers.TryAddWithoutValidation(HeaderNames.UserAgent, userAgent);
     }
 }

@@ -2,12 +2,8 @@
 
 using System;
 using System.Globalization;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Feeds.MediaRSS;
 using Sagara.FeedReader.Extensions;
-using Sagara.FeedReader.Http;
 
 /// <summary>
 /// static class with helper functions
@@ -55,23 +51,6 @@ public static class Helpers
         }
 
         throw new UrlNotFoundException($"Could not get the absolute url out of {pageUrl} and {feedLink.Url}");
-    }
-
-    /// <summary>
-    /// Download the content from an url and returns it as utf8 encoded string.
-    /// Preferred way is to use <see cref="HttpClientHelper.DownloadBytesAsync(string, string, CancellationToken)"/> because it works
-    /// better with encoding.
-    /// </summary>
-    /// <param name="url">correct url</param>
-    /// <param name="cancellationToken">token to cancel operation</param>
-    /// <returns>Content as string</returns>
-    public static async Task<string> DownloadAsync(string url, CancellationToken cancellationToken = default)
-    {
-        ArgumentNullException.ThrowIfNull(url);
-
-        var content = await HttpClientHelper.DownloadBytesAsync(url, cancellationToken: cancellationToken).ConfigureAwait(false);
-
-        return Encoding.UTF8.GetString(content);
     }
 
     /// <summary>
