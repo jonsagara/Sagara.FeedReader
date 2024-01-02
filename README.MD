@@ -1,7 +1,8 @@
 # *** Forked Version ***
 
 This is a heavily-modified fork of the official repository. I replaced the static API with an instance-based API
-that works with .NET's dependency injection framework.
+that works with .NET's dependency injection framework to manage `HttpClient`. Some methods can still be called
+statically.
 
 This version only supports .NET 8 and higher. If you need the static API or support for earlier versions of
 .NET / .NET Framework, please see the original repo:
@@ -13,6 +14,7 @@ Original readme follows.
 -----
 
 # FeedReader
+
 FeedReader is a .net library used for reading and parsing RSS and ATOM feeds. Supports **RSS 0.91, 0.92, 1.0, 2.0 and ATOM**.
 Developed because tested existing libraries do not work with different languages, encodings or have other issues. 
 Library tested with multiple languages, encodings and feeds.
