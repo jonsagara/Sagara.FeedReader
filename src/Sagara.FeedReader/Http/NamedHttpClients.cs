@@ -5,7 +5,7 @@
 /// </summary>
 public static class NamedHttpClients
 {
-    private static readonly HttpClientPropertiesWithWaitAndRetry _feedReaderProperties = new HttpClientPropertiesWithWaitAndRetry(Name: "FeedReader", MaxRetryAttempts: 1);
+    private static readonly HttpClientPropertiesWithWaitAndRetry _feedReaderProperties = new HttpClientPropertiesWithWaitAndRetry(Name: "FeedReader.HttpClient", MaxRetryAttempts: 1);
 
     /// <summary>
     /// Customized HttpClient for making requests to RSS/Atom endpoints. Retries up to 1 time.

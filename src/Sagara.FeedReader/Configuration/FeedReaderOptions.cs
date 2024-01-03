@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using Microsoft.Extensions.Http.Resilience;
 using Microsoft.IO;
 
@@ -27,4 +28,9 @@ public class FeedReaderOptions
     /// Optionally allow the caller to customize the Polly HTTP resilience strategy for the HttpClient.
     /// </summary>
     public Action<Polly.ResiliencePipelineBuilder<HttpResponseMessage>, ResilienceHandlerContext>? ResilienceHandler { get; set; }
+
+    /// <summary>
+    /// Optionally allow the caller to specify an HTTP proxy for the FeedReader named HttpClient.
+    /// </summary>
+    public IWebProxy? Proxy { get; set; }
 }
