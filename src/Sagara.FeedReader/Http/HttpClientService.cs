@@ -34,7 +34,7 @@ public class HttpClientService : IFeedReaderService
     /// NOTE: the caller is responsible for disposing of the returned stream.
     /// </remarks>
     /// <param name="url">The URLs content we are downloading.</param>
-    /// /// <param name="userAgent">Override built-in user-agent header</param>
+    /// <param name="userAgent">Override built-in user-agent header</param>
     /// <param name="cancellationToken">Token to cancel operation</param>
     /// <returns>A MemoryStream containing the downloaded content.</returns>
     public async Task<MemoryStream> DownloadStreamAsync(string url, string? userAgent = null, CancellationToken cancellationToken = default)
