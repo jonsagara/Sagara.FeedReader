@@ -196,5 +196,5 @@ internal static class XElementExtensions
     // Classes
     //
 
-    private record struct NamespaceAndName(string? Namespace, string Name);
+    private readonly record struct NamespaceAndName(string? Namespace, string Name);
 }
