@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Http.Resilience;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Polly;
 using Sagara.FeedReader.Http;
 
@@ -12,7 +13,7 @@ internal static class ResilienceHelper
     internal static readonly Action<ResiliencePipelineBuilder<HttpResponseMessage>, ResilienceHandlerContext> DefaultResilienceHandler =
         (pipelineBuilder, context) =>
         {
-            var loggerFactory = context.ServiceProvider.GetRequiredService<ILoggerFactory>();
+            var loggerFactory = context.ServiceProvider.GetService<ILoggerFactory>() ?? NullLoggerFactory.Instance;
             var logger = loggerFactory.CreateLogger(typeof(ResilienceHelper));
 
             pipelineBuilder.AddRetry(new HttpRetryStrategyOptions
