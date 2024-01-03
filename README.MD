@@ -1,4 +1,20 @@
-# *** Forked Version ***
+# Sagara.FeedReader
+
+[![publish](https://github.com/jonsagara/Sagara.FeedReader/actions/workflows/build-and-publish.yml/badge.svg)](https://github.com/jonsagara/Sagara.FeedReader/actions?query=workflow%3Apublish)
+
+`Sagara.FeedReader` is a .NET library used for reading and parsing RSS and ATOM feeds. Supports **RSS 0.91, 0.92, 1.0, 2.0 and ATOM**.
+
+## Requirements
+
+`.NET 8`
+
+## NuGet Package
+
+[![NuGet](https://img.shields.io/nuget/v/Sagara.FeedReader?label=NuGet)](https://www.nuget.org/packages/Sagara.FeedReader/)
+
+For `Sagara.FeedReader` API docs generated from XML comments, see the [GitHub repo](src/Sagara.FeedReader/docs/index.md).
+
+## *** Forked from CodeHollow.FeedReader ***
 
 This is a heavily-modified fork of `CodeHollow.FeedReader`. The biggest difference is that it uses .NET's dependency 
 injection framework to manage `HttpClient` instead of storing it in a static variable. I also did a fair bit of 

@@ -1,0 +1,12 @@
+{
+  "LogLevel": "Warn",
+  "GeneratedPages": "Assembly,Types",
+  "NamespaceDocItem": {
+    "Sections": [
+      "Title",
+      "summary",
+      "TableOfContents"
+    ],
+    "Markdown.TableOfContentsModes": "IncludeKind,IncludeSummary"
+  }
+}

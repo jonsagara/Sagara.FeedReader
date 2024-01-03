@@ -14,8 +14,7 @@
 		<Product>Sagara.FeedReader</Product>
 		<Description>RSS and ATOM feed reader/parser. Sagara.FeedReader is a .NET library used for reading and parsing RSS and ATOM feeds. Supports RSS 0.91, 0.92, 1.0, 2.0 and ATOM. Library tested with multiple languages and feeds. Forked from CodeHollow.FeedReader.</Description>
 		<PackageTags>feed rss atom</PackageTags>
-		<PackageIcon>icon.png</PackageIcon>
-		<PackageIconUrl>https://raw.github.com/codehollow/FeedReader/master/FeedReader/icon.png</PackageIconUrl>
+		<!--<PackageIcon>icon.png</PackageIcon>-->
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 
@@ -35,7 +34,7 @@
 	<ItemGroup>
 		<None Include="..\..\LICENSE.md" Pack="True" PackagePath="" />
 		<None Include="..\..\README.md" Pack="True" PackagePath="" />
-		<None Include="icon.png" Pack="True" PackagePath="\" />
+		<!--<None Include="icon.png" Pack="True" PackagePath="\" />-->
 	</ItemGroup>
 
 	<ItemGroup>
