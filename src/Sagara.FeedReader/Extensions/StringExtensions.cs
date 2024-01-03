@@ -24,26 +24,4 @@ internal static class StringExtensions
     /// <returns>True if two strings are equal in a case-insensitive comparison; false otherwise.</returns>
     public static bool EqualsIgnoreCase(this string? text, string? compareTo)
         => string.Equals(text, compareTo, StringComparison.OrdinalIgnoreCase);
-
-    /// <summary>
-    /// Determines whether this string equals one of the given strings. If any string
-    /// matches, the method returns immediately without evaluating the remaining options.
-    /// </summary>
-    /// <param name="text">the string</param>
-    /// <param name="candidates">all strings to compare to</param>
-    /// <returns>True if the text matches of any of the candidate strings; false otherwise.</returns>
-    public static bool EqualsAnyIgnoreCase(this string? text, params string[] candidates)
-    {
-        ArgumentNullException.ThrowIfNull(candidates);
-
-        foreach (var candidate in candidates)
-        {
-            if (text.EqualsIgnoreCase(candidate))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
 }

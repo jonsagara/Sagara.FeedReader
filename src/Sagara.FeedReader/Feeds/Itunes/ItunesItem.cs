@@ -27,7 +27,7 @@ public class ItunesItem
         Duration = ParseDuration(duration);
 
         var explicitValue = itemElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "explicit");
-        Explicit = explicitValue.EqualsAnyIgnoreCase("yes", "explicit", "true");
+        Explicit = ItunesHelper.IsExplicit(explicitValue);
 
         IsClosedCaptioned = itemElement.GetChildElementValue(ItunesChannel.NAMESPACEPREFIX, "isClosedCaptioned").EqualsIgnoreCase("yes");
 
