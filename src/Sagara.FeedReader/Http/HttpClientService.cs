@@ -106,8 +106,8 @@ public class HttpClientService : IFeedReaderService
         // NOTE: The caller is responsible for disposing of the returned message.
         HttpRequestMessage requestMsg = new(HttpMethod.Get, url);
 
-        requestMsg.Headers.TryAddWithoutValidation(HeaderNames.Accept, FeedReaderHttpClientConfiguration.AcceptHeaderValue);
-        requestMsg.Headers.TryAddWithoutValidation(HeaderNames.UserAgent, userAgent ?? FeedReaderHttpClientConfiguration.DefaultUserAgentHeaderValue);
+        requestMsg.Headers.TryAddWithoutValidation(HeaderNames.Accept, FeedReaderHttpRequestHeaderValues.Accept);
+        requestMsg.Headers.TryAddWithoutValidation(HeaderNames.UserAgent, userAgent ?? FeedReaderHttpRequestHeaderValues.DefaultUserAgent);
 
         return requestMsg;
     }
