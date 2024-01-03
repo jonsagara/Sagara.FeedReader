@@ -14,8 +14,9 @@ internal static class FeedParser
     /// If none found, or it's invalid, it uses UTF8.
     /// </summary>
     /// <param name="feedContentStream">The feed document as a Stream.</param>
+    /// <param name="cancellationToken">token to cancel operation</param>
     /// <returns>Parsed feed</returns>
-    public static async Task<Feed> GetFeedFromStreamAsync(Stream feedContentStream)
+    public static async Task<Feed> GetFeedFromStreamAsync(Stream feedContentStream, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(feedContentStream);
 
@@ -29,7 +30,7 @@ internal static class FeedParser
         using (var streamReader = new StreamReader(feedContentStream, encoding, leaveOpen: true))
         {
             // Read it into a string so that we can remove invalid characters.
-            feedContent = await streamReader.ReadToEndAsync().ConfigureAwait(false);
+            feedContent = await streamReader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
             feedContent = RemoveInvalidChars(feedContent);
 
             // Parse it so that we can try to get the declared encoding, if any.
@@ -48,7 +49,7 @@ internal static class FeedParser
 
             using (var streamReader = new StreamReader(feedContentStream, encoding, leaveOpen: true))
             {
-                feedContent = await streamReader.ReadToEndAsync().ConfigureAwait(false);
+                feedContent = await streamReader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
                 feedContent = RemoveInvalidChars(feedContent);
             }
         }

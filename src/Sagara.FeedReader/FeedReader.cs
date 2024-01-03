@@ -6,7 +6,7 @@ namespace Sagara.FeedReader;
 
 /// <summary>
 /// The FeedReader class allows to read feeds from a given url. Use it to parse a feed 
-/// from an url <see cref="ReadAsync(string, string?, CancellationToken)"/>, a file <see cref="ReadFromFileAsync(string)"/>, 
+/// from an url <see cref="ReadAsync(string, string?, CancellationToken)"/>, a file <see cref="ReadFromFileAsync(string, CancellationToken)"/>, 
 /// or a string <see cref="ReadFromString(string)"/>. If the feed url is not known, <see cref="GetFeedUrlsFromPageAsync(string, CancellationToken)"/> 
 /// returns all feed links on a given page.
 /// </summary>
@@ -37,8 +37,8 @@ public class FeedReader : IFeedReaderService
     /// Use <see cref="GetFeedUrlsFromPageAsync(string, CancellationToken)"/> to parse the feeds from a url which is not a feed.
     /// </remarks>
     /// <param name="feedUrl">The url to a feed</param>
-    /// <param name="cancellationToken">token to cancel operation</param>
     /// <param name="userAgent">override built-in user-agent header</param>
+    /// <param name="cancellationToken">token to cancel operation</param>
     /// <returns>parsed feed</returns>
     public async Task<Feed> ReadAsync(string feedUrl, string? userAgent = null, CancellationToken cancellationToken = default)
     {
@@ -47,10 +47,10 @@ public class FeedReader : IFeedReaderService
         var absoluteUrl = Helpers.GetAbsoluteUrl(feedUrl);
 
         using var feedContentStream = await _httpClientService
-            .DownloadStreamAsync(url: absoluteUrl, userAgent: userAgent, cancellationToken: cancellationToken)
+            .DownloadStreamAsync(url: absoluteUrl, userAgent: userAgent, cancellationToken)
             .ConfigureAwait(false);
 
-        return await ReadFromStreamAsync(feedContentStream).ConfigureAwait(false);
+        return await ReadFromStreamAsync(feedContentStream, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -59,13 +59,14 @@ public class FeedReader : IFeedReaderService
     /// </summary>
     /// <remarks>Marked as static because it doesn't rely on HttpClient to get the desired data.</remarks>
     /// <param name="feedContentStream">The feed content as a Stream.</param>
+    /// <param name="cancellationToken">token to cancel operation</param>
     /// <returns>The parsed feed.</returns>
-    public static async Task<Feed> ReadFromStreamAsync(Stream feedContentStream)
+    public static async Task<Feed> ReadFromStreamAsync(Stream feedContentStream, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(feedContentStream);
 
         return await FeedParser
-            .GetFeedFromStreamAsync(feedContentStream)
+            .GetFeedFromStreamAsync(feedContentStream, cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -74,15 +75,16 @@ public class FeedReader : IFeedReaderService
     /// </summary>
     /// <remarks>Marked as static because it doesn't rely on HttpClient to get the desired data.</remarks>
     /// <param name="filePath">the path to the feed file</param>
+    /// <param name="cancellationToken">token to cancel operation</param>
     /// <returns>parsed feed</returns>
-    public static async Task<Feed> ReadFromFileAsync(string filePath)
+    public static async Task<Feed> ReadFromFileAsync(string filePath, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(filePath);
 
         using var fileStream = File.OpenRead(filePath);
 
         return await FeedParser
-            .GetFeedFromStreamAsync(fileStream)
+            .GetFeedFromStreamAsync(fileStream, cancellationToken)
             .ConfigureAwait(false);
     }
 
