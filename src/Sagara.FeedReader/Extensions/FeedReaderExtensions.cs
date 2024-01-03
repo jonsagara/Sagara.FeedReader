@@ -45,20 +45,10 @@ public static class FeedReaderExtensions
     private static IServiceCollection InternalAddFeedReaderServices(IServiceCollection services, FeedReaderOptions options)
     {
         //
-        // The caller passed options. Fill in any defaults that they didn't provide.
-        //
-
-        if (!options.SuppressRecyclableMemoryStreamManagerRegistration)
-        {
-            options.RecyclableMemoryStreamManagerOptions ??= RecyclableMemoryStreamManagerHelper.GetDefaultRecyclableMemoryStreamManagerOptions();
-        }
-
-        options.ResilienceHandler ??= ResilienceHelper.DefaultResilienceHandler;
-
-
-        //
         // Configure the HttpClient used by FeedReader.
         //
+
+        options.ResilienceHandler ??= ResilienceHelper.DefaultResilienceHandler;
 
         services.AddHttpClient(NamedHttpClients.FeedReader.Name)
             .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
@@ -76,6 +66,8 @@ public static class FeedReaderExtensions
 
         if (!options.SuppressRecyclableMemoryStreamManagerRegistration)
         {
+            options.RecyclableMemoryStreamManagerOptions ??= RecyclableMemoryStreamManagerHelper.GetDefaultRecyclableMemoryStreamManagerOptions();
+
             services.AddSingleton(_ => new RecyclableMemoryStreamManager(options.RecyclableMemoryStreamManagerOptions));
         }
 
