@@ -24,33 +24,36 @@ public static class FeedReaderExtensions
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        if (options is null)
+        // If the caller didn't pass any options, use our defaults.
+        options ??= new FeedReaderOptions
         {
-            //
-            // The caller didn't pass any options. Use our defaults.
-            //
+            SuppressRecyclableMemoryStreamManagerRegistration = false,
+            RecyclableMemoryStreamManagerOptions = RecyclableMemoryStreamManagerHelper.GetDefaultRecyclableMemoryStreamManagerOptions(),
 
-            options = new FeedReaderOptions
-            {
-                SuppressRecyclableMemoryStreamManagerRegistration = false,
-                RecyclableMemoryStreamManagerOptions = RecyclableMemoryStreamManagerHelper.GetDefaultRecyclableMemoryStreamManagerOptions(),
+            ResilienceHandler = ResilienceHelper.DefaultResilienceHandler,
+            Proxy = null,
+        };
 
-                ResilienceHandler = ResilienceHelper.DefaultResilienceHandler,
-            };
-        }
-        else
+        return InternalAddFeedReaderServices(services, options);
+    }
+
+
+    //
+    // Private methods
+    //
+
+    private static IServiceCollection InternalAddFeedReaderServices(IServiceCollection services, FeedReaderOptions options)
+    {
+        //
+        // The caller passed options. Fill in any defaults that they didn't provide.
+        //
+
+        if (!options.SuppressRecyclableMemoryStreamManagerRegistration)
         {
-            //
-            // The caller passed options. Fill in any defaults that they didn't provide.
-            //
-
-            if (!options.SuppressRecyclableMemoryStreamManagerRegistration)
-            {
-                options.RecyclableMemoryStreamManagerOptions ??= RecyclableMemoryStreamManagerHelper.GetDefaultRecyclableMemoryStreamManagerOptions();
-            }
-
-            options.ResilienceHandler ??= ResilienceHelper.DefaultResilienceHandler;
+            options.RecyclableMemoryStreamManagerOptions ??= RecyclableMemoryStreamManagerHelper.GetDefaultRecyclableMemoryStreamManagerOptions();
         }
+
+        options.ResilienceHandler ??= ResilienceHelper.DefaultResilienceHandler;
 
 
         //
