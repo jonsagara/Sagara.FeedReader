@@ -2,15 +2,8 @@
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Company>Sagara.FeedReader.InstanceTestDataCrawler</Company>
-		<FileVersion>1.0.0.0</FileVersion>
-		<InformationalVersion>1.0.0</InformationalVersion>
-		<Product>Sagara.FeedReader.InstanceTestDataCrawler</Product>
-		<Title>Sagara.FeedReader.InstanceTestDataCrawler</Title>
-		<Version>1.0.0.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

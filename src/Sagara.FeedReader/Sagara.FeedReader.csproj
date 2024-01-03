@@ -1,79 +1,42 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0</TargetFrameworks>
-		<SignAssembly>True</SignAssembly>
-		<AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
-		<PackageId>Sagara.FeedReader</PackageId>
-		<Title>Sagara.FeedReader</Title>
-		<Authors>Armin Reiter; Jon Sagara</Authors>
-		<Company>Reiter ITS</Company>
-		<Product>Sagara.FeedReader</Product>
-		<Description>RSS and ATOM feed reader/parser. FeedReader is a .net standard 1.3 library used for reading and parsing RSS and ATOM feeds. Supports RSS 0.91, 0.92, 1.0, 2.0 and ATOM. Library tested with multiple languages and feeds.</Description>
-		<Copyright>Copyright 2022-2023</Copyright>
-		<PackageProjectUrl>https://dev.azure.com/sagarasoftware/Sagara.Common/_git/Sagara.FeedReader</PackageProjectUrl>
-		<RepositoryUrl>https://dev.azure.com/sagarasoftware/Sagara.Common/_git/Sagara.FeedReader</RepositoryUrl>
-		<!-- 
-			Version: The Version property is the value most commonly set when building .NET Core applications. It 
-			controls the default values of all the version numbers embedded in the build output, such as PackageVersion 
-			and AssemblyVersion so it's often used as the single source of the app/library version.
-			See: https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/#version
-		-->
-		<Version>2.2.0</Version>
-		<!-- 
-			AssemblyVersion: Every assembly you produce as part of your build process has a version number embedded in 
-			it, which forms an important part of the assembly's identity. It's stored in the assembly manifest and is 
-			used by the runtime to ensure correct versions are loaded etc.
-			See: https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/#assemblyversion
-		-->
-		<AssemblyVersion>2.2.0.0</AssemblyVersion>
-		<!--
-			FileVersion: The file version is literally the version number exposed by the DLL to the file system. It's 
-			the number displayed in Windows explorer, which often matches the AssemblyVersion, but it doesn't have to. 
-			The FileVersion number isn't part of the assembly identity as far as the .NET Framework or runtime are 
-			concerned.
-			See: https://andrewlock.net/version-vs-versionsuffix-vs-packageversion-what-do-they-all-mean/#fileversion
-		-->
-		<FileVersion>2.2.0.0</FileVersion>
-		<PackageTags>feed rss atom</PackageTags>
-		<AssemblyName>Sagara.FeedReader</AssemblyName>
-		<RootNamespace>Sagara.FeedReader</RootNamespace>
-		<RepositoryType>git</RepositoryType>
-		<PackageIcon>icon.png</PackageIcon>
-		<PackageIconUrl>https://raw.github.com/codehollow/FeedReader/master/FeedReader/icon.png</PackageIconUrl>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<!-- Assembly -->
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<AssemblyName>Sagara.FeedReader</AssemblyName>
+		<RootNamespace>Sagara.FeedReader</RootNamespace>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
 
-		<!-- Generate XML documentation -->
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<!-- NuGet -->
+		<PackageId>Sagara.FeedReader</PackageId>
+		<Title>Sagara.FeedReader</Title>
+		<Company>Reiter ITS</Company>
+		<Product>Sagara.FeedReader</Product>
+		<Description>RSS and ATOM feed reader/parser. Sagara.FeedReader is a .NET library used for reading and parsing RSS and ATOM feeds. Supports RSS 0.91, 0.92, 1.0, 2.0 and ATOM. Library tested with multiple languages and feeds. Forked from CodeHollow.FeedReader.</Description>
+		<PackageTags>feed rss atom</PackageTags>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageIconUrl>https://raw.github.com/codehollow/FeedReader/master/FeedReader/icon.png</PackageIconUrl>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 
-		<!-- 
-			SourceLink setup 
-		-->
-
-		<!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-
-		<!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
-
-		<!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
-		<!-- You must publish both packages, the package that contains the DLL (.nupkg) and the one that contains the symbols (.snupkg) -->
+		<!-- SourceLink -->
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 
 		<!-- Code Analysis -->
 		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
 		<WarningsAsErrors>$(WarningsAsErrors);CA1307;CA1309;CA1310</WarningsAsErrors>
-
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\..\LICENSE" Pack="True" PackagePath="" />
-	</ItemGroup>
-
-	<ItemGroup>
+		<None Include="..\..\LICENSE.md" Pack="True" PackagePath="" />
+		<None Include="..\..\README.md" Pack="True" PackagePath="" />
 		<None Include="icon.png" Pack="True" PackagePath="\" />
 	</ItemGroup>
 
@@ -89,5 +52,10 @@
 		<PackageReference Include="Polly.Core" Version="8.2.0" />
 		<PackageReference Include="Scrutor" Version="4.2.2" />
 	</ItemGroup>
+
+	<!-- When running in GitHub Actions, enable deterministic builds for the NuGet package. -->
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
 
 </Project>

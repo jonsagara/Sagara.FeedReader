@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
 		<AssemblyName>Sagara.FeedReader.Tests</AssemblyName>
 		<PackageId>Sagara.FeedReader.Tests</PackageId>

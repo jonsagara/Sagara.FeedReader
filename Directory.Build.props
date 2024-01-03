@@ -1,0 +1,26 @@
+<Project>
+	<PropertyGroup>
+
+		<!-- .NET and C# versions for all assemblies -->
+		<TargetFramework>net8.0</TargetFramework>
+		<LangVersion>12.0</LangVersion>
+		
+		<!-- NuGet -->
+		<Version>1.0.0-alpha1</Version>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+		<Authors>Armin Reiter; Jon Sagara</Authors>
+		<Copyright>Copyright 2022-2024</Copyright>
+		<RepositoryUrl>https://github.com/jonsagara/Sagara.FeedReader</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageProjectUrl>https://github.com/jonsagara/Sagara.FeedReader</PackageProjectUrl>
+
+		<!-- 
+			This is really helpful for larger projects, but I leave it in anyway. Why build if you don't have to? 
+			
+			See: https://devblogs.microsoft.com/visualstudio/vs-toolbox-accelerate-your-builds-of-sdk-style-net-projects/
+		-->
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+		
+	</PropertyGroup>
+</Project>
