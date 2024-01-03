@@ -1,16 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<LangVersion>latest</LangVersion>
 		<AssemblyName>Sagara.FeedReader.Tests</AssemblyName>
-		<PackageId>Sagara.FeedReader.Tests</PackageId>
-		<Title>Sagara.FeedReader.Tests</Title>
-		<Product>Sagara.FeedReader.Tests</Product>
 		<Copyright>Copyright © 2017</Copyright>
 		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-		<!--<RuntimeIdentifiers>win-x64;win10-x64</RuntimeIdentifiers>-->
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -2,8 +2,6 @@
 
 	<PropertyGroup>
 		<!-- Assembly -->
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
 		<AssemblyName>Sagara.FeedReader</AssemblyName>
 		<RootNamespace>Sagara.FeedReader</RootNamespace>
 		<SignAssembly>True</SignAssembly>
