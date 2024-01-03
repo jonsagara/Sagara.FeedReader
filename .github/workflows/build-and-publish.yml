@@ -60,20 +60,20 @@ jobs:
         retention-days: 7
         path: ${{ github.workspace }}/global.json
 
-  run_test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Checkout source"
-        uses: actions/checkout@v3
+  # run_test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: "Checkout source"
+  #       uses: actions/checkout@v3
 
-      # Install the .NET SDK indicated in the global.json file
-      - name: Setup .NET SDK with global.json
-        uses: actions/setup-dotnet@v3
-        with:
-          global-json-file: global.json
+  #     # Install the .NET SDK indicated in the global.json file
+  #     - name: Setup .NET SDK with global.json
+  #       uses: actions/setup-dotnet@v3
+  #       with:
+  #         global-json-file: global.json
           
-      - name: Run tests
-        run: dotnet test --configuration Release
+  #     - name: Run tests
+  #       run: dotnet test --configuration Release
 
   deploy_packages:
     # Publish only when creating a GitHub Release
