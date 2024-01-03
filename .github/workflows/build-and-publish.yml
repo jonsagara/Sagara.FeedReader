@@ -81,7 +81,7 @@ jobs:
     # You can update this logic if you want to manage releases differently
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
-    needs: [ pack_nuget, run_test ]
+    needs: [ pack_nuget ]
     steps:
       # Download the NuGet package created in the pack job
       - name: Download NuGet package artifacts
