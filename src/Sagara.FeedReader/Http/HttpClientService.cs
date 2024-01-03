@@ -10,7 +10,7 @@ namespace Sagara.FeedReader.Http;
 /// </summary>
 public class HttpClientService : IFeedReaderService
 {
-    private readonly HttpClient _httpClient;
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly RecyclableMemoryStreamManager _recyclableMemoryStreamManager;
 
     /// <summary>
@@ -22,7 +22,7 @@ public class HttpClientService : IFeedReaderService
     {
         ArgumentNullException.ThrowIfNull(httpClientFactory);
 
-        _httpClient = httpClientFactory.CreateClient(NamedHttpClients.FeedReader.Name);
+        _httpClientFactory = httpClientFactory;
         _recyclableMemoryStreamManager = recyclableMemoryStreamManager;
     }
 
@@ -41,15 +41,10 @@ public class HttpClientService : IFeedReaderService
     {
         ArgumentNullException.ThrowIfNull(url);
 
-        url = WebUtility.UrlDecode(url);
-        userAgent ??= FeedReaderHttpClientConfiguration.DefaultUserAgentHeaderValue;
-
         // Make an initial request. Note that HttpClient will follow up to 50 redirects by default.
-        using var requestMsg = new HttpRequestMessage(HttpMethod.Get, url);
-
-        AddRequestHeaders(requestMsg, userAgent);
-
-        using var responseMsg = await _httpClient.SendAsync(requestMsg, cancellationToken).ConfigureAwait(false);
+        using var httpClient = _httpClientFactory.CreateClient(NamedHttpClients.FeedReader.Name);
+        using var requestMsg = CreateRequestMessage(url: url, userAgent: userAgent);
+        using var responseMsg = await httpClient.SendAsync(requestMsg, cancellationToken).ConfigureAwait(false);
 
         // Try to read the stream.
         var responseStream = _recyclableMemoryStreamManager.GetStream(nameof(DownloadStreamAsync));
@@ -64,6 +59,7 @@ public class HttpClientService : IFeedReaderService
         }
         catch
         {
+            // Something failed. Dispose of the response stream before rethrowing.
             if (responseStream is not null)
             {
                 await responseStream.DisposeAsync().ConfigureAwait(false);
@@ -84,15 +80,10 @@ public class HttpClientService : IFeedReaderService
     {
         ArgumentNullException.ThrowIfNull(url);
 
-        url = WebUtility.UrlDecode(url);
-        userAgent ??= FeedReaderHttpClientConfiguration.DefaultUserAgentHeaderValue;
-
         // Make an initial request. Note that HttpClient will follow up to 50 redirects by default.
-        using var requestMsg = new HttpRequestMessage(HttpMethod.Get, url);
-
-        AddRequestHeaders(requestMsg, userAgent);
-
-        using var responseMsg = await _httpClient.SendAsync(requestMsg, cancellationToken).ConfigureAwait(false);
+        using var httpClient = _httpClientFactory.CreateClient(NamedHttpClients.FeedReader.Name);
+        using var requestMsg = CreateRequestMessage(url: url, userAgent: userAgent);
+        using var responseMsg = await httpClient.SendAsync(requestMsg, cancellationToken).ConfigureAwait(false);
 
         return await responseMsg.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
     }
@@ -102,9 +93,22 @@ public class HttpClientService : IFeedReaderService
     // Private methods
     //
 
-    private static void AddRequestHeaders(HttpRequestMessage requestMsg, string? userAgent)
+    /// <summary>
+    /// Create the <see cref="HttpRequestMessage"/> use to request a feed or page.
+    /// </summary>
+    /// <remarks>
+    /// NOTE: The caller is responsible for disposing of the returned message.
+    /// </remarks>
+    private static HttpRequestMessage CreateRequestMessage(string url, string? userAgent)
     {
+        url = WebUtility.UrlDecode(url);
+
+        // NOTE: The caller is responsible for disposing of the returned message.
+        HttpRequestMessage requestMsg = new(HttpMethod.Get, url);
+
         requestMsg.Headers.TryAddWithoutValidation(HeaderNames.Accept, FeedReaderHttpClientConfiguration.AcceptHeaderValue);
-        requestMsg.Headers.TryAddWithoutValidation(HeaderNames.UserAgent, userAgent);
+        requestMsg.Headers.TryAddWithoutValidation(HeaderNames.UserAgent, userAgent ?? FeedReaderHttpClientConfiguration.DefaultUserAgentHeaderValue);
+
+        return requestMsg;
     }
 }
