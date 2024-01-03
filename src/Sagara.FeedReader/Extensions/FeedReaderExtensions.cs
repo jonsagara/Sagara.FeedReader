@@ -55,7 +55,7 @@ public static class FeedReaderExtensions
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
                 CheckCertificateRevocationList = true,
-                Proxy = options?.Proxy,
+                Proxy = options.Proxy,
             })
             .AddResilienceHandler(pipelineName: $"{NamedHttpClients.FeedReader.Name} pipeline", configure: options.ResilienceHandler);
 
