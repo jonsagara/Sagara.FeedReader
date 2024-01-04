@@ -11,9 +11,10 @@ public class HostFixture : IDisposable
 
     public HostFixture()
     {
-        _host = new HostBuilder()
-            .ConfigureServices(ConfigureServices)
-            .Build();
+        var builder = new HostApplicationBuilder();
+        builder.Services.AddFeedReaderServices();
+
+        _host = builder.Build();
 
         ServiceScope = _host.Services.CreateScope();
     }
@@ -22,15 +23,5 @@ public class HostFixture : IDisposable
     {
         ServiceScope.Dispose();
         _host.Dispose();
-    }
-
-
-    //
-    // Private methods
-    //
-
-    private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
-    {
-        services.AddFeedReaderServices();
     }
 }

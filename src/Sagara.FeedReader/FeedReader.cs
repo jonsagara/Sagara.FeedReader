@@ -38,7 +38,7 @@ public class FeedReader : IFeedReaderService
     /// </remarks>
     /// <param name="feedUrl">The url to a feed</param>
     /// <param name="userAgent">override built-in user-agent header</param>
-    /// <param name="cancellationToken">token to cancel operation</param>
+    /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
     /// <returns>parsed feed</returns>
     public async Task<Feed> ReadAsync(string feedUrl, string? userAgent = null, CancellationToken cancellationToken = default)
     {
@@ -59,7 +59,7 @@ public class FeedReader : IFeedReaderService
     /// </summary>
     /// <remarks>Marked as static because it doesn't rely on HttpClient to get the desired data.</remarks>
     /// <param name="feedContentStream">The feed content as a Stream.</param>
-    /// <param name="cancellationToken">token to cancel operation</param>
+    /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
     /// <returns>The parsed feed.</returns>
     public static async Task<Feed> ReadFromStreamAsync(Stream feedContentStream, CancellationToken cancellationToken = default)
     {
@@ -75,7 +75,7 @@ public class FeedReader : IFeedReaderService
     /// </summary>
     /// <remarks>Marked as static because it doesn't rely on HttpClient to get the desired data.</remarks>
     /// <param name="filePath">the path to the feed file</param>
-    /// <param name="cancellationToken">token to cancel operation</param>
+    /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
     /// <returns>parsed feed</returns>
     public static async Task<Feed> ReadFromFileAsync(string filePath, CancellationToken cancellationToken = default)
     {
@@ -104,7 +104,7 @@ public class FeedReader : IFeedReaderService
     /// Opens a webpage and reads all feed urls from link tags within it (&lt;link rel="alternate" type="application/..." /&gt;).
     /// </summary>
     /// <param name="pageUrl">the url of the page</param>
-    /// <param name="cancellationToken">token to cancel operation</param>
+    /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
     /// <returns>A list of links including the type and title, an empty list if no links are found</returns>
     public async Task<IReadOnlyCollection<HtmlFeedLink>> GetFeedUrlsFromPageAsync(string pageUrl, CancellationToken cancellationToken = default)
     {

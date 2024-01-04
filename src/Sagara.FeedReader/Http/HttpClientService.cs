@@ -35,13 +35,13 @@ public class HttpClientService : IFeedReaderService
     /// </remarks>
     /// <param name="url">The URLs content we are downloading.</param>
     /// <param name="userAgent">Override built-in user-agent header</param>
-    /// <param name="cancellationToken">Token to cancel operation</param>
+    /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
     /// <returns>A MemoryStream containing the downloaded content.</returns>
     public async Task<MemoryStream> DownloadStreamAsync(string url, string? userAgent = null, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(url);
 
-        // Make an initial request. Note that HttpClient will follow up to 50 redirects by default.
+        // NOTE: HttpClient will follow up to 50 redirects by default.
         using var httpClient = _httpClientFactory.CreateClient(NamedHttpClients.FeedReader.Name);
         using var requestMsg = CreateRequestMessage(url: url, userAgent: userAgent);
         using var responseMsg = await httpClient.SendAsync(requestMsg, cancellationToken).ConfigureAwait(false);
@@ -74,13 +74,13 @@ public class HttpClientService : IFeedReaderService
     /// </summary>
     /// <param name="url">The URL of the content we are downloading.</param>
     /// <param name="userAgent">Override built-in user-agent header</param>
-    /// <param name="cancellationToken">Token to cancel operation.</param>
+    /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
     /// <returns>A string containing the downloaded content.</returns>
     public async Task<string> DownloadStringAsync(string url, string? userAgent = null, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(url);
 
-        // Make an initial request. Note that HttpClient will follow up to 50 redirects by default.
+        // NOTE: HttpClient will follow up to 50 redirects by default.
         using var httpClient = _httpClientFactory.CreateClient(NamedHttpClients.FeedReader.Name);
         using var requestMsg = CreateRequestMessage(url: url, userAgent: userAgent);
         using var responseMsg = await httpClient.SendAsync(requestMsg, cancellationToken).ConfigureAwait(false);
