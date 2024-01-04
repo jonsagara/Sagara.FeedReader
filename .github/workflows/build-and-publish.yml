@@ -60,20 +60,21 @@ jobs:
         retention-days: 7
         path: ${{ github.workspace }}/global.json
 
-  # run_test:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: "Checkout source"
-  #       uses: actions/checkout@v3
+  run_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout source"
+        uses: actions/checkout@v3
 
-  #     # Install the .NET SDK indicated in the global.json file
-  #     - name: Setup .NET SDK with global.json
-  #       uses: actions/setup-dotnet@v3
-  #       with:
-  #         global-json-file: global.json
+      # Install the .NET SDK indicated in the global.json file
+      - name: Setup .NET SDK with global.json
+        uses: actions/setup-dotnet@v3
+        with:
+          global-json-file: global.json
           
-  #     - name: Run tests
-  #       run: dotnet test --configuration Release
+      # Only run the unit tests, NOT the integration intests that download from tens of feeds.
+      - name: Run tests
+        run: dotnet test src/Sagara.FeedReader.Tests.Unit/Sagara.FeedReader.Tests.Unit.csproj --configuration Release
 
   deploy_packages:
     # Publish only when creating a GitHub Release
@@ -81,7 +82,7 @@ jobs:
     # You can update this logic if you want to manage releases differently
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
-    needs: [ pack_nuget ]
+    needs: [ pack_nuget, run_test ]
     steps:
       # Download the NuGet package created in the pack job
       - name: Download NuGet package artifacts
