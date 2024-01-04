@@ -44,20 +44,20 @@ jobs:
 
     # Upload .nupkg files as an artifact, so they can be used in the following jobs
     - name: Upload NuGet packages as artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: nuget
         if-no-files-found: error
-        retention-days: 7
+        retention-days: 2
         path: ${{ env.NuGetDirectory }}/*
 
     # Upload global.json as an artifact so that we don't have to check out the whole repo to publish to nuget.
     - name: Upload global.json as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: globaljson
         if-no-files-found: error
-        retention-days: 7
+        retention-days: 2
         path: ${{ github.workspace }}/global.json
 
   run_test:
@@ -86,14 +86,14 @@ jobs:
     steps:
       # Download the NuGet package created in the pack job
       - name: Download NuGet package artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: nuget
           path: ${{ env.NuGetDirectory }}
 
       # Download the global.json file uploaded in the pack job
       - name: Download NuGet package artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: globaljson
           path: ${{ github.workspace }}
