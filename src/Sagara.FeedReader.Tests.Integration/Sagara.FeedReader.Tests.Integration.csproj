@@ -14,9 +14,4 @@
 		<ProjectReference Include="..\Sagara.FeedReader\Sagara.FeedReader.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Content Include="Feeds\*.xml" CopyToOutputDirectory="PreserveNewest" />
-		<Content Include="Html\*.html" CopyToOutputDirectory="PreserveNewest" />
-	</ItemGroup>
-
 </Project>

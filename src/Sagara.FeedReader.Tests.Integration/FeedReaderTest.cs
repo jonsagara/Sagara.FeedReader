@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Sagara.FeedReader.Http;
-using Sagara.FeedReader.Tests.Fixtures;
+using Sagara.FeedReader.Tests.Integration.Fixtures;
 using Xunit;
 
-namespace Sagara.FeedReader.Tests;
+namespace Sagara.FeedReader.Tests.Integration;
 
 [Collection(nameof(ServiceScopeCollection))]
 public class FeedReaderTest
