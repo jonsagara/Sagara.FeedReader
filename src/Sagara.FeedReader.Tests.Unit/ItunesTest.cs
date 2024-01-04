@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Sagara.FeedReader.Feeds.Itunes;
 using Sagara.FeedReader.Http;
-using Sagara.FeedReader.Tests.Fixtures;
+using Sagara.FeedReader.Tests.Unit.Fixtures;
 using Xunit;
 
-namespace Sagara.FeedReader.Tests;
+namespace Sagara.FeedReader.Tests.Unit;
 
 [Collection(nameof(ServiceScopeCollection))]
 public class ItunesTest

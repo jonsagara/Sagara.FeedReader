@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sagara.FeedReader.ConsoleSa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{38C12CFC-710B-4CF6-878A-1F8D1D2AAE21}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sagara.FeedReader.Tests", "src\Sagara.FeedReader.Tests\Sagara.FeedReader.Tests.csproj", "{D3718547-80AE-4EFC-BE77-BE7686ABE745}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sagara.FeedReader.Tests.Unit", "src\Sagara.FeedReader.Tests.Unit\Sagara.FeedReader.Tests.Unit.csproj", "{D3718547-80AE-4EFC-BE77-BE7686ABE745}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sagara.FeedReader.TestDataCrawler", "src\Sagara.FeedReader.TestDataCrawler\Sagara.FeedReader.TestDataCrawler.csproj", "{A439CF52-C25D-4BDE-859B-E8091853727E}"
 EndProject
