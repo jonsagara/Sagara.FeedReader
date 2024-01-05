@@ -28,7 +28,12 @@ try
     // Main loop
     //
 
-    const string prompt = "Please enter feed url or exit to stop the program:";
+    HashSet<string> exitWords = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "exit", "quit", "q",
+    };
+
+    var prompt = $"Please enter feed url or {string.Join("/", exitWords)} to stop the program:";
     Console.WriteLine(prompt);
 
     var keepGoing = true;
@@ -38,7 +43,7 @@ try
         try
         {
             string url = Console.ReadLine() ?? string.Empty;
-            if (url.Equals("exit", StringComparison.InvariantCultureIgnoreCase))
+            if (exitWords.Contains(url))
             {
                 keepGoing = false;
                 break;
