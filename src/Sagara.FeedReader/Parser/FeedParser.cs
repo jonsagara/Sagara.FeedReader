@@ -80,7 +80,7 @@ internal static class FeedParser
     /// <param name="cancellationToken">token to cancel operation</param>
     /// <returns>Parsed feed</returns>
     [Obsolete($"Prefer {nameof(GetFeedFromStreamAsync)}, as it won't call XDocument.Parse twice for encodings other than UTF-8.")]
-    public static async Task<Feed> GetFeedFromStreamAsync_EncodingFromXDocument(Stream feedContentStream, CancellationToken cancellationToken = default)
+    internal static async Task<Feed> GetFeedFromStreamAsync_EncodingFromXDocument(Stream feedContentStream, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(feedContentStream);
 

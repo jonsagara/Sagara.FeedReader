@@ -183,11 +183,13 @@ internal static class XElementExtensions
         //   The split would not have the correct number of parts, and we would return the 
         //   original name 'pubDate' as the name.
 
-        // Split on the first occurrence of ':'
-        var parts = name.Split(":", count: 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        // Split on the first occurrence of ':'. At most, we should see two elements.
+        var nameSpan = name.AsSpan();
+        Span<Range> nameParts = stackalloc Range[2];
+        var partsWritten = nameSpan.Split(destination: nameParts, ':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-        return parts.Length == 2
-            ? new NamespaceAndName(parts[0], parts[1])
+        return partsWritten == 2
+            ? new NamespaceAndName(Namespace: nameSpan[nameParts[0]].ToString(), Name: nameSpan[nameParts[1]].ToString())
             : new NamespaceAndName(Namespace: null, Name: name);
     }
 

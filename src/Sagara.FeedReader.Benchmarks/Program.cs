@@ -5,7 +5,8 @@ using Sagara.FeedReader.Benchmarks.Harnesses;
 // Benchmark
 //
 
-BenchmarkRunner.Run<GetEncodingFromXDocumentVsXmlFragment>();
+BenchmarkRunner.Run<SplitStringVsSpan>();
+//BenchmarkRunner.Run<GetEncodingFromXDocumentVsXmlFragment>();
 //BenchmarkRunner.Run<InvalidCharsSpan>();
 //BenchmarkRunner.Run<StaticVsInstance>();
 //BenchmarkRunner.Run<InvalidChars>();
