@@ -1,5 +1,6 @@
 ﻿namespace Sagara.FeedReader.Parser;
 
+using System.Collections.Frozen;
 using System.Text;
 using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
@@ -182,7 +183,7 @@ internal static class FeedParser
     /// </summary>
     /// <param name="feedContent">RSS feed content.</param>
     /// <returns>Cleaned up RSS feed content.</returns>
-    private static string RemoveInvalidChars(string feedContent)
+    internal static string RemoveInvalidChars(string feedContent)
     {
         // Replaces all control characters except CR LF (\r\n) and TAB.
         for (int charCode = 0; charCode <= 31; charCode++)
@@ -204,4 +205,31 @@ internal static class FeedParser
         // XDocument chokes with leading white space, so ensure there isn't any.
         return feedContent.TrimStart();
     }
+
+
+    /// <summary>
+    /// Certain control characters that cause XML parsing to fail. They shouldn't be there, but sometimes are.
+    /// </summary>
+    internal static readonly Lazy<FrozenSet<char>> InvalidCharactersToRemove = new(() =>
+    {
+        List<char> invalidChars = new();
+
+        // ASCII [0, 31], excluding newline, carriage return, and tab.
+        var mostAsciiControlChars = Enumerable
+            .Range(start: 0, count: 32)
+            .Select(i => (char)i)
+            .Where(i => i != '\n' && i != '\r' && i != '\t');
+
+        invalidChars.AddRange(mostAsciiControlChars);
+
+        // DEL
+        invalidChars.Add((char)127);
+
+        // Special char that crashes at least one (unknown to me) feed.
+        // Zero-width, no-break space: U+FEFF
+        // See: https://stackoverflow.com/a/9691839
+        invalidChars.Add((char)65279);
+
+        return invalidChars.ToFrozenSet();
+    });
 }

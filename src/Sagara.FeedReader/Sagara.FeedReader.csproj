@@ -4,8 +4,8 @@
 		<!-- Assembly -->
 		<AssemblyName>Sagara.FeedReader</AssemblyName>
 		<RootNamespace>Sagara.FeedReader</RootNamespace>
-		<SignAssembly>True</SignAssembly>
-		<AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+		<!--<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>-->
 
 		<!-- NuGet -->
 		<PackageId>Sagara.FeedReader</PackageId>
@@ -54,5 +54,9 @@
 	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="Sagara.FeedReader.Tests.Unit" />
+	</ItemGroup>
 
 </Project>

@@ -28,8 +28,6 @@ public class FullParseTest
     //   if a valid use case comes up.
     //
 
-    #region Asynchronous 
-
     [Fact]
     public async Task TestAtomParseAdobe_Async()
     {
@@ -358,7 +356,6 @@ public class FullParseTest
         Assert.Equal("Sun, 19 Aug 2018 07:14:00 GMT", item.PublishingDateString);
         Assert.Equal("00201120180819281555686", item.Guid);
         Assert.Equal("Höglandsnytt", item.Author);
-
     }
 
     [Fact]
@@ -395,7 +392,10 @@ public class FullParseTest
         }
     }
 
-    #endregion Asynchronous 
+
+    //
+    // Private methods
+    //
 
     private static void TestItunesParsingForException(Feed feed)
     {

@@ -5,13 +5,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Feeds\Rss20MicrosoftBotFranework.xml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="Feeds\Rss20MicrosoftBotFranework.xml">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
+	  <Content Include="Feeds\*.xml" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
 	<ItemGroup>

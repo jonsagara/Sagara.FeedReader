@@ -1,4 +1,6 @@
-﻿using Sagara.FeedReader.Html;
+﻿using System.Collections.Frozen;
+using Sagara.FeedReader.Html;
+using Sagara.FeedReader.Parser;
 using Xunit;
 
 namespace Sagara.FeedReader.Tests.Unit;
@@ -136,5 +138,38 @@ public class HelpersTest
                 && e.Url == l.Url
                 );
         }
+    }
+
+
+    //
+    // Remove Invalid Characters tests
+    //
+
+    [Fact]
+    public void TestAtomInvalidCharactersRemoved()
+    {
+        var feedContent = File.ReadAllText("Feeds/AtomSpecialCharacters.xml");
+
+        var hasInvalidCharsBefore = HasInvalidCharacters(feedContent);
+        var updatedFeedContent = FeedParser.RemoveInvalidChars(feedContent);
+        var hasInvalidCharsAfter = HasInvalidCharacters(updatedFeedContent);
+
+        Assert.True(hasInvalidCharsBefore);
+        Assert.False(hasInvalidCharsAfter);
+    }
+
+    private bool HasInvalidCharacters(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        foreach (var ch in value.AsSpan())
+        {
+            if (FeedParser.InvalidCharactersToRemove.Value.Contains(ch))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
