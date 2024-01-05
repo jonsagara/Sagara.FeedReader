@@ -1,7 +1,5 @@
 ﻿using System.Buffers;
 using System.Collections.Frozen;
-using System.Diagnostics;
-using System.Text;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
 
@@ -70,15 +68,15 @@ Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
 
 Job=.NET 8.0  Runtime=.NET 8.0
 
-| Method                                 | Mean     | Error    | StdDev   | Median   | Ratio | RatioSD | Gen0     | Allocated | Alloc Ratio |
-|--------------------------------------- |---------:|---------:|---------:|---------:|------:|--------:|---------:|----------:|------------:|
-| RemoveInvalidCharsAsStringsWithReplace | 26.28 us | 0.576 us | 1.689 us | 25.75 us |  1.00 |    0.00 | 108.0017 | 442.23 KB |        1.00 |
-| RemoveInvalidCharsInFrozenSet_Span     | 34.09 us | 0.677 us | 1.149 us | 33.96 us |  1.27 |    0.09 |   3.4180 |   14.2 KB |        0.03 |
+| Method                                 | Mean     | Error    | StdDev   | Ratio | RatioSD | Gen0     | Allocated | Alloc Ratio |
+|--------------------------------------- |---------:|---------:|---------:|------:|--------:|---------:|----------:|------------:|
+| RemoveInvalidCharsAsStringsWithReplace | 24.87 us | 0.492 us | 0.411 us |  1.00 |    0.00 | 107.9712 | 442.23 KB |        1.00 |
+| RemoveInvalidCharsInFrozenSet_Span     | 27.33 us | 0.431 us | 0.403 us |  1.10 |    0.02 |   3.4485 |   14.2 KB |        0.03 |
 
 // * Hints *
 Outliers
-  InvalidCharsSpan.RemoveInvalidCharsAsStringsWithReplace: .NET 8.0 -> 1 outlier  was  removed (32.44 us)
-  InvalidCharsSpan.RemoveInvalidCharsInFrozenSet_Span: .NET 8.0     -> 1 outlier  was  removed (38.34 us)
+  InvalidCharsSpan.RemoveInvalidCharsAsStringsWithReplace: .NET 8.0 -> 2 outliers were removed (26.65 us, 27.62 us)
+  InvalidCharsSpan.RemoveInvalidCharsInFrozenSet_Span: .NET 8.0     -> 1 outlier  was  detected (26.42 us)
      */
 
     ///// <summary>
@@ -139,37 +137,41 @@ Outliers
     {
         var feedContent = _feedContent;
 
-        char[]? pooledBuffer = null;
-        Span<char> bufferSpan = feedContent.Length <= 128
-            ? stackalloc char[feedContent.Length]
-            : (pooledBuffer = ArrayPool<char>.Shared.Rent(minimumLength: feedContent.Length));
+        if (feedContent.Length < 128)
+        {
+            return RemoveInvalidCharsSpanHelper(feedContent, stackalloc char[feedContent.Length]);
+        }
+
+        var pooledBuffer = ArrayPool<char>.Shared.Rent(minimumLength: feedContent.Length);
         try
         {
-            var destBufferPos = 0;
-            var bytesWritten = 0; // Turns out to be the same as destBufferPos, but use a separate variable for clarity.
-
-            foreach (var ch in feedContent.AsSpan())
-            {
-                if (InvalidCharactersToRemove.Value.Contains(ch))
-                {
-                    continue;
-                }
-
-                bufferSpan[destBufferPos++] = ch;
-                bytesWritten++;
-            }
-
-            return feedContent.Length == bytesWritten
-                ? feedContent.TrimStart()
-                : bufferSpan.Slice(start: 0, length: bytesWritten).TrimStart().ToString();
+            return RemoveInvalidCharsSpanHelper(feedContent, pooledBuffer.AsSpan());
         }
         finally
         {
-            if (pooledBuffer is not null)
-            {
-                ArrayPool<char>.Shared.Return(pooledBuffer);
-            }
+            ArrayPool<char>.Shared.Return(pooledBuffer);
         }
+    }
+
+    private string RemoveInvalidCharsSpanHelper(string content, Span<char> destBuffer)
+    {
+        var destBufferPos = 0;
+        var bytesWritten = 0; // Turns out to be the same as destBufferPos, but use a separate variable for clarity.
+
+        foreach (var ch in content.AsSpan())
+        {
+            if (InvalidCharactersToRemove.Value.Contains(ch))
+            {
+                continue;
+            }
+
+            destBuffer[destBufferPos++] = ch;
+            bytesWritten++;
+        }
+
+        return content.Length == bytesWritten
+            ? content.TrimStart()
+            : destBuffer.Slice(start: 0, length: bytesWritten).TrimStart().ToString();
     }
 
     // Not as fast as Span-based method.

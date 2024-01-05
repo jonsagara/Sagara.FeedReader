@@ -1,5 +1,6 @@
 ﻿namespace Sagara.FeedReader.Parser;
 
+using System.Buffers;
 using System.Collections.Frozen;
 using System.Text;
 using System.Xml.Linq;
@@ -185,25 +186,43 @@ internal static class FeedParser
     /// <returns>Cleaned up RSS feed content.</returns>
     internal static string RemoveInvalidChars(string feedContent)
     {
-        // Replaces all control characters except CR LF (\r\n) and TAB.
-        for (int charCode = 0; charCode <= 31; charCode++)
+        if (feedContent.Length < 256)
         {
-            if (charCode == 0x0D || charCode == 0x0A || charCode == 0x09)
+            return RemoveInvalidCharsSpanHelper(feedContent, stackalloc char[feedContent.Length]);
+        }
+
+        var pooledBuffer = ArrayPool<char>.Shared.Rent(minimumLength: feedContent.Length);
+        try
+        {
+            return RemoveInvalidCharsSpanHelper(feedContent, pooledBuffer.AsSpan());
+        }
+        finally
+        {
+            ArrayPool<char>.Shared.Return(pooledBuffer);
+        }
+    }
+
+
+    private static string RemoveInvalidCharsSpanHelper(string feedContent, Span<char> destBuffer)
+    {
+        var destBufferPos = 0;
+        var charsWritten = 0; // Turns out to be the same as destBufferPos, but use a separate variable for clarity.
+
+        foreach (var ch in feedContent.AsSpan())
+        {
+            if (InvalidCharactersToRemove.Value.Contains(ch))
             {
                 continue;
             }
 
-            feedContent = feedContent.Replace(((char)charCode).ToString(), string.Empty, StringComparison.Ordinal);
+            destBuffer[destBufferPos++] = ch;
+            charsWritten++;
         }
 
-        // Replace DEL.
-        feedContent = feedContent.Replace(((char)127).ToString(), string.Empty, StringComparison.Ordinal);
-
-        // Replaces special char, fixes issues with at least one feed.
-        feedContent = feedContent.Replace(((char)65279).ToString(), string.Empty, StringComparison.Ordinal);
-
         // XDocument chokes with leading white space, so ensure there isn't any.
-        return feedContent.TrimStart();
+        return feedContent.Length == charsWritten
+            ? feedContent.TrimStart()
+            : destBuffer.Slice(start: 0, length: charsWritten).TrimStart().ToString();
     }
 
 
