@@ -1,83 +1,40 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Sagara.FeedReader.Extensions;
+﻿using Microsoft.Extensions.Hosting;
 using Serilog;
 
 namespace Sagara.FeedReader.ConsoleSample;
 
 public static class HostBuilderHelper
 {
-    public static IHost BuildHost(string[] args)
+    public static IHostApplicationBuilder UseSerilog(this IHostApplicationBuilder builder, bool preserveStaticLogger = false, bool writeToProviders = false)
     {
-        ArgumentNullException.ThrowIfNull(args);
+        ArgumentNullException.ThrowIfNull(builder);
 
-        return new HostBuilder()
-            .ConfigureHostConfiguration(cb => ConfigureHost(cb, args))
-            .ConfigureAppConfiguration((ctx, cb) => ConfigureApp(ctx, cb, args))
-            .ConfigureServices(ConfigureServices)
-            .UseConsoleLifetime()
-            .UseSerilog(ConfigureSerilog)
-            .Build();
-    }
+        builder.Services.AddSerilog(
+            configureLogger: (serviceProvider, loggerConfig) =>
+            {
+                // This is the .exe path in bin/{configuration}/{tfm}/
+                var logDir = Directory.GetCurrentDirectory();
 
+                // Log to the project directory.
+                logDir = Path.Combine(logDir, @"..\..\..");
+                logDir = Path.GetFullPath(logDir);
+                Log.Logger.Information($"Logging directory: {logDir}");
 
-    //
-    // Private methods
-    //
+                var logFilePathFormat = Path.Combine(logDir, "Logs", "log.txt");
 
-    private static void ConfigureHost(IConfigurationBuilder configHost, string[] args)
-    {
-        configHost.SetBasePath(Directory.GetCurrentDirectory());
-        configHost.AddJsonFile("hostsettings.json", optional: true);
+                // Always write to a rolling file.
+                loggerConfig
+                    .ReadFrom.Configuration(builder.Configuration)
+                    .ReadFrom.Services(serviceProvider)
+                    .Enrich.With<UtcTimestampEnricher>()
+                    .Enrich.WithMachineName()
+                    .WriteTo.Console()
+                    .WriteTo.File(logFilePathFormat, outputTemplate: "{UtcTimestamp:yyyy-MM-dd HH:mm:ss.fff} [{MachineName}] [{Level}] [{SourceContext:l}] {Message}{NewLine}{Exception}", rollingInterval: RollingInterval.Day);
+            },
+            preserveStaticLogger: preserveStaticLogger,
+            writeToProviders: writeToProviders
+            );
 
-        if (args is not null)
-        {
-            configHost.AddCommandLine(args);
-        }
-    }
-
-    private static void ConfigureApp(HostBuilderContext context, IConfigurationBuilder configApp, string[] args)
-    {
-        Log.Logger.Information($"{nameof(HostBuilderHelper)} environment: {context.HostingEnvironment.EnvironmentName}");
-
-        configApp
-            .SetBasePath(context.HostingEnvironment.ContentRootPath)
-            .AddJsonFile("appsettings.json")
-            .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName.ToLower()}.json", optional: true);
-
-        if (args is not null)
-        {
-            configApp.AddCommandLine(args);
-        }
-
-        configApp.AddEnvironmentVariables();
-    }
-
-    private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
-    {
-        services.AddFeedReaderServices();
-    }
-
-    private static void ConfigureSerilog(HostBuilderContext context, IServiceProvider services, LoggerConfiguration loggerConfig)
-    {
-        // This is the .exe path in bin/{configuration}/{tfm}/
-        var logDir = Directory.GetCurrentDirectory();
-
-        // Log to the project directory.
-        logDir = Path.Combine(logDir, @"..\..\..");
-        logDir = Path.GetFullPath(logDir);
-        Log.Logger.Information($"Logging directory: {logDir}");
-
-        var logFilePathFormat = Path.Combine(logDir, "Logs", "log.txt");
-
-        // Always write to a rolling file.
-        loggerConfig
-            .ReadFrom.Configuration(context.Configuration)
-            .ReadFrom.Services(services)
-            .Enrich.With<UtcTimestampEnricher>()
-            .Enrich.WithMachineName()
-            .WriteTo.Console()
-            .WriteTo.File(logFilePathFormat, outputTemplate: "{UtcTimestamp:yyyy-MM-dd HH:mm:ss.fff} [{MachineName}] [{Level}] [{SourceContext:l}] {Message}{NewLine}{Exception}", rollingInterval: RollingInterval.Day);
+        return builder;
     }
 }
