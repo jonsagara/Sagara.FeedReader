@@ -17,7 +17,7 @@ public class InvalidChars
     [Benchmark(Baseline = true)]
     public string RemoveInvalidCharsWithReplace()
     {
-        var feedContent = File.ReadAllText("Feeds/Rss20MicrosoftBotFranework.xml");
+        var feedContent = File.ReadAllText("Feeds/Rss20MicrosoftBotFramework.xml");
 
         // Replaces all control characters except CR LF (\r\n) and TAB.
         for (int charCode = 0; charCode <= 31; charCode++)
@@ -49,7 +49,7 @@ public class InvalidChars
     [Benchmark]
     public string RemoveInvalidCharsWithSingleCharInspection()
     {
-        var feedContent = File.ReadAllText("Feeds/Rss20MicrosoftBotFranework.xml");
+        var feedContent = File.ReadAllText("Feeds/Rss20MicrosoftBotFramework.xml");
         var output = new StringBuilder(feedContent.Length);
 
         for (var ixChar = 0; ixChar < feedContent.Length; ixChar++)

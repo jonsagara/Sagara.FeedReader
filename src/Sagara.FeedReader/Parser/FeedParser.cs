@@ -3,6 +3,7 @@
 using System.Buffers;
 using System.Collections.Frozen;
 using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
 
@@ -18,7 +19,68 @@ internal static class FeedParser
     /// <param name="feedContentStream">The feed document as a Stream.</param>
     /// <param name="cancellationToken">token to cancel operation</param>
     /// <returns>Parsed feed</returns>
-    public static async Task<Feed> GetFeedFromStreamAsync(Stream feedContentStream, CancellationToken cancellationToken)
+    public static async Task<Feed> GetFeedFromStreamAsync(Stream feedContentStream, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(feedContentStream);
+
+        string? feedContent = null;
+        Encoding encoding = Encoding.UTF8;
+
+        // Try to load the document with the default encoding (UTF-8) so that we can read its declared encoding.
+        feedContentStream.Position = 0L;
+
+        using (var streamReader = new StreamReader(feedContentStream, encoding, leaveOpen: true))
+        {
+            // Read it into a string so that we can remove invalid characters.
+            feedContent = await streamReader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
+            feedContent = RemoveInvalidChars(feedContent);
+        }
+
+        // Get the XML declaration's encoding attribute value, if present.
+        var encodingAttrValue = GetEncodingAttributeValueFromXmlDeclaration(feedContent);
+        encoding = GetEncodingFromAttributeValue(encodingAttrValue);
+
+        if (encoding != Encoding.UTF8)
+        {
+            // Re-read the stream with the declared encoding.
+            // In some cases - ISO-8859-1 - Encoding.UTF8.GetString doesn't work correctly, so converting
+            //   from UTF8 to ISO-8859-1 doesn't work and the result is wrong.
+            //   See: FullParseTest.TestRss20ParseSwedishFeedWithIso8859_1
+
+            feedContentStream.Position = 0L;
+
+            using (var streamReader = new StreamReader(feedContentStream, encoding, leaveOpen: true))
+            {
+                feedContent = await streamReader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
+                feedContent = RemoveInvalidChars(feedContent);
+            }
+        }
+
+        // Parse the feed document.
+        var feedDoc = XDocument.Parse(feedContent);
+
+        // Get the feed type from the original parsed document.
+        var feedType = ParseFeedType(feedDoc);
+
+        // Get the correct parser based on the feed type.
+        var parser = Factory.GetParser(feedType);
+
+        // If the declared encoding is UTF-8, then we didn't read feedContent again with a
+        //   different encoding, and there's no need to have the parser reparse the XDocument.
+        var feed = parser.Parse(feedContent, feedDoc);
+
+        return feed.ToFeed();
+    }
+
+    /// <summary>
+    /// Returns the parsed feed. This method tries to use the encoding of the received file.
+    /// If none found, or it's invalid, it uses UTF8.
+    /// </summary>
+    /// <param name="feedContentStream">The feed document as a Stream.</param>
+    /// <param name="cancellationToken">token to cancel operation</param>
+    /// <returns>Parsed feed</returns>
+    [Obsolete($"Prefer {nameof(GetFeedFromStreamAsync)}, as it won't call XDocument.Parse twice for encodings other than UTF-8.")]
+    public static async Task<Feed> GetFeedFromStreamAsync_EncodingFromXDocument(Stream feedContentStream, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(feedContentStream);
 
@@ -95,6 +157,33 @@ internal static class FeedParser
     //
     // Private methods
     //
+
+    /// <summary>
+    /// Try to read the encoding from the XML declaration.
+    /// </summary>
+    /// <remarks>
+    /// See: https://stackoverflow.com/a/34294515
+    /// </remarks>
+    /// <param name="feedContent">The feed content with invalid characters removed.</param>
+    private static string? GetEncodingAttributeValueFromXmlDeclaration(string feedContent)
+    {
+        using var stringReader = new StringReader(feedContent);
+
+        // This allows us to read the declaration if it's present, regardless of whether or not there
+        //   is a fully formed root element.
+        XmlReaderSettings xmlReaderSettings = new() { ConformanceLevel = ConformanceLevel.Fragment };
+
+        using var xmlReader = XmlReader.Create(stringReader, xmlReaderSettings);
+
+        // Try to consume the XML declaration.
+        if (!xmlReader.Read())
+        {
+            throw new ArgumentException($"The provided XML string does not contain enough data to be valid XML (see https://learn.microsoft.com/en-us/dotnet/api/system.xml.xmlreader.read): {feedContent}");
+        }
+
+        // Get the encoding attribute's value.
+        return xmlReader.GetAttribute("encoding");
+    }
 
     /// <summary>
     /// Returns the feed type - rss 1.0, rss 2.0, atom, ...
@@ -174,6 +263,34 @@ internal static class FeedParser
         {
             // The document encoding is invalid. Swallow the error and return the default encoding.
             return encoding;
+        }
+#pragma warning restore CA1031 // Do not catch general exception types
+    }
+
+    /// <summary>
+    /// Try to get the <see cref="Encoding"/> from the feed content's XML declaration encoding attribute.
+    /// If none found, or if it's invalid, return UTF-8.
+    /// </summary>
+    /// <param name="encodingAttrValue">The encoding attribute value as read from the feed content's XML declaration.</param>
+    /// <returns>The <see cref="Encoding"/> specified by the document, or UTF-8 if none specified or it's invalid.</returns>
+    private static Encoding GetEncodingFromAttributeValue(string? encodingAttrValue)
+    {
+        if (string.IsNullOrWhiteSpace(encodingAttrValue))
+        {
+            // The encoding attribute was missing, or it had no value. Assume UTF-8.
+            return Encoding.UTF8;
+        }
+
+        // Justification: we catch an error due to an invalid encoding, and then return the default of UTF8.
+#pragma warning disable CA1031 // Do not catch general exception types
+        try
+        {
+            return Encoding.GetEncoding(name: encodingAttrValue);
+        }
+        catch (Exception)
+        {
+            // The document encoding is invalid. Swallow the error and return the default encoding of UTF-8.
+            return Encoding.UTF8;
         }
 #pragma warning restore CA1031 // Do not catch general exception types
     }

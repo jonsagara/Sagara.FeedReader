@@ -27,7 +27,7 @@ namespace Sagara.FeedReader.Benchmarks.Harnesses;
 //    [Benchmark(Baseline = true)]
 //    public async Task<Feed> StaticReadFromFileAsync()
 //    {
-//        return await FeedReader.ReadFromFileAsync("Feeds/Rss20MicrosoftBotFranework.xml");
+//        return await FeedReader.ReadFromFileAsync("Feeds/Rss20MicrosoftBotFramework.xml");
 //    }
 
 //    [Benchmark]
@@ -35,7 +35,7 @@ namespace Sagara.FeedReader.Benchmarks.Harnesses;
 //    {
 //        // This is a static method, but it differs from the original static FeedReader API.
 //        //   It parses a stream instead of a byte[].
-//        return await FeedReaderService.ReadFromFileAsync("Feeds/Rss20MicrosoftBotFranework.xml");
+//        return await FeedReaderService.ReadFromFileAsync("Feeds/Rss20MicrosoftBotFramework.xml");
 //    }
 
 
