@@ -31,7 +31,7 @@ public class FeedReaderTest
     public async Task TestAcceptHeaderForbiddenWithParsing()
     {
         // results in 403 Forbidden if webclient does not have the accept header set
-        var feed = await _feedReaderSvc.ReadAsync("http://www.girlsguidetopm.com/feed/");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("http://www.girlsguidetopm.com/feed/");
         string? title = feed.Title;
         Assert.True(feed.Items.Count > 2);
         Assert.True(!string.IsNullOrEmpty(title));
@@ -121,7 +121,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadAdobeFeed()
     {
-        var feed = await _feedReaderSvc.ReadAsync("https://blog.adobe.com/feed.xml");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://blog.adobe.com/feed.xml");
         string? title = feed.Title;
         Assert.Equal("Adobe Blog", title);
     }
@@ -129,7 +129,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadSimpleFeed()
     {
-        var feed = await _feedReaderSvc.ReadAsync("https://arminreiter.com/feed");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://arminreiter.com/feed");
         string? title = feed.Title;
         Assert.Equal("arminreiter.com", title);
         Assert.Equal(10, feed.Items.Count());
@@ -148,7 +148,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadRss10GermanFeed()
     {
-        var feed = await _feedReaderSvc.ReadAsync("http://rss.orf.at/news.xml");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("http://rss.orf.at/news.xml");
         string? title = feed.Title;
         Assert.Equal("news.ORF.at", title);
         Assert.True(feed.Items.Count > 10);
@@ -157,7 +157,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadAtomFeedHeise()
     {
-        var feed = await _feedReaderSvc.ReadAsync("https://www.heise.de/newsticker/heise-atom.xml");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://www.heise.de/newsticker/heise-atom.xml");
         Assert.True(!string.IsNullOrEmpty(feed.Title));
         Assert.True(feed.Items.Count > 1);
     }
@@ -167,7 +167,7 @@ public class FeedReaderTest
     {
         try
         {
-            var feed = await _feedReaderSvc.ReadAsync("http://github.com/codehollow/AzureBillingRateCardSample/commits/master.atom");
+            var feed = await _feedReaderSvc.ReadFromUrlAsync("http://github.com/codehollow/AzureBillingRateCardSample/commits/master.atom");
             //Assert.True(!string.IsNullOrEmpty(feed.Title));
         }
         catch (Exception ex)
@@ -181,7 +181,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadRss20GermanFeedPowershell()
     {
-        var feed = await _feedReaderSvc.ReadAsync("http://www.powershell.co.at/feed/");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("http://www.powershell.co.at/feed/");
         Assert.True(!string.IsNullOrEmpty(feed.Title));
         Assert.True(feed.Items.Count > 0);
     }
@@ -189,14 +189,14 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadRss20FeedCharter97Handle403Forbidden()
     {
-        var feed = await _feedReaderSvc.ReadAsync("charter97.org/rss.php");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("charter97.org/rss.php");
         Assert.True(!string.IsNullOrEmpty(feed.Title));
     }
 
     [Fact]
     public async Task TestReadRssScottHanselmanWeb()
     {
-        var feed = await _feedReaderSvc.ReadAsync("http://feeds.hanselman.com/ScottHanselman");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("http://feeds.hanselman.com/ScottHanselman");
         Assert.True(!string.IsNullOrEmpty(feed.Title));
         Assert.True(feed.Items.Count > 0);
     }
@@ -210,7 +210,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadNoticiasCatolicas()
     {
-        var feed = await _feedReaderSvc.ReadAsync("feeds.feedburner.com/NoticiasCatolicasAleteia");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("feeds.feedburner.com/NoticiasCatolicasAleteia");
         Assert.Equal("Noticias Catolicas", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -218,7 +218,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadTimeDoctor()
     {
-        var feed = await _feedReaderSvc.ReadAsync("https://www.timedoctor.com/blog/feed/");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://www.timedoctor.com/blog/feed/");
         Assert.Equal("Time Doctor Blog", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -226,7 +226,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadMikeC()
     {
-        var feed = await _feedReaderSvc.ReadAsync("https://mikeclayton.wordpress.com/feed/");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://mikeclayton.wordpress.com/feed/");
         Assert.Equal("Shift Happens!", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -234,7 +234,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadTheLPM()
     {
-        var feed = await _feedReaderSvc.ReadAsync("https://thelazyprojectmanager.wordpress.com/feed/");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://thelazyprojectmanager.wordpress.com/feed/");
         Assert.Equal("The Lazy Project Manager's Blog", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -242,7 +242,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadTechRep()
     {
-        var feed = await _feedReaderSvc.ReadAsync("https://www.techrepublic.com/rssfeeds/topic/project-management/");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://www.techrepublic.com/rssfeeds/topic/project-management/");
         Assert.Equal("Project Management Articles & Tutorials | TechRepublic", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -250,7 +250,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadAPOD()
     {
-        var feed = await _feedReaderSvc.ReadAsync("https://apod.nasa.gov/apod.rss");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://apod.nasa.gov/apod.rss");
         Assert.Equal("APOD", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -258,7 +258,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadThaqafnafsak()
     {
-        var feed = await _feedReaderSvc.ReadAsync("http://www.thaqafnafsak.com/feed");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("http://www.thaqafnafsak.com/feed");
         Assert.Equal("ثقف نفسك", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -275,7 +275,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadLiveBold()
     {
-        var feed = await _feedReaderSvc.ReadAsync("http://feeds.feedburner.com/LiveBoldAndBloom");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("http://feeds.feedburner.com/LiveBoldAndBloom");
         Assert.Equal("Live Bold and Bloom", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -283,14 +283,14 @@ public class FeedReaderTest
     [Fact]
     public async Task TestSwedish_ISO8859_1()
     {
-        var feed = await _feedReaderSvc.ReadAsync("https://www.retriever-info.com/feed/2004645/intranet30/index.xml");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://www.retriever-info.com/feed/2004645/intranet30/index.xml");
         Assert.Equal("intranet30", feed.Title);
     }
 
     [Fact]
     public async Task TestStadtfeuerwehrWeiz_ISO8859_1()
     {
-        var feed = await _feedReaderSvc.ReadAsync("http://www.stadtfeuerwehr-weiz.at/rss/einsaetze.xml");
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("http://www.stadtfeuerwehr-weiz.at/rss/einsaetze.xml");
         Assert.Equal("Stadtfeuerwehr Weiz - Einsätze", feed.Title);
     }
     #endregion

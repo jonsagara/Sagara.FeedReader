@@ -16,7 +16,7 @@ internal sealed class Rss091Parser : AbstractXmlFeedParser
 
         // Ensure there is a channel element. It doesn't make sense to try to parse an RSS feed
         //   without one.
-        var channel = rss.GetElement("channel")!;
+        var channel = rss.GetElement("channel");
         if (channel is null)
         {
             throw new ArgumentException($"Document does not contain a 'channel' element. Unable to parse {nameof(Rss091Feed)} from {nameof(feedXml)}: {feedXml}", nameof(feedDoc));

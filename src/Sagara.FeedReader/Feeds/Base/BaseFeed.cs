@@ -26,7 +26,7 @@ public abstract class BaseFeed
     public string? Link { get; set; }
 
     /// <summary>
-    /// The items that are in the feed
+    /// The items that are in the feed, specific to the feed type (Atom vs. RSS 2.0, etc.).
     /// </summary>
     public ICollection<BaseFeedItem> Items { get; private set; } = new List<BaseFeedItem>();
 
