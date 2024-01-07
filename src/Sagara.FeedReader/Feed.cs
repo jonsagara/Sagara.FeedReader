@@ -66,11 +66,14 @@ public class Feed
     public IReadOnlyCollection<FeedItem> Items { get; private set; } = Array.Empty<FeedItem>();
 
     /// <summary>
-    /// Gets the whole, original feed as string
+    /// The original feed XML string.
     /// </summary>
-    public string? OriginalDocument
+    /// <remarks>
+    /// NOTE: If raw XML contained invalid control characters, they were removed.
+    /// </remarks>
+    public string? OriginalFeedXml
     {
-        get { return SpecificFeed?.OriginalDocument; }
+        get { return SpecificFeed?.OriginalFeedXml; }
     }
 
     /// <summary>

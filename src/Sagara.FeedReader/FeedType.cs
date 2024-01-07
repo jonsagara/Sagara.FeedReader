@@ -1,43 +1,42 @@
 ﻿namespace Sagara.FeedReader;
 
 /// <summary>
-/// The type of the feed (Rss 0.91, Rss 2.0, Atom, ...)
+/// The type of the feed (RSS 0.91, RSS 2.0, Atom, ...)
 /// </summary>
 public enum FeedType
 {
     /// <summary>
-    /// Atom Feed
+    /// Atom feed
     /// </summary>
     Atom,
 
     /// <summary>
-    /// Rss 0.91 feed
+    /// RSS 0.91 feed
     /// </summary>
     Rss_0_91,
 
     /// <summary>
-    /// Rss 0.92 feed
+    /// RSS 0.92 feed
     /// </summary>
     Rss_0_92,
 
     /// <summary>
-    /// Rss 1.0 feed
+    /// RSS 1.0 feed
     /// </summary>
     Rss_1_0,
 
     /// <summary>
-    /// Rss 2.0 feed
+    /// RSS 2.0 feed
     /// </summary>
     Rss_2_0,
 
     /// <summary>
-    /// Media Rss feed
+    /// Media RSS feed
     /// </summary>
     MediaRss,
 
-
     /// <summary>
-    /// Rss feed - is used for <see cref="HtmlFeedLink"/> type
+    /// RSS feed - is used for <see cref="HtmlFeedLink"/> type
     /// </summary>
     Rss,
 

@@ -31,9 +31,12 @@ public abstract class BaseFeed
     public ICollection<BaseFeedItem> Items { get; private set; } = new List<BaseFeedItem>();
 
     /// <summary>
-    /// Gets the whole, original feed as string
+    /// The original feed XML string.
     /// </summary>
-    public string? OriginalDocument { get; private set; }
+    /// <remarks>
+    /// NOTE: If raw XML contained invalid control characters, they were removed.
+    /// </remarks>
+    public string? OriginalFeedXml { get; private set; }
 
     /// <summary>
     /// Gets the underlying XElement in order to allow reading properties that are not available in the class itself
@@ -57,7 +60,7 @@ public abstract class BaseFeed
     protected BaseFeed(string feedXml, XElement channel)
         : this()
     {
-        OriginalDocument = feedXml;
+        OriginalFeedXml = feedXml;
 
         Title = channel.GetChildElementValue("title");
         Link = channel.GetChildElementValue("link");
