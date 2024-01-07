@@ -29,12 +29,13 @@ public class GetEncodingFromXDocumentVsXmlFragment
     }
 
 
-    [Benchmark(Baseline = true)]
-    public async Task GetEncodingFromXDocument()
-    {
-        _xDocumentStream.Position = 0L;
-        await FeedParser.GetFeedFromStreamAsync_EncodingFromXDocument(_xDocumentStream);
-    }
+    // 2024-01-06: This method no longer exists.
+    //[Benchmark(Baseline = true)]
+    //public async Task GetEncodingFromXDocument()
+    //{
+    //    _xDocumentStream.Position = 0L;
+    //    await FeedParser.GetFeedFromStreamAsync_EncodingFromXDocument(_xDocumentStream);
+    //}
 
     // This performs better when the encoding is NOT UTF-8 because it doesn't have to call
     //   XDocument.Parse twice. However, it performs worse in the common case where the encoding

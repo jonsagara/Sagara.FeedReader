@@ -10,12 +10,6 @@ namespace Sagara.FeedReader;
 /// or a string <see cref="ReadFromString(string)"/>. If the feed url is not known, <see cref="GetFeedUrlsFromPageAsync(string, CancellationToken)"/> 
 /// returns all feed links on a given page.
 /// </summary>
-/// <example>
-/// var links = FeedReader.ParseFeedUrlsFromHtml("https://codehollow.com");
-/// var firstLink = links.First();
-/// var feed = FeedReader.Read(firstLink.Url);
-/// Console.WriteLine(feed.Title);
-/// </example>
 public class FeedReader : IFeedReaderService
 {
     private readonly HttpClientService _httpClientService;
