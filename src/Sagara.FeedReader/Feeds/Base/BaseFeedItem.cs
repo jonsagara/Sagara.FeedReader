@@ -38,11 +38,11 @@ public abstract class BaseFeedItem
     /// Initializes a new instance of the <see cref="BaseFeedItem"/> class.
     /// Reads a base feed item based on the xml given in element
     /// </summary>
-    /// <param name="item">feed item as xml</param>
-    protected BaseFeedItem(XElement item)
+    /// <param name="itemOrEntryElement">The <c>item</c> or <c>entry</c> element from the feed.</param>
+    protected BaseFeedItem(XElement itemOrEntryElement)
     {
-        Title = item.GetChildElementValue("title");
-        Link = item.GetChildElementValue("link");
-        ItemOrEntryElement = item;
+        Title = itemOrEntryElement.GetChildElementValue("title");
+        Link = itemOrEntryElement.GetChildElementValue("link");
+        ItemOrEntryElement = itemOrEntryElement;
     }
 }

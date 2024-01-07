@@ -1,11 +1,11 @@
-﻿namespace Sagara.FeedReader.Parser;
-
-using System.Buffers;
+﻿using System.Buffers;
 using System.Collections.Frozen;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Parser;
 
 /// <summary>
 /// Internal FeedParser - returns the type of the feed or the parsed feed.

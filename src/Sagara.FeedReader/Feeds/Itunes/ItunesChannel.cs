@@ -1,9 +1,7 @@
-﻿namespace Sagara.FeedReader.Feeds.Itunes;
-
-using System;
-using System.Linq;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds.Itunes;
 
 /// <summary>
 /// The basic itunes: elements that are part of the channel xml element of an rss2.0 feed
