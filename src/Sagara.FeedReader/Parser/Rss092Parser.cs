@@ -1,8 +1,8 @@
-﻿namespace Sagara.FeedReader.Parser;
-
-using System.Xml.Linq;
-using Feeds;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+using Sagara.FeedReader.Feeds;
+
+namespace Sagara.FeedReader.Parser;
 
 internal sealed class Rss092Parser : AbstractXmlFeedParser
 {
@@ -22,6 +22,6 @@ internal sealed class Rss092Parser : AbstractXmlFeedParser
             throw new ArgumentException($"Document does not contain a 'channel' element. Unable to parse {nameof(Rss092Feed)} from {nameof(feedXml)}: {feedXml}", nameof(feedDoc));
         }
 
-        return new Rss092Feed(feedXml, channel);
+        return new Rss092Feed(feedXml, feedDoc, channel);
     }
 }

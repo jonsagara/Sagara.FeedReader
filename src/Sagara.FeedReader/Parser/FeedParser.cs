@@ -150,7 +150,7 @@ internal static class FeedParser
 
             if (version.EqualsIgnoreCase("2.0"))
             {
-                if (GetRootNamespaceDeclarationAttribute(doc, "media") is not null)
+                if (doc.GetRootNamespaceDeclarationAttribute("media") is not null)
                 {
                     // Media RSS.
                     return FeedType.MediaRss;
@@ -175,16 +175,6 @@ internal static class FeedParser
 
         throw new FeedTypeNotSupportedException($"Unknown feed type {rootElementName}");
     }
-
-    /// <summary>
-    /// Try to load an &quot;xmlns&quot; XML namespace declaration attribute from the root element.
-    /// </summary>
-    /// <param name="doc">The xml document.</param>
-    /// <param name="localName">The local name of the namespace declaration. For example, for attribute &quot;xmlns:itunes&quot;, 
-    /// pass &quot;itunes&quot;.</param>
-    /// <returns></returns>
-    private static XAttribute? GetRootNamespaceDeclarationAttribute(XDocument doc, string localName)
-        => doc.Root!.Attribute(XName.Get(localName, XNamespace.Xmlns.NamespaceName));
 
     /// <summary>
     /// Tries to read the encoding from the document's XML declaration. If none found, or if it's invalid,

@@ -39,9 +39,22 @@ public abstract class BaseFeed
     public string? OriginalFeedXml { get; private set; }
 
     /// <summary>
-    /// Gets the underlying XElement in order to allow reading properties that are not available in the class itself
+    /// The <c>channel</c> (RSS) or <c>feed</c> (Atom) element from the feed. Returned as an XElement 
+    /// in order to allow reading properties that are not available as first-class properties in the derived
+    /// class itself.
     /// </summary>
-    public XElement? Element { get; }
+    /// <remarks>
+    /// <para>NOTE: RSS has a root <c>rss</c> element, followed by a <c>channel</c> element.</para>
+    /// <para>Atom only has a root <c>feed</c> element that contains.</para>
+    /// </remarks>
+    public XElement? ChannelOrFeedElement { get; }
+
+    /// <summary>
+    /// Returns true if the feed's root element (<c>rss</c> for RSS, <c>feed</c> for atom) has one of the 
+    /// iTunes extension namespace declarations (<c>xmlns:itunes</c> or <c>xmlns:im</c>); false otherwise.
+    /// </summary>
+    public bool HasItunesExtensions { get; set; }
+
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BaseFeed"/> class.
@@ -55,15 +68,23 @@ public abstract class BaseFeed
     /// Initializes a new instance of the <see cref="BaseFeed"/> class.
     /// Reads a base feed based on the xml given in element
     /// </summary>
-    /// <param name="feedXml">the entire feed xml as string</param>
-    /// <param name="channel">the "channel" element in the xml as XElement</param>
-    protected BaseFeed(string feedXml, XElement channel)
+    /// <param name="feedXml">The entire feed XML as string.</param>
+    /// <param name="feedDoc">The XDocument parsed from the feed XML. Used to determine if there are iTunes extensions.</param>
+    /// <param name="channel">
+    /// <para>The <c>channel</c> (RSS) or <c>feed</c> (Atom) element in the xml as XElement.</para>
+    /// <para>NOTE: RSS has a root <c>rss</c> element, followed by a <c>channel</c> element.</para>
+    /// <para>Atom only has a root <c>feed</c> element.</para>
+    /// </param>
+    protected BaseFeed(string feedXml, XDocument feedDoc, XElement channel)
         : this()
     {
         OriginalFeedXml = feedXml;
 
         Title = channel.GetChildElementValue("title");
         Link = channel.GetChildElementValue("link");
-        Element = channel;
+        ChannelOrFeedElement = channel;
+
+        HasItunesExtensions = feedDoc.GetRootNamespaceDeclarationAttribute("im") is not null
+            || feedDoc.GetRootNamespaceDeclarationAttribute("itunes") is not null;
     }
 }

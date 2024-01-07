@@ -122,9 +122,10 @@ public class Rss20Feed : BaseFeed
     /// Reads a rss 2.0 feed based on the xml given in channel
     /// </summary>
     /// <param name="feedXml">the entire feed xml as string</param>
+    /// <param name="feedDoc">The XDocument parsed from the feed XML. Used to determine if there are iTunes extensions.</param>
     /// <param name="channel">the "channel" element in the xml as XElement</param>
-    public Rss20Feed(string feedXml, XElement channel)
-        : base(feedXml, channel)
+    public Rss20Feed(string feedXml, XDocument feedDoc, XElement channel)
+        : base(feedXml, feedDoc, channel)
     {
         Description = channel.GetChildElementValue("description");
         Language = channel.GetChildElementValue("language");

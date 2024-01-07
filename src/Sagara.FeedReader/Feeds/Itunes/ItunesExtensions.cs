@@ -14,7 +14,7 @@ public static class ItunesExtensions
     {
         ArgumentNullException.ThrowIfNull(feed);
 
-        return new ItunesChannel(feed.SpecificFeed!.Element!);
+        return new ItunesChannel(feed.SpecificFeed!.ChannelOrFeedElement!);
     }
 
     /// <summary>
@@ -26,6 +26,6 @@ public static class ItunesExtensions
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        return new ItunesItem(item.SpecificItem!.Element!);
+        return new ItunesItem(item.SpecificItem!.ItemOrEntryElement!);
     }
 }
