@@ -80,11 +80,22 @@ public abstract class BaseFeed
     {
         OriginalFeedXml = feedXml;
 
-        Title = channel.GetChildElementValue("title");
-        Link = channel.GetChildElementValue("link");
-        ChannelOrFeedElement = channel;
+        //
+        // im: Atom with iTunes extensions.
+        // Atom support is nominally dead, but only in that Apple no longer accepts Atom feeds:
+        // See: https://podcasters.apple.com/4115-technical-updates-for-hosting-providers
+        // They still publish some feeds in Atom format:
+        // See: https://www.apple.com/rss/
+        //
+        // itunes: RSS 2.0 with iTunes extensions.
+        // See: https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+        //
 
         HasItunesExtensions = feedDoc.GetRootNamespaceDeclarationAttribute("im") is not null
             || feedDoc.GetRootNamespaceDeclarationAttribute("itunes") is not null;
+
+        Title = channel.GetChildElementValue("title");
+        Link = channel.GetChildElementValue("link");
+        ChannelOrFeedElement = channel;
     }
 }
