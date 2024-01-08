@@ -1,4 +1,7 @@
-﻿namespace Sagara.FeedReader.Modules.iTunes;
+﻿using System.Xml.Linq;
+using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Modules.iTunes;
 
 /// <summary>
 /// <para>Data from an iTunes channel in either RSS 2.0 or Atom.</para>
@@ -17,7 +20,7 @@ public class iTunesChannel
     /// <summary>
     /// The artwork for the show specified as a URL linking to it.
     /// </summary>
-    public string? Image { get; set; }
+    public iTunesImage? Image { get; set; }
 
     /// <summary>
     /// <para>The show category information. For a complete list of categories and subcategories, see https://podcasters.apple.com/support/1691-apple-podcasts-categories.</para>
@@ -72,13 +75,13 @@ public class iTunesChannel
     /// </item>
     /// </list>
     /// </remarks>
-    public string? Type { get; set; }
+    public iTunesType? Type { get; set; }
 
     /// <summary>
     /// <para>The new podcast RSS Feed URL.</para>
     /// <para>If you change the URL of your podcast feed, you should use this tag in your new feed.</para>
     /// </summary>
-    public string? NewFeedUrl { get; set; }
+    public Uri? NewFeedUrl { get; set; }
 
     /// <summary>
     /// <para>The podcast show or hide status.</para>
@@ -97,4 +100,105 @@ public class iTunesChannel
     /// <para>Specifying any value other than <c>Yes</c> has no effect.</para>
     /// </summary>
     public bool Complete { get; set; }
+
+
+    /// <summary>
+    /// .ctor
+    /// </summary>
+    public iTunesChannel(XElement channelElement)
+    {
+        ArgumentNullException.ThrowIfNull(channelElement);
+
+        var imageElement = channelElement.GetElement(namespacePrefix: NamespacePrefix, elementName: "image");
+        if (imageElement is not null)
+        {
+            Image = new iTunesImage(imageElement);
+        }
+
+        Categories = ParseCategories(channelElement);
+
+        var explicitValue = channelElement.GetChildElementValue(namespacePrefix: NamespacePrefix, elementName: "explicit");
+        Explicit = iTunesHelper.IsExplicit(explicitValue);
+
+        Author = channelElement.GetChildElementValue(namespacePrefix: NamespacePrefix, elementName: "author");
+
+        var ownerElement = channelElement.GetElement(namespacePrefix: NamespacePrefix, elementName: "owner");
+        if (ownerElement is not null)
+        {
+            Owner = new iTunesOwner(ownerElement);
+        }
+
+        // Some feeds have itunes:subtitle elements, but the Apple Podcasts RSS spec makes no mention of subtitle.
+        Title = channelElement.GetChildElementValue(namespacePrefix: NamespacePrefix, elementName: "title");
+
+        Type = ParseiTunesType(channelElement);
+
+        if (Uri.TryCreate(channelElement.GetChildElementValue(namespacePrefix: NamespacePrefix, elementName: "new-feed-url"), UriKind.Absolute, out Uri? newFeedUrl))
+        {
+            NewFeedUrl = newFeedUrl;
+        }
+
+        Block = channelElement.GetChildElementValue(namespacePrefix: NamespacePrefix, elementName: "block").EqualsIgnoreCase("yes");
+
+        Complete = channelElement.GetChildElementValue(namespacePrefix: NamespacePrefix, elementName: "complete").EqualsIgnoreCase("yes");
+
+        /* old code
+        // Some feeds have itunes:subtitle and itunes:summary elements, but the Apple Podcasts RSS spec makes no mention of them.
+        Subtitle = channelElement.GetChildElementValue(NAMESPACEPREFIX, "subtitle");
+        Summary = channelElement.GetChildElementValue(NAMESPACEPREFIX, "summary");
+        */
+    }
+
+
+    //
+    // Private methods
+    //
+
+    private static iTunesCategory[] ParseCategories(XElement channelElement)
+    {
+        // There can be many category attributes in the channel.
+        return channelElement.GetElements(namespacePrefix: NamespacePrefix, elementName: "category")
+            .Select(catElement =>
+            {
+                // A category has a name stored in a text attribute, and can have up to one nested
+                //   category attribute that is the subcategory.
+                var categoryName = catElement.GetAttributeValue("text");
+
+                var subCatElement = catElement.GetElement(namespacePrefix: NamespacePrefix, elementName: "category");
+                var subCategoryName = subCatElement?.GetAttributeValue("text");
+
+                return new iTunesCategory
+                {
+                    Category = categoryName,
+                    Subcategory = subCategoryName,
+                };
+            })
+            .ToArray();
+    }
+
+    private static iTunesType? ParseiTunesType(XElement channelElement)
+    {
+        var typeElement = channelElement.GetChildElementValue(namespacePrefix: NamespacePrefix, elementName: "type");
+        if (string.IsNullOrWhiteSpace(typeElement))
+        {
+            // If not present, assume the default value of Episodic.
+            return iTunesType.Episodic;
+        }
+
+        if (!Enum.TryParse(typeElement, out iTunesType type))
+        {
+            // Can't parse it into an enum. Don't assume any default value.
+#warning TODO: logging?
+            return null;
+        }
+
+        if (!Enum.IsDefined(type))
+        {
+            // Not a valid enum value. Don't assume any default value.
+            return null;
+        }
+
+        // Parsed and a valid enum value. Return it as-is.
+        return type;
+    }
 }
