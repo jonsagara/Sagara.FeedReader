@@ -16,6 +16,10 @@ public class iTunesChannel
     //   that should be present for, say, podcasts. If merely reads the fields that are present.
     //
 
+    //
+    // Fields pulled from the podcast spec
+    //
+
     /// <summary>
     /// The artwork for the show specified as a URL linking to it.
     /// </summary>
@@ -99,4 +103,10 @@ public class iTunesChannel
     /// <para>Specifying any value other than <c>Yes</c> has no effect.</para>
     /// </summary>
     public bool Complete { get; set; }
+
+
+    //
+    // Fields from other media examples
+    //
+
 }
