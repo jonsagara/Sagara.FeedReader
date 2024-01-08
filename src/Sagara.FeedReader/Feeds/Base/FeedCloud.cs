@@ -1,7 +1,7 @@
-﻿namespace Sagara.FeedReader.Feeds;
-
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// Cloud object according to Rss 2.0 specification: https://validator.w3.org/feed/docs/rss2.html#ltcloudgtSubelementOfLtchannelgt

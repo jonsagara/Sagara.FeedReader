@@ -1,7 +1,7 @@
-﻿namespace Sagara.FeedReader.Feeds;
-
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// Atom 1.0 person element according to specification: https://validator.w3.org/feed/docs/atom.html

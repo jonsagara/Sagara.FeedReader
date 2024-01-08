@@ -1,8 +1,7 @@
-﻿namespace Sagara.FeedReader.Feeds;
-
-using System;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// Rss 0.91 Feed Item according to specification: http://www.rssboard.org/rss-0-9-1-netscape#image

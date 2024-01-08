@@ -1,10 +1,7 @@
-﻿namespace Sagara.FeedReader.Feeds;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// Rss Feed according to Rss 0.91 specification:

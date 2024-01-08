@@ -1,7 +1,7 @@
-﻿namespace Sagara.FeedReader.Feeds;
-
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// feed image object that is used in feed (rss 0.91, 2.0, atom, ...)

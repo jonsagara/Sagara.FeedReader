@@ -1,7 +1,7 @@
-﻿namespace Sagara.FeedReader.Feeds;
-
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// item source object from rss 2.0 according to specification: https://validator.w3.org/feed/docs/rss2.html

@@ -1,6 +1,7 @@
-﻿namespace Sagara.FeedReader.Feeds;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// Rss 1.0 Feed according to specification: http://web.resource.org/rss/1.0/spec

@@ -1,8 +1,7 @@
-﻿namespace Sagara.FeedReader.Feeds;
-
-using System;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// The parsed "dc:" elements in a feed

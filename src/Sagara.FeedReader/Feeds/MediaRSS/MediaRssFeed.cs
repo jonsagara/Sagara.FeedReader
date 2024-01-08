@@ -1,11 +1,8 @@
-﻿namespace Sagara.FeedReader.Feeds;
-
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// Media RSS 2.0 feed according to specification: http://www.rssboard.org/media-rss
