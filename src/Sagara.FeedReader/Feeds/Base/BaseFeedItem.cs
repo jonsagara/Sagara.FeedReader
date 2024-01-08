@@ -1,7 +1,7 @@
-﻿namespace Sagara.FeedReader.Feeds;
-
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// The base object for all feed items

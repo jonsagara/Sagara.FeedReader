@@ -1,9 +1,6 @@
-﻿namespace Sagara.FeedReader;
+﻿using Sagara.FeedReader.Feeds;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Sagara.FeedReader.Feeds;
+namespace Sagara.FeedReader;
 
 /// <summary>
 /// Generic Feed object that contains some basic properties. If a property is not available
@@ -61,7 +58,7 @@ public class Feed
     public string? ImageUrl { get; set; }
 
     /// <summary>
-    /// List of items
+    /// List of items. In RSS, these are <c>item</c> elements. In Atom, they're <c>entry</c> elements.
     /// </summary>
     public IReadOnlyCollection<FeedItem> Items { get; private set; } = Array.Empty<FeedItem>();
 
@@ -81,6 +78,8 @@ public class Feed
     /// e.g. the Generator property which does not exist in others.
     /// </summary>
     public BaseFeed? SpecificFeed { get; set; }
+
+
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Feed"/> class.
