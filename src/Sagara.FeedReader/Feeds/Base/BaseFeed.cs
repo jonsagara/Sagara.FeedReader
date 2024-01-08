@@ -1,5 +1,6 @@
 ﻿namespace Sagara.FeedReader.Feeds;
 
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
@@ -50,10 +51,32 @@ public abstract class BaseFeed
     public XElement? ChannelOrFeedElement { get; }
 
     /// <summary>
-    /// Returns true if the feed's root element (<c>rss</c> for RSS, <c>feed</c> for atom) has one of the 
-    /// iTunes extension namespace declarations (<c>xmlns:itunes</c> or <c>xmlns:im</c>); false otherwise.
+    /// The root namespace declarations in the XML document. Allows callers to determine if they should
+    /// further parse the <c>channel</c> or <c>feed</c> element for custom modules.
     /// </summary>
-    public bool HasItunesExtensions { get; set; }
+    public FrozenSet<string> RootNamespaceDeclarations { get; private set; } = FrozenSet<string>.Empty;
+
+    /// <summary>
+    /// Returns true if the feed's root element (<c>rss</c> for RSS, <c>feed</c> for atom) has the Apple Podcasts 
+    /// module namespace declaration (<c>xmlns:itunes</c>); false otherwise.
+    /// </summary>
+    /// <remarks>
+    /// NOTE: because the library has first-class support for this, we directly set a boolean rather than
+    /// querying the collection of root element namespace declarations at runtime.
+    /// </remarks>
+    public bool HasApplePodcastsModule { get; set; }
+
+    private static readonly string _applePodcastsNamespaceName = XName.Get("itunes", XNamespace.Xmlns.NamespaceName).ToString();
+
+    ///// <summary>
+    ///// Returns true if the feed's root element (<c>rss</c> for RSS, <c>feed</c> for atom) has the older
+    ///// iTunes media module namespace declaration (<c>xmlns:im</c>); false otherwise.
+    ///// </summary>
+    ///// <remarks>
+    ///// NOTE: because the library has first-class support for this, we directly set a boolean rather than
+    ///// querying the collection of root element namespace declarations at runtime.
+    ///// </remarks>
+    //public bool HasiTunesMediaModule { get; set; }
 
 
     /// <summary>
@@ -78,6 +101,10 @@ public abstract class BaseFeed
     protected BaseFeed(string feedXml, XDocument feedDoc, XElement channel)
         : this()
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(feedXml);
+        ArgumentNullException.ThrowIfNull(feedDoc);
+        ArgumentNullException.ThrowIfNull(channel);
+
         OriginalFeedXml = feedXml;
 
         //
@@ -91,8 +118,12 @@ public abstract class BaseFeed
         // See: https://help.apple.com/itc/podcasts_connect/#/itcb54353390
         //
 
-        HasItunesExtensions = feedDoc.GetRootNamespaceDeclarationAttribute("im") is not null
-            || feedDoc.GetRootNamespaceDeclarationAttribute("itunes") is not null;
+        RootNamespaceDeclarations = feedDoc.Root!.Attributes()
+            .Where(xAttr => xAttr.IsNamespaceDeclaration)
+            .Select(xAttr => xAttr.Name.ToString())
+            .ToFrozenSet();
+
+        HasApplePodcastsModule = RootNamespaceDeclarations.Contains(_applePodcastsNamespaceName);
 
         Title = channel.GetChildElementValue("title");
         Link = channel.GetChildElementValue("link");

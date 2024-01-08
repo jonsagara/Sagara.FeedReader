@@ -11,14 +11,8 @@
 /// </remarks>
 public class iTunesChannel
 {
-    //
-    // These are a mixture of podcast and other media attributes. It does not try to validate required fields, or fields
-    //   that should be present for, say, podcasts. If merely reads the fields that are present.
-    //
+    internal const string NamespacePrefix = "itunes";
 
-    //
-    // Fields pulled from the podcast spec
-    //
 
     /// <summary>
     /// The artwork for the show specified as a URL linking to it.
@@ -103,10 +97,4 @@ public class iTunesChannel
     /// <para>Specifying any value other than <c>Yes</c> has no effect.</para>
     /// </summary>
     public bool Complete { get; set; }
-
-
-    //
-    // Fields from other media examples
-    //
-
 }

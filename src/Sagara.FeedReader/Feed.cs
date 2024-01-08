@@ -1,4 +1,5 @@
-﻿using Sagara.FeedReader.Feeds;
+﻿using System.Xml.Linq;
+using Sagara.FeedReader.Feeds;
 
 namespace Sagara.FeedReader;
 
@@ -79,6 +80,12 @@ public class Feed
     /// </summary>
     public BaseFeed? SpecificFeed { get; set; }
 
+    /// <summary>
+    /// Returns true if the feed's root element (<c>rss</c> for RSS, <c>feed</c> for atom) has the Apple Podcasts 
+    /// module namespace declaration (<c>xmlns:itunes</c>); false otherwise.
+    /// </summary>
+    public bool HasApplePodcastsModule
+        => SpecificFeed?.HasApplePodcastsModule == true;
 
 
     /// <summary>
@@ -106,5 +113,24 @@ public class Feed
         Items = feed.Items
             .Select(x => x.ToFeedItem())
             .ToArray();
+    }
+
+
+    /// <summary>
+    /// Returns true if the root element has the specified namespace declaration (e.g., <c>xmlns:itunes</c>);
+    /// false otherwise.
+    /// </summary>
+    /// <param name="localName">The local name of the namespace declaration (e.g., <c>itunes</c>).</param>
+    public bool HasRootNamespaceDeclaration(string localName)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(localName);
+
+        if (SpecificFeed is null)
+        {
+            return false;
+        }
+
+        var xName = XName.Get(localName: localName, namespaceName: XNamespace.Xmlns.NamespaceName);
+        return SpecificFeed!.RootNamespaceDeclarations.Contains(xName.ToString());
     }
 }

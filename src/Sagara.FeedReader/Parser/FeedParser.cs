@@ -67,9 +67,9 @@ internal static class FeedParser
 
         // If the declared encoding is UTF-8, then we didn't read feedContent again with a
         //   different encoding, and there's no need to have the parser reparse the XDocument.
-        var feed = parser.Parse(feedContent, feedDoc);
+        var baseFeed = parser.Parse(feedContent, feedDoc);
 
-        return feed.ToFeed();
+        return baseFeed.ToFeed();
     }
 
     /// <summary>
@@ -87,9 +87,9 @@ internal static class FeedParser
 
         var feedType = ParseFeedType(feedDoc);
         var parser = Factory.GetParser(feedType);
-        var feed = parser.Parse(feedContent, feedDoc);
+        var baseFeed = parser.Parse(feedContent, feedDoc);
 
-        return feed.ToFeed();
+        return baseFeed.ToFeed();
     }
 
 
