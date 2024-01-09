@@ -1,4 +1,7 @@
-﻿namespace Sagara.FeedReader.Modules.iTunes;
+﻿using System.Xml.Linq;
+using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Modules.iTunes;
 
 /// <summary>
 /// <para>Item data from an iTunes channel in either RSS 2.0 or Atom.</para>
@@ -21,7 +24,7 @@ public class iTunesItem
     /// <para>The episode artwork specified as a URL linking to it.</para>
     /// <para>You should use this tag when you have a high quality, episode-specific image you would like listeners to see.</para>
     /// </summary>
-    public string? Image { get; set; }
+    public iTunesImage? Image { get; set; }
 
     /// <summary>
     /// <para>The episode parental advisory information.</para>
@@ -41,14 +44,14 @@ public class iTunesItem
     /// <para>Episode numbers are optional for &lt;itunes:type&gt; episodic shows, but are mandatory for serial shows.</para>
     /// <para>Where <c>episode</c> is a non-zero integer (1, 2, 3, etc.) representing your episode number.</para>
     /// </summary>
-    public string? Episode { get; set; }
+    public int? Episode { get; set; }
 
     /// <summary>
     /// <para>The episode season number.</para>
     /// <para>If an episode is within a season use this tag.</para>
     /// <para>Where <c>season</c> is a non-zero integer (1, 2, 3, etc.) representing your season number.</para>
     /// </summary>
-    public string? Season { get; set; }
+    public int? Season { get; set; }
 
     /// <summary>
     /// <para>The episode type.</para>
@@ -71,7 +74,7 @@ public class iTunesItem
     /// </item>
     /// </list>
     /// </summary>
-    public string? EpisodeType { get; set; }
+    public iTunesEpisodeType? EpisodeType { get; set; }
 
     /// <summary>
     /// <para>The episode show or hide status.</para>
@@ -80,4 +83,135 @@ public class iTunesItem
     /// <para>Specifying any value other than <c>Yes</c> has no effect.</para>
     /// </summary>
     public bool Block { get; set; }
+
+
+    /// <summary>
+    /// .ctor
+    /// </summary>
+    public iTunesItem(XElement itemElement)
+    {
+        ArgumentNullException.ThrowIfNull(itemElement);
+
+        var duration = itemElement.GetChildElementValue(iTunesChannel.NamespacePrefix, "duration");
+        Duration = ParseDuration(duration);
+
+        var imageElement = itemElement.GetElement(iTunesChannel.NamespacePrefix, "image");
+        if (imageElement is not null)
+        {
+            Image = new iTunesImage(imageElement);
+        }
+
+        var explicitValue = itemElement.GetChildElementValue(iTunesChannel.NamespacePrefix, "explicit");
+        Explicit = iTunesHelper.IsExplicit(explicitValue);
+
+        // Some feeds have itunes:subtitle elements, but the Apple Podcasts RSS spec makes no mention of subtitle.
+        Title = itemElement.GetChildElementValue(namespacePrefix: iTunesChannel.NamespacePrefix, elementName: "title");
+
+        if (int.TryParse(itemElement.GetChildElementValue(namespacePrefix: iTunesChannel.NamespacePrefix, elementName: "episode"), out int episode))
+        {
+            Episode = episode;
+        }
+
+        if (int.TryParse(itemElement.GetChildElementValue(namespacePrefix: iTunesChannel.NamespacePrefix, elementName: "season"), out int season))
+        {
+            Season = season;
+        }
+
+        EpisodeType = ParseEpisodeType(itemElement);
+
+        Block = itemElement.GetChildElementValue(iTunesChannel.NamespacePrefix, "block").EqualsIgnoreCase("yes");
+
+        /* old code
+        // These fields no longer appear in the latest Apple Podcasts RSS spec.
+        Author = itemElement.GetChildElementValue(iTunesChannel.NAMESPACEPREFIX, "author");
+
+        IsClosedCaptioned = itemElement.GetChildElementValue(iTunesChannel.NAMESPACEPREFIX, "isClosedCaptioned").EqualsIgnoreCase("yes");
+
+        if (int.TryParse(itemElement.GetChildElementValue(iTunesChannel.NAMESPACEPREFIX, "order"), out var order))
+        {
+            Order = order;
+        }
+
+        // Some feeds have itunes:subtitle and itunes:summary elements, but the Apple Podcasts RSS spec makes no mention of them.
+        Subtitle = itemElement.GetChildElementValue(iTunesChannel.NAMESPACEPREFIX, "subtitle");
+        Summary = itemElement.GetChildElementValue(iTunesChannel.NAMESPACEPREFIX, "summary");
+        */
+    }
+
+
+    //
+    // Private methods
+    //
+
+    private static TimeSpan? ParseDuration(string? duration)
+    {
+        if (string.IsNullOrWhiteSpace(duration))
+        {
+            return null;
+        }
+
+
+        //
+        // We don't expect there to ever be more than two colons in the string: HH:MM:SS. However, allow for 4 elements
+        //   in the array so that we know, since there are more than 3, we don't know what this value is and we shouldn't
+        //   try to parse it into a TimeSpan.
+        //
+
+        var durationSpan = duration.AsSpan();
+
+        Span<Range> durationParts = stackalloc Range[4];
+        var durationPartsWritten = durationSpan.Split(destination: durationParts, ':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+        if (durationPartsWritten == 1 && int.TryParse(durationSpan[durationParts[0]], out int durationSeconds))
+        {
+            // The value was a single number. Assume it's seconds.
+            return TimeSpan.FromSeconds(durationSeconds);
+        }
+
+        if (durationPartsWritten == 2
+            && int.TryParse(durationSpan[durationParts[0]], out int durationMinutes)
+            && int.TryParse(durationSpan[durationParts[1]], out durationSeconds))
+        {
+            // The value was MM:SS.
+            return new TimeSpan(hours: 0, minutes: durationMinutes, seconds: durationSeconds);
+        }
+
+        if (durationPartsWritten == 3
+            && int.TryParse(durationSpan[durationParts[0]], out int durationHours)
+            && int.TryParse(durationSpan[durationParts[1]], out durationMinutes)
+            && int.TryParse(durationSpan[durationParts[2]], out durationSeconds))
+        {
+            // The value was HH:MM:SS.
+            return new TimeSpan(hours: durationHours, minutes: durationMinutes, seconds: durationSeconds);
+        }
+
+        // Unknown or unsupported duration value.
+        return null;
+    }
+
+    private static iTunesEpisodeType? ParseEpisodeType(XElement itemElement)
+    {
+        var typeElement = itemElement.GetChildElementValue(namespacePrefix: iTunesChannel.NamespacePrefix, elementName: "episodeType");
+        if (string.IsNullOrWhiteSpace(typeElement))
+        {
+            // If not present, assume the default value of Episodic.
+            return iTunesEpisodeType.Full;
+        }
+
+        if (!Enum.TryParse(typeElement, out iTunesEpisodeType episodeType))
+        {
+            // Can't parse it into an enum. Don't assume any default value.
+#warning TODO: logging?
+            return null;
+        }
+
+        if (!Enum.IsDefined(episodeType))
+        {
+            // Not a valid enum value. Don't assume any default value.
+            return null;
+        }
+
+        // Parsed and a valid enum value. Return it as-is.
+        return episodeType;
+    }
 }
