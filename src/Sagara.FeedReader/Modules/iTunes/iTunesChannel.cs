@@ -169,8 +169,8 @@ public class iTunesChannel
 
                 return new iTunesCategory
                 {
-                    Category = categoryName,
-                    Subcategory = subCategoryName,
+                    CategoryText = categoryName,
+                    SubcategoryText = subCategoryName,
                 };
             })
             .ToArray();

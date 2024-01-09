@@ -8,10 +8,10 @@ public class iTunesCategory
     /// <summary>
     /// Top-level category.
     /// </summary>
-    public string? Category { get; set; }
+    public string? CategoryText { get; set; }
 
     /// <summary>
     /// Subcategory.
     /// </summary>
-    public string? Subcategory { get; set; }
+    public string? SubcategoryText { get; set; }
 }
