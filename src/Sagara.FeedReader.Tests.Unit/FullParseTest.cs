@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Sagara.FeedReader.Feeds;
-using Sagara.FeedReader.Feeds.Itunes;
 using Sagara.FeedReader.Http;
+using Sagara.FeedReader.Modules.ApplePodcasts;
 using Sagara.FeedReader.Tests.Unit.Fixtures;
 using Xunit;
 
@@ -387,7 +387,7 @@ public class FullParseTest
                     Assert.True(!string.IsNullOrEmpty(feed.Link));
                 }
 
-                TestItunesParsingForException(feed);
+                TestApplePodastsParsingForException(feed);
             }
         }
     }
@@ -397,13 +397,13 @@ public class FullParseTest
     // Private methods
     //
 
-    private static void TestItunesParsingForException(Feed feed)
+    private static void TestApplePodastsParsingForException(Feed feed)
     {
-        Assert.NotNull(feed.GetItunesChannel());
+        Assert.NotNull(feed.GetiTunesChannel());
 
         foreach (var item in feed.Items)
         {
-            Assert.NotNull(item.GetItunesItem());
+            Assert.NotNull(item.GetiTunesItem());
         }
     }
 }
