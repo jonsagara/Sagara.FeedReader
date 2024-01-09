@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
 
-namespace Sagara.FeedReader.Modules.iTunes;
+namespace Sagara.FeedReader.Modules.ApplePodcasts;
 
 /// <summary>
 /// Parses the <c>itunes:image</c> element.

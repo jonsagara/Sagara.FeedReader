@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
 
-namespace Sagara.FeedReader.Modules.iTunes;
+namespace Sagara.FeedReader.Modules.ApplePodcasts;
 
 /// <summary>
 /// <para>The podcast owner contact information.</para>

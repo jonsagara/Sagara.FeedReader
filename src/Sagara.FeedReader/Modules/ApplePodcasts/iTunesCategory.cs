@@ -1,4 +1,4 @@
-﻿namespace Sagara.FeedReader.Modules.iTunes;
+﻿namespace Sagara.FeedReader.Modules.ApplePodcasts;
 
 /// <summary>
 /// A category and optional subcategory for iTunes media.

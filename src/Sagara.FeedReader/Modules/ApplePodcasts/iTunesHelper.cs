@@ -1,6 +1,6 @@
 ﻿using System.Collections.Frozen;
 
-namespace Sagara.FeedReader.Modules.iTunes;
+namespace Sagara.FeedReader.Modules.ApplePodcasts;
 
 /// <summary>
 /// Internal helpers for iTunes feeds.

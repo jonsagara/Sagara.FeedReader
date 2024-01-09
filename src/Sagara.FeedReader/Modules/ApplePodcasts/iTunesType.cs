@@ -1,4 +1,4 @@
-﻿namespace Sagara.FeedReader.Modules.iTunes;
+﻿namespace Sagara.FeedReader.Modules.ApplePodcasts;
 
 /// <summary>
 /// Represents the value of <c>itunes:type</c>, if present.

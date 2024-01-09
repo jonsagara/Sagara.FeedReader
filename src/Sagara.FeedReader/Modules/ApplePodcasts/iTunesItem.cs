@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
 
-namespace Sagara.FeedReader.Modules.iTunes;
+namespace Sagara.FeedReader.Modules.ApplePodcasts;
 
 /// <summary>
 /// <para>Item data from an iTunes channel in either RSS 2.0 or Atom.</para>
