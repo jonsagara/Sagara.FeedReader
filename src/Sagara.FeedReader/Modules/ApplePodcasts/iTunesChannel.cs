@@ -162,15 +162,18 @@ public class iTunesChannel
             {
                 // A category has a name stored in a text attribute, and can have up to one nested
                 //   category attribute that is the subcategory.
-                var categoryName = catElement.GetAttributeValue("text");
+                var categoryText = catElement.GetAttributeValue("text");
 
                 var subCatElement = catElement.GetElement(namespacePrefix: NamespacePrefix, elementName: "category");
-                var subCategoryName = subCatElement?.GetAttributeValue("text");
+                var subCategoryText = subCatElement?.GetAttributeValue("text");
+                var subCategory = !string.IsNullOrWhiteSpace(subCategoryText)
+                    ? new iTunesCategory { Text = subCategoryText }
+                    : null;
 
                 return new iTunesCategory
                 {
-                    CategoryText = categoryName,
-                    SubcategoryText = subCategoryName,
+                    Text = categoryText,
+                    Subcategory = subCategory,
                 };
             })
             .ToArray();
