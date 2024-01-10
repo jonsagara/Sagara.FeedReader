@@ -177,36 +177,6 @@ internal static class FeedParser
     }
 
     /// <summary>
-    /// Tries to read the encoding from the document's XML declaration. If none found, or if it's invalid,
-    /// returns UTF8.
-    /// </summary>
-    /// <param name="feedDoc">rss feed document</param>
-    /// <returns>encoding or utf8 by default</returns>
-    private static Encoding GetEncoding(XDocument feedDoc)
-    {
-        Encoding encoding = Encoding.UTF8;
-
-        // Justification: we catch an error due to an invalid encoding, and then return the default of UTF8.
-#pragma warning disable CA1031 // Do not catch general exception types
-        try
-        {
-            var encodingStr = feedDoc.Document!.Declaration?.Encoding;
-            if (!string.IsNullOrEmpty(encodingStr))
-            {
-                encoding = Encoding.GetEncoding(encodingStr);
-            }
-
-            return encoding;
-        }
-        catch
-        {
-            // The document encoding is invalid. Swallow the error and return the default encoding.
-            return encoding;
-        }
-#pragma warning restore CA1031 // Do not catch general exception types
-    }
-
-    /// <summary>
     /// Try to get the <see cref="Encoding"/> from the feed content's XML declaration encoding attribute.
     /// If none found, or if it's invalid, return UTF-8.
     /// </summary>
