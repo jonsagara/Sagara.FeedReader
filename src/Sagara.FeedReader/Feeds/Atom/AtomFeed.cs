@@ -1,10 +1,7 @@
-﻿namespace Sagara.FeedReader.Feeds;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// Atom 1.0 feed object according to specification: https://validator.w3.org/feed/docs/atom.html
@@ -85,9 +82,10 @@ public class AtomFeed : BaseFeed
     /// Reads an atom feed based on the xml given in channel
     /// </summary>
     /// <param name="feedXml">the entire feed xml as string</param>
+    /// <param name="feedDoc">The XDocument parsed from the feed XML. Used to determine if there are iTunes extensions.</param>
     /// <param name="feed">the feed element in the xml as XElement</param>
-    public AtomFeed(string feedXml, XElement feed)
-        : base(feedXml, feed)
+    public AtomFeed(string feedXml, XDocument feedDoc, XElement feed)
+        : base(feedXml, feedDoc, feed)
     {
         Link = feed.GetElement("link")?.Attribute("href")?.Value;
 

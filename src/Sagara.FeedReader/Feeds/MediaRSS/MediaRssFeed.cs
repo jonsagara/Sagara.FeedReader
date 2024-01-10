@@ -1,11 +1,8 @@
-﻿namespace Sagara.FeedReader.Feeds;
-
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// Media RSS 2.0 feed according to specification: http://www.rssboard.org/media-rss
@@ -121,9 +118,10 @@ public class MediaRssFeed : BaseFeed
     /// Reads a Media Rss feed based on the xml given in channel
     /// </summary>
     /// <param name="feedXml">the entire feed xml as string</param>
+    /// <param name="feedDoc">The XDocument parsed from the feed XML. Used to determine if there are iTunes extensions.</param>
     /// <param name="channel">the "channel" element in the xml as XElement</param>
-    public MediaRssFeed(string feedXml, XElement channel)
-        : base(feedXml, channel)
+    public MediaRssFeed(string feedXml, XDocument feedDoc, XElement channel)
+        : base(feedXml, feedDoc, channel)
     {
         Description = channel.GetChildElementValue("description");
         Language = channel.GetChildElementValue("language");

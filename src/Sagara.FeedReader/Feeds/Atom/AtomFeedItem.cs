@@ -1,10 +1,7 @@
-namespace Sagara.FeedReader.Feeds;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// Atom 1.0 feed item object according to specification: https://validator.w3.org/feed/docs/atom.html

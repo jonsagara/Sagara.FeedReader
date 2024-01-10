@@ -87,7 +87,7 @@ try
                 feedUrl = feedUrlsFromPage.ElementAt(index).Url;
             }
 
-            var feed = await feedReaderSvc.ReadAsync(feedUrl);
+            var feed = await feedReaderSvc.ReadFromUrlAsync(feedUrl);
 
             foreach (var item in feed.Items)
             {

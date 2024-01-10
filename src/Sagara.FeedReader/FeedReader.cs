@@ -6,16 +6,10 @@ namespace Sagara.FeedReader;
 
 /// <summary>
 /// The FeedReader class allows to read feeds from a given url. Use it to parse a feed 
-/// from an url <see cref="ReadAsync(string, string?, CancellationToken)"/>, a file <see cref="ReadFromFileAsync(string, CancellationToken)"/>, 
+/// from an url <see cref="ReadFromUrlAsync(string, string?, CancellationToken)"/>, a file <see cref="ReadFromFileAsync(string, CancellationToken)"/>, 
 /// or a string <see cref="ReadFromString(string)"/>. If the feed url is not known, <see cref="GetFeedUrlsFromPageAsync(string, CancellationToken)"/> 
 /// returns all feed links on a given page.
 /// </summary>
-/// <example>
-/// var links = FeedReader.ParseFeedUrlsFromHtml("https://codehollow.com");
-/// var firstLink = links.First();
-/// var feed = FeedReader.Read(firstLink.Url);
-/// Console.WriteLine(feed.Title);
-/// </example>
 public class FeedReader : IFeedReaderService
 {
     private readonly HttpClientService _httpClientService;
@@ -40,7 +34,7 @@ public class FeedReader : IFeedReaderService
     /// <param name="userAgent">override built-in user-agent header</param>
     /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
     /// <returns>parsed feed</returns>
-    public async Task<Feed> ReadAsync(string feedUrl, string? userAgent = null, CancellationToken cancellationToken = default)
+    public async Task<Feed> ReadFromUrlAsync(string feedUrl, string? userAgent = null, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(feedUrl);
 

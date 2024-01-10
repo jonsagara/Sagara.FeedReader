@@ -1,11 +1,11 @@
 ﻿using System.Collections.Frozen;
 
-namespace Sagara.FeedReader.Feeds.Itunes;
+namespace Sagara.FeedReader.Modules.ApplePodcasts;
 
 /// <summary>
 /// Internal helpers for iTunes feeds.
 /// </summary>
-internal static class ItunesHelper
+internal static class iTunesHelper
 {
     /// <summary>
     /// Set of values that denote explicit content in an iTunes feed.

@@ -1,6 +1,6 @@
-﻿namespace Sagara.FeedReader.Feeds;
+﻿using System.Xml.Linq;
 
-using System.Xml.Linq;
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// Rss 2.0 Image according to specification: https://validator.w3.org/feed/docs/rss2.html#ltimagegtSubelementOfLtchannelgt

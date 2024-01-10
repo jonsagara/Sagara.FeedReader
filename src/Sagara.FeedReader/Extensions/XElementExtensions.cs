@@ -38,56 +38,56 @@ internal static class XElementExtensions
     }
 
     /// <summary>
-    /// Gets the value of the attribute <paramref name="name"/>
+    /// Gets the value of the attribute <paramref name="attributeName"/>
     /// </summary>
-    /// <param name="element">the xml element</param>
-    /// <param name="name">the name of the attribute</param>
+    /// <param name="element">The xml element</param>
+    /// <param name="attributeName">The name of the attribute</param>
     /// <returns>value of the attribute</returns>
-    public static string? GetAttributeValue(this XElement? element, string name)
-        => element?.GetAttribute(name)?.Value;
+    public static string? GetAttributeValue(this XElement? element, string attributeName)
+        => element?.GetAttribute(attributeName)?.Value;
 
     /// <summary>
-    /// Gets the attribute <paramref name="name"/> of the given XElement
+    /// Gets the attribute <paramref name="attributeName"/> of the given XElement
     /// </summary>
     /// <param name="element">the xml element</param>
-    /// <param name="name">the name of the attribute</param>
+    /// <param name="attributeName">the name of the attribute</param>
     /// <returns>the xml attribute</returns>
-    public static XAttribute? GetAttribute(this XElement? element, string name)
+    public static XAttribute? GetAttribute(this XElement? element, string attributeName)
     {
-        var nsAndName = SplitName(name);
+        var nsAndName = SplitName(attributeName);
 
-        return element?.GetAttribute(namespacePrefix: nsAndName.Namespace, name: nsAndName.Name);
+        return element?.GetAttribute(namespacePrefix: nsAndName.Namespace, attributeName: nsAndName.Name);
     }
 
     /// <summary>
-    /// Gets the attribute with the namespace <paramref name="namespacePrefix"/> and name <paramref name="name"/> of the given XElement
+    /// Gets the attribute with the namespace <paramref name="namespacePrefix"/> and name <paramref name="attributeName"/> of the given XElement
     /// </summary>
     /// <param name="element">the xml element</param>
     /// <param name="namespacePrefix">the namespace prefix of the attribute</param>
-    /// <param name="name">the name of the attribute</param>
+    /// <param name="attributeName">the name of the attribute</param>
     /// <returns>the xml attribute</returns>
-    public static XAttribute? GetAttribute(this XElement element, string? namespacePrefix, string name)
+    public static XAttribute? GetAttribute(this XElement element, string? namespacePrefix, string attributeName)
     {
         if (string.IsNullOrEmpty(namespacePrefix))
         {
-            return element.Attribute(name);
+            return element.Attribute(attributeName);
         }
 
         var namesp = element.GetNamespacePrefix(namespacePrefix) ?? string.Empty;
-        return element.Attribute(namesp + name);
+        return element.Attribute(namesp + attributeName);
     }
 
     /// <summary>
     /// Gets the element of the given XElement
     /// </summary>
     /// <param name="element">the xml element</param>
-    /// <param name="name">Name of the element that should be returned</param>
+    /// <param name="elementName">Name of the element that should be returned</param>
     /// <returns>the "name" element of the XElement</returns>
-    public static XElement? GetElement(this XElement element, string name)
+    public static XElement? GetElement(this XElement element, string elementName)
     {
-        var nsAndName = SplitName(name);
+        var nsAndName = SplitName(elementName);
 
-        return element?.GetElement(namespacePrefix: nsAndName.Namespace, name: nsAndName.Name);
+        return element?.GetElement(namespacePrefix: nsAndName.Namespace, elementName: nsAndName.Name);
     }
 
     /// <summary>
@@ -95,9 +95,9 @@ internal static class XElementExtensions
     /// </summary>
     /// <param name="element">the xml element</param>
     /// <param name="namespacePrefix">the namespace prefix of the element that should be returned</param>
-    /// <param name="name">Name of the element that should be returned</param>
+    /// <param name="elementName">Name of the element that should be returned</param>
     /// <returns>the "name" element with the prefix "namespacePrefix" of the XElement</returns>
-    public static XElement? GetElement(this XElement element, string? namespacePrefix, string name)
+    public static XElement? GetElement(this XElement element, string? namespacePrefix, string elementName)
     {
         var namesp = element.GetNamespacePrefix(namespacePrefix);
         if (namesp is null)
@@ -105,20 +105,20 @@ internal static class XElementExtensions
             return null;
         }
 
-        return element.Element(namesp + name);
+        return element.Element(namesp + elementName);
     }
 
     /// <summary>
     /// Gets all elements of the given XElement
     /// </summary>
     /// <param name="element">the xml element</param>
-    /// <param name="name">Name of the elements that should be returned</param>
+    /// <param name="elementName">Name of the elements that should be returned</param>
     /// <returns>all "name" elements of the given XElement</returns>
-    public static IReadOnlyCollection<XElement> GetElements(this XElement element, string name)
+    public static IReadOnlyCollection<XElement> GetElements(this XElement element, string elementName)
     {
-        var nsAndName = SplitName(name);
+        var nsAndName = SplitName(elementName);
 
-        return element.GetElements(namespacePrefix: nsAndName.Namespace, name: nsAndName.Name);
+        return element.GetElements(namespacePrefix: nsAndName.Namespace, elementName: nsAndName.Name);
     }
 
     /// <summary>
@@ -126,9 +126,9 @@ internal static class XElementExtensions
     /// </summary>
     /// <param name="element">the xml element</param>
     /// <param name="namespacePrefix">the namespace prefix of the elements that should be returned</param>
-    /// <param name="name">Name of the elements that should be returned</param>
+    /// <param name="elementName">Name of the elements that should be returned</param>
     /// <returns>all "name" elements of the given XElement</returns>
-    public static IReadOnlyCollection<XElement> GetElements(this XElement element, string? namespacePrefix, string name)
+    public static IReadOnlyCollection<XElement> GetElements(this XElement element, string? namespacePrefix, string elementName)
     {
         var namesp = element.GetNamespacePrefix(namespacePrefix);
         if (namesp is null)
@@ -136,7 +136,7 @@ internal static class XElementExtensions
             return Array.Empty<XElement>();
         }
 
-        return element.Elements(namesp + name).ToArray();
+        return element.Elements(namesp + elementName).ToArray();
     }
 
     /// <summary>

@@ -1,9 +1,7 @@
-﻿namespace Sagara.FeedReader;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Feeds;
+
+namespace Sagara.FeedReader;
 
 /// <summary>
 /// Generic Feed object that contains some basic properties. If a property is not available
@@ -61,16 +59,19 @@ public class Feed
     public string? ImageUrl { get; set; }
 
     /// <summary>
-    /// List of items
+    /// List of items. In RSS, these are <c>item</c> elements. In Atom, they're <c>entry</c> elements.
     /// </summary>
     public IReadOnlyCollection<FeedItem> Items { get; private set; } = Array.Empty<FeedItem>();
 
     /// <summary>
-    /// Gets the whole, original feed as string
+    /// The original feed XML string.
     /// </summary>
-    public string? OriginalDocument
+    /// <remarks>
+    /// NOTE: If raw XML contained invalid control characters, they were removed.
+    /// </remarks>
+    public string? OriginalFeedXml
     {
-        get { return SpecificFeed?.OriginalDocument; }
+        get { return SpecificFeed?.OriginalFeedXml; }
     }
 
     /// <summary>
@@ -78,6 +79,14 @@ public class Feed
     /// e.g. the Generator property which does not exist in others.
     /// </summary>
     public BaseFeed? SpecificFeed { get; set; }
+
+    /// <summary>
+    /// Returns true if the feed's root element (<c>rss</c> for RSS, <c>feed</c> for atom) has the Apple Podcasts 
+    /// module namespace declaration (<c>xmlns:itunes</c>); false otherwise.
+    /// </summary>
+    public bool HasApplePodcastsModule
+        => SpecificFeed?.HasApplePodcastsModule == true;
+
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Feed"/> class.
@@ -104,5 +113,23 @@ public class Feed
         Items = feed.Items
             .Select(x => x.ToFeedItem())
             .ToArray();
+    }
+
+
+    /// <summary>
+    /// Returns true if the root element has the specified namespace URI declared; false otherwise.
+    /// </summary>
+    /// <param name="namespaceUri">The local name of the namespace declaration (e.g., <c>http://www.itunes.com/dtds/podcast-1.0.dtd</c>
+    /// for Apple Podcasts).</param>
+    public bool HasRootNamespaceDeclaration(string namespaceUri)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(namespaceUri);
+
+        if (SpecificFeed is null)
+        {
+            return false;
+        }
+
+        return SpecificFeed!.RootNamespaceDeclarations.ContainsKey(namespaceUri);
     }
 }

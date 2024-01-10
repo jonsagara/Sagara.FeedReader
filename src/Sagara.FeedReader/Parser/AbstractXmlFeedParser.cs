@@ -1,16 +1,9 @@
-﻿namespace Sagara.FeedReader.Parser;
+﻿using System.Xml.Linq;
+using Sagara.FeedReader.Feeds;
 
-using System.Xml.Linq;
-using Feeds;
+namespace Sagara.FeedReader.Parser;
 
-internal abstract class AbstractXmlFeedParser : IFeedParser
+internal abstract class AbstractXmlFeedParser
 {
-    public BaseFeed Parse(string feedXml)
-    {
-        XDocument feedDoc = XDocument.Parse(feedXml);
-
-        return this.Parse(feedXml, feedDoc);
-    }
-
     public abstract BaseFeed Parse(string feedXml, XDocument feedDoc);
 }

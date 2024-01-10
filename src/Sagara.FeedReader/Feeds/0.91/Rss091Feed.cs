@@ -1,10 +1,7 @@
-﻿namespace Sagara.FeedReader.Feeds;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// Rss Feed according to Rss 0.91 specification:
@@ -108,9 +105,10 @@ public class Rss091Feed : BaseFeed
     /// Reads a rss 0.91 feed based on the xml given in channel
     /// </summary>
     /// <param name="feedXml">the entire feed xml as string</param>
+    /// <param name="feedDoc">The XDocument parsed from the feed XML. Used to determine if there are iTunes extensions.</param>
     /// <param name="channel">the "channel" element in the xml as XElement</param>
-    public Rss091Feed(string feedXml, XElement channel)
-        : base(feedXml, channel)
+    public Rss091Feed(string feedXml, XDocument feedDoc, XElement channel)
+        : base(feedXml, feedDoc, channel)
     {
         Description = channel.GetChildElementValue("description");
         Language = channel.GetChildElementValue("language");

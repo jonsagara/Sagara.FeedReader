@@ -1,9 +1,7 @@
-﻿namespace Sagara.FeedReader.Feeds;
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+
+namespace Sagara.FeedReader.Feeds;
 
 /// <summary>
 /// Rss 0.92 feed item according to specification: http://backend.userland.com/rss092
