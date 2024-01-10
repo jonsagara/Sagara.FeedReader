@@ -44,13 +44,13 @@ public class ItunesTest
         Assert.NotNull(itunesChannel.Categories);
 
         var itunesChannelCategories = itunesChannel.Categories.ToArray();
-        Assert.Equal("Technology", itunesChannelCategories[0].CategoryText);
-        Assert.NotNull(itunesChannelCategories[0].SubcategoryText);
-        Assert.Equal("Gadgets", itunesChannelCategories[0].SubcategoryText);
-        Assert.Equal("TV & Film", itunesChannelCategories[1].CategoryText);
-        Assert.Equal("Arts", itunesChannelCategories[2].CategoryText);
-        Assert.NotNull(itunesChannelCategories[2].SubcategoryText);
-        Assert.Equal("Food", itunesChannelCategories[2].SubcategoryText);
+        Assert.Equal("Technology", itunesChannelCategories[0].Text);
+        Assert.NotNull(itunesChannelCategories[0].Subcategory?.Text);
+        Assert.Equal("Gadgets", itunesChannelCategories[0].Subcategory?.Text);
+        Assert.Equal("TV & Film", itunesChannelCategories[1].Text);
+        Assert.Equal("Arts", itunesChannelCategories[2].Text);
+        Assert.NotNull(itunesChannelCategories[2].Subcategory?.Text);
+        Assert.Equal("Food", itunesChannelCategories[2].Subcategory?.Text);
         Assert.False(itunesChannel.Explicit);
 
 

@@ -6,12 +6,12 @@
 public class iTunesCategory
 {
     /// <summary>
-    /// Top-level category.
+    /// Top-level category text.
     /// </summary>
-    public string? CategoryText { get; set; }
+    public string? Text { get; set; }
 
     /// <summary>
-    /// Subcategory.
+    /// Optional Subcategory.
     /// </summary>
-    public string? SubcategoryText { get; set; }
+    public iTunesCategory? Subcategory { get; set; }
 }
