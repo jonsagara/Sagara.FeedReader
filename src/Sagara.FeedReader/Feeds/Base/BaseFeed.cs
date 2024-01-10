@@ -51,10 +51,14 @@ public abstract class BaseFeed
     public XElement? ChannelOrFeedElement { get; }
 
     /// <summary>
-    /// The root namespace declarations in the XML document. Allows callers to determine if they should
-    /// further parse the <c>channel</c> or <c>feed</c> element for custom modules.
+    /// The root namespace declarations in the XML document. Key is the namespace attribute value (the namespace URI), 
+    /// Value is the LocalName (the abbreviation, e.g., <c>itunes</c>) used to declare the namespace in the root element,
+    /// minus the <c>xmlns:</c> part.
     /// </summary>
-    public FrozenSet<string> RootNamespaceDeclarations { get; private set; } = FrozenSet<string>.Empty;
+    /// <remarks>
+    /// Allows callers to determine if they should further parse the <c>channel</c> or <c>feed</c> element for custom modules.
+    /// </remarks>
+    public FrozenDictionary<string, string> RootNamespaceDeclarations { get; private set; } = FrozenDictionary<string, string>.Empty;
 
     /// <summary>
     /// Returns true if the feed's root element (<c>rss</c> for RSS, <c>feed</c> for atom) has the Apple Podcasts 
@@ -65,8 +69,6 @@ public abstract class BaseFeed
     /// querying the collection of root element namespace declarations at runtime.
     /// </remarks>
     public bool HasApplePodcastsModule { get; set; }
-
-    private static readonly string _applePodcastsNamespaceName = XName.Get("itunes", XNamespace.Xmlns.NamespaceName).ToString();
 
     ///// <summary>
     ///// Returns true if the feed's root element (<c>rss</c> for RSS, <c>feed</c> for atom) has the older
@@ -120,10 +122,10 @@ public abstract class BaseFeed
 
         RootNamespaceDeclarations = feedDoc.Root!.Attributes()
             .Where(xAttr => xAttr.IsNamespaceDeclaration)
-            .Select(xAttr => xAttr.Name.ToString())
-            .ToFrozenSet();
+            .Select(xAttr => new { Uri = xAttr.Value!, xAttr.Name.LocalName })
+            .ToFrozenDictionary(x => x.Uri, x => x.LocalName);
 
-        HasApplePodcastsModule = RootNamespaceDeclarations.Contains(_applePodcastsNamespaceName);
+        HasApplePodcastsModule = RootNamespaceDeclarations.ContainsKey(Namespaces.ApplePodcasts.NamespaceName);
 
         Title = channel.GetChildElementValue("title");
         Link = channel.GetChildElementValue("link");

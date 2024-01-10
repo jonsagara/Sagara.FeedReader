@@ -117,20 +117,19 @@ public class Feed
 
 
     /// <summary>
-    /// Returns true if the root element has the specified namespace declaration (e.g., <c>xmlns:itunes</c>);
-    /// false otherwise.
+    /// Returns true if the root element has the specified namespace URI declared; false otherwise.
     /// </summary>
-    /// <param name="localName">The local name of the namespace declaration (e.g., <c>itunes</c>).</param>
-    public bool HasRootNamespaceDeclaration(string localName)
+    /// <param name="namespaceUri">The local name of the namespace declaration (e.g., <c>http://www.itunes.com/dtds/podcast-1.0.dtd</c>
+    /// for Apple Podcasts).</param>
+    public bool HasRootNamespaceDeclaration(string namespaceUri)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(localName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(namespaceUri);
 
         if (SpecificFeed is null)
         {
             return false;
         }
 
-        var xName = XName.Get(localName: localName, namespaceName: XNamespace.Xmlns.NamespaceName);
-        return SpecificFeed!.RootNamespaceDeclarations.Contains(xName.ToString());
+        return SpecificFeed!.RootNamespaceDeclarations.ContainsKey(namespaceUri);
     }
 }
