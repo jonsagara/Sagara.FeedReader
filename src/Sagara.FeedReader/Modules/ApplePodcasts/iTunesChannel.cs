@@ -162,7 +162,7 @@ public class iTunesChannel
     // Private methods
     //
 
-    private iTunesCategory[] ParseCategories(XElement channelElement)
+    private static iTunesCategory[] ParseCategories(XElement channelElement)
     {
         // There can be many category attributes in the channel.
         return channelElement.GetElements(namespacePrefix: NamespacePrefix, elementName: "category")
@@ -199,18 +199,27 @@ public class iTunesChannel
         if (!Enum.TryParse(typeElement, out iTunesType type))
         {
             // Can't parse it into an enum. Don't assume any default value.
-            _logger.LogError($"Unable to parse an {nameof(iTunesType)} enum value from the itunes:type element: {{TypeElementXml}}", typeElement.ToString());
+            _logger.UnableToParseEnumValue(typeElement.ToString());
             return null;
         }
 
         if (!Enum.IsDefined(type))
         {
             // Not a valid enum value. Don't assume any default value.
-            _logger.LogError($"Parsed {nameof(iTunesType)}, but the value '{{TypeValue}}' is not defined. itunes:type element: {{TypeElementXml}}", type, typeElement.ToString());
+            _logger.EnumValueNotDefined(type, typeElement.ToString());
             return null;
         }
 
         // Parsed and a valid enum value. Return it as-is.
         return type;
     }
+}
+
+internal static partial class iTunesChannelLogger
+{
+    [LoggerMessage(Level = LogLevel.Warning, EventId = 200, Message = "Unable to parse an iTunesType enum value from the itunes:type element: {TypeElementXml}")]
+    internal static partial void UnableToParseEnumValue(this ILogger logger, string typeElementXml);
+
+    [LoggerMessage(Level = LogLevel.Warning, EventId = 201, Message = "Parsed iTunesType, but the value '{TypeValue}' is not defined. itunes:type element: {TypeElementXml}")]
+    internal static partial void EnumValueNotDefined(this ILogger logger, iTunesType typeValue, string typeElementXml);
 }

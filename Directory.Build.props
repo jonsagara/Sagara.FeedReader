@@ -8,7 +8,7 @@
 		<Nullable>enable</Nullable>
 		
 		<!-- NuGet -->
-		<Version>1.0.0-alpha4</Version>
+		<Version>1.0.0-alpha5</Version>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<FileVersion>1.0.0.0</FileVersion>
 		<Authors>Armin Reiter; Jon Sagara</Authors>
