@@ -1,4 +1,6 @@
 ﻿using System.Xml.Linq;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Sagara.FeedReader.Extensions;
 
 namespace Sagara.FeedReader.Modules.ApplePodcasts;
@@ -102,12 +104,18 @@ public class iTunesChannel
     public bool Complete { get; set; }
 
 
+    private readonly ILogger<iTunesChannel> _logger;
+
+
     /// <summary>
     /// .ctor
     /// </summary>
-    public iTunesChannel(XElement channelElement)
+    public iTunesChannel(XElement channelElement, ILoggerFactory? loggerFactory = null)
     {
         ArgumentNullException.ThrowIfNull(channelElement);
+
+        loggerFactory ??= NullLoggerFactory.Instance;
+        _logger = loggerFactory.CreateLogger<iTunesChannel>();
 
         var imageElement = channelElement.GetElement(namespacePrefix: NamespacePrefix, elementName: "image");
         if (imageElement is not null)
@@ -167,7 +175,7 @@ public class iTunesChannel
                 var subCatElement = catElement.GetElement(namespacePrefix: NamespacePrefix, elementName: "category");
                 var subCategoryText = subCatElement?.GetAttributeValue("text");
                 var subCategory = !string.IsNullOrWhiteSpace(subCategoryText)
-                    ? new iTunesCategory { Text = subCategoryText }
+                    ? new iTunesSubcategory { Text = subCategoryText }
                     : null;
 
                 return new iTunesCategory
@@ -179,7 +187,7 @@ public class iTunesChannel
             .ToArray();
     }
 
-    private static iTunesType? ParseiTunesType(XElement channelElement)
+    private iTunesType? ParseiTunesType(XElement channelElement)
     {
         var typeElement = channelElement.GetChildElementValue(namespacePrefix: NamespacePrefix, elementName: "type");
         if (string.IsNullOrWhiteSpace(typeElement))
@@ -191,17 +199,27 @@ public class iTunesChannel
         if (!Enum.TryParse(typeElement, out iTunesType type))
         {
             // Can't parse it into an enum. Don't assume any default value.
-#warning TODO: logging?
+            _logger.UnableToParseEnumValue(typeElement.ToString());
             return null;
         }
 
         if (!Enum.IsDefined(type))
         {
             // Not a valid enum value. Don't assume any default value.
+            _logger.EnumValueNotDefined(type, typeElement.ToString());
             return null;
         }
 
         // Parsed and a valid enum value. Return it as-is.
         return type;
     }
+}
+
+internal static partial class iTunesChannelLogger
+{
+    [LoggerMessage(Level = LogLevel.Warning, EventId = 200, Message = "Unable to parse an iTunesType enum value from the itunes:type element: {TypeElementXml}")]
+    internal static partial void UnableToParseEnumValue(this ILogger logger, string typeElementXml);
+
+    [LoggerMessage(Level = LogLevel.Warning, EventId = 201, Message = "Parsed iTunesType, but the value '{TypeValue}' is not defined. itunes:type element: {TypeElementXml}")]
+    internal static partial void EnumValueNotDefined(this ILogger logger, iTunesType typeValue, string typeElementXml);
 }
