@@ -114,6 +114,16 @@ public static class Helpers
             : null;
 
     /// <summary>
+    /// Tries to parse the string as long and returns null if it fails
+    /// </summary>
+    /// <param name="input">long as string</param>
+    /// <returns>long or null</returns>
+    public static long? TryParseLong(string? input)
+        => long.TryParse(input, out var result)
+            ? result
+            : null;
+
+    /// <summary>
     /// Tries to parse a string and returns the media type
     /// </summary>
     /// <param name="medium">media type as string</param>

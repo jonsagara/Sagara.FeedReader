@@ -387,7 +387,7 @@ public class FullParseTest
                     Assert.True(!string.IsNullOrEmpty(feed.Link));
                 }
 
-                TestApplePodastsParsingForException(feed);
+                TestApplePodcastsParsingForException(feed);
             }
         }
     }
@@ -397,7 +397,7 @@ public class FullParseTest
     // Private methods
     //
 
-    private static void TestApplePodastsParsingForException(Feed feed)
+    private static void TestApplePodcastsParsingForException(Feed feed)
     {
         Assert.NotNull(feed.GetiTunesChannel());
 
