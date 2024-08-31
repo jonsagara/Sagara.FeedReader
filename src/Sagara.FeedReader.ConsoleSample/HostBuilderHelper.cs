@@ -26,7 +26,6 @@ public static class HostBuilderHelper
                 loggerConfig
                     .ReadFrom.Configuration(builder.Configuration)
                     .ReadFrom.Services(serviceProvider)
-                    .Enrich.With<UtcTimestampEnricher>()
                     .Enrich.WithMachineName()
                     .WriteTo.Console()
                     .WriteTo.File(logFilePathFormat, outputTemplate: "{UtcTimestamp:yyyy-MM-dd HH:mm:ss.fff} [{MachineName}] [{Level}] [{SourceContext:l}] {Message}{NewLine}{Exception}", rollingInterval: RollingInterval.Day);
