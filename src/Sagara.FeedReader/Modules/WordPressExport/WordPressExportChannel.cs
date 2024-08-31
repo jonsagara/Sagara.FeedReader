@@ -66,6 +66,10 @@ public class WordPressExportChannel
         loggerFactory ??= NullLoggerFactory.Instance;
         _logger = loggerFactory.CreateLogger<WordPressExportChannel>();
 
+        WxrVersion = channelElement.GetChildElementValue(namespacePrefix: NamespacePrefix, elementName: "wxr_version");
+        BaseSiteUrl = channelElement.GetChildElementValue(namespacePrefix: NamespacePrefix, elementName: "base_site_url");
+        BaseBlogUrl = channelElement.GetChildElementValue(namespacePrefix: NamespacePrefix, elementName: "base_blog_url");
+
         var authorElement = channelElement.GetElement(namespacePrefix: NamespacePrefix, elementName: "author");
         if (authorElement is not null)
         {
