@@ -64,27 +64,27 @@ public class FeedReaderTest
     }
 
     [Fact]
-    public async Task TestParseRssLinksHeise()
-    {
-        await TestParseRssLinksAsync("http://heise.de/", 2);
-    }
-
-    [Fact]
-    public async Task TestParseRssLinksHeise2()
-    {
-        await TestParseRssLinksAsync("heise.de", 2);
-    }
-
-    [Fact]
-    public async Task TestParseRssLinksHeise3()
-    {
-        await TestParseRssLinksAsync("www.heise.de", 2);
-    }
-
-    [Fact]
     public async Task TestParseRssLinksNYTimes()
     {
         await TestParseRssLinksAsync("nytimes.com", 1);
+    }
+
+    [Fact]
+    public async Task TestParseRssLinksTechMeme()
+    {
+        await TestParseRssLinksAsync("https://techmeme.com/", 2);
+    }
+
+    [Fact]
+    public async Task TestParseRssLinksTechMemeNakedDomain()
+    {
+        await TestParseRssLinksAsync("techmeme.com", 2);
+    }
+
+    [Fact]
+    public async Task TestParseRssLinksTechMemeWwwDomain()
+    {
+        await TestParseRssLinksAsync("www.techmeme.com", 2);
     }
 
     private async Task TestParseRssLinksAsync(string url, int expectedNumberOfLinks)
