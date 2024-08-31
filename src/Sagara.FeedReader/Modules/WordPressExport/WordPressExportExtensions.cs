@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using Sagara.FeedReader.Modules.ApplePodcasts;
 
 namespace Sagara.FeedReader.Modules.WordPressExport;
 
@@ -13,31 +12,31 @@ namespace Sagara.FeedReader.Modules.WordPressExport;
 public static class WordPressExportExtensions
 {
     /// <summary>
-    /// Reads Apple Podcast show elements from a <c>channel</c> (RSS 2.0) or <c>feed</c> (Atom) element.
+    /// Reads WordPress Export elements from a <c>channel</c> (RSS 2.0) or <c>feed</c> (Atom) element.
     /// </summary>
     /// <param name="feed">The parsed RSS 2.0 or Atom <see cref="Feed" />.</param>
-    public static iTunesChannel GetiTunesChannel(this Feed feed)
+    public static WordPressExportChannel GetWordPressExportChannel(this Feed feed)
     {
         ArgumentNullException.ThrowIfNull(feed);
 
-        return new iTunesChannel(feed.SpecificFeed!.ChannelOrFeedElement!);
+        return new WordPressExportChannel(feed.SpecificFeed!.ChannelOrFeedElement!);
     }
 
     /// <summary>
-    /// Reads Apple Podcast episode elements content from a <c>item</c> (RSS 2.0) or <c>entry</c> (Atom) element.
+    /// Reads WordPress Export post elements content from a <c>item</c> (RSS 2.0) or <c>entry</c> (Atom) element.
     /// </summary>
     /// <param name="item">The parsed RSS 2.0 or Atom <see cref="FeedItem"/>.</param>
-    public static iTunesItem GetiTunesItem(this FeedItem item)
+    public static WordPressExportItem GetWordPressExportItem(this FeedItem item)
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        return new iTunesItem(item.SpecificItem!.ItemOrEntryElement!);
+        return new WordPressExportItem(item.SpecificItem!.ItemOrEntryElement!);
     }
 
 
     internal static DateTime? ParseUtcOrDefault(this string? value)
         => DateTime.TryParse(value, null, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out DateTime dtResult)
-        ? dtResult 
+        ? dtResult
         : null;
 
     internal static bool? ParseWordPressBooleanOrDefault(this string? value)
