@@ -30,11 +30,11 @@ jobs:
     # Checkout the source code
     steps:
     - name: "Checkout source"
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     # Install the .NET SDK indicated in the global.json file
     - name: Setup .NET SDK with global.json
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
 
@@ -64,11 +64,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout source"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET SDK with global.json
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           global-json-file: global.json
           
@@ -100,7 +100,7 @@ jobs:
 
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET SDK with global.json
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           global-json-file: global.json
 
