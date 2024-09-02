@@ -23,25 +23,31 @@ default constructor (for serialization)
 public Rss10Feed();
 ```
 
-<a name='Sagara.FeedReader.Feeds.Rss10Feed.Rss10Feed(string,System.Xml.Linq.XElement)'></a>
+<a name='Sagara.FeedReader.Feeds.Rss10Feed.Rss10Feed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement)'></a>
 
-## Rss10Feed(string, XElement) Constructor
+## Rss10Feed(string, XDocument, XElement) Constructor
 
 Initializes a new instance of the [Rss10Feed](Sagara.FeedReader.Feeds.Rss10Feed.md 'Sagara.FeedReader.Feeds.Rss10Feed') class.  
 Reads a rss 1.0 feed based on the xml given in xelement
 
 ```csharp
-public Rss10Feed(string feedXml, System.Xml.Linq.XElement channel);
+public Rss10Feed(string feedXml, System.Xml.Linq.XDocument feedDoc, System.Xml.Linq.XElement channel);
 ```
 #### Parameters
 
-<a name='Sagara.FeedReader.Feeds.Rss10Feed.Rss10Feed(string,System.Xml.Linq.XElement).feedXml'></a>
+<a name='Sagara.FeedReader.Feeds.Rss10Feed.Rss10Feed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement).feedXml'></a>
 
 `feedXml` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 the entire feed xml as string
 
-<a name='Sagara.FeedReader.Feeds.Rss10Feed.Rss10Feed(string,System.Xml.Linq.XElement).channel'></a>
+<a name='Sagara.FeedReader.Feeds.Rss10Feed.Rss10Feed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement).feedDoc'></a>
+
+`feedDoc` [System.Xml.Linq.XDocument](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XDocument 'System.Xml.Linq.XDocument')
+
+The XDocument parsed from the feed XML. Used to determine if there are iTunes extensions.
+
+<a name='Sagara.FeedReader.Feeds.Rss10Feed.Rss10Feed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement).channel'></a>
 
 `channel` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
 

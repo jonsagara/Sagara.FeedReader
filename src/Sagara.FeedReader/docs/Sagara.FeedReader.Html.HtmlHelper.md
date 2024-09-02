@@ -109,6 +109,76 @@ The HTML tag, e.g. <link title="my title">.
 #### Returns
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
+<a name='Sagara.FeedReader.Html.HtmlHelper.HREFAttributeValue()'></a>
+
+## HtmlHelper.HREFAttributeValue() Method
+
+```csharp
+private static System.Text.RegularExpressions.Regex HREFAttributeValue();
+```
+
+#### Returns
+[System.Text.RegularExpressions.Regex](https://docs.microsoft.com/en-us/dotnet/api/System.Text.RegularExpressions.Regex 'System.Text.RegularExpressions.Regex')
+
+### Remarks
+Pattern:<br/>  
+  
+```csharp  
+href\\s*=\\s*"(?<val>[^"]*)"  
+```<br/>  
+Options:<br/>  
+  
+```csharp  
+RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace  
+```<br/>  
+Explanation:<br/>  
+  
+```csharp  
+○ Match a character in the set [Hh].<br/>  
+○ Match a character in the set [Rr].<br/>  
+○ Match a character in the set [Ee].<br/>  
+○ Match a character in the set [Ff].<br/>  
+○ Match a whitespace character atomically any number of times.<br/>  
+○ Match '='.<br/>  
+○ Match a whitespace character atomically any number of times.<br/>  
+○ Match '"'.<br/>  
+○ "val" capture group.<br/>  
+    ○ Match a character other than '"' atomically any number of times.<br/>  
+○ Match '"'.<br/>  
+```
+
+<a name='Sagara.FeedReader.Html.HtmlHelper.LinkTag()'></a>
+
+## HtmlHelper.LinkTag() Method
+
+```csharp
+private static System.Text.RegularExpressions.Regex LinkTag();
+```
+
+#### Returns
+[System.Text.RegularExpressions.Regex](https://docs.microsoft.com/en-us/dotnet/api/System.Text.RegularExpressions.Regex 'System.Text.RegularExpressions.Regex')
+
+### Remarks
+Pattern:<br/>  
+  
+```csharp  
+<link[^>]*rel="alternate"[^>]*>  
+```<br/>  
+Options:<br/>  
+  
+```csharp  
+RegexOptions.Singleline  
+```<br/>  
+Explanation:<br/>  
+  
+```csharp  
+○ Match the string "<link".<br/>  
+○ Match a character other than '>' greedily any number of times.<br/>  
+○ Match the string "rel=\"alternate\"".<br/>  
+○ Match a character other than '>' atomically any number of times.<br/>  
+○ Match '>'.<br/>  
+```
+
 <a name='Sagara.FeedReader.Html.HtmlHelper.ParseFeedUrlsFromHtml(string)'></a>
 
 ## HtmlHelper.ParseFeedUrlsFromHtml(string) Method
@@ -129,3 +199,80 @@ the content of the html page
 #### Returns
 [System.Collections.Generic.IReadOnlyCollection&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')[HtmlFeedLink](Sagara.FeedReader.HtmlFeedLink.md 'Sagara.FeedReader.HtmlFeedLink')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')  
 all RSS/feed links
+
+<a name='Sagara.FeedReader.Html.HtmlHelper.TitleAttributeValue()'></a>
+
+## HtmlHelper.TitleAttributeValue() Method
+
+```csharp
+private static System.Text.RegularExpressions.Regex TitleAttributeValue();
+```
+
+#### Returns
+[System.Text.RegularExpressions.Regex](https://docs.microsoft.com/en-us/dotnet/api/System.Text.RegularExpressions.Regex 'System.Text.RegularExpressions.Regex')
+
+### Remarks
+Pattern:<br/>  
+  
+```csharp  
+title\\s*=\\s*"(?<val>[^"]*)"  
+```<br/>  
+Options:<br/>  
+  
+```csharp  
+RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace  
+```<br/>  
+Explanation:<br/>  
+  
+```csharp  
+○ Match a character in the set [Tt].<br/>  
+○ Match a character in the set [Ii].<br/>  
+○ Match a character in the set [Tt].<br/>  
+○ Match a character in the set [Ll].<br/>  
+○ Match a character in the set [Ee].<br/>  
+○ Match a whitespace character atomically any number of times.<br/>  
+○ Match '='.<br/>  
+○ Match a whitespace character atomically any number of times.<br/>  
+○ Match '"'.<br/>  
+○ "val" capture group.<br/>  
+    ○ Match a character other than '"' atomically any number of times.<br/>  
+○ Match '"'.<br/>  
+```
+
+<a name='Sagara.FeedReader.Html.HtmlHelper.TypeAttributeValue()'></a>
+
+## HtmlHelper.TypeAttributeValue() Method
+
+```csharp
+private static System.Text.RegularExpressions.Regex TypeAttributeValue();
+```
+
+#### Returns
+[System.Text.RegularExpressions.Regex](https://docs.microsoft.com/en-us/dotnet/api/System.Text.RegularExpressions.Regex 'System.Text.RegularExpressions.Regex')
+
+### Remarks
+Pattern:<br/>  
+  
+```csharp  
+type\\s*=\\s*"(?<val>[^"]*)"  
+```<br/>  
+Options:<br/>  
+  
+```csharp  
+RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace  
+```<br/>  
+Explanation:<br/>  
+  
+```csharp  
+○ Match a character in the set [Tt].<br/>  
+○ Match a character in the set [Yy].<br/>  
+○ Match a character in the set [Pp].<br/>  
+○ Match a character in the set [Ee].<br/>  
+○ Match a whitespace character atomically any number of times.<br/>  
+○ Match '='.<br/>  
+○ Match a whitespace character atomically any number of times.<br/>  
+○ Match '"'.<br/>  
+○ "val" capture group.<br/>  
+    ○ Match a character other than '"' atomically any number of times.<br/>  
+○ Match '"'.<br/>  
+```

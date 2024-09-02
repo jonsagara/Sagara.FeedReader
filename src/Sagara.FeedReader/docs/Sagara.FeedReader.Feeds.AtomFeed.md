@@ -23,25 +23,31 @@ default constructor (for serialization)
 public AtomFeed();
 ```
 
-<a name='Sagara.FeedReader.Feeds.AtomFeed.AtomFeed(string,System.Xml.Linq.XElement)'></a>
+<a name='Sagara.FeedReader.Feeds.AtomFeed.AtomFeed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement)'></a>
 
-## AtomFeed(string, XElement) Constructor
+## AtomFeed(string, XDocument, XElement) Constructor
 
 Initializes a new instance of the [AtomFeed](Sagara.FeedReader.Feeds.AtomFeed.md 'Sagara.FeedReader.Feeds.AtomFeed') class.  
 Reads an atom feed based on the xml given in channel
 
 ```csharp
-public AtomFeed(string feedXml, System.Xml.Linq.XElement feed);
+public AtomFeed(string feedXml, System.Xml.Linq.XDocument feedDoc, System.Xml.Linq.XElement feed);
 ```
 #### Parameters
 
-<a name='Sagara.FeedReader.Feeds.AtomFeed.AtomFeed(string,System.Xml.Linq.XElement).feedXml'></a>
+<a name='Sagara.FeedReader.Feeds.AtomFeed.AtomFeed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement).feedXml'></a>
 
 `feedXml` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
 the entire feed xml as string
 
-<a name='Sagara.FeedReader.Feeds.AtomFeed.AtomFeed(string,System.Xml.Linq.XElement).feed'></a>
+<a name='Sagara.FeedReader.Feeds.AtomFeed.AtomFeed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement).feedDoc'></a>
+
+`feedDoc` [System.Xml.Linq.XDocument](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XDocument 'System.Xml.Linq.XDocument')
+
+The XDocument parsed from the feed XML. Used to determine if there are iTunes extensions.
+
+<a name='Sagara.FeedReader.Feeds.AtomFeed.AtomFeed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement).feed'></a>
 
 `feed` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
 

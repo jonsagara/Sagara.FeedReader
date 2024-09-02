@@ -38,25 +38,26 @@ Initializes a new instance of the [BaseFeedItem](Sagara.FeedReader.Feeds.BaseFee
 Reads a base feed item based on the xml given in element
 
 ```csharp
-protected BaseFeedItem(System.Xml.Linq.XElement item);
+protected BaseFeedItem(System.Xml.Linq.XElement itemOrEntryElement);
 ```
 #### Parameters
 
-<a name='Sagara.FeedReader.Feeds.BaseFeedItem.BaseFeedItem(System.Xml.Linq.XElement).item'></a>
+<a name='Sagara.FeedReader.Feeds.BaseFeedItem.BaseFeedItem(System.Xml.Linq.XElement).itemOrEntryElement'></a>
 
-`item` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
+`itemOrEntryElement` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
 
-feed item as xml
+The `item` or `entry` element from the feed.
 ### Properties
 
-<a name='Sagara.FeedReader.Feeds.BaseFeedItem.Element'></a>
+<a name='Sagara.FeedReader.Feeds.BaseFeedItem.ItemOrEntryElement'></a>
 
-## BaseFeedItem.Element Property
+## BaseFeedItem.ItemOrEntryElement Property
 
-Gets the underlying XElement in order to allow reading properties that are not available in the class itself
+The `item` (RSS) or `entry` (Atom) element from the feed. Return as an XElement in order to   
+allow reading properties that are not available as first-class properties in the derived class itself.
 
 ```csharp
-public System.Xml.Linq.XElement? Element { get; }
+public System.Xml.Linq.XElement? ItemOrEntryElement { get; }
 ```
 
 #### Property Value

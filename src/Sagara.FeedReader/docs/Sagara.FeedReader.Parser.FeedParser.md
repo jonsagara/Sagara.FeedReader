@@ -10,69 +10,90 @@ internal static class FeedParser
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; FeedParser
-### Methods
+### Fields
 
-<a name='Sagara.FeedReader.Parser.FeedParser.GetEncoding(System.Xml.Linq.XDocument)'></a>
+<a name='Sagara.FeedReader.Parser.FeedParser.InvalidCharactersToRemove'></a>
 
-## FeedParser.GetEncoding(XDocument) Method
+## FeedParser.InvalidCharactersToRemove Field
 
-Tries to read the encoding from the document's XML declaration. If none found, or if it's invalid,  
-returns UTF8.
+Certain control characters that cause XML parsing to fail. They shouldn't be there, but sometimes are.
 
 ```csharp
-private static System.Text.Encoding GetEncoding(System.Xml.Linq.XDocument feedDoc);
+internal static readonly Lazy<FrozenSet<char>> InvalidCharactersToRemove;
+```
+
+#### Field Value
+[System.Lazy&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Lazy-1 'System.Lazy`1')[System.Collections.Frozen.FrozenSet&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Frozen.FrozenSet-1 'System.Collections.Frozen.FrozenSet`1')[System.Char](https://docs.microsoft.com/en-us/dotnet/api/System.Char 'System.Char')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Frozen.FrozenSet-1 'System.Collections.Frozen.FrozenSet`1')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Lazy-1 'System.Lazy`1')
+### Methods
+
+<a name='Sagara.FeedReader.Parser.FeedParser.GetEncodingAttributeValueFromXmlDeclaration(string)'></a>
+
+## FeedParser.GetEncodingAttributeValueFromXmlDeclaration(string) Method
+
+Try to read the encoding from the XML declaration.
+
+```csharp
+private static string? GetEncodingAttributeValueFromXmlDeclaration(string feedContent);
 ```
 #### Parameters
 
-<a name='Sagara.FeedReader.Parser.FeedParser.GetEncoding(System.Xml.Linq.XDocument).feedDoc'></a>
+<a name='Sagara.FeedReader.Parser.FeedParser.GetEncodingAttributeValueFromXmlDeclaration(string).feedContent'></a>
 
-`feedDoc` [System.Xml.Linq.XDocument](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XDocument 'System.Xml.Linq.XDocument')
+`feedContent` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
-rss feed document
+The feed content with invalid characters removed.
+
+#### Returns
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+### Remarks
+See: https://stackoverflow.com/a/34294515
+
+<a name='Sagara.FeedReader.Parser.FeedParser.GetEncodingFromAttributeValue(string)'></a>
+
+## FeedParser.GetEncodingFromAttributeValue(string) Method
+
+Try to get the [System.Text.Encoding](https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding 'System.Text.Encoding') from the feed content's XML declaration encoding attribute.  
+If none found, or if it's invalid, return UTF-8.
+
+```csharp
+private static System.Text.Encoding GetEncodingFromAttributeValue(string? encodingAttrValue);
+```
+#### Parameters
+
+<a name='Sagara.FeedReader.Parser.FeedParser.GetEncodingFromAttributeValue(string).encodingAttrValue'></a>
+
+`encodingAttrValue` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The encoding attribute value as read from the feed content's XML declaration.
 
 #### Returns
 [System.Text.Encoding](https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding 'System.Text.Encoding')  
-encoding or utf8 by default
+The [System.Text.Encoding](https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding 'System.Text.Encoding') specified by the document, or UTF-8 if none specified or it's invalid.
 
-<a name='Sagara.FeedReader.Parser.FeedParser.GetFeedFromBytes(byte[])'></a>
+<a name='Sagara.FeedReader.Parser.FeedParser.GetFeedFromStreamAsync(System.IO.Stream,System.Threading.CancellationToken)'></a>
 
-## FeedParser.GetFeedFromBytes(byte[]) Method
-
-Returns the parsed feed. This method tries to use the encoding of the received file.  
-If none found, or it's invalid, it uses UTF8.
-
-```csharp
-public static Sagara.FeedReader.Feed GetFeedFromBytes(byte[] feedContentData);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Parser.FeedParser.GetFeedFromBytes(byte[]).feedContentData'></a>
-
-`feedContentData` [System.Byte](https://docs.microsoft.com/en-us/dotnet/api/System.Byte 'System.Byte')[[]](https://docs.microsoft.com/en-us/dotnet/api/System.Array 'System.Array')
-
-The feed document as a byte array.
-
-#### Returns
-[Feed](Sagara.FeedReader.Feed.md 'Sagara.FeedReader.Feed')  
-Parsed feed
-
-<a name='Sagara.FeedReader.Parser.FeedParser.GetFeedFromStreamAsync(System.IO.Stream)'></a>
-
-## FeedParser.GetFeedFromStreamAsync(Stream) Method
+## FeedParser.GetFeedFromStreamAsync(Stream, CancellationToken) Method
 
 Returns the parsed feed. This method tries to use the encoding of the received file.  
 If none found, or it's invalid, it uses UTF8.
 
 ```csharp
-public static System.Threading.Tasks.Task<Sagara.FeedReader.Feed> GetFeedFromStreamAsync(System.IO.Stream feedContentStream);
+public static System.Threading.Tasks.Task<Sagara.FeedReader.Feed> GetFeedFromStreamAsync(System.IO.Stream feedContentStream, System.Threading.CancellationToken cancellationToken=default(System.Threading.CancellationToken));
 ```
 #### Parameters
 
-<a name='Sagara.FeedReader.Parser.FeedParser.GetFeedFromStreamAsync(System.IO.Stream).feedContentStream'></a>
+<a name='Sagara.FeedReader.Parser.FeedParser.GetFeedFromStreamAsync(System.IO.Stream,System.Threading.CancellationToken).feedContentStream'></a>
 
 `feedContentStream` [System.IO.Stream](https://docs.microsoft.com/en-us/dotnet/api/System.IO.Stream 'System.IO.Stream')
 
 The feed document as a Stream.
+
+<a name='Sagara.FeedReader.Parser.FeedParser.GetFeedFromStreamAsync(System.IO.Stream,System.Threading.CancellationToken).cancellationToken'></a>
+
+`cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
+
+token to cancel operation
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[Feed](Sagara.FeedReader.Feed.md 'Sagara.FeedReader.Feed')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
@@ -128,7 +149,7 @@ Removes some characters at the beginning of the document. These shouldn't be the
 unfortunately they are sometimes there. If they are not removed, xml parsing would fail.
 
 ```csharp
-private static string RemoveInvalidChars(string feedContent);
+internal static string RemoveInvalidChars(string feedContent);
 ```
 #### Parameters
 

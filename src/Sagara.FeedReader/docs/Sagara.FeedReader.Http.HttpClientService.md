@@ -36,6 +36,31 @@ public HttpClientService(System.Net.Http.IHttpClientFactory httpClientFactory, M
 `recyclableMemoryStreamManager` [Microsoft.IO.RecyclableMemoryStreamManager](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.IO.RecyclableMemoryStreamManager 'Microsoft.IO.RecyclableMemoryStreamManager')
 ### Methods
 
+<a name='Sagara.FeedReader.Http.HttpClientService.CreateRequestMessage(string,string)'></a>
+
+## HttpClientService.CreateRequestMessage(string, string) Method
+
+Create the [System.Net.Http.HttpRequestMessage](https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpRequestMessage 'System.Net.Http.HttpRequestMessage') use to request a feed or page.
+
+```csharp
+private static System.Net.Http.HttpRequestMessage CreateRequestMessage(string url, string? userAgent);
+```
+#### Parameters
+
+<a name='Sagara.FeedReader.Http.HttpClientService.CreateRequestMessage(string,string).url'></a>
+
+`url` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+<a name='Sagara.FeedReader.Http.HttpClientService.CreateRequestMessage(string,string).userAgent'></a>
+
+`userAgent` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+#### Returns
+[System.Net.Http.HttpRequestMessage](https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpRequestMessage 'System.Net.Http.HttpRequestMessage')
+
+### Remarks
+NOTE: The caller is responsible for disposing of the returned message.
+
 <a name='Sagara.FeedReader.Http.HttpClientService.DownloadStreamAsync(string,string,System.Threading.CancellationToken)'></a>
 
 ## HttpClientService.DownloadStreamAsync(string, string, CancellationToken) Method
@@ -63,7 +88,7 @@ Override built-in user-agent header
 
 `cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
 
-Token to cancel operation
+The cancellation token to cancel operation.
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.IO.MemoryStream](https://docs.microsoft.com/en-us/dotnet/api/System.IO.MemoryStream 'System.IO.MemoryStream')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  
@@ -99,7 +124,7 @@ Override built-in user-agent header
 
 `cancellationToken` [System.Threading.CancellationToken](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.CancellationToken 'System.Threading.CancellationToken')
 
-Token to cancel operation.
+The cancellation token to cancel operation.
 
 #### Returns
 [System.Threading.Tasks.Task&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Threading.Tasks.Task-1 'System.Threading.Tasks.Task`1')  

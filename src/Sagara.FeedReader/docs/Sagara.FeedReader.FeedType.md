@@ -3,7 +3,7 @@
 
 ## FeedType Enum
 
-The type of the feed (Rss 0.91, Rss 2.0, Atom, ...)
+The type of the feed (RSS 0.91, RSS 2.0, Atom, ...)
 
 ```csharp
 public enum FeedType
@@ -14,43 +14,43 @@ public enum FeedType
 
 `Atom` 0
 
-Atom Feed
+Atom feed
 
 <a name='Sagara.FeedReader.FeedType.MediaRss'></a>
 
 `MediaRss` 5
 
-Media Rss feed
+Media RSS feed
 
 <a name='Sagara.FeedReader.FeedType.Rss'></a>
 
 `Rss` 6
 
-Rss feed - is used for [HtmlFeedLink](Sagara.FeedReader.HtmlFeedLink.md 'Sagara.FeedReader.HtmlFeedLink') type
+RSS feed - is used for [HtmlFeedLink](Sagara.FeedReader.HtmlFeedLink.md 'Sagara.FeedReader.HtmlFeedLink') type
 
 <a name='Sagara.FeedReader.FeedType.Rss_0_91'></a>
 
 `Rss_0_91` 1
 
-Rss 0.91 feed
+RSS 0.91 feed
 
 <a name='Sagara.FeedReader.FeedType.Rss_0_92'></a>
 
 `Rss_0_92` 2
 
-Rss 0.92 feed
+RSS 0.92 feed
 
 <a name='Sagara.FeedReader.FeedType.Rss_1_0'></a>
 
 `Rss_1_0` 3
 
-Rss 1.0 feed
+RSS 1.0 feed
 
 <a name='Sagara.FeedReader.FeedType.Rss_2_0'></a>
 
 `Rss_2_0` 4
 
-Rss 2.0 feed
+RSS 2.0 feed
 
 <a name='Sagara.FeedReader.FeedType.Unknown'></a>
 

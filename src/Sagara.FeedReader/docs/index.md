@@ -16,19 +16,22 @@
     Creates the generic feed object based on a parsed BaseFeed
   - **[Copyright](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.Copyright 'Sagara.FeedReader.Feed.Copyright')** `Property` The copyright of the feed
   - **[Description](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.Description 'Sagara.FeedReader.Feed.Description')** `Property` The description of the feed
+  - **[HasApplePodcastsModule](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.HasApplePodcastsModule 'Sagara.FeedReader.Feed.HasApplePodcastsModule')** `Property` Returns true if the feed's root element (`rss` for RSS, `feed` for atom) has the Apple Podcasts   
+    module namespace declaration (`xmlns:itunes`); false otherwise.
   - **[ImageUrl](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.ImageUrl 'Sagara.FeedReader.Feed.ImageUrl')** `Property` The url of the image
-  - **[Items](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.Items 'Sagara.FeedReader.Feed.Items')** `Property` List of items
+  - **[Items](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.Items 'Sagara.FeedReader.Feed.Items')** `Property` List of items. In RSS, these are `item` elements. In Atom, they're `entry` elements.
   - **[Language](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.Language 'Sagara.FeedReader.Feed.Language')** `Property` The language of the feed
   - **[LastUpdatedDate](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.LastUpdatedDate 'Sagara.FeedReader.Feed.LastUpdatedDate')** `Property` The last updated date as datetime. Null if parsing failed or if  
     no last updated date is set. If null, please check [LastUpdatedDateString](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.LastUpdatedDateString 'Sagara.FeedReader.Feed.LastUpdatedDateString') property.
   - **[LastUpdatedDateString](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.LastUpdatedDateString 'Sagara.FeedReader.Feed.LastUpdatedDateString')** `Property` The last updated date as string. This is filled, if a last updated  
     date is set - independent if it is a correct date or not
   - **[Link](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.Link 'Sagara.FeedReader.Feed.Link')** `Property` The link (url) to the feed
-  - **[OriginalDocument](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.OriginalDocument 'Sagara.FeedReader.Feed.OriginalDocument')** `Property` Gets the whole, original feed as string
+  - **[OriginalFeedXml](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.OriginalFeedXml 'Sagara.FeedReader.Feed.OriginalFeedXml')** `Property` The original feed XML string.
   - **[SpecificFeed](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.SpecificFeed 'Sagara.FeedReader.Feed.SpecificFeed')** `Property` The parsed feed element - e.g. of type [Rss20Feed](Sagara.FeedReader.Feeds.Rss20Feed.md 'Sagara.FeedReader.Feeds.Rss20Feed') which contains  
     e.g. the Generator property which does not exist in others.
   - **[Title](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.Title 'Sagara.FeedReader.Feed.Title')** `Property` The title of the field
   - **[Type](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.Type 'Sagara.FeedReader.Feed.Type')** `Property` The Type of the feed - Rss 2.0, 1.0, 0.92, Atom or others
+  - **[HasRootNamespaceDeclaration(string)](Sagara.FeedReader.Feed.md#Sagara.FeedReader.Feed.HasRootNamespaceDeclaration(string) 'Sagara.FeedReader.Feed.HasRootNamespaceDeclaration(string)')** `Method` Returns true if the root element has the specified namespace URI declared; false otherwise.
 - **[FeedItem](Sagara.FeedReader.FeedItem.md 'Sagara.FeedReader.FeedItem')** `Class` Generic feed item object that contains some basic properties. The feed item is typically  
   an article or a blog post. If a property is not available  
   for a specific feed type (e.g. Rss 1.0), then the property is empty.  
@@ -51,27 +54,25 @@
   - **[SpecificItem](Sagara.FeedReader.FeedItem.md#Sagara.FeedReader.FeedItem.SpecificItem 'Sagara.FeedReader.FeedItem.SpecificItem')** `Property` The parsed feed item element - e.g. of type [Rss20FeedItem](Sagara.FeedReader.Feeds.Rss20FeedItem.md 'Sagara.FeedReader.Feeds.Rss20FeedItem') which contains  
     e.g. the Enclosure property which does not exist in other feed types.
   - **[Title](Sagara.FeedReader.FeedItem.md#Sagara.FeedReader.FeedItem.Title 'Sagara.FeedReader.FeedItem.Title')** `Property` The title of the feed item
-- **[FeedReaderService](Sagara.FeedReader.FeedReaderService.md 'Sagara.FeedReader.FeedReaderService')** `Class` The FeedReader class allows to read feeds from a given url. Use it to parse a feed   
-  from an url [ReadAsync(string, string, CancellationToken)](Sagara.FeedReader.FeedReaderService.md#Sagara.FeedReader.FeedReaderService.ReadAsync(string,string,System.Threading.CancellationToken) 'Sagara.FeedReader.FeedReaderService.ReadAsync(string, string, System.Threading.CancellationToken)'), a file [ReadFromFileAsync(string)](Sagara.FeedReader.FeedReaderService.md#Sagara.FeedReader.FeedReaderService.ReadFromFileAsync(string) 'Sagara.FeedReader.FeedReaderService.ReadFromFileAsync(string)'),   
-  or a string [ReadFromString(string)](Sagara.FeedReader.FeedReaderService.md#Sagara.FeedReader.FeedReaderService.ReadFromString(string) 'Sagara.FeedReader.FeedReaderService.ReadFromString(string)'). If the feed url is not known, [GetFeedUrlsFromPageAsync(string, CancellationToken)](Sagara.FeedReader.FeedReaderService.md#Sagara.FeedReader.FeedReaderService.GetFeedUrlsFromPageAsync(string,System.Threading.CancellationToken) 'Sagara.FeedReader.FeedReaderService.GetFeedUrlsFromPageAsync(string, System.Threading.CancellationToken)')   
+- **[FeedReader](Sagara.FeedReader.FeedReader.md 'Sagara.FeedReader.FeedReader')** `Class` The FeedReader class allows to read feeds from a given url. Use it to parse a feed   
+  from an url [ReadFromUrlAsync(string, string, CancellationToken)](Sagara.FeedReader.FeedReader.md#Sagara.FeedReader.FeedReader.ReadFromUrlAsync(string,string,System.Threading.CancellationToken) 'Sagara.FeedReader.FeedReader.ReadFromUrlAsync(string, string, System.Threading.CancellationToken)'), a file [ReadFromFileAsync(string, CancellationToken)](Sagara.FeedReader.FeedReader.md#Sagara.FeedReader.FeedReader.ReadFromFileAsync(string,System.Threading.CancellationToken) 'Sagara.FeedReader.FeedReader.ReadFromFileAsync(string, System.Threading.CancellationToken)'),   
+  or a string [ReadFromString(string)](Sagara.FeedReader.FeedReader.md#Sagara.FeedReader.FeedReader.ReadFromString(string) 'Sagara.FeedReader.FeedReader.ReadFromString(string)'). If the feed url is not known, [GetFeedUrlsFromPageAsync(string, CancellationToken)](Sagara.FeedReader.FeedReader.md#Sagara.FeedReader.FeedReader.GetFeedUrlsFromPageAsync(string,System.Threading.CancellationToken) 'Sagara.FeedReader.FeedReader.GetFeedUrlsFromPageAsync(string, System.Threading.CancellationToken)')   
   returns all feed links on a given page.
-  - **[FeedReaderService(HttpClientService)](Sagara.FeedReader.FeedReaderService.md#Sagara.FeedReader.FeedReaderService.FeedReaderService(Sagara.FeedReader.Http.HttpClientService) 'Sagara.FeedReader.FeedReaderService.FeedReaderService(Sagara.FeedReader.Http.HttpClientService)')** `Constructor` .ctor
-  - **[GetFeedUrlsFromPageAsync(string, CancellationToken)](Sagara.FeedReader.FeedReaderService.md#Sagara.FeedReader.FeedReaderService.GetFeedUrlsFromPageAsync(string,System.Threading.CancellationToken) 'Sagara.FeedReader.FeedReaderService.GetFeedUrlsFromPageAsync(string, System.Threading.CancellationToken)')** `Method` Opens a webpage and reads all feed urls from link tags within it (<link rel="alternate" type="application/..."/>).
-  - **[ReadAsync(string, string, CancellationToken)](Sagara.FeedReader.FeedReaderService.md#Sagara.FeedReader.FeedReaderService.ReadAsync(string,string,System.Threading.CancellationToken) 'Sagara.FeedReader.FeedReaderService.ReadAsync(string, string, System.Threading.CancellationToken)')** `Method` Reads a feed from an url. The url MUST be a feed, and not an HTML page URL.
-  - **[ReadFromFileAsync(string)](Sagara.FeedReader.FeedReaderService.md#Sagara.FeedReader.FeedReaderService.ReadFromFileAsync(string) 'Sagara.FeedReader.FeedReaderService.ReadFromFileAsync(string)')** `Method` Reads a feed from a file.
-  - **[ReadFromStreamAsync(Stream)](Sagara.FeedReader.FeedReaderService.md#Sagara.FeedReader.FeedReaderService.ReadFromStreamAsync(System.IO.Stream) 'Sagara.FeedReader.FeedReaderService.ReadFromStreamAsync(System.IO.Stream)')** `Method` Reads a feed from the Stream feedContentStream  
+  - **[FeedReader(HttpClientService)](Sagara.FeedReader.FeedReader.md#Sagara.FeedReader.FeedReader.FeedReader(Sagara.FeedReader.Http.HttpClientService) 'Sagara.FeedReader.FeedReader.FeedReader(Sagara.FeedReader.Http.HttpClientService)')** `Constructor` .ctor
+  - **[GetFeedUrlsFromPageAsync(string, CancellationToken)](Sagara.FeedReader.FeedReader.md#Sagara.FeedReader.FeedReader.GetFeedUrlsFromPageAsync(string,System.Threading.CancellationToken) 'Sagara.FeedReader.FeedReader.GetFeedUrlsFromPageAsync(string, System.Threading.CancellationToken)')** `Method` Opens a webpage and reads all feed urls from link tags within it (<link rel="alternate" type="application/..."/>).
+  - **[ReadFromFileAsync(string, CancellationToken)](Sagara.FeedReader.FeedReader.md#Sagara.FeedReader.FeedReader.ReadFromFileAsync(string,System.Threading.CancellationToken) 'Sagara.FeedReader.FeedReader.ReadFromFileAsync(string, System.Threading.CancellationToken)')** `Method` Reads a feed from a file.
+  - **[ReadFromStreamAsync(Stream, CancellationToken)](Sagara.FeedReader.FeedReader.md#Sagara.FeedReader.FeedReader.ReadFromStreamAsync(System.IO.Stream,System.Threading.CancellationToken) 'Sagara.FeedReader.FeedReader.ReadFromStreamAsync(System.IO.Stream, System.Threading.CancellationToken)')** `Method` Reads a feed from the Stream feedContentStream  
     This could be useful if some special encoding is used.
-  - **[ReadFromString(string)](Sagara.FeedReader.FeedReaderService.md#Sagara.FeedReader.FeedReaderService.ReadFromString(string) 'Sagara.FeedReader.FeedReaderService.ReadFromString(string)')** `Method` Reads a feed contained in the string argument feedContent.
+  - **[ReadFromString(string)](Sagara.FeedReader.FeedReader.md#Sagara.FeedReader.FeedReader.ReadFromString(string) 'Sagara.FeedReader.FeedReader.ReadFromString(string)')** `Method` Reads a feed contained in the string argument feedContent.
+  - **[ReadFromUrlAsync(string, string, CancellationToken)](Sagara.FeedReader.FeedReader.md#Sagara.FeedReader.FeedReader.ReadFromUrlAsync(string,string,System.Threading.CancellationToken) 'Sagara.FeedReader.FeedReader.ReadFromUrlAsync(string, string, System.Threading.CancellationToken)')** `Method` Reads a feed from an url. The url MUST be a feed, and not an HTML page URL.
 - **[Helpers](Sagara.FeedReader.Helpers.md 'Sagara.FeedReader.Helpers')** `Class` static class with helper functions
-  - **[DownloadAsync(string, CancellationToken)](Sagara.FeedReader.Helpers.md#Sagara.FeedReader.Helpers.DownloadAsync(string,System.Threading.CancellationToken) 'Sagara.FeedReader.Helpers.DownloadAsync(string, System.Threading.CancellationToken)')** `Method` Download the content from an url and returns it as utf8 encoded string.  
-    Preferred way is to use [DownloadBytesAsync(string, string, CancellationToken)](Sagara.FeedReader.Http.HttpClientHelper.md#Sagara.FeedReader.Http.HttpClientHelper.DownloadBytesAsync(string,string,System.Threading.CancellationToken) 'Sagara.FeedReader.Http.HttpClientHelper.DownloadBytesAsync(string, string, System.Threading.CancellationToken)') because it works  
-    better with encoding.
   - **[GetAbsoluteFeedUrl(string, HtmlFeedLink)](Sagara.FeedReader.Helpers.md#Sagara.FeedReader.Helpers.GetAbsoluteFeedUrl(string,Sagara.FeedReader.HtmlFeedLink) 'Sagara.FeedReader.Helpers.GetAbsoluteFeedUrl(string, Sagara.FeedReader.HtmlFeedLink)')** `Method` Returns the absolute url of a link on a page. If you got the feed links via  
     GetFeedUrlsFromUrl(url) and the url is relative, you can use this method to get the full url.
   - **[GetAbsoluteUrl(string)](Sagara.FeedReader.Helpers.md#Sagara.FeedReader.Helpers.GetAbsoluteUrl(string) 'Sagara.FeedReader.Helpers.GetAbsoluteUrl(string)')** `Method` Takes a url (with or without http) and returns the full url.
   - **[TryParseBool(string)](Sagara.FeedReader.Helpers.md#Sagara.FeedReader.Helpers.TryParseBool(string) 'Sagara.FeedReader.Helpers.TryParseBool(string)')** `Method` Tries to parse the string as int and returns null if it fails
   - **[TryParseDateTime(string, CultureInfo)](Sagara.FeedReader.Helpers.md#Sagara.FeedReader.Helpers.TryParseDateTime(string,System.Globalization.CultureInfo) 'Sagara.FeedReader.Helpers.TryParseDateTime(string, System.Globalization.CultureInfo)')** `Method` Tries to parse the string as datetime and returns null if it fails
   - **[TryParseInt(string)](Sagara.FeedReader.Helpers.md#Sagara.FeedReader.Helpers.TryParseInt(string) 'Sagara.FeedReader.Helpers.TryParseInt(string)')** `Method` Tries to parse the string as int and returns null if it fails
+  - **[TryParseLong(string)](Sagara.FeedReader.Helpers.md#Sagara.FeedReader.Helpers.TryParseLong(string) 'Sagara.FeedReader.Helpers.TryParseLong(string)')** `Method` Tries to parse the string as long and returns null if it fails
   - **[TryParseMedium(string)](Sagara.FeedReader.Helpers.md#Sagara.FeedReader.Helpers.TryParseMedium(string) 'Sagara.FeedReader.Helpers.TryParseMedium(string)')** `Method` Tries to parse a string and returns the media type
 - **[HtmlFeedLink](Sagara.FeedReader.HtmlFeedLink.md 'Sagara.FeedReader.HtmlFeedLink')** `Class` An html feed link, containing the title, the url and the type of the feed
   - **[HtmlFeedLink()](Sagara.FeedReader.HtmlFeedLink.md#Sagara.FeedReader.HtmlFeedLink.HtmlFeedLink() 'Sagara.FeedReader.HtmlFeedLink.HtmlFeedLink()')** `Constructor` Initializes a new instance of the [HtmlFeedLink](Sagara.FeedReader.HtmlFeedLink.md 'Sagara.FeedReader.HtmlFeedLink') class.  
@@ -86,20 +87,21 @@
   - **[UrlNotFoundException(string, Exception)](Sagara.FeedReader.UrlNotFoundException.md#Sagara.FeedReader.UrlNotFoundException.UrlNotFoundException(string,System.Exception) 'Sagara.FeedReader.UrlNotFoundException.UrlNotFoundException(string, System.Exception)')** `Constructor` Initializes a new UrlNotFoundException with a message and an innerException
   - **[UrlNotFoundException(string)](Sagara.FeedReader.UrlNotFoundException.md#Sagara.FeedReader.UrlNotFoundException.UrlNotFoundException(string) 'Sagara.FeedReader.UrlNotFoundException.UrlNotFoundException(string)')** `Constructor` Initializes a new UrlNotFoundException with a message
 - **[IFeedReaderService](Sagara.FeedReader.IFeedReaderService.md 'Sagara.FeedReader.IFeedReaderService')** `Interface` DI marker interface.
-- **[FeedType](Sagara.FeedReader.FeedType.md 'Sagara.FeedReader.FeedType')** `Enum` The type of the feed (Rss 0.91, Rss 2.0, Atom, ...)
-  - **[Atom](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.Atom 'Sagara.FeedReader.FeedType.Atom')** `Field` Atom Feed
-  - **[MediaRss](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.MediaRss 'Sagara.FeedReader.FeedType.MediaRss')** `Field` Media Rss feed
-  - **[Rss](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.Rss 'Sagara.FeedReader.FeedType.Rss')** `Field` Rss feed - is used for [HtmlFeedLink](Sagara.FeedReader.HtmlFeedLink.md 'Sagara.FeedReader.HtmlFeedLink') type
-  - **[Rss_0_91](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.Rss_0_91 'Sagara.FeedReader.FeedType.Rss_0_91')** `Field` Rss 0.91 feed
-  - **[Rss_0_92](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.Rss_0_92 'Sagara.FeedReader.FeedType.Rss_0_92')** `Field` Rss 0.92 feed
-  - **[Rss_1_0](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.Rss_1_0 'Sagara.FeedReader.FeedType.Rss_1_0')** `Field` Rss 1.0 feed
-  - **[Rss_2_0](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.Rss_2_0 'Sagara.FeedReader.FeedType.Rss_2_0')** `Field` Rss 2.0 feed
+- **[FeedType](Sagara.FeedReader.FeedType.md 'Sagara.FeedReader.FeedType')** `Enum` The type of the feed (RSS 0.91, RSS 2.0, Atom, ...)
+  - **[Atom](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.Atom 'Sagara.FeedReader.FeedType.Atom')** `Field` Atom feed
+  - **[MediaRss](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.MediaRss 'Sagara.FeedReader.FeedType.MediaRss')** `Field` Media RSS feed
+  - **[Rss](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.Rss 'Sagara.FeedReader.FeedType.Rss')** `Field` RSS feed - is used for [HtmlFeedLink](Sagara.FeedReader.HtmlFeedLink.md 'Sagara.FeedReader.HtmlFeedLink') type
+  - **[Rss_0_91](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.Rss_0_91 'Sagara.FeedReader.FeedType.Rss_0_91')** `Field` RSS 0.91 feed
+  - **[Rss_0_92](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.Rss_0_92 'Sagara.FeedReader.FeedType.Rss_0_92')** `Field` RSS 0.92 feed
+  - **[Rss_1_0](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.Rss_1_0 'Sagara.FeedReader.FeedType.Rss_1_0')** `Field` RSS 1.0 feed
+  - **[Rss_2_0](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.Rss_2_0 'Sagara.FeedReader.FeedType.Rss_2_0')** `Field` RSS 2.0 feed
   - **[Unknown](Sagara.FeedReader.FeedType.md#Sagara.FeedReader.FeedType.Unknown 'Sagara.FeedReader.FeedType.Unknown')** `Field` Unknown - default type
 
 <a name='Sagara.FeedReader.Configuration'></a>
 
 ## Sagara.FeedReader.Configuration Namespace
 - **[FeedReaderOptions](Sagara.FeedReader.Configuration.FeedReaderOptions.md 'Sagara.FeedReader.Configuration.FeedReaderOptions')** `Class` Allow the caller to configure the FeedReader HttpClient and RecyclableMemoryStreamManager.
+  - **[Proxy](Sagara.FeedReader.Configuration.FeedReaderOptions.md#Sagara.FeedReader.Configuration.FeedReaderOptions.Proxy 'Sagara.FeedReader.Configuration.FeedReaderOptions.Proxy')** `Property` Optionally allow the caller to specify an HTTP proxy for the FeedReader named HttpClient.
   - **[RecyclableMemoryStreamManagerOptions](Sagara.FeedReader.Configuration.FeedReaderOptions.md#Sagara.FeedReader.Configuration.FeedReaderOptions.RecyclableMemoryStreamManagerOptions 'Sagara.FeedReader.Configuration.FeedReaderOptions.RecyclableMemoryStreamManagerOptions')** `Property`   
       
     If [SuppressRecyclableMemoryStreamManagerRegistration](Sagara.FeedReader.Configuration.FeedReaderOptions.md#Sagara.FeedReader.Configuration.FeedReaderOptions.SuppressRecyclableMemoryStreamManagerRegistration 'Sagara.FeedReader.Configuration.FeedReaderOptions.SuppressRecyclableMemoryStreamManagerRegistration') is false, allow the caller to configure  
@@ -115,31 +117,30 @@
 <a name='Sagara.FeedReader.Extensions'></a>
 
 ## Sagara.FeedReader.Extensions Namespace
-- **[FeedReaderExtensions](Sagara.FeedReader.Extensions.FeedReaderExtensions.md 'Sagara.FeedReader.Extensions.FeedReaderExtensions')** `Class` Extension methods
-  - **[EqualsAnyIgnoreCase(this string, string[])](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.EqualsAnyIgnoreCase(thisstring,string[]) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.EqualsAnyIgnoreCase(this string, string[])')** `Method` Determines whether this string equals one of the given strings. If any string  
-    matches, the method returns immediately without evaluating the remaining options.
-  - **[EqualsIgnoreCase(this string, string)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.EqualsIgnoreCase(thisstring,string) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.EqualsIgnoreCase(this string, string)')** `Method` Determines whether this string and another string object have the same value.
-  - **[GetAttribute(this XElement, string, string)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.GetAttribute(thisSystem.Xml.Linq.XElement,string,string) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.GetAttribute(this System.Xml.Linq.XElement, string, string)')** `Method` Gets the attribute with the namespace namespacePrefix and name name of the given XElement
-  - **[GetAttribute(this XElement, string)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.GetAttribute(thisSystem.Xml.Linq.XElement,string) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.GetAttribute(this System.Xml.Linq.XElement, string)')** `Method` Gets the attribute name of the given XElement
-  - **[GetAttributeValue(this XElement, string)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.GetAttributeValue(thisSystem.Xml.Linq.XElement,string) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.GetAttributeValue(this System.Xml.Linq.XElement, string)')** `Method` Gets the value of the attribute name
-  - **[GetChildElementValue(this XElement, string, string)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.GetChildElementValue(thisSystem.Xml.Linq.XElement,string,string) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.GetChildElementValue(this System.Xml.Linq.XElement, string, string)')** `Method` Gets the value of the element "name"
-  - **[GetChildElementValue(this XElement, string)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.GetChildElementValue(thisSystem.Xml.Linq.XElement,string) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.GetChildElementValue(this System.Xml.Linq.XElement, string)')** `Method` Gets the value of the element with name elementName. If the element is  
-    null, returns null.
-  - **[GetElement(this XElement, string, string)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.GetElement(thisSystem.Xml.Linq.XElement,string,string) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.GetElement(this System.Xml.Linq.XElement, string, string)')** `Method` Gets the element of the given XElement
-  - **[GetElement(this XElement, string)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.GetElement(thisSystem.Xml.Linq.XElement,string) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.GetElement(this System.Xml.Linq.XElement, string)')** `Method` Gets the element of the given XElement
-  - **[GetElements(this XElement, string, string)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.GetElements(thisSystem.Xml.Linq.XElement,string,string) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.GetElements(this System.Xml.Linq.XElement, string, string)')** `Method` Gets all elements of the given XElement
-  - **[GetElements(this XElement, string)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.GetElements(thisSystem.Xml.Linq.XElement,string) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.GetElements(this System.Xml.Linq.XElement, string)')** `Method` Gets all elements of the given XElement
-  - **[GetNamespacePrefix(this XElement, string)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.GetNamespacePrefix(thisSystem.Xml.Linq.XElement,string) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.GetNamespacePrefix(this System.Xml.Linq.XElement, string)')** `Method` Gets the namespace prefix of the given XElement, if namespacePrefix is null or empty, it returns the default namespace.
-  - **[GetNamespacePrefix(this XElement)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.GetNamespacePrefix(thisSystem.Xml.Linq.XElement) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.GetNamespacePrefix(this System.Xml.Linq.XElement)')** `Method` Gets the namespace prefix of the given XElement
-  - **[HtmlDecode(this string)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.HtmlDecode(thisstring) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.HtmlDecode(this string)')** `Method` Decodes a html encoded string
-  - **[SplitName(string)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.SplitName(string) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.SplitName(string)')** `Method` Splits the name into namespace and name if it contains a ':'. If it does not contain a   
-    namespace, the returned namespace is null and name is the original name.
-  - **[ToUtf8(this string, Encoding)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.ToUtf8(thisstring,System.Text.Encoding) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.ToUtf8(this string, System.Text.Encoding)')** `Method` Converts a string to UTF-8
-  - **[ToUtf8(this string)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.ToUtf8(thisstring) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.ToUtf8(this string)')** `Method` Converts a string to UTF-8
-- **[FeedReaderServicesExtensions](Sagara.FeedReader.Extensions.FeedReaderServicesExtensions.md 'Sagara.FeedReader.Extensions.FeedReaderServicesExtensions')** `Class` Extension methods for configuring FeedReader DI services.
-  - **[AddFeedReaderServices(this IServiceCollection, FeedReaderOptions)](Sagara.FeedReader.Extensions.FeedReaderServicesExtensions.md#Sagara.FeedReader.Extensions.FeedReaderServicesExtensions.AddFeedReaderServices(thisMicrosoft.Extensions.DependencyInjection.IServiceCollection,Sagara.FeedReader.Configuration.FeedReaderOptions) 'Sagara.FeedReader.Extensions.FeedReaderServicesExtensions.AddFeedReaderServices(this Microsoft.Extensions.DependencyInjection.IServiceCollection, Sagara.FeedReader.Configuration.FeedReaderOptions)')** `Method` Add and configure services required by FeedReader.
+- **[FeedReaderExtensions](Sagara.FeedReader.Extensions.FeedReaderExtensions.md 'Sagara.FeedReader.Extensions.FeedReaderExtensions')** `Class` Extension methods for configuring FeedReader DI services.
+  - **[AddFeedReaderServices(this IServiceCollection, FeedReaderOptions)](Sagara.FeedReader.Extensions.FeedReaderExtensions.md#Sagara.FeedReader.Extensions.FeedReaderExtensions.AddFeedReaderServices(thisMicrosoft.Extensions.DependencyInjection.IServiceCollection,Sagara.FeedReader.Configuration.FeedReaderOptions) 'Sagara.FeedReader.Extensions.FeedReaderExtensions.AddFeedReaderServices(this Microsoft.Extensions.DependencyInjection.IServiceCollection, Sagara.FeedReader.Configuration.FeedReaderOptions)')** `Method` Add and configure services required by FeedReader.
 - **[ICollectionExtensions](Sagara.FeedReader.Extensions.ICollectionExtensions.md 'Sagara.FeedReader.Extensions.ICollectionExtensions')** `Class` Extension methods for the ICollection<T> interface.
   - **[AddRange&lt;T&gt;(this ICollection&lt;T&gt;, IReadOnlyCollection&lt;T&gt;)](Sagara.FeedReader.Extensions.ICollectionExtensions.md#Sagara.FeedReader.Extensions.ICollectionExtensions.AddRange_T_(thisSystem.Collections.Generic.ICollection_T_,System.Collections.Generic.IReadOnlyCollection_T_) 'Sagara.FeedReader.Extensions.ICollectionExtensions.AddRange<T>(this System.Collections.Generic.ICollection<T>, System.Collections.Generic.IReadOnlyCollection<T>)')** `Method` Add a range of values to the collection.
+- **[StringExtensions](Sagara.FeedReader.Extensions.StringExtensions.md 'Sagara.FeedReader.Extensions.StringExtensions')** `Class` Extension methods
+  - **[EqualsIgnoreCase(this string, string)](Sagara.FeedReader.Extensions.StringExtensions.md#Sagara.FeedReader.Extensions.StringExtensions.EqualsIgnoreCase(thisstring,string) 'Sagara.FeedReader.Extensions.StringExtensions.EqualsIgnoreCase(this string, string)')** `Method` Determines whether this string and another string object have the same value.
+  - **[HtmlDecode(this string)](Sagara.FeedReader.Extensions.StringExtensions.md#Sagara.FeedReader.Extensions.StringExtensions.HtmlDecode(thisstring) 'Sagara.FeedReader.Extensions.StringExtensions.HtmlDecode(this string)')** `Method` Decodes a html encoded string
+- **[XDocumentExtensions](Sagara.FeedReader.Extensions.XDocumentExtensions.md 'Sagara.FeedReader.Extensions.XDocumentExtensions')** `Class`
+  - **[GetRootNamespaceDeclarationAttribute(this XDocument, string)](Sagara.FeedReader.Extensions.XDocumentExtensions.md#Sagara.FeedReader.Extensions.XDocumentExtensions.GetRootNamespaceDeclarationAttribute(thisSystem.Xml.Linq.XDocument,string) 'Sagara.FeedReader.Extensions.XDocumentExtensions.GetRootNamespaceDeclarationAttribute(this System.Xml.Linq.XDocument, string)')** `Method` Try to load an "xmlns" XML namespace declaration attribute from the root element.
+- **[XElementExtensions](Sagara.FeedReader.Extensions.XElementExtensions.md 'Sagara.FeedReader.Extensions.XElementExtensions')** `Class`
+  - **[GetAttribute(this XElement, string, string)](Sagara.FeedReader.Extensions.XElementExtensions.md#Sagara.FeedReader.Extensions.XElementExtensions.GetAttribute(thisSystem.Xml.Linq.XElement,string,string) 'Sagara.FeedReader.Extensions.XElementExtensions.GetAttribute(this System.Xml.Linq.XElement, string, string)')** `Method` Gets the attribute with the namespace namespacePrefix and name attributeName of the given XElement
+  - **[GetAttribute(this XElement, string)](Sagara.FeedReader.Extensions.XElementExtensions.md#Sagara.FeedReader.Extensions.XElementExtensions.GetAttribute(thisSystem.Xml.Linq.XElement,string) 'Sagara.FeedReader.Extensions.XElementExtensions.GetAttribute(this System.Xml.Linq.XElement, string)')** `Method` Gets the attribute attributeName of the given XElement
+  - **[GetAttributeValue(this XElement, string)](Sagara.FeedReader.Extensions.XElementExtensions.md#Sagara.FeedReader.Extensions.XElementExtensions.GetAttributeValue(thisSystem.Xml.Linq.XElement,string) 'Sagara.FeedReader.Extensions.XElementExtensions.GetAttributeValue(this System.Xml.Linq.XElement, string)')** `Method` Gets the value of the attribute attributeName
+  - **[GetChildElementValue(this XElement, string, string)](Sagara.FeedReader.Extensions.XElementExtensions.md#Sagara.FeedReader.Extensions.XElementExtensions.GetChildElementValue(thisSystem.Xml.Linq.XElement,string,string) 'Sagara.FeedReader.Extensions.XElementExtensions.GetChildElementValue(this System.Xml.Linq.XElement, string, string)')** `Method` Gets the value of the element "name"
+  - **[GetChildElementValue(this XElement, string)](Sagara.FeedReader.Extensions.XElementExtensions.md#Sagara.FeedReader.Extensions.XElementExtensions.GetChildElementValue(thisSystem.Xml.Linq.XElement,string) 'Sagara.FeedReader.Extensions.XElementExtensions.GetChildElementValue(this System.Xml.Linq.XElement, string)')** `Method` Gets the value of the element with name elementName. If the element is  
+    null, returns null.
+  - **[GetElement(this XElement, string, string)](Sagara.FeedReader.Extensions.XElementExtensions.md#Sagara.FeedReader.Extensions.XElementExtensions.GetElement(thisSystem.Xml.Linq.XElement,string,string) 'Sagara.FeedReader.Extensions.XElementExtensions.GetElement(this System.Xml.Linq.XElement, string, string)')** `Method` Gets the element of the given XElement
+  - **[GetElement(this XElement, string)](Sagara.FeedReader.Extensions.XElementExtensions.md#Sagara.FeedReader.Extensions.XElementExtensions.GetElement(thisSystem.Xml.Linq.XElement,string) 'Sagara.FeedReader.Extensions.XElementExtensions.GetElement(this System.Xml.Linq.XElement, string)')** `Method` Gets the element of the given XElement
+  - **[GetElements(this XElement, string, string)](Sagara.FeedReader.Extensions.XElementExtensions.md#Sagara.FeedReader.Extensions.XElementExtensions.GetElements(thisSystem.Xml.Linq.XElement,string,string) 'Sagara.FeedReader.Extensions.XElementExtensions.GetElements(this System.Xml.Linq.XElement, string, string)')** `Method` Gets all elements of the given XElement
+  - **[GetElements(this XElement, string)](Sagara.FeedReader.Extensions.XElementExtensions.md#Sagara.FeedReader.Extensions.XElementExtensions.GetElements(thisSystem.Xml.Linq.XElement,string) 'Sagara.FeedReader.Extensions.XElementExtensions.GetElements(this System.Xml.Linq.XElement, string)')** `Method` Gets all elements of the given XElement
+  - **[GetNamespacePrefix(this XElement, string)](Sagara.FeedReader.Extensions.XElementExtensions.md#Sagara.FeedReader.Extensions.XElementExtensions.GetNamespacePrefix(thisSystem.Xml.Linq.XElement,string) 'Sagara.FeedReader.Extensions.XElementExtensions.GetNamespacePrefix(this System.Xml.Linq.XElement, string)')** `Method` Gets the namespace prefix of the given XElement, if namespacePrefix is null or empty, it returns the default namespace.
+  - **[GetNamespacePrefix(this XElement)](Sagara.FeedReader.Extensions.XElementExtensions.md#Sagara.FeedReader.Extensions.XElementExtensions.GetNamespacePrefix(thisSystem.Xml.Linq.XElement) 'Sagara.FeedReader.Extensions.XElementExtensions.GetNamespacePrefix(this System.Xml.Linq.XElement)')** `Method` Gets the namespace prefix of the given XElement
+  - **[SplitName(string)](Sagara.FeedReader.Extensions.XElementExtensions.md#Sagara.FeedReader.Extensions.XElementExtensions.SplitName(string) 'Sagara.FeedReader.Extensions.XElementExtensions.SplitName(string)')** `Method` Splits the name into namespace and name if it contains a ':'. If it does not contain a   
+    namespace, the returned namespace is null and name is the original name.
 
 <a name='Sagara.FeedReader.Feeds'></a>
 
@@ -147,7 +148,7 @@
 - **[AtomFeed](Sagara.FeedReader.Feeds.AtomFeed.md 'Sagara.FeedReader.Feeds.AtomFeed')** `Class` Atom 1.0 feed object according to specification: https://validator.w3.org/feed/docs/atom.html
   - **[AtomFeed()](Sagara.FeedReader.Feeds.AtomFeed.md#Sagara.FeedReader.Feeds.AtomFeed.AtomFeed() 'Sagara.FeedReader.Feeds.AtomFeed.AtomFeed()')** `Constructor` Initializes a new instance of the [AtomFeed](Sagara.FeedReader.Feeds.AtomFeed.md 'Sagara.FeedReader.Feeds.AtomFeed') class.  
     default constructor (for serialization)
-  - **[AtomFeed(string, XElement)](Sagara.FeedReader.Feeds.AtomFeed.md#Sagara.FeedReader.Feeds.AtomFeed.AtomFeed(string,System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.AtomFeed.AtomFeed(string, System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [AtomFeed](Sagara.FeedReader.Feeds.AtomFeed.md 'Sagara.FeedReader.Feeds.AtomFeed') class.  
+  - **[AtomFeed(string, XDocument, XElement)](Sagara.FeedReader.Feeds.AtomFeed.md#Sagara.FeedReader.Feeds.AtomFeed.AtomFeed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.AtomFeed.AtomFeed(string, System.Xml.Linq.XDocument, System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [AtomFeed](Sagara.FeedReader.Feeds.AtomFeed.md 'Sagara.FeedReader.Feeds.AtomFeed') class.  
     Reads an atom feed based on the xml given in channel
   - **[Author](Sagara.FeedReader.Feeds.AtomFeed.md#Sagara.FeedReader.Feeds.AtomFeed.Author 'Sagara.FeedReader.Feeds.AtomFeed.Author')** `Property` The "author" element
   - **[Categories](Sagara.FeedReader.Feeds.AtomFeed.md#Sagara.FeedReader.Feeds.AtomFeed.Categories 'Sagara.FeedReader.Feeds.AtomFeed.Categories')** `Property` All "category" elements
@@ -204,12 +205,19 @@
 - **[BaseFeed](Sagara.FeedReader.Feeds.BaseFeed.md 'Sagara.FeedReader.Feeds.BaseFeed')** `Class` BaseFeed object which contains the basic properties that each feed has.
   - **[BaseFeed()](Sagara.FeedReader.Feeds.BaseFeed.md#Sagara.FeedReader.Feeds.BaseFeed.BaseFeed() 'Sagara.FeedReader.Feeds.BaseFeed.BaseFeed()')** `Constructor` Initializes a new instance of the [BaseFeed](Sagara.FeedReader.Feeds.BaseFeed.md 'Sagara.FeedReader.Feeds.BaseFeed') class.  
     default constructor (for serialization)
-  - **[BaseFeed(string, XElement)](Sagara.FeedReader.Feeds.BaseFeed.md#Sagara.FeedReader.Feeds.BaseFeed.BaseFeed(string,System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.BaseFeed.BaseFeed(string, System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [BaseFeed](Sagara.FeedReader.Feeds.BaseFeed.md 'Sagara.FeedReader.Feeds.BaseFeed') class.  
+  - **[BaseFeed(string, XDocument, XElement)](Sagara.FeedReader.Feeds.BaseFeed.md#Sagara.FeedReader.Feeds.BaseFeed.BaseFeed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.BaseFeed.BaseFeed(string, System.Xml.Linq.XDocument, System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [BaseFeed](Sagara.FeedReader.Feeds.BaseFeed.md 'Sagara.FeedReader.Feeds.BaseFeed') class.  
     Reads a base feed based on the xml given in element
-  - **[Element](Sagara.FeedReader.Feeds.BaseFeed.md#Sagara.FeedReader.Feeds.BaseFeed.Element 'Sagara.FeedReader.Feeds.BaseFeed.Element')** `Property` Gets the underlying XElement in order to allow reading properties that are not available in the class itself
-  - **[Items](Sagara.FeedReader.Feeds.BaseFeed.md#Sagara.FeedReader.Feeds.BaseFeed.Items 'Sagara.FeedReader.Feeds.BaseFeed.Items')** `Property` The items that are in the feed
+  - **[ChannelOrFeedElement](Sagara.FeedReader.Feeds.BaseFeed.md#Sagara.FeedReader.Feeds.BaseFeed.ChannelOrFeedElement 'Sagara.FeedReader.Feeds.BaseFeed.ChannelOrFeedElement')** `Property` The `channel` (RSS) or `feed` (Atom) element from the feed. Returned as an XElement   
+    in order to allow reading properties that are not available as first-class properties in the derived  
+    class itself.
+  - **[HasApplePodcastsModule](Sagara.FeedReader.Feeds.BaseFeed.md#Sagara.FeedReader.Feeds.BaseFeed.HasApplePodcastsModule 'Sagara.FeedReader.Feeds.BaseFeed.HasApplePodcastsModule')** `Property` Returns true if the feed's root element (`rss` for RSS, `feed` for atom) has the Apple Podcasts   
+    module namespace declaration (`xmlns:itunes`); false otherwise.
+  - **[Items](Sagara.FeedReader.Feeds.BaseFeed.md#Sagara.FeedReader.Feeds.BaseFeed.Items 'Sagara.FeedReader.Feeds.BaseFeed.Items')** `Property` The items that are in the feed, specific to the feed type (Atom vs. RSS 2.0, etc.).
   - **[Link](Sagara.FeedReader.Feeds.BaseFeed.md#Sagara.FeedReader.Feeds.BaseFeed.Link 'Sagara.FeedReader.Feeds.BaseFeed.Link')** `Property` The link (url) to the feed
-  - **[OriginalDocument](Sagara.FeedReader.Feeds.BaseFeed.md#Sagara.FeedReader.Feeds.BaseFeed.OriginalDocument 'Sagara.FeedReader.Feeds.BaseFeed.OriginalDocument')** `Property` Gets the whole, original feed as string
+  - **[OriginalFeedXml](Sagara.FeedReader.Feeds.BaseFeed.md#Sagara.FeedReader.Feeds.BaseFeed.OriginalFeedXml 'Sagara.FeedReader.Feeds.BaseFeed.OriginalFeedXml')** `Property` The original feed XML string.
+  - **[RootNamespaceDeclarations](Sagara.FeedReader.Feeds.BaseFeed.md#Sagara.FeedReader.Feeds.BaseFeed.RootNamespaceDeclarations 'Sagara.FeedReader.Feeds.BaseFeed.RootNamespaceDeclarations')** `Property` The root namespace declarations in the XML document. Key is the namespace attribute value (the namespace URI),   
+    Value is the LocalName (the abbreviation, e.g., `itunes`) used to declare the namespace in the root element,  
+    minus the `xmlns:` part.
   - **[Title](Sagara.FeedReader.Feeds.BaseFeed.md#Sagara.FeedReader.Feeds.BaseFeed.Title 'Sagara.FeedReader.Feeds.BaseFeed.Title')** `Property` The title of the feed
   - **[ToFeed()](Sagara.FeedReader.Feeds.BaseFeed.md#Sagara.FeedReader.Feeds.BaseFeed.ToFeed() 'Sagara.FeedReader.Feeds.BaseFeed.ToFeed()')** `Method` creates the generic [Feed](Sagara.FeedReader.Feed.md 'Sagara.FeedReader.Feed') object.
 - **[BaseFeedItem](Sagara.FeedReader.Feeds.BaseFeedItem.md 'Sagara.FeedReader.Feeds.BaseFeedItem')** `Class` The base object for all feed items
@@ -217,7 +225,8 @@
     default constructor (for serialization)
   - **[BaseFeedItem(XElement)](Sagara.FeedReader.Feeds.BaseFeedItem.md#Sagara.FeedReader.Feeds.BaseFeedItem.BaseFeedItem(System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.BaseFeedItem.BaseFeedItem(System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [BaseFeedItem](Sagara.FeedReader.Feeds.BaseFeedItem.md 'Sagara.FeedReader.Feeds.BaseFeedItem') class.  
     Reads a base feed item based on the xml given in element
-  - **[Element](Sagara.FeedReader.Feeds.BaseFeedItem.md#Sagara.FeedReader.Feeds.BaseFeedItem.Element 'Sagara.FeedReader.Feeds.BaseFeedItem.Element')** `Property` Gets the underlying XElement in order to allow reading properties that are not available in the class itself
+  - **[ItemOrEntryElement](Sagara.FeedReader.Feeds.BaseFeedItem.md#Sagara.FeedReader.Feeds.BaseFeedItem.ItemOrEntryElement 'Sagara.FeedReader.Feeds.BaseFeedItem.ItemOrEntryElement')** `Property` The `item` (RSS) or `entry` (Atom) element from the feed. Return as an XElement in order to   
+    allow reading properties that are not available as first-class properties in the derived class itself.
   - **[Link](Sagara.FeedReader.Feeds.BaseFeedItem.md#Sagara.FeedReader.Feeds.BaseFeedItem.Link 'Sagara.FeedReader.Feeds.BaseFeedItem.Link')** `Property` The "link" element
   - **[Title](Sagara.FeedReader.Feeds.BaseFeedItem.md#Sagara.FeedReader.Feeds.BaseFeedItem.Title 'Sagara.FeedReader.Feeds.BaseFeedItem.Title')** `Property` The "title" element
 - **[DublinCore](Sagara.FeedReader.Feeds.DublinCore.md 'Sagara.FeedReader.Feeds.DublinCore')** `Class` The parsed "dc:" elements in a feed
@@ -286,7 +295,7 @@
 - **[MediaRssFeed](Sagara.FeedReader.Feeds.MediaRssFeed.md 'Sagara.FeedReader.Feeds.MediaRssFeed')** `Class` Media RSS 2.0 feed according to specification: http://www.rssboard.org/media-rss
   - **[MediaRssFeed()](Sagara.FeedReader.Feeds.MediaRssFeed.md#Sagara.FeedReader.Feeds.MediaRssFeed.MediaRssFeed() 'Sagara.FeedReader.Feeds.MediaRssFeed.MediaRssFeed()')** `Constructor` Initializes a new instance of the [MediaRssFeed](Sagara.FeedReader.Feeds.MediaRssFeed.md 'Sagara.FeedReader.Feeds.MediaRssFeed') class.  
     default constructor (for serialization)
-  - **[MediaRssFeed(string, XElement)](Sagara.FeedReader.Feeds.MediaRssFeed.md#Sagara.FeedReader.Feeds.MediaRssFeed.MediaRssFeed(string,System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.MediaRssFeed.MediaRssFeed(string, System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [MediaRssFeed](Sagara.FeedReader.Feeds.MediaRssFeed.md 'Sagara.FeedReader.Feeds.MediaRssFeed') class.  
+  - **[MediaRssFeed(string, XDocument, XElement)](Sagara.FeedReader.Feeds.MediaRssFeed.md#Sagara.FeedReader.Feeds.MediaRssFeed.MediaRssFeed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.MediaRssFeed.MediaRssFeed(string, System.Xml.Linq.XDocument, System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [MediaRssFeed](Sagara.FeedReader.Feeds.MediaRssFeed.md 'Sagara.FeedReader.Feeds.MediaRssFeed') class.  
     Reads a Media Rss feed based on the xml given in channel
   - **[Categories](Sagara.FeedReader.Feeds.MediaRssFeed.md#Sagara.FeedReader.Feeds.MediaRssFeed.Categories 'Sagara.FeedReader.Feeds.MediaRssFeed.Categories')** `Property` All "category" elements
   - **[Cloud](Sagara.FeedReader.Feeds.MediaRssFeed.md#Sagara.FeedReader.Feeds.MediaRssFeed.Cloud 'Sagara.FeedReader.Feeds.MediaRssFeed.Cloud')** `Property` The "cloud" element
@@ -334,13 +343,14 @@
   - **[PublishingDateString](Sagara.FeedReader.Feeds.MediaRssFeedItem.md#Sagara.FeedReader.Feeds.MediaRssFeedItem.PublishingDateString 'Sagara.FeedReader.Feeds.MediaRssFeedItem.PublishingDateString')** `Property` The "pubDate" field
   - **[Source](Sagara.FeedReader.Feeds.MediaRssFeedItem.md#Sagara.FeedReader.Feeds.MediaRssFeedItem.Source 'Sagara.FeedReader.Feeds.MediaRssFeedItem.Source')** `Property` The "source" field
 - **[Namespaces](Sagara.FeedReader.Feeds.Namespaces.md 'Sagara.FeedReader.Feeds.Namespaces')** `Class` XML namespace URIs.
+  - **[ApplePodcasts](Sagara.FeedReader.Feeds.Namespaces.md#Sagara.FeedReader.Feeds.Namespaces.ApplePodcasts 'Sagara.FeedReader.Feeds.Namespaces.ApplePodcasts')** `Field` The namespace for Apple Podcasts elements, typically denoted by the prefix `itunes` on the  
+    root element.
   - **[Atom](Sagara.FeedReader.Feeds.Namespaces.md#Sagara.FeedReader.Feeds.Namespaces.Atom 'Sagara.FeedReader.Feeds.Namespaces.Atom')** `Field` The Atom namespace as an XNamespace.
-  - **[AtomName](Sagara.FeedReader.Feeds.Namespaces.md#Sagara.FeedReader.Feeds.Namespaces.AtomName 'Sagara.FeedReader.Feeds.Namespaces.AtomName')** `Field` The Atom 1.0 XML namespace.
 - **[Rss091Feed](Sagara.FeedReader.Feeds.Rss091Feed.md 'Sagara.FeedReader.Feeds.Rss091Feed')** `Class` Rss Feed according to Rss 0.91 specification:  
   http://www.rssboard.org/rss-0-9-1-netscape
   - **[Rss091Feed()](Sagara.FeedReader.Feeds.Rss091Feed.md#Sagara.FeedReader.Feeds.Rss091Feed.Rss091Feed() 'Sagara.FeedReader.Feeds.Rss091Feed.Rss091Feed()')** `Constructor` Initializes a new instance of the [Rss091Feed](Sagara.FeedReader.Feeds.Rss091Feed.md 'Sagara.FeedReader.Feeds.Rss091Feed') class.  
     default constructor (for serialization)
-  - **[Rss091Feed(string, XElement)](Sagara.FeedReader.Feeds.Rss091Feed.md#Sagara.FeedReader.Feeds.Rss091Feed.Rss091Feed(string,System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.Rss091Feed.Rss091Feed(string, System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [Rss091Feed](Sagara.FeedReader.Feeds.Rss091Feed.md 'Sagara.FeedReader.Feeds.Rss091Feed') class.  
+  - **[Rss091Feed(string, XDocument, XElement)](Sagara.FeedReader.Feeds.Rss091Feed.md#Sagara.FeedReader.Feeds.Rss091Feed.Rss091Feed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.Rss091Feed.Rss091Feed(string, System.Xml.Linq.XDocument, System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [Rss091Feed](Sagara.FeedReader.Feeds.Rss091Feed.md 'Sagara.FeedReader.Feeds.Rss091Feed') class.  
     Reads a rss 0.91 feed based on the xml given in channel
   - **[Copyright](Sagara.FeedReader.Feeds.Rss091Feed.md#Sagara.FeedReader.Feeds.Rss091Feed.Copyright 'Sagara.FeedReader.Feeds.Rss091Feed.Copyright')** `Property` The "copyright" field
   - **[Description](Sagara.FeedReader.Feeds.Rss091Feed.md#Sagara.FeedReader.Feeds.Rss091Feed.Description 'Sagara.FeedReader.Feeds.Rss091Feed.Description')** `Property` The required field "description"
@@ -380,7 +390,7 @@
 - **[Rss092Feed](Sagara.FeedReader.Feeds.Rss092Feed.md 'Sagara.FeedReader.Feeds.Rss092Feed')** `Class` Rss 0.92 feed according to specification: http://backend.userland.com/rss092
   - **[Rss092Feed()](Sagara.FeedReader.Feeds.Rss092Feed.md#Sagara.FeedReader.Feeds.Rss092Feed.Rss092Feed() 'Sagara.FeedReader.Feeds.Rss092Feed.Rss092Feed()')** `Constructor` Initializes a new instance of the [Rss092Feed](Sagara.FeedReader.Feeds.Rss092Feed.md 'Sagara.FeedReader.Feeds.Rss092Feed') class.  
     default constructor (for serialization)
-  - **[Rss092Feed(string, XElement)](Sagara.FeedReader.Feeds.Rss092Feed.md#Sagara.FeedReader.Feeds.Rss092Feed.Rss092Feed(string,System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.Rss092Feed.Rss092Feed(string, System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [Rss092Feed](Sagara.FeedReader.Feeds.Rss092Feed.md 'Sagara.FeedReader.Feeds.Rss092Feed') class.  
+  - **[Rss092Feed(string, XDocument, XElement)](Sagara.FeedReader.Feeds.Rss092Feed.md#Sagara.FeedReader.Feeds.Rss092Feed.Rss092Feed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.Rss092Feed.Rss092Feed(string, System.Xml.Linq.XDocument, System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [Rss092Feed](Sagara.FeedReader.Feeds.Rss092Feed.md 'Sagara.FeedReader.Feeds.Rss092Feed') class.  
     Reads a rss 0.92 feed based on the xml given in channel
   - **[Cloud](Sagara.FeedReader.Feeds.Rss092Feed.md#Sagara.FeedReader.Feeds.Rss092Feed.Cloud 'Sagara.FeedReader.Feeds.Rss092Feed.Cloud')** `Property` The "cloud" field
   - **[AddItems(IReadOnlyCollection&lt;XElement&gt;)](Sagara.FeedReader.Feeds.Rss092Feed.md#Sagara.FeedReader.Feeds.Rss092Feed.AddItems(System.Collections.Generic.IReadOnlyCollection_System.Xml.Linq.XElement_) 'Sagara.FeedReader.Feeds.Rss092Feed.AddItems(System.Collections.Generic.IReadOnlyCollection<System.Xml.Linq.XElement>)')** `Method` Adds feed items to the items collection
@@ -401,7 +411,7 @@
 - **[Rss10Feed](Sagara.FeedReader.Feeds.Rss10Feed.md 'Sagara.FeedReader.Feeds.Rss10Feed')** `Class` Rss 1.0 Feed according to specification: http://web.resource.org/rss/1.0/spec
   - **[Rss10Feed()](Sagara.FeedReader.Feeds.Rss10Feed.md#Sagara.FeedReader.Feeds.Rss10Feed.Rss10Feed() 'Sagara.FeedReader.Feeds.Rss10Feed.Rss10Feed()')** `Constructor` Initializes a new instance of the [Rss10Feed](Sagara.FeedReader.Feeds.Rss10Feed.md 'Sagara.FeedReader.Feeds.Rss10Feed') class.  
     default constructor (for serialization)
-  - **[Rss10Feed(string, XElement)](Sagara.FeedReader.Feeds.Rss10Feed.md#Sagara.FeedReader.Feeds.Rss10Feed.Rss10Feed(string,System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.Rss10Feed.Rss10Feed(string, System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [Rss10Feed](Sagara.FeedReader.Feeds.Rss10Feed.md 'Sagara.FeedReader.Feeds.Rss10Feed') class.  
+  - **[Rss10Feed(string, XDocument, XElement)](Sagara.FeedReader.Feeds.Rss10Feed.md#Sagara.FeedReader.Feeds.Rss10Feed.Rss10Feed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.Rss10Feed.Rss10Feed(string, System.Xml.Linq.XDocument, System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [Rss10Feed](Sagara.FeedReader.Feeds.Rss10Feed.md 'Sagara.FeedReader.Feeds.Rss10Feed') class.  
     Reads a rss 1.0 feed based on the xml given in xelement
   - **[About](Sagara.FeedReader.Feeds.Rss10Feed.md#Sagara.FeedReader.Feeds.Rss10Feed.About 'Sagara.FeedReader.Feeds.Rss10Feed.About')** `Property` The "about" attribute of the element
   - **[DC](Sagara.FeedReader.Feeds.Rss10Feed.md#Sagara.FeedReader.Feeds.Rss10Feed.DC 'Sagara.FeedReader.Feeds.Rss10Feed.DC')** `Property` All elements starting with "dc:"
@@ -434,7 +444,7 @@
 - **[Rss20Feed](Sagara.FeedReader.Feeds.Rss20Feed.md 'Sagara.FeedReader.Feeds.Rss20Feed')** `Class` RSS 2.0 feed according to specification: https://validator.w3.org/feed/docs/rss2.html
   - **[Rss20Feed()](Sagara.FeedReader.Feeds.Rss20Feed.md#Sagara.FeedReader.Feeds.Rss20Feed.Rss20Feed() 'Sagara.FeedReader.Feeds.Rss20Feed.Rss20Feed()')** `Constructor` Initializes a new instance of the [Rss20Feed](Sagara.FeedReader.Feeds.Rss20Feed.md 'Sagara.FeedReader.Feeds.Rss20Feed') class.  
     default constructor (for serialization)
-  - **[Rss20Feed(string, XElement)](Sagara.FeedReader.Feeds.Rss20Feed.md#Sagara.FeedReader.Feeds.Rss20Feed.Rss20Feed(string,System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.Rss20Feed.Rss20Feed(string, System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [Rss20Feed](Sagara.FeedReader.Feeds.Rss20Feed.md 'Sagara.FeedReader.Feeds.Rss20Feed') class.  
+  - **[Rss20Feed(string, XDocument, XElement)](Sagara.FeedReader.Feeds.Rss20Feed.md#Sagara.FeedReader.Feeds.Rss20Feed.Rss20Feed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.Rss20Feed.Rss20Feed(string, System.Xml.Linq.XDocument, System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [Rss20Feed](Sagara.FeedReader.Feeds.Rss20Feed.md 'Sagara.FeedReader.Feeds.Rss20Feed') class.  
     Reads a rss 2.0 feed based on the xml given in channel
   - **[Categories](Sagara.FeedReader.Feeds.Rss20Feed.md#Sagara.FeedReader.Feeds.Rss20Feed.Categories 'Sagara.FeedReader.Feeds.Rss20Feed.Categories')** `Property` All "category" elements
   - **[Cloud](Sagara.FeedReader.Feeds.Rss20Feed.md#Sagara.FeedReader.Feeds.Rss20Feed.Cloud 'Sagara.FeedReader.Feeds.Rss20Feed.Cloud')** `Property` The "cloud" element
@@ -489,49 +499,6 @@
   - **[UpdateFrequency](Sagara.FeedReader.Feeds.Syndication.md#Sagara.FeedReader.Feeds.Syndication.UpdateFrequency 'Sagara.FeedReader.Feeds.Syndication.UpdateFrequency')** `Property` The "updateFrequency" element
   - **[UpdatePeriod](Sagara.FeedReader.Feeds.Syndication.md#Sagara.FeedReader.Feeds.Syndication.UpdatePeriod 'Sagara.FeedReader.Feeds.Syndication.UpdatePeriod')** `Property` The "updatePeriod" element
 
-<a name='Sagara.FeedReader.Feeds.Itunes'></a>
-
-## Sagara.FeedReader.Feeds.Itunes Namespace
-- **[ItunesCategory](Sagara.FeedReader.Feeds.Itunes.ItunesCategory.md 'Sagara.FeedReader.Feeds.Itunes.ItunesCategory')** `Class` The itunes:category element
-  - **[ItunesCategory(string, ItunesCategory[])](Sagara.FeedReader.Feeds.Itunes.ItunesCategory.md#Sagara.FeedReader.Feeds.Itunes.ItunesCategory.ItunesCategory(string,Sagara.FeedReader.Feeds.Itunes.ItunesCategory[]) 'Sagara.FeedReader.Feeds.Itunes.ItunesCategory.ItunesCategory(string, Sagara.FeedReader.Feeds.Itunes.ItunesCategory[])')** `Constructor` Initializes a new instance of the [ItunesCategory](Sagara.FeedReader.Feeds.Itunes.ItunesCategory.md 'Sagara.FeedReader.Feeds.Itunes.ItunesCategory') class.  
-    itunes:category element
-  - **[Children](Sagara.FeedReader.Feeds.Itunes.ItunesCategory.md#Sagara.FeedReader.Feeds.Itunes.ItunesCategory.Children 'Sagara.FeedReader.Feeds.Itunes.ItunesCategory.Children')** `Property` All child itunes:category elements
-  - **[Text](Sagara.FeedReader.Feeds.Itunes.ItunesCategory.md#Sagara.FeedReader.Feeds.Itunes.ItunesCategory.Text 'Sagara.FeedReader.Feeds.Itunes.ItunesCategory.Text')** `Property` The text attribute
-- **[ItunesChannel](Sagara.FeedReader.Feeds.Itunes.ItunesChannel.md 'Sagara.FeedReader.Feeds.Itunes.ItunesChannel')** `Class` The basic itunes: elements that are part of the channel xml element of an rss2.0 feed
-  - **[ItunesChannel(XElement)](Sagara.FeedReader.Feeds.Itunes.ItunesChannel.md#Sagara.FeedReader.Feeds.Itunes.ItunesChannel.ItunesChannel(System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.Itunes.ItunesChannel.ItunesChannel(System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [ItunesChannel](Sagara.FeedReader.Feeds.Itunes.ItunesChannel.md 'Sagara.FeedReader.Feeds.Itunes.ItunesChannel') class.
-  - **[Author](Sagara.FeedReader.Feeds.Itunes.ItunesChannel.md#Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Author 'Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Author')** `Property` The itunes:author element
-  - **[Block](Sagara.FeedReader.Feeds.Itunes.ItunesChannel.md#Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Block 'Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Block')** `Property` The itunes:block element
-  - **[Categories](Sagara.FeedReader.Feeds.Itunes.ItunesChannel.md#Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Categories 'Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Categories')** `Property` The itunes:category elements
-  - **[Complete](Sagara.FeedReader.Feeds.Itunes.ItunesChannel.md#Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Complete 'Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Complete')** `Property` The itunes:complete element
-  - **[Explicit](Sagara.FeedReader.Feeds.Itunes.ItunesChannel.md#Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Explicit 'Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Explicit')** `Property` The itunes:explicit element
-  - **[Image](Sagara.FeedReader.Feeds.Itunes.ItunesChannel.md#Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Image 'Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Image')** `Property` The itunes:image element
-  - **[NewFeedUrl](Sagara.FeedReader.Feeds.Itunes.ItunesChannel.md#Sagara.FeedReader.Feeds.Itunes.ItunesChannel.NewFeedUrl 'Sagara.FeedReader.Feeds.Itunes.ItunesChannel.NewFeedUrl')** `Property` The itunes:new-feed-url element
-  - **[Owner](Sagara.FeedReader.Feeds.Itunes.ItunesChannel.md#Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Owner 'Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Owner')** `Property` The itunes:owner element
-  - **[Subtitle](Sagara.FeedReader.Feeds.Itunes.ItunesChannel.md#Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Subtitle 'Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Subtitle')** `Property` The itunes:subtitle element
-  - **[Summary](Sagara.FeedReader.Feeds.Itunes.ItunesChannel.md#Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Summary 'Sagara.FeedReader.Feeds.Itunes.ItunesChannel.Summary')** `Property` The itunes:summary element
-  - **[GetItunesCategories(XElement)](Sagara.FeedReader.Feeds.Itunes.ItunesChannel.md#Sagara.FeedReader.Feeds.Itunes.ItunesChannel.GetItunesCategories(System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.Itunes.ItunesChannel.GetItunesCategories(System.Xml.Linq.XElement)')** `Method` Sets the itunes categories
-- **[ItunesExtensions](Sagara.FeedReader.Feeds.Itunes.ItunesExtensions.md 'Sagara.FeedReader.Feeds.Itunes.ItunesExtensions')** `Class` Extension method that allows to access the itunes tags for a feed
-  - **[GetItunesChannel(this Feed)](Sagara.FeedReader.Feeds.Itunes.ItunesExtensions.md#Sagara.FeedReader.Feeds.Itunes.ItunesExtensions.GetItunesChannel(thisSagara.FeedReader.Feed) 'Sagara.FeedReader.Feeds.Itunes.ItunesExtensions.GetItunesChannel(this Sagara.FeedReader.Feed)')** `Method` Returns the itunes elements of a rss feed
-  - **[GetItunesItem(this FeedItem)](Sagara.FeedReader.Feeds.Itunes.ItunesExtensions.md#Sagara.FeedReader.Feeds.Itunes.ItunesExtensions.GetItunesItem(thisSagara.FeedReader.FeedItem) 'Sagara.FeedReader.Feeds.Itunes.ItunesExtensions.GetItunesItem(this Sagara.FeedReader.FeedItem)')** `Method` Returns the itunes element of a rss feeditem
-- **[ItunesImage](Sagara.FeedReader.Feeds.Itunes.ItunesImage.md 'Sagara.FeedReader.Feeds.Itunes.ItunesImage')** `Class` The itunes:image xml element
-  - **[ItunesImage(XElement)](Sagara.FeedReader.Feeds.Itunes.ItunesImage.md#Sagara.FeedReader.Feeds.Itunes.ItunesImage.ItunesImage(System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.Itunes.ItunesImage.ItunesImage(System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [ItunesImage](Sagara.FeedReader.Feeds.Itunes.ItunesImage.md 'Sagara.FeedReader.Feeds.Itunes.ItunesImage') class.
-  - **[Href](Sagara.FeedReader.Feeds.Itunes.ItunesImage.md#Sagara.FeedReader.Feeds.Itunes.ItunesImage.Href 'Sagara.FeedReader.Feeds.Itunes.ItunesImage.Href')** `Property` The value of the href attribute
-- **[ItunesItem](Sagara.FeedReader.Feeds.Itunes.ItunesItem.md 'Sagara.FeedReader.Feeds.Itunes.ItunesItem')** `Class` The itunes:... elements of an rss 2.0 item
-  - **[ItunesItem(XElement)](Sagara.FeedReader.Feeds.Itunes.ItunesItem.md#Sagara.FeedReader.Feeds.Itunes.ItunesItem.ItunesItem(System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.Itunes.ItunesItem.ItunesItem(System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [ItunesItem](Sagara.FeedReader.Feeds.Itunes.ItunesItem.md 'Sagara.FeedReader.Feeds.Itunes.ItunesItem') class.
-  - **[Author](Sagara.FeedReader.Feeds.Itunes.ItunesItem.md#Sagara.FeedReader.Feeds.Itunes.ItunesItem.Author 'Sagara.FeedReader.Feeds.Itunes.ItunesItem.Author')** `Property` The itunes:author element
-  - **[Block](Sagara.FeedReader.Feeds.Itunes.ItunesItem.md#Sagara.FeedReader.Feeds.Itunes.ItunesItem.Block 'Sagara.FeedReader.Feeds.Itunes.ItunesItem.Block')** `Property` The itunes:block element
-  - **[Duration](Sagara.FeedReader.Feeds.Itunes.ItunesItem.md#Sagara.FeedReader.Feeds.Itunes.ItunesItem.Duration 'Sagara.FeedReader.Feeds.Itunes.ItunesItem.Duration')** `Property` The itunes:duration element
-  - **[Explicit](Sagara.FeedReader.Feeds.Itunes.ItunesItem.md#Sagara.FeedReader.Feeds.Itunes.ItunesItem.Explicit 'Sagara.FeedReader.Feeds.Itunes.ItunesItem.Explicit')** `Property` The itunes:explicit element
-  - **[Image](Sagara.FeedReader.Feeds.Itunes.ItunesItem.md#Sagara.FeedReader.Feeds.Itunes.ItunesItem.Image 'Sagara.FeedReader.Feeds.Itunes.ItunesItem.Image')** `Property` The itunes:image element
-  - **[IsClosedCaptioned](Sagara.FeedReader.Feeds.Itunes.ItunesItem.md#Sagara.FeedReader.Feeds.Itunes.ItunesItem.IsClosedCaptioned 'Sagara.FeedReader.Feeds.Itunes.ItunesItem.IsClosedCaptioned')** `Property` The itunes:isClosedCaptioned element
-  - **[Order](Sagara.FeedReader.Feeds.Itunes.ItunesItem.md#Sagara.FeedReader.Feeds.Itunes.ItunesItem.Order 'Sagara.FeedReader.Feeds.Itunes.ItunesItem.Order')** `Property` The itunes:order element
-  - **[Subtitle](Sagara.FeedReader.Feeds.Itunes.ItunesItem.md#Sagara.FeedReader.Feeds.Itunes.ItunesItem.Subtitle 'Sagara.FeedReader.Feeds.Itunes.ItunesItem.Subtitle')** `Property` The itunes:subtitle element
-  - **[Summary](Sagara.FeedReader.Feeds.Itunes.ItunesItem.md#Sagara.FeedReader.Feeds.Itunes.ItunesItem.Summary 'Sagara.FeedReader.Feeds.Itunes.ItunesItem.Summary')** `Property` The itunes:summary element
-- **[ItunesOwner](Sagara.FeedReader.Feeds.Itunes.ItunesOwner.md 'Sagara.FeedReader.Feeds.Itunes.ItunesOwner')** `Class` The itunes:owner xml element
-  - **[ItunesOwner(XElement)](Sagara.FeedReader.Feeds.Itunes.ItunesOwner.md#Sagara.FeedReader.Feeds.Itunes.ItunesOwner.ItunesOwner(System.Xml.Linq.XElement) 'Sagara.FeedReader.Feeds.Itunes.ItunesOwner.ItunesOwner(System.Xml.Linq.XElement)')** `Constructor` Initializes a new instance of the [ItunesOwner](Sagara.FeedReader.Feeds.Itunes.ItunesOwner.md 'Sagara.FeedReader.Feeds.Itunes.ItunesOwner') class.
-  - **[Email](Sagara.FeedReader.Feeds.Itunes.ItunesOwner.md#Sagara.FeedReader.Feeds.Itunes.ItunesOwner.Email 'Sagara.FeedReader.Feeds.Itunes.ItunesOwner.Email')** `Property` The itunes:email of the owner
-  - **[Name](Sagara.FeedReader.Feeds.Itunes.ItunesOwner.md#Sagara.FeedReader.Feeds.Itunes.ItunesOwner.Name 'Sagara.FeedReader.Feeds.Itunes.ItunesOwner.Name')** `Property` The itunes:name of the owner
-
 <a name='Sagara.FeedReader.Feeds.MediaRSS'></a>
 
 ## Sagara.FeedReader.Feeds.MediaRSS Namespace
@@ -580,20 +547,21 @@
   - **[GetHREFAttributeValueFromLinkTag(string)](Sagara.FeedReader.Html.HtmlHelper.md#Sagara.FeedReader.Html.HtmlHelper.GetHREFAttributeValueFromLinkTag(string) 'Sagara.FeedReader.Html.HtmlHelper.GetHREFAttributeValueFromLinkTag(string)')** `Method` Reads the href attribute value from an HTML <link/> tag.
   - **[GetTitleAttributeValueFromLinkTag(string)](Sagara.FeedReader.Html.HtmlHelper.md#Sagara.FeedReader.Html.HtmlHelper.GetTitleAttributeValueFromLinkTag(string) 'Sagara.FeedReader.Html.HtmlHelper.GetTitleAttributeValueFromLinkTag(string)')** `Method` Reads the title attribute value from an HTML <link/> tag.
   - **[GetTypeAttributeValueFromLinkTag(string)](Sagara.FeedReader.Html.HtmlHelper.md#Sagara.FeedReader.Html.HtmlHelper.GetTypeAttributeValueFromLinkTag(string) 'Sagara.FeedReader.Html.HtmlHelper.GetTypeAttributeValueFromLinkTag(string)')** `Method` Reads the type attribute value from an HTML <link/> tag.
+  - **[HREFAttributeValue()](Sagara.FeedReader.Html.HtmlHelper.md#Sagara.FeedReader.Html.HtmlHelper.HREFAttributeValue() 'Sagara.FeedReader.Html.HtmlHelper.HREFAttributeValue()')** `Method`
+  - **[LinkTag()](Sagara.FeedReader.Html.HtmlHelper.md#Sagara.FeedReader.Html.HtmlHelper.LinkTag() 'Sagara.FeedReader.Html.HtmlHelper.LinkTag()')** `Method`
   - **[ParseFeedUrlsFromHtml(string)](Sagara.FeedReader.Html.HtmlHelper.md#Sagara.FeedReader.Html.HtmlHelper.ParseFeedUrlsFromHtml(string) 'Sagara.FeedReader.Html.HtmlHelper.ParseFeedUrlsFromHtml(string)')** `Method` Parses RSS links from html page and returns all links
+  - **[TitleAttributeValue()](Sagara.FeedReader.Html.HtmlHelper.md#Sagara.FeedReader.Html.HtmlHelper.TitleAttributeValue() 'Sagara.FeedReader.Html.HtmlHelper.TitleAttributeValue()')** `Method`
+  - **[TypeAttributeValue()](Sagara.FeedReader.Html.HtmlHelper.md#Sagara.FeedReader.Html.HtmlHelper.TypeAttributeValue() 'Sagara.FeedReader.Html.HtmlHelper.TypeAttributeValue()')** `Method`
 
 <a name='Sagara.FeedReader.Http'></a>
 
 ## Sagara.FeedReader.Http Namespace
-- **[FeedReaderHttpClientConfiguration](Sagara.FeedReader.Http.FeedReaderHttpClientConfiguration.md 'Sagara.FeedReader.Http.FeedReaderHttpClientConfiguration')** `Class` Configuration helper for the non-static version of FeedReader that uses  
+- **[FeedReaderHttpRequestHeaderValues](Sagara.FeedReader.Http.FeedReaderHttpRequestHeaderValues.md 'Sagara.FeedReader.Http.FeedReaderHttpRequestHeaderValues')** `Class` Configuration helper for the non-static version of FeedReader that uses  
   dependency injection.
-  - **[CreateHttpClientHandler()](Sagara.FeedReader.Http.FeedReaderHttpClientConfiguration.md#Sagara.FeedReader.Http.FeedReaderHttpClientConfiguration.CreateHttpClientHandler() 'Sagara.FeedReader.Http.FeedReaderHttpClientConfiguration.CreateHttpClientHandler()')** `Method` Creates a customized HttpClientHandler that has automatic decompression enabled (GZip and Deflate).
-- **[HttpClientHelper](Sagara.FeedReader.Http.HttpClientHelper.md 'Sagara.FeedReader.Http.HttpClientHelper')** `Class` Original static class that makes HTTP requests to download the feeds themselves,   
-  or pages to look for feed links.
-  - **[DownloadBytesAsync(string, string, CancellationToken)](Sagara.FeedReader.Http.HttpClientHelper.md#Sagara.FeedReader.Http.HttpClientHelper.DownloadBytesAsync(string,string,System.Threading.CancellationToken) 'Sagara.FeedReader.Http.HttpClientHelper.DownloadBytesAsync(string, string, System.Threading.CancellationToken)')** `Method` Download the content from an url
 - **[HttpClientService](Sagara.FeedReader.Http.HttpClientService.md 'Sagara.FeedReader.Http.HttpClientService')** `Class` New instance-based class that makes HTTP requests to download the feeds themselves,   
   or pages to look for feed links.
   - **[HttpClientService(IHttpClientFactory, RecyclableMemoryStreamManager)](Sagara.FeedReader.Http.HttpClientService.md#Sagara.FeedReader.Http.HttpClientService.HttpClientService(System.Net.Http.IHttpClientFactory,Microsoft.IO.RecyclableMemoryStreamManager) 'Sagara.FeedReader.Http.HttpClientService.HttpClientService(System.Net.Http.IHttpClientFactory, Microsoft.IO.RecyclableMemoryStreamManager)')** `Constructor` .ctor
+  - **[CreateRequestMessage(string, string)](Sagara.FeedReader.Http.HttpClientService.md#Sagara.FeedReader.Http.HttpClientService.CreateRequestMessage(string,string) 'Sagara.FeedReader.Http.HttpClientService.CreateRequestMessage(string, string)')** `Method` Create the [System.Net.Http.HttpRequestMessage](https://docs.microsoft.com/en-us/dotnet/api/System.Net.Http.HttpRequestMessage 'System.Net.Http.HttpRequestMessage') use to request a feed or page.
   - **[DownloadStreamAsync(string, string, CancellationToken)](Sagara.FeedReader.Http.HttpClientService.md#Sagara.FeedReader.Http.HttpClientService.DownloadStreamAsync(string,string,System.Threading.CancellationToken) 'Sagara.FeedReader.Http.HttpClientService.DownloadStreamAsync(string, string, System.Threading.CancellationToken)')** `Method` Download the content from the specified URL and store it in a MemoryStream.
   - **[DownloadStringAsync(string, string, CancellationToken)](Sagara.FeedReader.Http.HttpClientService.md#Sagara.FeedReader.Http.HttpClientService.DownloadStringAsync(string,string,System.Threading.CancellationToken) 'Sagara.FeedReader.Http.HttpClientService.DownloadStringAsync(string, string, System.Threading.CancellationToken)')** `Method` Download the content from the specified URL and return it as a string.
 - **[NamedHttpClients](Sagara.FeedReader.Http.NamedHttpClients.md 'Sagara.FeedReader.Http.NamedHttpClients')** `Class` A common place to store configuration for named HttpClients.
@@ -603,15 +571,258 @@
   - **[MaxRetryAttempts](Sagara.FeedReader.Http.HttpClientPropertiesWithWaitAndRetry.md#Sagara.FeedReader.Http.HttpClientPropertiesWithWaitAndRetry.MaxRetryAttempts 'Sagara.FeedReader.Http.HttpClientPropertiesWithWaitAndRetry.MaxRetryAttempts')** `Property` The maximnum number of times to retry a request.
   - **[Name](Sagara.FeedReader.Http.HttpClientPropertiesWithWaitAndRetry.md#Sagara.FeedReader.Http.HttpClientPropertiesWithWaitAndRetry.Name 'Sagara.FeedReader.Http.HttpClientPropertiesWithWaitAndRetry.Name')** `Property` The name of the HttpClient.
 
+<a name='Sagara.FeedReader.Modules.ApplePodcasts'></a>
+
+## Sagara.FeedReader.Modules.ApplePodcasts Namespace
+- **[iTunesCategory](Sagara.FeedReader.Modules.ApplePodcasts.iTunesCategory.md 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesCategory')** `Class` A category and optional subcategory for iTunes media.
+  - **[Subcategory](Sagara.FeedReader.Modules.ApplePodcasts.iTunesCategory.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesCategory.Subcategory 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesCategory.Subcategory')** `Property` Optional Subcategory.
+  - **[Text](Sagara.FeedReader.Modules.ApplePodcasts.iTunesCategory.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesCategory.Text 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesCategory.Text')** `Property` The category text.
+- **[iTunesChannel](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.md 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel')** `Class`   
+    
+  Data from an iTunes channel in either RSS 2.0 or Atom.  
+    
+  In RSS 2.0, this is direct child elements of the `channel` element, each within the `itunes` namespace.  
+    
+  In Atom, this is direct child elements of the `feed` element, each within the `im` namespace.
+  - **[iTunesChannel(XElement, ILoggerFactory)](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.iTunesChannel(System.Xml.Linq.XElement,Microsoft.Extensions.Logging.ILoggerFactory) 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.iTunesChannel(System.Xml.Linq.XElement, Microsoft.Extensions.Logging.ILoggerFactory)')** `Constructor` .ctor
+  - **[Author](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Author 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Author')** `Property`   
+      
+    The group responsible for creating the media.  
+      
+    Show author most often refers to the parent company or network of a podcast, but it can also be   
+                used to identify the host(s) if none exists.  
+      
+    Author information is especially useful if a company or organization publishes multiple podcasts.
+  - **[Block](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Block 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Block')** `Property`   
+      
+    The podcast show or hide status.  
+      
+    If you want your show removed from the Apple directory, use this tag.  
+      
+    Specifying the <itunes:block> tag with a `Yes` value, prevents the entire podcast from appearing in   
+                Apple Podcasts.  
+      
+    Specifying any value other than `Yes` has no effect.
+  - **[Categories](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Categories 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Categories')** `Property`   
+      
+    The show category information. For a complete list of categories and subcategories, see https://podcasters.apple.com/support/1691-apple-podcasts-categories.  
+      
+    A category may contain an optional subcategory.  
+      
+    A feed may specify multiple categories.
+  - **[Complete](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Complete 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Complete')** `Property`   
+      
+    The podcast update status.  
+      
+    If you will never publish another episode to your show, use this tag.  
+      
+    Specifying the <itunes:block> tag with a `Yes` value indicates that a podcast is complete and you   
+                will not post any more episodes in the future.  
+      
+    Specifying any value other than `Yes` has no effect.
+  - **[Explicit](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Explicit 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Explicit')** `Property`   
+      
+    The podcast parental advisory information.  
+      
+    `true` indicates the presence of explicit content.  
+      
+    `false` indicates that the media doesn't contain explicit language or adult content.
+  - **[Image](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Image 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Image')** `Property` The artwork for the show specified as a URL linking to it.
+  - **[NewFeedUrl](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.NewFeedUrl 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.NewFeedUrl')** `Property`   
+      
+    The new podcast RSS Feed URL.  
+      
+    If you change the URL of your podcast feed, you should use this tag in your new feed.
+  - **[Owner](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Owner 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Owner')** `Property`   
+      
+    The podcast owner contact information.
+  - **[Title](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Title 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Title')** `Property` The show title specific for Apple Podcasts.
+  - **[Type](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Type 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Type')** `Property`   
+      
+    The type of show.  
+      
+    If your show is Serial you must use this tag.
+- **[iTunesChannelLogger](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannelLogger.md 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannelLogger')** `Class`
+  - **[EnumValueNotDefined(this ILogger, iTunesType, string)](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannelLogger.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannelLogger.EnumValueNotDefined(thisMicrosoft.Extensions.Logging.ILogger,Sagara.FeedReader.Modules.ApplePodcasts.iTunesType,string) 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannelLogger.EnumValueNotDefined(this Microsoft.Extensions.Logging.ILogger, Sagara.FeedReader.Modules.ApplePodcasts.iTunesType, string)')** `Method` Logs "Parsed iTunesType, but the value '{TypeValue}' is not defined. itunes:type element: {TypeElementXml}" at "Warning" level.
+  - **[UnableToParseEnumValue(this ILogger, string)](Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannelLogger.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannelLogger.UnableToParseEnumValue(thisMicrosoft.Extensions.Logging.ILogger,string) 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannelLogger.UnableToParseEnumValue(this Microsoft.Extensions.Logging.ILogger, string)')** `Method` Logs "Unable to parse an iTunesType enum value from the itunes:type element: {TypeElementXml}" at "Warning" level.
+- **[iTunesExtensions](Sagara.FeedReader.Modules.ApplePodcasts.iTunesExtensions.md 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesExtensions')** `Class` Extension methods that further parse the feed XML for iTunes-specific content.
+  - **[GetiTunesChannel(this Feed)](Sagara.FeedReader.Modules.ApplePodcasts.iTunesExtensions.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesExtensions.GetiTunesChannel(thisSagara.FeedReader.Feed) 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesExtensions.GetiTunesChannel(this Sagara.FeedReader.Feed)')** `Method` Reads Apple Podcast show elements from a `channel` (RSS 2.0) or `feed` (Atom) element.
+  - **[GetiTunesItem(this FeedItem)](Sagara.FeedReader.Modules.ApplePodcasts.iTunesExtensions.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesExtensions.GetiTunesItem(thisSagara.FeedReader.FeedItem) 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesExtensions.GetiTunesItem(this Sagara.FeedReader.FeedItem)')** `Method` Reads Apple Podcast episode elements content from a `item` (RSS 2.0) or `entry` (Atom) element.
+- **[iTunesHelper](Sagara.FeedReader.Modules.ApplePodcasts.iTunesHelper.md 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesHelper')** `Class` Internal helpers for iTunes feeds.
+  - **[_explicitValue](Sagara.FeedReader.Modules.ApplePodcasts.iTunesHelper.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesHelper._explicitValue 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesHelper._explicitValue')** `Field` Set of values that denote explicit content in an iTunes feed.
+  - **[IsExplicit(string)](Sagara.FeedReader.Modules.ApplePodcasts.iTunesHelper.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesHelper.IsExplicit(string) 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesHelper.IsExplicit(string)')** `Method` Returns true if value is one of the values denoting explicit iTunes content; false otherwise.
+- **[iTunesImage](Sagara.FeedReader.Modules.ApplePodcasts.iTunesImage.md 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesImage')** `Class` Parses the `itunes:image` element.
+  - **[iTunesImage(XElement)](Sagara.FeedReader.Modules.ApplePodcasts.iTunesImage.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesImage.iTunesImage(System.Xml.Linq.XElement) 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesImage.iTunesImage(System.Xml.Linq.XElement)')** `Constructor` .ctor
+  - **[Href](Sagara.FeedReader.Modules.ApplePodcasts.iTunesImage.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesImage.Href 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesImage.Href')** `Property` The URL to the image.
+- **[iTunesItem](Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.md 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem')** `Class`   
+    
+  Item data from an iTunes channel in either RSS 2.0 or Atom.  
+    
+  In RSS 2.0, this is direct child elements of the `channel` element, each within the `itunes` namespace.  
+    
+  In Atom, this is direct child elements of the `feed` element, each within the `im` namespace.
+  - **[iTunesItem(XElement)](Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.iTunesItem(System.Xml.Linq.XElement) 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.iTunesItem(System.Xml.Linq.XElement)')** `Constructor` .ctor
+  - **[Block](Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Block 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Block')** `Property`   
+      
+    The episode show or hide status.  
+      
+    If you want an episode removed from the Apple directory, use this tag.  
+      
+    Specifying the <itunes:block> tag with a Yes value prevents that episode from appearing in Apple Podcasts.  
+      
+    Specifying any value other than `Yes` has no effect.
+  - **[Duration](Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Duration 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Duration')** `Property`   
+      
+    The duration of an episode.  
+      
+    Different duration formats are accepted however it is recommended to convert the length of the episode into seconds.
+  - **[Episode](Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Episode 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Episode')** `Property`   
+      
+    An episode number.  
+      
+    If all your episodes have numbers and you would like them to be ordered based on them, use this tag for each one.  
+      
+    Episode numbers are optional for <itunes:type> episodic shows, but are mandatory for serial shows.  
+      
+    Where `episode` is a non-zero integer (1, 2, 3, etc.) representing your episode number.
+  - **[EpisodeType](Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.EpisodeType 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.EpisodeType')** `Property`   
+      
+    The episode type.  
+      
+    If an episode is a trailer or bonus content, use this tag.  
+      
+    Where the `episodeType` value can be one of the following:  
+    - Full — Default. Specify full when you are submitting the complete content of your show.  
+    - Trailer — Specify trailer when you are submitting a short, promotional piece of content that represents a preview of your   
+                  current show.  
+    - Bonus — Specify bonus when you are submitting extra content for your show (for example, behind the scenes information   
+                  or interviews with the cast) or cross-promotional content for another show.
+  - **[Explicit](Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Explicit 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Explicit')** `Property`   
+      
+    The episode parental advisory information.  
+      
+    `true` indicates the presence of explicit content.  
+      
+    `false` indicates that the media doesn't contain explicit language or adult content.
+  - **[Image](Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Image 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Image')** `Property`   
+      
+    The episode artwork specified as a URL linking to it.  
+      
+    You should use this tag when you have a high quality, episode-specific image you would like listeners to see.
+  - **[Season](Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Season 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Season')** `Property`   
+      
+    The episode season number.  
+      
+    If an episode is within a season use this tag.  
+      
+    Where `season` is a non-zero integer (1, 2, 3, etc.) representing your season number.
+  - **[Title](Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Title 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Title')** `Property` The episode title specific for Apple Podcasts.
+- **[iTunesOwner](Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner.md 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner')** `Class`   
+    
+  The podcast owner contact information.
+  - **[iTunesOwner(XElement)](Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner.iTunesOwner(System.Xml.Linq.XElement) 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner.iTunesOwner(System.Xml.Linq.XElement)')** `Constructor` .ctor
+  - **[Email](Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner.Email 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner.Email')** `Property` Include the email address of the owner.
+  - **[Name](Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner.Name 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner.Name')** `Property` The name of the owner.
+- **[iTunesSubcategory](Sagara.FeedReader.Modules.ApplePodcasts.iTunesSubcategory.md 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesSubcategory')** `Class` Since a subcategory has no subcategories of its own, give it its own entity without  
+  a Subcategory property.
+  - **[Text](Sagara.FeedReader.Modules.ApplePodcasts.iTunesSubcategory.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesSubcategory.Text 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesSubcategory.Text')** `Property` The subcategory text.
+- **[iTunesEpisodeType](Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType.md 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType')** `Enum` Represents the value of `itunes:episodeType`, if present.
+  - **[Bonus](Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType.Bonus 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType.Bonus')** `Field` Specify bonus when you are submitting extra content for your show (for example, behind the scenes information   
+    or interviews with the cast) or cross-promotional content for another show.
+  - **[Full](Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType.Full 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType.Full')** `Field` Default. Specify full when you are submitting the complete content of your show.
+  - **[Trailer](Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType.Trailer 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType.Trailer')** `Field` Specify trailer when you are submitting a short, promotional piece of content that represents a preview of   
+    your current show.
+  - **[Unknown](Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType.Unknown 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType.Unknown')** `Field` Invalid value.
+- **[iTunesType](Sagara.FeedReader.Modules.ApplePodcasts.iTunesType.md 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesType')** `Enum` Represents the value of `itunes:type`, if present.
+  - **[Episodic](Sagara.FeedReader.Modules.ApplePodcasts.iTunesType.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesType.Episodic 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesType.Episodic')** `Field` Default. Specify episodic when episodes are intended to be consumed without any specific order. Apple   
+    Podcasts will present newest episodes first and display the publish date (required) of each episode.
+  - **[Serial](Sagara.FeedReader.Modules.ApplePodcasts.iTunesType.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesType.Serial 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesType.Serial')** `Field` Specify serial when episodes are intended to be consumed in sequential order. Apple Podcasts will   
+    present the oldest episodes first and display the episode numbers (required) of each episode.
+  - **[Unknown](Sagara.FeedReader.Modules.ApplePodcasts.iTunesType.md#Sagara.FeedReader.Modules.ApplePodcasts.iTunesType.Unknown 'Sagara.FeedReader.Modules.ApplePodcasts.iTunesType.Unknown')** `Field` Invalid value.
+
+<a name='Sagara.FeedReader.Modules.WordPressExport'></a>
+
+## Sagara.FeedReader.Modules.WordPressExport Namespace
+- **[WordPressExportAuthor](Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.md 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor')** `Class`   
+    
+  The podcast owner contact information.
+  - **[WordPressExportAuthor(XElement)](Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.WordPressExportAuthor(System.Xml.Linq.XElement) 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.WordPressExportAuthor(System.Xml.Linq.XElement)')** `Constructor` .ctor
+  - **[DisplayName](Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.DisplayName 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.DisplayName')** `Property` The author_display_name element's value.
+  - **[Email](Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.Email 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.Email')** `Property` The author_email element's value.
+  - **[FirstName](Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.FirstName 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.FirstName')** `Property` The author_first_name element's value.
+  - **[Id](Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.Id 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.Id')** `Property` The author_id element's value.
+  - **[LastName](Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.LastName 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.LastName')** `Property` The author_last_name element's value.
+  - **[Login](Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.Login 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor.Login')** `Property` The author_login element's value.
+- **[WordPressExportCategory](Sagara.FeedReader.Modules.WordPressExport.WordPressExportCategory.md 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportCategory')** `Class` A post category.
+  - **[Name](Sagara.FeedReader.Modules.WordPressExport.WordPressExportCategory.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportCategory.Name 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportCategory.Name')** `Property` The category's name.
+  - **[NiceName](Sagara.FeedReader.Modules.WordPressExport.WordPressExportCategory.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportCategory.NiceName 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportCategory.NiceName')** `Property` The category's nice name, which looks like a slug.
+  - **[TermId](Sagara.FeedReader.Modules.WordPressExport.WordPressExportCategory.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportCategory.TermId 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportCategory.TermId')** `Property` The category's Id.
+- **[WordPressExportChannel](Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.md 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel')** `Class`   
+    
+  Data from an iTunes channel in either RSS 2.0 or Atom.  
+    
+  In RSS 2.0, this is direct child elements of the `channel` element, each within the `itunes` namespace.  
+    
+  In Atom, this is direct child elements of the `feed` element, each within the `im` namespace.
+  - **[WordPressExportChannel(XElement, ILoggerFactory)](Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.WordPressExportChannel(System.Xml.Linq.XElement,Microsoft.Extensions.Logging.ILoggerFactory) 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.WordPressExportChannel(System.Xml.Linq.XElement, Microsoft.Extensions.Logging.ILoggerFactory)')** `Constructor` .ctor
+  - **[Author](Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.Author 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.Author')** `Property` Information about the WordPress site's author.
+  - **[BaseBlogUrl](Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.BaseBlogUrl 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.BaseBlogUrl')** `Property` The base_blog_url element's value.
+  - **[BaseSiteUrl](Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.BaseSiteUrl 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.BaseSiteUrl')** `Property` The base_site_url element's value.
+  - **[Categories](Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.Categories 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.Categories')** `Property` The WordPress site's categories.
+  - **[Tags](Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.Tags 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.Tags')** `Property` The WordPress site's tags.
+  - **[WxrVersion](Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.WxrVersion 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel.WxrVersion')** `Property` The wxr_version element's value.
+- **[WordPressExportComment](Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.md 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment')** `Class` WordPress Post comments.
+  - **[WordPressExportComment(XElement)](Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.WordPressExportComment(System.Xml.Linq.XElement) 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.WordPressExportComment(System.Xml.Linq.XElement)')** `Constructor` .ctor
+  - **[Approved](Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Approved 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Approved')** `Property` The comment_approved element's value.
+  - **[Author](Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Author 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Author')** `Property` The comment_author element's value.
+  - **[AuthorEmail](Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.AuthorEmail 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.AuthorEmail')** `Property` The comment_author_email element's value.
+  - **[AuthorIP](Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.AuthorIP 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.AuthorIP')** `Property` The comment_author_IP element's value.
+  - **[AuthorUrl](Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.AuthorUrl 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.AuthorUrl')** `Property` The comment_author_url element's value.
+  - **[Content](Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Content 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Content')** `Property` The comment_content element's value.
+  - **[Date](Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Date 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Date')** `Property` The comment_date element's value.
+  - **[DateGmt](Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.DateGmt 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.DateGmt')** `Property` The comment_date_gmt element's value.
+  - **[Id](Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Id 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Id')** `Property` The comment_id element's value.
+  - **[Parent](Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Parent 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Parent')** `Property` The comment_parent element's value.
+  - **[Type](Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Type 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Type')** `Property` The comment_type element's value.
+  - **[UserId](Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.UserId 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.UserId')** `Property` The comment_user_id element's value.
+- **[WordPressExportExtensions](Sagara.FeedReader.Modules.WordPressExport.WordPressExportExtensions.md 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportExtensions')** `Class`   
+    
+  Extension methods that further parse the feed XML for WordPress Export-specific content.
+  - **[GetWordPressExportChannel(this Feed)](Sagara.FeedReader.Modules.WordPressExport.WordPressExportExtensions.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportExtensions.GetWordPressExportChannel(thisSagara.FeedReader.Feed) 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportExtensions.GetWordPressExportChannel(this Sagara.FeedReader.Feed)')** `Method` Reads WordPress Export elements from a `channel` (RSS 2.0) or `feed` (Atom) element.
+  - **[GetWordPressExportItem(this FeedItem)](Sagara.FeedReader.Modules.WordPressExport.WordPressExportExtensions.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportExtensions.GetWordPressExportItem(thisSagara.FeedReader.FeedItem) 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportExtensions.GetWordPressExportItem(this Sagara.FeedReader.FeedItem)')** `Method` Reads WordPress Export post elements content from a `item` (RSS 2.0) or `entry` (Atom) element.
+- **[WordPressExportItem](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem')** `Class` Per-post data from a WordPress Export Item.
+  - **[WordPressExportItem(XElement)](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.WordPressExportItem(System.Xml.Linq.XElement) 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.WordPressExportItem(System.Xml.Linq.XElement)')** `Constructor` .ctor
+  - **[Comments](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.Comments 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.Comments')** `Property` The post's comments.
+  - **[CommentStatus](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.CommentStatus 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.CommentStatus')** `Property` The comment_status element's value.
+  - **[Content](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.Content 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.Content')** `Property` The post's content.
+  - **[Excerpt](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.Excerpt 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.Excerpt')** `Property` An excerpt of the post's content.
+  - **[IsSticky](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.IsSticky 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.IsSticky')** `Property` The is_sticky element's value.
+  - **[MenuOrder](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.MenuOrder 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.MenuOrder')** `Property` The menu_order element's value.
+  - **[PingStatus](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PingStatus 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PingStatus')** `Property` The ping_status element's value.
+  - **[PostDate](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostDate 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostDate')** `Property` The post_date element's value.
+  - **[PostDateGmt](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostDateGmt 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostDateGmt')** `Property` The post_date_gmt element's value.
+  - **[PostId](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostId 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostId')** `Property` The post_id element's value.
+  - **[PostModified](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostModified 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostModified')** `Property` The post_modified element's value.
+  - **[PostModifiedGmt](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostModifiedGmt 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostModifiedGmt')** `Property` The post_modified_gmt element's value.
+  - **[PostName](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostName 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostName')** `Property` The post_name element's value.
+  - **[PostParent](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostParent 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostParent')** `Property` The post_parent element's value.
+  - **[PostPassword](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostPassword 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostPassword')** `Property` The post_password element's value.
+  - **[PostType](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostType 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostType')** `Property` The post_type element's value.
+  - **[Status](Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.Status 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.Status')** `Property` The status element's value.
+- **[WordPressExportTag](Sagara.FeedReader.Modules.WordPressExport.WordPressExportTag.md 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportTag')** `Class` A tag used by posts.
+  - **[Name](Sagara.FeedReader.Modules.WordPressExport.WordPressExportTag.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportTag.Name 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportTag.Name')** `Property` The tag's name.
+  - **[Slug](Sagara.FeedReader.Modules.WordPressExport.WordPressExportTag.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportTag.Slug 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportTag.Slug')** `Property` The tag's url-safe slug.
+  - **[TermId](Sagara.FeedReader.Modules.WordPressExport.WordPressExportTag.md#Sagara.FeedReader.Modules.WordPressExport.WordPressExportTag.TermId 'Sagara.FeedReader.Modules.WordPressExport.WordPressExportTag.TermId')** `Property` Tag Id.
+
 <a name='Sagara.FeedReader.Parser'></a>
 
 ## Sagara.FeedReader.Parser Namespace
 - **[FeedParser](Sagara.FeedReader.Parser.FeedParser.md 'Sagara.FeedReader.Parser.FeedParser')** `Class` Internal FeedParser - returns the type of the feed or the parsed feed.
-  - **[GetEncoding(XDocument)](Sagara.FeedReader.Parser.FeedParser.md#Sagara.FeedReader.Parser.FeedParser.GetEncoding(System.Xml.Linq.XDocument) 'Sagara.FeedReader.Parser.FeedParser.GetEncoding(System.Xml.Linq.XDocument)')** `Method` Tries to read the encoding from the document's XML declaration. If none found, or if it's invalid,  
-    returns UTF8.
-  - **[GetFeedFromBytes(byte[])](Sagara.FeedReader.Parser.FeedParser.md#Sagara.FeedReader.Parser.FeedParser.GetFeedFromBytes(byte[]) 'Sagara.FeedReader.Parser.FeedParser.GetFeedFromBytes(byte[])')** `Method` Returns the parsed feed. This method tries to use the encoding of the received file.  
-    If none found, or it's invalid, it uses UTF8.
-  - **[GetFeedFromStreamAsync(Stream)](Sagara.FeedReader.Parser.FeedParser.md#Sagara.FeedReader.Parser.FeedParser.GetFeedFromStreamAsync(System.IO.Stream) 'Sagara.FeedReader.Parser.FeedParser.GetFeedFromStreamAsync(System.IO.Stream)')** `Method` Returns the parsed feed. This method tries to use the encoding of the received file.  
+  - **[InvalidCharactersToRemove](Sagara.FeedReader.Parser.FeedParser.md#Sagara.FeedReader.Parser.FeedParser.InvalidCharactersToRemove 'Sagara.FeedReader.Parser.FeedParser.InvalidCharactersToRemove')** `Field` Certain control characters that cause XML parsing to fail. They shouldn't be there, but sometimes are.
+  - **[GetEncodingAttributeValueFromXmlDeclaration(string)](Sagara.FeedReader.Parser.FeedParser.md#Sagara.FeedReader.Parser.FeedParser.GetEncodingAttributeValueFromXmlDeclaration(string) 'Sagara.FeedReader.Parser.FeedParser.GetEncodingAttributeValueFromXmlDeclaration(string)')** `Method` Try to read the encoding from the XML declaration.
+  - **[GetEncodingFromAttributeValue(string)](Sagara.FeedReader.Parser.FeedParser.md#Sagara.FeedReader.Parser.FeedParser.GetEncodingFromAttributeValue(string) 'Sagara.FeedReader.Parser.FeedParser.GetEncodingFromAttributeValue(string)')** `Method` Try to get the [System.Text.Encoding](https://docs.microsoft.com/en-us/dotnet/api/System.Text.Encoding 'System.Text.Encoding') from the feed content's XML declaration encoding attribute.  
+    If none found, or if it's invalid, return UTF-8.
+  - **[GetFeedFromStreamAsync(Stream, CancellationToken)](Sagara.FeedReader.Parser.FeedParser.md#Sagara.FeedReader.Parser.FeedParser.GetFeedFromStreamAsync(System.IO.Stream,System.Threading.CancellationToken) 'Sagara.FeedReader.Parser.FeedParser.GetFeedFromStreamAsync(System.IO.Stream, System.Threading.CancellationToken)')** `Method` Returns the parsed feed. This method tries to use the encoding of the received file.  
     If none found, or it's invalid, it uses UTF8.
   - **[GetFeedFromString(string)](Sagara.FeedReader.Parser.FeedParser.md#Sagara.FeedReader.Parser.FeedParser.GetFeedFromString(string) 'Sagara.FeedReader.Parser.FeedParser.GetFeedFromString(string)')** `Method` Returns the parsed feed. This method does NOT check the encoding of the received file.
   - **[ParseFeedType(XDocument)](Sagara.FeedReader.Parser.FeedParser.md#Sagara.FeedReader.Parser.FeedParser.ParseFeedType(System.Xml.Linq.XDocument) 'Sagara.FeedReader.Parser.FeedParser.ParseFeedType(System.Xml.Linq.XDocument)')** `Method` Returns the feed type - rss 1.0, rss 2.0, atom, ...

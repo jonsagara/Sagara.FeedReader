@@ -12,6 +12,20 @@ public static class Namespaces
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; Namespaces
 ### Fields
 
+<a name='Sagara.FeedReader.Feeds.Namespaces.ApplePodcasts'></a>
+
+## Namespaces.ApplePodcasts Field
+
+The namespace for Apple Podcasts elements, typically denoted by the prefix `itunes` on the  
+root element.
+
+```csharp
+public static readonly XNamespace ApplePodcasts;
+```
+
+#### Field Value
+[System.Xml.Linq.XNamespace](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XNamespace 'System.Xml.Linq.XNamespace')
+
 <a name='Sagara.FeedReader.Feeds.Namespaces.Atom'></a>
 
 ## Namespaces.Atom Field
@@ -24,16 +38,3 @@ public static readonly XNamespace Atom;
 
 #### Field Value
 [System.Xml.Linq.XNamespace](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XNamespace 'System.Xml.Linq.XNamespace')
-
-<a name='Sagara.FeedReader.Feeds.Namespaces.AtomName'></a>
-
-## Namespaces.AtomName Field
-
-The Atom 1.0 XML namespace.
-
-```csharp
-public const string AtomName = http://www.w3.org/2005/Atom;
-```
-
-#### Field Value
-[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')

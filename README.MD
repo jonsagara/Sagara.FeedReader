@@ -12,7 +12,34 @@
 
 [![NuGet](https://img.shields.io/nuget/v/Sagara.FeedReader?label=NuGet)](https://www.nuget.org/packages/Sagara.FeedReader/)
 
+```
+dotnet add package Sagara.FeedReader
+```
+
 For `Sagara.FeedReader` API docs generated from XML comments, see the [GitHub repo](src/Sagara.FeedReader/docs/index.md).
+
+## Getting Started
+
+### Register the `Sagara.FeedReader` services:
+
+```csharp
+var builder = new HostApplicationBuilder();
+builder.Services.AddFeedReaderServices();
+```
+
+### Read an RSS feed
+
+```csharp
+// feedReader is an injected FeedReader instance
+var feed = await feedReader.ReadFromUrlAsync("https://www.sagara.dev/feed.xml");
+
+foreach (var item in feed.Items)
+{
+    Console.WriteLine($"[Item] {item.Title}");
+    Console.WriteLine($"> Publish Date: {item.PublishingDate:yyyy-MM-dd HH:mm:ss zzzz}");
+    Console.WriteLine($"> URL: {item.Link}");
+}
+```
 
 ## *** Forked from CodeHollow.FeedReader ***
 

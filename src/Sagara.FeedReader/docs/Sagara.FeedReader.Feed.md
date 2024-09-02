@@ -71,6 +71,20 @@ public string? Description { get; set; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
+<a name='Sagara.FeedReader.Feed.HasApplePodcastsModule'></a>
+
+## Feed.HasApplePodcastsModule Property
+
+Returns true if the feed's root element (`rss` for RSS, `feed` for atom) has the Apple Podcasts   
+module namespace declaration (`xmlns:itunes`); false otherwise.
+
+```csharp
+public bool HasApplePodcastsModule { get; }
+```
+
+#### Property Value
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
 <a name='Sagara.FeedReader.Feed.ImageUrl'></a>
 
 ## Feed.ImageUrl Property
@@ -88,7 +102,7 @@ public string? ImageUrl { get; set; }
 
 ## Feed.Items Property
 
-List of items
+List of items. In RSS, these are `item` elements. In Atom, they're `entry` elements.
 
 ```csharp
 public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.FeedItem> Items { get; set; }
@@ -151,18 +165,21 @@ public string? Link { get; set; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 
-<a name='Sagara.FeedReader.Feed.OriginalDocument'></a>
+<a name='Sagara.FeedReader.Feed.OriginalFeedXml'></a>
 
-## Feed.OriginalDocument Property
+## Feed.OriginalFeedXml Property
 
-Gets the whole, original feed as string
+The original feed XML string.
 
 ```csharp
-public string? OriginalDocument { get; }
+public string? OriginalFeedXml { get; }
 ```
 
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+### Remarks
+NOTE: If raw XML contained invalid control characters, they were removed.
 
 <a name='Sagara.FeedReader.Feed.SpecificFeed'></a>
 
@@ -203,3 +220,25 @@ public Sagara.FeedReader.FeedType Type { get; set; }
 
 #### Property Value
 [FeedType](Sagara.FeedReader.FeedType.md 'Sagara.FeedReader.FeedType')
+### Methods
+
+<a name='Sagara.FeedReader.Feed.HasRootNamespaceDeclaration(string)'></a>
+
+## Feed.HasRootNamespaceDeclaration(string) Method
+
+Returns true if the root element has the specified namespace URI declared; false otherwise.
+
+```csharp
+public bool HasRootNamespaceDeclaration(string namespaceUri);
+```
+#### Parameters
+
+<a name='Sagara.FeedReader.Feed.HasRootNamespaceDeclaration(string).namespaceUri'></a>
+
+`namespaceUri` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+The local name of the namespace declaration (e.g., `http://www.itunes.com/dtds/podcast-1.0.dtd`  
+            for Apple Podcasts).
+
+#### Returns
+[System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')

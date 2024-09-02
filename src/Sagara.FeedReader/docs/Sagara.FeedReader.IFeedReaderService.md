@@ -10,5 +10,5 @@ public interface IFeedReaderService
 ```
 
 Derived  
-&#8627; [FeedReaderService](Sagara.FeedReader.FeedReaderService.md 'Sagara.FeedReader.FeedReaderService')  
+&#8627; [FeedReader](Sagara.FeedReader.FeedReader.md 'Sagara.FeedReader.FeedReader')  
 &#8627; [HttpClientService](Sagara.FeedReader.Http.HttpClientService.md 'Sagara.FeedReader.Http.HttpClientService')

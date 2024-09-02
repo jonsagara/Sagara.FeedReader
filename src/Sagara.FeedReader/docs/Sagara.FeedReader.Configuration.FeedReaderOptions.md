@@ -12,6 +12,19 @@ public class FeedReaderOptions
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; FeedReaderOptions
 ### Properties
 
+<a name='Sagara.FeedReader.Configuration.FeedReaderOptions.Proxy'></a>
+
+## FeedReaderOptions.Proxy Property
+
+Optionally allow the caller to specify an HTTP proxy for the FeedReader named HttpClient.
+
+```csharp
+public System.Net.IWebProxy? Proxy { get; set; }
+```
+
+#### Property Value
+[System.Net.IWebProxy](https://docs.microsoft.com/en-us/dotnet/api/System.Net.IWebProxy 'System.Net.IWebProxy')
+
 <a name='Sagara.FeedReader.Configuration.FeedReaderOptions.RecyclableMemoryStreamManagerOptions'></a>
 
 ## FeedReaderOptions.RecyclableMemoryStreamManagerOptions Property
