@@ -201,7 +201,6 @@ public class iTunesItem
         if (!Enum.TryParse(typeElement, out iTunesEpisodeType episodeType))
         {
             // Can't parse it into an enum. Don't assume any default value.
-#warning TODO: logging?
             return null;
         }
 
