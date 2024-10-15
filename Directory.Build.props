@@ -8,9 +8,9 @@
 		<Nullable>enable</Nullable>
 		
 		<!-- NuGet -->
-		<Version>1.1.1</Version>
-		<AssemblyVersion>1.0.0.0</AssemblyVersion>
-		<FileVersion>1.0.0.0</FileVersion>
+		<Version>2.0.0-alpha1</Version>
+		<AssemblyVersion>2.0.0.0</AssemblyVersion>
+		<FileVersion>2.0.0.0</FileVersion>
 		<Authors>Armin Reiter; Jon Sagara</Authors>
 		<Copyright>Copyright 2022-2024</Copyright>
 		<RepositoryUrl>https://github.com/jonsagara/Sagara.FeedReader</RepositoryUrl>
