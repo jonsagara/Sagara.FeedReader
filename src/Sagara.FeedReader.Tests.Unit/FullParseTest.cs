@@ -246,7 +246,7 @@ public class FullParseTest
         Assert.Equal("Mon, 30 Sep 2002 11:00:00 GMT", feed.LastBuildDateString);
         Assert.Equal("http://backend.userland.com/rss", feed.Docs);
         Assert.Equal("Radio UserLand v8.0.5", feed.Generator);
-        Assert.Equal("1765", feed.Categories.First());
+        Assert.Equal("1765", feed.Categories.Select(r2fc => r2fc.Content!).First());
         Assert.Equal("dave@userland.com", feed.ManagingEditor);
         Assert.Equal("dave@userland.com", feed.WebMaster);
         Assert.Equal("40", feed.TTL);
@@ -285,7 +285,7 @@ public class FullParseTest
         Assert.Equal(new DateTime(2016, 12, 22, 7, 0, 28), item.PublishingDate);
         Assert.Equal("Armin Reiter", item.DC!.Creator);
         Assert.Equal(4, item.Categories.Count);
-        Assert.Contains("BillingAPI", item.Categories);
+        Assert.Contains("BillingAPI", item.Categories.Select(r2fc => r2fc.Content!));
         Assert.Equal("https://codehollow.com/?p=749", item.Guid);
         Assert.StartsWith("<p>The Azure Billing API allows to programmatically read Azure", item.Description);
         Assert.Contains("<add key=\"Tenant\" ", item.Content);

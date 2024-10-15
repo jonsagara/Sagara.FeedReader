@@ -67,7 +67,7 @@ public class Rss20Feed : BaseFeed
     /// <summary>
     /// All "category" elements
     /// </summary>
-    public IReadOnlyCollection<string> Categories { get; private set; } = Array.Empty<string>();
+    public IReadOnlyCollection<Rss20FeedCategory> Categories { get; private set; } = Array.Empty<Rss20FeedCategory>();
 
     /// <summary>
     /// The "generator" element
@@ -133,7 +133,11 @@ public class Rss20Feed : BaseFeed
         LastBuildDateString = channel.GetChildElementValue("lastBuildDate");
         ParseDates(Language, PublishingDateString, LastBuildDateString);
 
-        Categories = channel.GetElements("category").Select(ce => ce.Value).ToArray();
+        Categories = channel
+            .GetElements("category")
+            .Select(ce => new Rss20FeedCategory(ce))
+            .Where(r2fc => !string.IsNullOrWhiteSpace(r2fc.Content))
+            .ToArray();
 
         Sy = new Syndication(channel);
         Generator = channel.GetChildElementValue("generator");
