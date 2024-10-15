@@ -31,7 +31,7 @@ public class WordPressExportItem
     /// <summary>
     /// The post_date_gmt element's value.
     /// </summary>
-    public DateTime PostDateGmt { get; set; }
+    public DateTime? PostDateGmt { get; set; }
 
     /// <summary>
     /// The post_modified element's value.
@@ -41,7 +41,7 @@ public class WordPressExportItem
     /// <summary>
     /// The post_modified_gmt element's value.
     /// </summary>
-    public DateTime PostModifiedGmt { get; set; }
+    public DateTime? PostModifiedGmt { get; set; }
 
     /// <summary>
     /// The comment_status element's value.
@@ -109,9 +109,14 @@ public class WordPressExportItem
 
         PostId = Helpers.TryParseLong(itemElement.GetChildElementValue(namespacePrefix: WordPressExportChannel.NamespacePrefix, elementName: "post_id"))!.Value;
         PostDate = Helpers.TryParseDateTime(itemElement.GetChildElementValue(namespacePrefix: WordPressExportChannel.NamespacePrefix, elementName: "post_date"))!.Value;
-        PostDateGmt = itemElement.GetChildElementValue(namespacePrefix: WordPressExportChannel.NamespacePrefix, elementName: "post_date_gmt").ParseUtcOrDefault()!.Value;
+
+        // We can't assume that a post will have a valid GMT date. One of my entries did not.
+        PostDateGmt = itemElement.GetChildElementValue(namespacePrefix: WordPressExportChannel.NamespacePrefix, elementName: "post_date_gmt").ParseUtcOrDefault();
+
         PostModified = Helpers.TryParseDateTime(itemElement.GetChildElementValue(namespacePrefix: WordPressExportChannel.NamespacePrefix, elementName: "post_modified"))!.Value;
-        PostModifiedGmt = itemElement.GetChildElementValue(namespacePrefix: WordPressExportChannel.NamespacePrefix, elementName: "post_modified_gmt").ParseUtcOrDefault()!.Value;
+
+        // We can't assume that a post will have a valid GMT date. One of my entries did not.
+        PostModifiedGmt = itemElement.GetChildElementValue(namespacePrefix: WordPressExportChannel.NamespacePrefix, elementName: "post_modified_gmt").ParseUtcOrDefault();
 
         CommentStatus = itemElement.GetChildElementValue(namespacePrefix: WordPressExportChannel.NamespacePrefix, elementName: "comment_status")!;
         PingStatus = itemElement.GetChildElementValue(namespacePrefix: WordPressExportChannel.NamespacePrefix, elementName: "ping_status")!;
