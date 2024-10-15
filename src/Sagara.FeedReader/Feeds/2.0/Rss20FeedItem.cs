@@ -53,7 +53,7 @@ public class Rss20FeedItem : BaseFeedItem
     /// <summary>
     /// All entries "category" entries
     /// </summary>
-    public IReadOnlyCollection<string> Categories { get; private set; } = Array.Empty<string>();
+    public IReadOnlyCollection<Rss20FeedCategory> Categories { get; private set; } = Array.Empty<Rss20FeedCategory>();
 
     /// <summary>
     /// The "content:encoded" field
@@ -90,8 +90,11 @@ public class Rss20FeedItem : BaseFeedItem
         DC = new DublinCore(item);
         Source = new FeedItemSource(item.GetElement("source"));
 
-        var categories = item.GetElements("category");
-        Categories = categories.Select(x => x.Value).ToArray();
+        Categories = item
+            .GetElements("category")
+            .Select(ce => new Rss20FeedCategory(ce))
+            .Where(r2fc => !string.IsNullOrWhiteSpace(r2fc.Content))
+            .ToArray();
 
         Guid = item.GetChildElementValue("guid");
         Description = item.GetChildElementValue("description");
@@ -111,7 +114,7 @@ public class Rss20FeedItem : BaseFeedItem
             PublishingDateString = PublishingDateString,
         };
 
-        fi.Categories.AddRange(Categories);
+        fi.Categories.AddRange(Categories.Select(c => c.Content!));
 
         return fi;
     }

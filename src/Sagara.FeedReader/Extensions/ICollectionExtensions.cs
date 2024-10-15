@@ -8,7 +8,7 @@ public static class ICollectionExtensions
     /// <summary>
     /// Add a range of values to the collection.
     /// </summary>
-    public static void AddRange<T>(this ICollection<T> source, IReadOnlyCollection<T> valuesToAdd)
+    public static void AddRange<T>(this ICollection<T> source, IEnumerable<T> valuesToAdd)
     {
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(valuesToAdd);

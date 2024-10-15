@@ -16,7 +16,7 @@ public class AtomFeed : BaseFeed
     /// <summary>
     /// All "category" elements
     /// </summary>
-    public IReadOnlyCollection<string> Categories { get; private set; } = Array.Empty<string>();
+    public IReadOnlyCollection<AtomFeedCategory> Categories { get; private set; } = Array.Empty<AtomFeedCategory>();
 
     /// <summary>
     /// The "contributor" element
@@ -91,8 +91,11 @@ public class AtomFeed : BaseFeed
 
         Author = new AtomPerson(feed.GetElement("author"));
 
-        var categories = feed.GetElements("category");
-        Categories = categories.Select(x => x.Value).ToArray();
+        Categories = feed
+            .GetElements("category")
+            .Select(ce => new AtomFeedCategory(ce))
+            .Where(afc => !string.IsNullOrWhiteSpace(afc.Term))
+            .ToArray();
 
         Contributor = new AtomPerson(feed.GetElement("contributor"));
         Generator = feed.GetChildElementValue("generator");

@@ -16,7 +16,7 @@ public class AtomFeedItem : BaseFeedItem
     /// <summary>
     /// All "category" elements
     /// </summary>
-    public IReadOnlyCollection<string> Categories { get; private set; } = Array.Empty<string>();
+    public IReadOnlyCollection<AtomFeedCategory> Categories { get; private set; } = Array.Empty<AtomFeedCategory>();
 
     /// <summary>
     /// The "content" element
@@ -96,9 +96,8 @@ public class AtomFeedItem : BaseFeedItem
 
         Categories = item
             .GetElements("category")
-            .Select(ce => ce.GetAttributeValue("term"))
-            .Where(t => !string.IsNullOrWhiteSpace(t))
-            .Select(t => t!)
+            .Select(ce => new AtomFeedCategory(ce))
+            .Where(afc => !string.IsNullOrWhiteSpace(afc.Term))
             .ToArray();
 
         Content = item.GetChildElementValue("content").HtmlDecode();
@@ -133,7 +132,7 @@ public class AtomFeedItem : BaseFeedItem
             PublishingDateString = PublishedDateString,
         };
 
-        fi.Categories.AddRange(Categories);
+        fi.Categories.AddRange(Categories.Select(afc => afc.Term!));
 
         return fi;
     }
