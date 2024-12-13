@@ -1,8 +1,7 @@
 <Project>
 	<PropertyGroup>
 
-		<!-- .NET and C# versions for all assemblies -->
-		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+		<!-- C# version for all assemblies -->
 		<LangVersion>13.0</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>

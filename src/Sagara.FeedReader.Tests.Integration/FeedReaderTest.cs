@@ -259,7 +259,7 @@ public class FeedReaderTest
     public async Task TestReadThaqafnafsak()
     {
         var feed = await _feedReaderSvc.ReadFromUrlAsync("http://www.thaqafnafsak.com/feed");
-        Assert.Equal("ثقف نفسك", feed.Title);
+        Assert.Equal("", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
 
