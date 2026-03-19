@@ -30,7 +30,7 @@ jobs:
     # Checkout the source code
     steps:
     - name: "Checkout source"
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     # Install the .NET SDK indicated in the global.json file
     - name: Setup .NET SDK with global.json
@@ -64,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout source"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET SDK with global.json
