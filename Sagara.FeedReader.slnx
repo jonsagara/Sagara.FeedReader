@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/Core/">
+    <Project Path="src/Sagara.FeedReader/Sagara.FeedReader.csproj" />
+  </Folder>
+  <Folder Name="/Samples/">
+    <Project Path="src/Sagara.FeedReader.Benchmarks/Sagara.FeedReader.Benchmarks.csproj" />
+    <Project Path="src/Sagara.FeedReader.ConsoleSample/Sagara.FeedReader.ConsoleSample.csproj" />
+    <Project Path="src/Sagara.FeedReader.TestDataCrawler/Sagara.FeedReader.TestDataCrawler.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="DefaultDocumentation.json" />
+    <File Path="Directory.Build.props" />
+    <File Path="global.json" />
+    <File Path="nuget.config" />
+    <File Path="README.MD" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="src/Sagara.FeedReader.Tests.Integration/Sagara.FeedReader.Tests.Integration.csproj" />
+    <Project Path="src/Sagara.FeedReader.Tests.Unit/Sagara.FeedReader.Tests.Unit.csproj" />
+  </Folder>
+</Solution>
