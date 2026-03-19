@@ -86,14 +86,14 @@ jobs:
     steps:
       # Download the NuGet package created in the pack job
       - name: Download NuGet package artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: nuget
           path: ${{ env.NuGetDirectory }}
 
       # Download the global.json file uploaded in the pack job
       - name: Download NuGet package artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: globaljson
           path: ${{ github.workspace }}
