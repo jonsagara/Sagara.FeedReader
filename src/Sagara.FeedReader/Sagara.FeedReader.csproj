@@ -43,24 +43,18 @@
 		<PackageReference Include="Microsoft.Extensions.Http" />
 		<PackageReference Include="Microsoft.Extensions.Http.Resilience" />
 		<PackageReference Include="Microsoft.Net.Http.Headers" />
-		<!-- Direct on STJ dependency to resolve vulnerability warning -->
-		<PackageReference Include="System.Text.Json" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
 		<PackageReference Include="Microsoft.Extensions.Http" />
 		<PackageReference Include="Microsoft.Extensions.Http.Resilience" />
 		<PackageReference Include="Microsoft.Net.Http.Headers" />
-		<!-- Direct on STJ dependency to resolve vulnerability warning -->
-		<PackageReference Include="System.Text.Json" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
 		<PackageReference Include="Microsoft.Extensions.Http" />
 		<PackageReference Include="Microsoft.Extensions.Http.Resilience" />
 		<PackageReference Include="Microsoft.Net.Http.Headers" />
-		<!-- Direct on STJ dependency to resolve vulnerability warning -->
-		<PackageReference Include="System.Text.Json" />
 	</ItemGroup>
 
 	<ItemGroup>

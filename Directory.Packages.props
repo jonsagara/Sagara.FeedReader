@@ -9,7 +9,6 @@
 		<PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.1" />
 		<PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="8.10.0" />
 		<PackageVersion Include="Microsoft.Net.Http.Headers" Version="8.0.10" />
-		<PackageVersion Include="System.Text.Json" Version="8.0.5" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
@@ -17,7 +16,6 @@
 		<PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.0" />
 		<PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.0.0" />
 		<PackageVersion Include="Microsoft.Net.Http.Headers" Version="9.0.0" />
-		<PackageVersion Include="System.Text.Json" Version="9.0.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
@@ -25,7 +23,6 @@
 		<PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.10" />
 		<PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.8.0" />
 		<PackageVersion Include="Microsoft.Net.Http.Headers" Version="10.0.10" />
-		<PackageVersion Include="System.Text.Json" Version="10.0.10" />
 	</ItemGroup>
 
 	<!-- Packages with a single version shared by all target frameworks. -->
