@@ -2,7 +2,7 @@
 	<PropertyGroup>
 
 		<!-- C# version for all assemblies -->
-		<LangVersion>13.0</LangVersion>
+		<LangVersion>14.0</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		

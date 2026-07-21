@@ -20,12 +20,20 @@
 		<PackageVersion Include="System.Text.Json" Version="9.0.0" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.10" />
+		<PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.10" />
+		<PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.8.0" />
+		<PackageVersion Include="Microsoft.Net.Http.Headers" Version="10.0.10" />
+		<PackageVersion Include="System.Text.Json" Version="10.0.10" />
+	</ItemGroup>
+
 	<!-- Packages with a single version shared by all target frameworks. -->
 	<ItemGroup>
 		<PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
-		<PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.0" />
-		<PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.0" />
-		<PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.10" />
+		<PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.10" />
+		<PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.10" />
 		<PackageVersion Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1" />
 		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
 		<PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
