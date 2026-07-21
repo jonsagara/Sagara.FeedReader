@@ -25,16 +25,22 @@ defaults:
 
 jobs:
   pack_nuget:
+    name: dotnet pack
     runs-on: ubuntu-latest
 
     # Checkout the source code
     steps:
+    - name: Harden Runner
+      uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
+      with:
+        egress-policy: audit
+
     - name: "Checkout source"
-      uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
     # Install the .NET SDK indicated in the global.json file
     - name: Setup .NET SDK with global.json
-      uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
+      uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
       with:
         global-json-file: global.json
 
@@ -44,33 +50,40 @@ jobs:
 
     # Upload .nupkg files as an artifact, so they can be used in the following jobs
     - name: Upload NuGet packages as artifacts
+      if: github.event_name == 'release'
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: nuget
         if-no-files-found: error
-        retention-days: 2
+        retention-days: 1
         path: ${{ env.NuGetDirectory }}/*
 
     # Upload global.json as an artifact so that we don't have to check out the whole repo to publish to nuget.
     - name: Upload global.json as artifact
+      if: github.event_name == 'release'
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: globaljson
         if-no-files-found: error
-        retention-days: 2
+        retention-days: 1
         path: ${{ github.workspace }}/global.json
 
   run_test:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout source"
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       # Install the .NET SDK indicated in the global.json file
+      # Even though the prior STS and LTS versions are pre-installed on the runner, explicitly list
+      #   them here for clarity. We need their runtimes to execute their tests.
       - name: Setup .NET SDK with global.json
-        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
+          dotnet-version: |
+            8.0.x
+            9.0.x
           
       # Only run the unit tests, NOT the integration intests that download from tens of feeds.
       - name: Run tests
@@ -103,7 +116,7 @@ jobs:
 
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET SDK with global.json
-        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5.4.0
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
 
@@ -123,4 +136,4 @@ jobs:
           foreach ($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.nupkg)) {
             $file
             dotnet nuget push $file --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
-          }    
+          }
