@@ -9,7 +9,7 @@ public class FeedParserTests
     public async Task GetEncodingFromXmlFragment_UTF8()
     {
         using var feedContentStream = File.OpenRead(@"Feeds/Rss20MicrosoftBotFramework.xml");
-        var feed = await FeedParser.GetFeedFromStreamAsync(feedContentStream);
+        var feed = await FeedParser.GetFeedFromStreamAsync(feedContentStream, TestContext.Current.CancellationToken);
 
         Assert.NotNull(feed);
     }
@@ -18,7 +18,7 @@ public class FeedParserTests
     public async Task GetEncodingFromXmlFragment_UTF16()
     {
         using var feedContentStream = File.OpenRead(@"Feeds/Rss20MicrosoftBotFrameworkUTF16.xml");
-        var feed = await FeedParser.GetFeedFromStreamAsync(feedContentStream);
+        var feed = await FeedParser.GetFeedFromStreamAsync(feedContentStream, TestContext.Current.CancellationToken);
 
         Assert.NotNull(feed);
     }

@@ -20,7 +20,7 @@ public class WordPressExportTest
     [Fact]
     public async Task TestWordPressExportFeed_Async()
     {
-        var feed = await FeedReader.ReadFromFileAsync("Feeds/Rss20WordPressExport.xml");
+        var feed = await FeedReader.ReadFromFileAsync("Feeds/Rss20WordPressExport.xml", TestContext.Current.CancellationToken);
 
         var wpExportChannel = feed.GetWordPressExportChannel();
 
