@@ -82,14 +82,22 @@ public static class Helpers
             }
             if (!parseSuccess)
             {
+                // CA1307: net11.0 adds a LastIndexOf(char, StringComparison) overload that net10.0 doesn't have,
+                // so it can't be used while multi-targeting both.
+#pragma warning disable CA1307
                 string newdtstring = datetime.Substring(0, datetime.LastIndexOf(' ')).Trim();
+#pragma warning restore CA1307
 
                 parseSuccess = DateTimeOffset.TryParse(newdtstring, dateTimeFormat, DateTimeStyles.AssumeUniversal, out dt);
             }
 
             if (!parseSuccess)
             {
+                // CA1307: net11.0 adds a LastIndexOf(char, StringComparison) overload that net10.0 doesn't have,
+                // so it can't be used while multi-targeting both.
+#pragma warning disable CA1307
                 string newdtstring = datetime.Substring(0, datetime.LastIndexOf(' ')).Trim();
+#pragma warning restore CA1307
 
                 parseSuccess = DateTimeOffset.TryParse(newdtstring, dateTimeFormat, DateTimeStyles.None, out dt);
             }
