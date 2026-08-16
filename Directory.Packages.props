@@ -25,10 +25,10 @@
 	<!-- Packages with a single version shared by all target frameworks. -->
 	<ItemGroup>
 		<PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
-		<PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.10" />
-		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.10" />
-		<PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.10" />
-		<PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.10" />
+		<PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.0" />
 		<PackageVersion Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1" />
 		<PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
 		<PackageVersion Include="Polly.Core" Version="8.5.0" />

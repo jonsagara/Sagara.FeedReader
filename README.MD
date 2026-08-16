@@ -6,7 +6,7 @@
 
 ## Requirements
 
-`.NET 8` or `.NET 9`
+`.NET 8`, `.NET 9`, or `.NET 10`.
 
 ## NuGet Package
 
