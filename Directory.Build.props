@@ -2,16 +2,16 @@
 	<PropertyGroup>
 
 		<!-- C# version for all assemblies -->
-		<LangVersion>14.0</LangVersion>
+		<LangVersion>preview</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		
 		<!-- NuGet -->
-		<Version>3.0.1</Version>
-		<AssemblyVersion>3.0.0.0</AssemblyVersion>
-		<FileVersion>3.0.0.0</FileVersion>
+		<Version>4.0.0-preview1</Version>
+		<AssemblyVersion>4.0.0</AssemblyVersion>
+		<FileVersion>4.0.0</FileVersion>
 		<Authors>Armin Reiter; Jon Sagara</Authors>
-		<Copyright>Copyright 2022-2024</Copyright>
+		<Copyright>Copyright 2022-2026</Copyright>
 		<RepositoryUrl>https://github.com/jonsagara/Sagara.FeedReader</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageProjectUrl>https://github.com/jonsagara/Sagara.FeedReader</PackageProjectUrl>
