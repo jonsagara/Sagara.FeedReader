@@ -1,15 +1,24 @@
 <Project>
 	<PropertyGroup>
 
-		<!-- C# version for all assemblies -->
-		<LangVersion>preview</LangVersion>
+		<!-- C# -->
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<!-- LangVersion intentionally omitted: SDK infers the recommended C# version per TFM -->
+
+		<!--
+			Versioning: Sagara.Build.Versioning (GlobalPackageReference in Directory.Packages.props) computes
+			Version, AssemblyVersion (Major.Minor.0.0), and FileVersion from these.
+			- Set PrereleaseLabel to one of preview (default), alpha, beta, or rc for a pre-release version.
+			  Comment it out for a stable release.
+			- Set PreviewNumber to a positive integer for a pre-release version. Comment it out for a stable release.
+			Do not set Version, AssemblyVersion, or FileVersion directly.
+		-->
+		<VersionPrefix>4.0.0</VersionPrefix>
+		<PrereleaseLabel>preview</PrereleaseLabel>
+		<PreviewNumber>1</PreviewNumber>
 		
 		<!-- NuGet -->
-		<Version>4.0.0-preview1</Version>
-		<AssemblyVersion>4.0.0</AssemblyVersion>
-		<FileVersion>4.0.0</FileVersion>
 		<Authors>Armin Reiter; Jon Sagara</Authors>
 		<Copyright>Copyright 2022-2026</Copyright>
 		<RepositoryUrl>https://github.com/jonsagara/Sagara.FeedReader</RepositoryUrl>

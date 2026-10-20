@@ -53,10 +53,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 		<PackageReference Include="Polly.Core" />
 		<PackageReference Include="Scrutor" />
 	</ItemGroup>
