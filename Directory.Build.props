@@ -14,7 +14,7 @@
 			- Set PreviewNumber to a positive integer for a pre-release version. Comment it out for a stable release.
 			Do not set Version, AssemblyVersion, or FileVersion directly.
 		-->
-		<VersionPrefix>3.0.2</VersionPrefix>
+		<VersionPrefix>3.0.3</VersionPrefix>
 		<!--<PrereleaseLabel>preview</PrereleaseLabel>
 		<PreviewNumber>1</PreviewNumber>-->
 		
