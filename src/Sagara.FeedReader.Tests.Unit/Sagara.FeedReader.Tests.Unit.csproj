@@ -3,6 +3,10 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<IsPackable>false</IsPackable>
+
+		<!-- Nullable warnings are errors so that tests relying on nullable flow analysis (e.g., FeedReaderResult's
+		     MemberNotNullWhen contract) fail the build if the contract breaks. -->
+		<WarningsAsErrors>$(WarningsAsErrors);nullable</WarningsAsErrors>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
