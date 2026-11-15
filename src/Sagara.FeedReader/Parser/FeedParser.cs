@@ -16,60 +16,35 @@ internal static class FeedParser
     /// Returns the parsed feed. This method tries to use the encoding of the received file.
     /// If none found, or it's invalid, it uses UTF8.
     /// </summary>
+    /// <remarks>
+    /// Reading starts at the stream's current position. Non-seekable streams (e.g., network streams) are
+    /// buffered into memory first, because the content may need to be re-read with its declared encoding.
+    /// </remarks>
     /// <param name="feedContentStream">The feed document as a Stream.</param>
     /// <param name="cancellationToken">token to cancel operation</param>
     /// <returns>Parsed feed</returns>
+    /// <exception cref="FeedParseException">The content is empty, is not well-formed XML, is an HTML page, or is not a supported feed type.</exception>
     public static async Task<Feed> GetFeedFromStreamAsync(Stream feedContentStream, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(feedContentStream);
 
-        string? feedContent = null;
-        Encoding encoding = Encoding.UTF8;
-
-        // Try to load the document with the default encoding (UTF-8) so that we can read its declared encoding.
-        feedContentStream.Position = 0L;
-
-        using (var streamReader = new StreamReader(feedContentStream, encoding, leaveOpen: true))
+        try
         {
-            // Read it into a string so that we can remove invalid characters.
-            feedContent = await streamReader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
-            feedContent = RemoveInvalidChars(feedContent);
-        }
-
-        // Get the XML declaration's encoding attribute value, if present.
-        var encodingAttrValue = GetEncodingAttributeValueFromXmlDeclaration(feedContent);
-        encoding = GetEncodingFromAttributeValue(encodingAttrValue);
-
-        if (encoding != Encoding.UTF8)
-        {
-            // Re-read the stream with the declared encoding.
-            // In some cases - ISO-8859-1 - Encoding.UTF8.GetString doesn't work correctly, so converting
-            //   from UTF8 to ISO-8859-1 doesn't work and the result is wrong.
-            //   See: FullParseTest.TestRss20ParseSwedishFeedWithIso8859_1
-
-            feedContentStream.Position = 0L;
-
-            using (var streamReader = new StreamReader(feedContentStream, encoding, leaveOpen: true))
+            if (feedContentStream.CanSeek)
             {
-                feedContent = await streamReader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
-                feedContent = RemoveInvalidChars(feedContent);
+                return await GetFeedFromSeekableStreamAsync(feedContentStream, cancellationToken).ConfigureAwait(false);
             }
+
+            using var bufferedStream = new MemoryStream();
+            await feedContentStream.CopyToAsync(bufferedStream, cancellationToken).ConfigureAwait(false);
+            bufferedStream.Position = 0L;
+
+            return await GetFeedFromSeekableStreamAsync(bufferedStream, cancellationToken).ConfigureAwait(false);
         }
-
-        // Parse the feed document.
-        var feedDoc = XDocument.Parse(feedContent);
-
-        // Get the feed type from the original parsed document.
-        var feedType = ParseFeedType(feedDoc);
-
-        // Get the correct parser based on the feed type.
-        var parser = Factory.GetParser(feedType);
-
-        // If the declared encoding is UTF-8, then we didn't read feedContent again with a
-        //   different encoding, and there's no need to have the parser reparse the XDocument.
-        var baseFeed = parser.Parse(feedContent, feedDoc);
-
-        return baseFeed.ToFeed();
+        catch (XmlException ex)
+        {
+            throw CreateInvalidXmlException(ex);
+        }
     }
 
     /// <summary>
@@ -77,13 +52,75 @@ internal static class FeedParser
     /// </summary>
     /// <param name="feedContent">The feed document's content as a string.</param>
     /// <returns>Parsed feed</returns>
+    /// <exception cref="FeedParseException">The content is empty, is not well-formed XML, is an HTML page, or is not a supported feed type.</exception>
     public static Feed GetFeedFromString(string feedContent)
     {
         ArgumentNullException.ThrowIfNull(feedContent);
 
-        feedContent = RemoveInvalidChars(feedContent);
+        try
+        {
+            feedContent = RemoveInvalidChars(feedContent);
+            ThrowIfEmptyOrHtml(feedContent);
 
-        XDocument feedDoc = XDocument.Parse(feedContent);
+            return ParseFeedContent(feedContent);
+        }
+        catch (XmlException ex)
+        {
+            throw CreateInvalidXmlException(ex);
+        }
+    }
+
+
+    //
+    // Private methods
+    //
+
+    /// <summary>
+    /// Read the stream from its current position, re-reading it with the declared encoding if that isn't UTF-8,
+    /// and then parse it.
+    /// </summary>
+    private static async Task<Feed> GetFeedFromSeekableStreamAsync(Stream feedContentStream, CancellationToken cancellationToken)
+    {
+        var startPosition = feedContentStream.Position;
+
+        // Read with the default encoding (UTF-8) so that we can read the document's declared encoding.
+        var feedContent = await ReadToEndAsync(feedContentStream, Encoding.UTF8, cancellationToken).ConfigureAwait(false);
+        ThrowIfEmptyOrHtml(feedContent);
+
+        var encodingAttrValue = GetEncodingAttributeValueFromXmlDeclaration(feedContent);
+        var encoding = GetEncodingFromAttributeValue(encodingAttrValue);
+
+        if (encoding != Encoding.UTF8)
+        {
+            // Re-read the stream with the declared encoding.
+            // In some cases - ISO-8859-1 - Encoding.UTF8.GetString doesn't work correctly, so converting
+            //   from UTF8 to ISO-8859-1 doesn't work and the result is wrong.
+            //   See: FullParseTest.TestRss20ParseSwedishFeedWithIso8859_1
+            feedContentStream.Position = startPosition;
+            feedContent = await ReadToEndAsync(feedContentStream, encoding, cancellationToken).ConfigureAwait(false);
+        }
+
+        return ParseFeedContent(feedContent);
+    }
+
+    /// <summary>
+    /// Read the rest of the stream with the given encoding, and remove invalid characters.
+    /// </summary>
+    private static async Task<string> ReadToEndAsync(Stream stream, Encoding encoding, CancellationToken cancellationToken)
+    {
+        using var streamReader = new StreamReader(stream, encoding, leaveOpen: true);
+
+        var content = await streamReader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
+
+        return RemoveInvalidChars(content);
+    }
+
+    /// <summary>
+    /// Parse cleaned-up feed content into a <see cref="Feed"/>.
+    /// </summary>
+    private static Feed ParseFeedContent(string feedContent)
+    {
+        var feedDoc = XDocument.Parse(feedContent);
 
         var feedType = ParseFeedType(feedDoc);
         var parser = Factory.GetParser(feedType);
@@ -92,10 +129,58 @@ internal static class FeedParser
         return baseFeed.ToFeed();
     }
 
+    /// <summary>
+    /// Fail fast with a specific error when the content is empty, or is obviously an HTML page. Many HTML pages
+    /// are not well-formed XML, so without this check they would be reported as invalid XML.
+    /// </summary>
+    /// <param name="feedContent">The feed content with invalid characters and leading white space removed.</param>
+    private static void ThrowIfEmptyOrHtml(string feedContent)
+    {
+        if (feedContent.Length == 0)
+        {
+            throw new FeedParseException(FeedReaderErrorKind.InvalidXml, "The feed content is empty.");
+        }
 
-    //
-    // Private methods
-    //
+        var firstMarkup = SkipXmlDeclarationAndComments(feedContent.AsSpan());
+
+        if (firstMarkup.StartsWith("<!doctype html", StringComparison.OrdinalIgnoreCase)
+            || firstMarkup.StartsWith("<html", StringComparison.OrdinalIgnoreCase))
+        {
+            throw CreateNotAFeedException();
+        }
+    }
+
+    /// <summary>
+    /// Skip past a leading XML declaration and any comments, so that we can see the first real markup.
+    /// </summary>
+    private static ReadOnlySpan<char> SkipXmlDeclarationAndComments(ReadOnlySpan<char> content)
+    {
+        content = content.TrimStart();
+
+        if (content.StartsWith("<?xml", StringComparison.OrdinalIgnoreCase))
+        {
+            var endOfDeclaration = content.IndexOf("?>", StringComparison.Ordinal);
+            content = endOfDeclaration < 0
+                ? []
+                : content[(endOfDeclaration + 2)..].TrimStart();
+        }
+
+        while (content.StartsWith("<!--", StringComparison.Ordinal))
+        {
+            var endOfComment = content.IndexOf("-->", StringComparison.Ordinal);
+            content = endOfComment < 0
+                ? []
+                : content[(endOfComment + 3)..].TrimStart();
+        }
+
+        return content;
+    }
+
+    private static FeedParseException CreateInvalidXmlException(XmlException ex)
+        => new(FeedReaderErrorKind.InvalidXml, $"The feed content is not well-formed XML: {ex.Message}", ex);
+
+    private static FeedParseException CreateNotAFeedException()
+        => new(FeedReaderErrorKind.NotAFeed, "The content is an HTML page, not a feed. If it came from a web page URL, use GetFeedUrlsFromPageAsync to find the page's feeds.");
 
     /// <summary>
     /// Try to read the encoding from the XML declaration.
@@ -117,7 +202,7 @@ internal static class FeedParser
         // Try to consume the XML declaration.
         if (!xmlReader.Read())
         {
-            throw new ArgumentException($"The provided XML string does not contain enough data to be valid XML (see https://learn.microsoft.com/en-us/dotnet/api/system.xml.xmlreader.read): {feedContent}");
+            throw new FeedParseException(FeedReaderErrorKind.InvalidXml, "The feed content does not contain any XML.");
         }
 
         // Get the encoding attribute's value.
@@ -145,8 +230,13 @@ internal static class FeedParser
 
         if (rootElementName.EqualsIgnoreCase("rss"))
         {
-            // Version is a required attribute.
-            string version = doc.Root.Attribute("version")!.Value;
+            // Version is a required attribute, but some feeds omit it. Treat those as generic RSS.
+            string? version = doc.Root.Attribute("version")?.Value;
+
+            if (version is null)
+            {
+                return FeedType.Rss;
+            }
 
             if (version.EqualsIgnoreCase("2.0"))
             {
@@ -173,7 +263,12 @@ internal static class FeedParser
             return FeedType.Rss;
         }
 
-        throw new FeedTypeNotSupportedException($"Unknown feed type {rootElementName}");
+        if (rootElementName.EqualsIgnoreCase("html"))
+        {
+            throw CreateNotAFeedException();
+        }
+
+        throw new FeedParseException(FeedReaderErrorKind.UnsupportedFeedType, $"Unsupported feed type. The root element is <{rootElementName}>; expected <rss>, <rdf:RDF>, or <feed>.");
     }
 
     /// <summary>
