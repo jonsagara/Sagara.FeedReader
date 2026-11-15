@@ -22,24 +22,6 @@ default constructor (for serialization)
 ```csharp
 public FeedItemEnclosure();
 ```
-
-<a name='Sagara.FeedReader.Feeds.FeedItemEnclosure.FeedItemEnclosure(System.Xml.Linq.XElement)'></a>
-
-## FeedItemEnclosure(XElement) Constructor
-
-Initializes a new instance of the [FeedItemEnclosure](Sagara.FeedReader.Feeds.FeedItemEnclosure.md 'Sagara.FeedReader.Feeds.FeedItemEnclosure') class.  
-Reads a rss feed item enclosure based on the xml given in element
-
-```csharp
-public FeedItemEnclosure(System.Xml.Linq.XElement? element);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.FeedItemEnclosure.FeedItemEnclosure(System.Xml.Linq.XElement).element'></a>
-
-`element` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-enclosure element as xml
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.FeedItemEnclosure.Length'></a>

@@ -10,22 +10,6 @@ public class iTunesImage
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; iTunesImage
-### Constructors
-
-<a name='Sagara.FeedReader.Modules.ApplePodcasts.iTunesImage.iTunesImage(System.Xml.Linq.XElement)'></a>
-
-## iTunesImage(XElement) Constructor
-
-.ctor
-
-```csharp
-public iTunesImage(System.Xml.Linq.XElement element);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Modules.ApplePodcasts.iTunesImage.iTunesImage(System.Xml.Linq.XElement).element'></a>
-
-`element` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
 ### Properties
 
 <a name='Sagara.FeedReader.Modules.ApplePodcasts.iTunesImage.Href'></a>

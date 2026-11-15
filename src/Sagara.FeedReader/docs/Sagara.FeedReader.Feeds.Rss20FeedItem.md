@@ -22,24 +22,6 @@ default constructor (for serialization)
 ```csharp
 public Rss20FeedItem();
 ```
-
-<a name='Sagara.FeedReader.Feeds.Rss20FeedItem.Rss20FeedItem(System.Xml.Linq.XElement)'></a>
-
-## Rss20FeedItem(XElement) Constructor
-
-Initializes a new instance of the [Rss20FeedItem](Sagara.FeedReader.Feeds.Rss20FeedItem.md 'Sagara.FeedReader.Feeds.Rss20FeedItem') class.  
-Reads a new feed item element based on the given xml item
-
-```csharp
-public Rss20FeedItem(System.Xml.Linq.XElement item);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.Rss20FeedItem.Rss20FeedItem(System.Xml.Linq.XElement).item'></a>
-
-`item` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-The xml containing the feed item
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.Rss20FeedItem.Author'></a>
@@ -62,11 +44,11 @@ public string? Author { get; set; }
 All entries "category" entries
 
 ```csharp
-public System.Collections.Generic.IReadOnlyCollection<string> Categories { get; set; }
+public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Feeds.Rss20FeedCategory> Categories { get; set; }
 ```
 
 #### Property Value
-[System.Collections.Generic.IReadOnlyCollection&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')
+[System.Collections.Generic.IReadOnlyCollection&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')[Rss20FeedCategory](Sagara.FeedReader.Feeds.Rss20FeedCategory.md 'Sagara.FeedReader.Feeds.Rss20FeedCategory')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')
 
 <a name='Sagara.FeedReader.Feeds.Rss20FeedItem.Comments'></a>
 
@@ -184,24 +166,3 @@ public Sagara.FeedReader.Feeds.FeedItemSource? Source { get; set; }
 
 #### Property Value
 [FeedItemSource](Sagara.FeedReader.Feeds.FeedItemSource.md 'Sagara.FeedReader.Feeds.FeedItemSource')
-### Methods
-
-<a name='Sagara.FeedReader.Feeds.Rss20FeedItem.GetPublishingDateString(System.Xml.Linq.XElement)'></a>
-
-## Rss20FeedItem.GetPublishingDateString(XElement) Method
-
-If we can't find a value for pubDate, look for Atom's updated element.
-
-```csharp
-private static string? GetPublishingDateString(System.Xml.Linq.XElement item);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.Rss20FeedItem.GetPublishingDateString(System.Xml.Linq.XElement).item'></a>
-
-`item` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-The xml containing the feed item.
-
-#### Returns
-[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')

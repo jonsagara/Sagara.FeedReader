@@ -22,24 +22,6 @@ default constructor (for serialization)
 ```csharp
 public FeedCloud();
 ```
-
-<a name='Sagara.FeedReader.Feeds.FeedCloud.FeedCloud(System.Xml.Linq.XElement)'></a>
-
-## FeedCloud(XElement) Constructor
-
-Initializes a new instance of the [FeedCloud](Sagara.FeedReader.Feeds.FeedCloud.md 'Sagara.FeedReader.Feeds.FeedCloud') class.  
-Reads a rss feed cloud element based on the xml given in element
-
-```csharp
-public FeedCloud(System.Xml.Linq.XElement? element);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.FeedCloud.FeedCloud(System.Xml.Linq.XElement).element'></a>
-
-`element` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-cloud element as xml
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.FeedCloud.Domain'></a>

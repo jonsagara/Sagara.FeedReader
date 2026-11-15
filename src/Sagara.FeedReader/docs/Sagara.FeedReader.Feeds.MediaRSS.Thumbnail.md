@@ -10,25 +10,6 @@ public class Thumbnail
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; Thumbnail
-### Constructors
-
-<a name='Sagara.FeedReader.Feeds.MediaRSS.Thumbnail.Thumbnail(System.Xml.Linq.XElement)'></a>
-
-## Thumbnail(XElement) Constructor
-
-Initializes a new instance of the [Thumbnail](Sagara.FeedReader.Feeds.MediaRSS.Thumbnail.md 'Sagara.FeedReader.Feeds.MediaRSS.Thumbnail') class.  
-Reads a rss feed item enclosure based on the xml given in element
-
-```csharp
-public Thumbnail(System.Xml.Linq.XElement element);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.MediaRSS.Thumbnail.Thumbnail(System.Xml.Linq.XElement).element'></a>
-
-`element` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-enclosure element as xml
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.MediaRSS.Thumbnail.Height'></a>

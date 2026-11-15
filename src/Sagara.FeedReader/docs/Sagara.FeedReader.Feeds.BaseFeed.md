@@ -29,41 +29,6 @@ default constructor (for serialization)
 ```csharp
 protected BaseFeed();
 ```
-
-<a name='Sagara.FeedReader.Feeds.BaseFeed.BaseFeed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement)'></a>
-
-## BaseFeed(string, XDocument, XElement) Constructor
-
-Initializes a new instance of the [BaseFeed](Sagara.FeedReader.Feeds.BaseFeed.md 'Sagara.FeedReader.Feeds.BaseFeed') class.  
-Reads a base feed based on the xml given in element
-
-```csharp
-protected BaseFeed(string feedXml, System.Xml.Linq.XDocument feedDoc, System.Xml.Linq.XElement channel);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.BaseFeed.BaseFeed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement).feedXml'></a>
-
-`feedXml` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-The entire feed XML as string.
-
-<a name='Sagara.FeedReader.Feeds.BaseFeed.BaseFeed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement).feedDoc'></a>
-
-`feedDoc` [System.Xml.Linq.XDocument](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XDocument 'System.Xml.Linq.XDocument')
-
-The XDocument parsed from the feed XML. Used to determine if there are iTunes extensions.
-
-<a name='Sagara.FeedReader.Feeds.BaseFeed.BaseFeed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement).channel'></a>
-
-`channel` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-  
-The `channel` (RSS) or `feed` (Atom) element in the xml as XElement.  
-  
-NOTE: RSS has a root `rss` element, followed by a `channel` element.  
-  
-Atom only has a root `feed` element.
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.BaseFeed.ChannelOrFeedElement'></a>

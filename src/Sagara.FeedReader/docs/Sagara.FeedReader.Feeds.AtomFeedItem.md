@@ -22,24 +22,6 @@ default constructor (for serialization)
 ```csharp
 public AtomFeedItem();
 ```
-
-<a name='Sagara.FeedReader.Feeds.AtomFeedItem.AtomFeedItem(System.Xml.Linq.XElement)'></a>
-
-## AtomFeedItem(XElement) Constructor
-
-Initializes a new instance of the [AtomFeedItem](Sagara.FeedReader.Feeds.AtomFeedItem.md 'Sagara.FeedReader.Feeds.AtomFeedItem') class.  
-Reads an atom feed based on the xml given in item
-
-```csharp
-public AtomFeedItem(System.Xml.Linq.XElement item);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.AtomFeedItem.AtomFeedItem(System.Xml.Linq.XElement).item'></a>
-
-`item` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-feed item as xml
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.AtomFeedItem.Author'></a>
@@ -62,11 +44,11 @@ public Sagara.FeedReader.Feeds.AtomPerson? Author { get; set; }
 All "category" elements
 
 ```csharp
-public System.Collections.Generic.IReadOnlyCollection<string> Categories { get; set; }
+public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Feeds.AtomFeedCategory> Categories { get; set; }
 ```
 
 #### Property Value
-[System.Collections.Generic.IReadOnlyCollection&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')
+[System.Collections.Generic.IReadOnlyCollection&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')[AtomFeedCategory](Sagara.FeedReader.Feeds.AtomFeedCategory.md 'Sagara.FeedReader.Feeds.AtomFeedCategory')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')
 
 <a name='Sagara.FeedReader.Feeds.AtomFeedItem.Content'></a>
 

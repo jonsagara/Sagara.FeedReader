@@ -10,22 +10,6 @@ public class WordPressExportComment
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; WordPressExportComment
-### Constructors
-
-<a name='Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.WordPressExportComment(System.Xml.Linq.XElement)'></a>
-
-## WordPressExportComment(XElement) Constructor
-
-.ctor
-
-```csharp
-public WordPressExportComment(System.Xml.Linq.XElement commentElement);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.WordPressExportComment(System.Xml.Linq.XElement).commentElement'></a>
-
-`commentElement` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
 ### Properties
 
 <a name='Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment.Approved'></a>

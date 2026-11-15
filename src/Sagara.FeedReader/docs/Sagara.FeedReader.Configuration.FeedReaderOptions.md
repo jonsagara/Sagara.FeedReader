@@ -10,7 +10,52 @@ public class FeedReaderOptions
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; FeedReaderOptions
+### Fields
+
+<a name='Sagara.FeedReader.Configuration.FeedReaderOptions.DefaultMaxResponseBytes'></a>
+
+## FeedReaderOptions.DefaultMaxResponseBytes Field
+
+The default value of [MaxResponseBytes](Sagara.FeedReader.Configuration.FeedReaderOptions.md#Sagara.FeedReader.Configuration.FeedReaderOptions.MaxResponseBytes 'Sagara.FeedReader.Configuration.FeedReaderOptions.MaxResponseBytes'): 10 MB.
+
+```csharp
+public const long DefaultMaxResponseBytes = 10485760;
+```
+
+#### Field Value
+[System.Int64](https://docs.microsoft.com/en-us/dotnet/api/System.Int64 'System.Int64')
 ### Properties
+
+<a name='Sagara.FeedReader.Configuration.FeedReaderOptions.DefaultUserAgent'></a>
+
+## FeedReaderOptions.DefaultUserAgent Property
+
+The User-Agent header sent with every request, unless a request passes its own. If null or white space,  
+a browser-like User-Agent is used, because some sites reject requests that don't look like they come from a browser.
+
+```csharp
+public string? DefaultUserAgent { get; set; }
+```
+
+#### Property Value
+[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+
+### Remarks
+If you run a crawler or bot, consider identifying it, e.g., "MyFeedBot/1.0 (+https://example.com/bot)".
+
+<a name='Sagara.FeedReader.Configuration.FeedReaderOptions.MaxResponseBytes'></a>
+
+## FeedReaderOptions.MaxResponseBytes Property
+
+The largest response body, in bytes, that will be downloaded. Larger responses fail with  
+[ResponseTooLarge](Sagara.FeedReader.FeedReaderErrorKind.md#Sagara.FeedReader.FeedReaderErrorKind.ResponseTooLarge 'Sagara.FeedReader.FeedReaderErrorKind.ResponseTooLarge'). Must be positive. Default is [DefaultMaxResponseBytes](Sagara.FeedReader.Configuration.FeedReaderOptions.md#Sagara.FeedReader.Configuration.FeedReaderOptions.DefaultMaxResponseBytes 'Sagara.FeedReader.Configuration.FeedReaderOptions.DefaultMaxResponseBytes') (10 MB).
+
+```csharp
+public long MaxResponseBytes { get; set; }
+```
+
+#### Property Value
+[System.Int64](https://docs.microsoft.com/en-us/dotnet/api/System.Int64 'System.Int64')
 
 <a name='Sagara.FeedReader.Configuration.FeedReaderOptions.Proxy'></a>
 
@@ -31,7 +76,7 @@ public System.Net.IWebProxy? Proxy { get; set; }
 
   
 If [SuppressRecyclableMemoryStreamManagerRegistration](Sagara.FeedReader.Configuration.FeedReaderOptions.md#Sagara.FeedReader.Configuration.FeedReaderOptions.SuppressRecyclableMemoryStreamManagerRegistration 'Sagara.FeedReader.Configuration.FeedReaderOptions.SuppressRecyclableMemoryStreamManagerRegistration') is false, allow the caller to configure  
-            the RecyclableMemoryStreamManager for registering with the DI service. Otherwise, use our default values.  
+            the RecyclableMemoryStreamManager for registering with the DI service. If null, our default values are used.  
   
 Ignored if [SuppressRecyclableMemoryStreamManagerRegistration](Sagara.FeedReader.Configuration.FeedReaderOptions.md#Sagara.FeedReader.Configuration.FeedReaderOptions.SuppressRecyclableMemoryStreamManagerRegistration 'Sagara.FeedReader.Configuration.FeedReaderOptions.SuppressRecyclableMemoryStreamManagerRegistration') is true.
 
@@ -59,8 +104,8 @@ public System.Action<Polly.ResiliencePipelineBuilder<System.Net.Http.HttpRespons
 
 ## FeedReaderOptions.SuppressRecyclableMemoryStreamManagerRegistration Property
 
-Set to true if you, the caller, have already registered a RecyclableMemoryStreamManager with  
-the DI service and you don't want this library to register another instance. Default is false.
+Set to true if you, the caller, will register a RecyclableMemoryStreamManager with the DI service yourself  
+and you don't want this library to register one. Default is false.
 
 ```csharp
 public bool SuppressRecyclableMemoryStreamManagerRegistration { get; set; }
@@ -68,3 +113,7 @@ public bool SuppressRecyclableMemoryStreamManagerRegistration { get; set; }
 
 #### Property Value
 [System.Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean 'System.Boolean')
+
+### Remarks
+Even when this is false, a RecyclableMemoryStreamManager that is already registered when  
+`AddFeedReaderServices` is called is kept, not replaced.

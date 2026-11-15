@@ -22,36 +22,6 @@ default constructor (for serialization)
 ```csharp
 public Rss20Feed();
 ```
-
-<a name='Sagara.FeedReader.Feeds.Rss20Feed.Rss20Feed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement)'></a>
-
-## Rss20Feed(string, XDocument, XElement) Constructor
-
-Initializes a new instance of the [Rss20Feed](Sagara.FeedReader.Feeds.Rss20Feed.md 'Sagara.FeedReader.Feeds.Rss20Feed') class.  
-Reads a rss 2.0 feed based on the xml given in channel
-
-```csharp
-public Rss20Feed(string feedXml, System.Xml.Linq.XDocument feedDoc, System.Xml.Linq.XElement channel);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.Rss20Feed.Rss20Feed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement).feedXml'></a>
-
-`feedXml` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-the entire feed xml as string
-
-<a name='Sagara.FeedReader.Feeds.Rss20Feed.Rss20Feed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement).feedDoc'></a>
-
-`feedDoc` [System.Xml.Linq.XDocument](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XDocument 'System.Xml.Linq.XDocument')
-
-The XDocument parsed from the feed XML. Used to determine if there are iTunes extensions.
-
-<a name='Sagara.FeedReader.Feeds.Rss20Feed.Rss20Feed(string,System.Xml.Linq.XDocument,System.Xml.Linq.XElement).channel'></a>
-
-`channel` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-the "channel" element in the xml as XElement
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.Rss20Feed.Categories'></a>
@@ -61,11 +31,11 @@ the "channel" element in the xml as XElement
 All "category" elements
 
 ```csharp
-public System.Collections.Generic.IReadOnlyCollection<string> Categories { get; set; }
+public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Feeds.Rss20FeedCategory> Categories { get; set; }
 ```
 
 #### Property Value
-[System.Collections.Generic.IReadOnlyCollection&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')
+[System.Collections.Generic.IReadOnlyCollection&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')[Rss20FeedCategory](Sagara.FeedReader.Feeds.Rss20FeedCategory.md 'Sagara.FeedReader.Feeds.Rss20FeedCategory')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.Generic.IReadOnlyCollection-1 'System.Collections.Generic.IReadOnlyCollection`1')
 
 <a name='Sagara.FeedReader.Feeds.Rss20Feed.Cloud'></a>
 
@@ -301,36 +271,6 @@ public string? WebMaster { get; set; }
 #### Property Value
 [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
 ### Methods
-
-<a name='Sagara.FeedReader.Feeds.Rss20Feed.ParseDates(string,string,string)'></a>
-
-## Rss20Feed.ParseDates(string, string, string) Method
-
-Sets the PublishingDate and LastBuildDate. If parsing fails, then it checks if the language  
-is set and tries to parse the date based on the culture of the language.
-
-```csharp
-private void ParseDates(string? language, string? publishingDate, string? lastBuildDate);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.Rss20Feed.ParseDates(string,string,string).language'></a>
-
-`language` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-language of the feed
-
-<a name='Sagara.FeedReader.Feeds.Rss20Feed.ParseDates(string,string,string).publishingDate'></a>
-
-`publishingDate` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-publishing date as string
-
-<a name='Sagara.FeedReader.Feeds.Rss20Feed.ParseDates(string,string,string).lastBuildDate'></a>
-
-`lastBuildDate` [System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
-
-last build date as string
 
 <a name='Sagara.FeedReader.Feeds.Rss20Feed.ToFeed()'></a>
 

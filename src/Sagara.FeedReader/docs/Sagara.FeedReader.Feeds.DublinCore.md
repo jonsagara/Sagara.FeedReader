@@ -22,24 +22,6 @@ default constructor (for serialization)
 ```csharp
 public DublinCore();
 ```
-
-<a name='Sagara.FeedReader.Feeds.DublinCore.DublinCore(System.Xml.Linq.XElement)'></a>
-
-## DublinCore(XElement) Constructor
-
-Initializes a new instance of the [DublinCore](Sagara.FeedReader.Feeds.DublinCore.md 'Sagara.FeedReader.Feeds.DublinCore') class.  
-Reads a dublincore (dc:) element based on the xml given in element
-
-```csharp
-public DublinCore(System.Xml.Linq.XElement item);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.DublinCore.DublinCore(System.Xml.Linq.XElement).item'></a>
-
-`item` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-item element as xml
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.DublinCore.Contributor'></a>

@@ -21,26 +21,6 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 See this article for RSS 2.0 requirements: https://help.apple.com/itc/podcasts_connect/#/itcb54353390  
   
 Apple no longer accepts Atom feeds for podcasts, so I don't see `im` documented anywhere.
-### Constructors
-
-<a name='Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.iTunesChannel(System.Xml.Linq.XElement,Microsoft.Extensions.Logging.ILoggerFactory)'></a>
-
-## iTunesChannel(XElement, ILoggerFactory) Constructor
-
-.ctor
-
-```csharp
-public iTunesChannel(System.Xml.Linq.XElement channelElement, Microsoft.Extensions.Logging.ILoggerFactory? loggerFactory=null);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.iTunesChannel(System.Xml.Linq.XElement,Microsoft.Extensions.Logging.ILoggerFactory).channelElement'></a>
-
-`channelElement` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-<a name='Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.iTunesChannel(System.Xml.Linq.XElement,Microsoft.Extensions.Logging.ILoggerFactory).loggerFactory'></a>
-
-`loggerFactory` [Microsoft.Extensions.Logging.ILoggerFactory](https://docs.microsoft.com/en-us/dotnet/api/Microsoft.Extensions.Logging.ILoggerFactory 'Microsoft.Extensions.Logging.ILoggerFactory')
 ### Properties
 
 <a name='Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel.Author'></a>

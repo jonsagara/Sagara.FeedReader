@@ -22,24 +22,6 @@ default constructor (for serialization)
 ```csharp
 public AtomPerson();
 ```
-
-<a name='Sagara.FeedReader.Feeds.AtomPerson.AtomPerson(System.Xml.Linq.XElement)'></a>
-
-## AtomPerson(XElement) Constructor
-
-Initializes a new instance of the [AtomPerson](Sagara.FeedReader.Feeds.AtomPerson.md 'Sagara.FeedReader.Feeds.AtomPerson') class.  
-Reads an atom person based on the xml given in element
-
-```csharp
-public AtomPerson(System.Xml.Linq.XElement? element);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.AtomPerson.AtomPerson(System.Xml.Linq.XElement).element'></a>
-
-`element` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-person element as xml
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.AtomPerson.EMail'></a>

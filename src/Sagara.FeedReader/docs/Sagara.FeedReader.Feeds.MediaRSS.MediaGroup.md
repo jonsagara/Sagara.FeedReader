@@ -10,25 +10,6 @@ public class MediaGroup
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; MediaGroup
-### Constructors
-
-<a name='Sagara.FeedReader.Feeds.MediaRSS.MediaGroup.MediaGroup(System.Xml.Linq.XElement)'></a>
-
-## MediaGroup(XElement) Constructor
-
-Initializes a new instance of the [MediaGroup](Sagara.FeedReader.Feeds.MediaRSS.MediaGroup.md 'Sagara.FeedReader.Feeds.MediaRSS.MediaGroup') class.  
-Reads a rss media group item enclosure based on the xml given in element
-
-```csharp
-public MediaGroup(System.Xml.Linq.XElement element);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.MediaRSS.MediaGroup.MediaGroup(System.Xml.Linq.XElement).element'></a>
-
-`element` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-enclosure element as xml
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.MediaRSS.MediaGroup.Element'></a>

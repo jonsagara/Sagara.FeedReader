@@ -22,24 +22,6 @@ default constructor (for serialization)
 ```csharp
 public Syndication();
 ```
-
-<a name='Sagara.FeedReader.Feeds.Syndication.Syndication(System.Xml.Linq.XElement)'></a>
-
-## Syndication(XElement) Constructor
-
-Initializes a new instance of the [Syndication](Sagara.FeedReader.Feeds.Syndication.md 'Sagara.FeedReader.Feeds.Syndication') class.  
-Creates the object based on the xml in the given XElement
-
-```csharp
-public Syndication(System.Xml.Linq.XElement xelement);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.Syndication.Syndication(System.Xml.Linq.XElement).xelement'></a>
-
-`xelement` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-syndication element as xml
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.Syndication.UpdateBase'></a>

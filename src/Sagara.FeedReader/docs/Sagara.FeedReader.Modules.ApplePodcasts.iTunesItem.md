@@ -21,22 +21,6 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 See this article for RSS 2.0 requirements: https://help.apple.com/itc/podcasts_connect/#/itcb54353390  
   
 Apple no longer accepts Atom feeds for podcasts, so I don't see `im` documented anywhere.
-### Constructors
-
-<a name='Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.iTunesItem(System.Xml.Linq.XElement)'></a>
-
-## iTunesItem(XElement) Constructor
-
-.ctor
-
-```csharp
-public iTunesItem(System.Xml.Linq.XElement itemElement);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.iTunesItem(System.Xml.Linq.XElement).itemElement'></a>
-
-`itemElement` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
 ### Properties
 
 <a name='Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem.Block'></a>

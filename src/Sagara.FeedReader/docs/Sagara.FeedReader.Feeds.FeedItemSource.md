@@ -22,24 +22,6 @@ default constructor (for serialization)
 ```csharp
 public FeedItemSource();
 ```
-
-<a name='Sagara.FeedReader.Feeds.FeedItemSource.FeedItemSource(System.Xml.Linq.XElement)'></a>
-
-## FeedItemSource(XElement) Constructor
-
-Initializes a new instance of the [FeedItemSource](Sagara.FeedReader.Feeds.FeedItemSource.md 'Sagara.FeedReader.Feeds.FeedItemSource') class.  
-Reads a rss feed item based on the xml given in element
-
-```csharp
-public FeedItemSource(System.Xml.Linq.XElement? element);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.FeedItemSource.FeedItemSource(System.Xml.Linq.XElement).element'></a>
-
-`element` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-item source element as xml
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.FeedItemSource.Url'></a>

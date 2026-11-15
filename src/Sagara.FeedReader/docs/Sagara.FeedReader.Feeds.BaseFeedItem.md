@@ -29,24 +29,6 @@ default constructor (for serialization)
 ```csharp
 protected BaseFeedItem();
 ```
-
-<a name='Sagara.FeedReader.Feeds.BaseFeedItem.BaseFeedItem(System.Xml.Linq.XElement)'></a>
-
-## BaseFeedItem(XElement) Constructor
-
-Initializes a new instance of the [BaseFeedItem](Sagara.FeedReader.Feeds.BaseFeedItem.md 'Sagara.FeedReader.Feeds.BaseFeedItem') class.  
-Reads a base feed item based on the xml given in element
-
-```csharp
-protected BaseFeedItem(System.Xml.Linq.XElement itemOrEntryElement);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.BaseFeedItem.BaseFeedItem(System.Xml.Linq.XElement).itemOrEntryElement'></a>
-
-`itemOrEntryElement` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-The `item` or `entry` element from the feed.
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.BaseFeedItem.ItemOrEntryElement'></a>

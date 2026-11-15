@@ -16,22 +16,6 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 Note: The <itunes:owner> tag information is for administrative communication about the   
 podcast and isn’t displayed in Apple Podcasts. Please make sure the email address is active   
 and monitored.
-### Constructors
-
-<a name='Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner.iTunesOwner(System.Xml.Linq.XElement)'></a>
-
-## iTunesOwner(XElement) Constructor
-
-.ctor
-
-```csharp
-public iTunesOwner(System.Xml.Linq.XElement ownerElement);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner.iTunesOwner(System.Xml.Linq.XElement).ownerElement'></a>
-
-`ownerElement` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
 ### Properties
 
 <a name='Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner.Email'></a>

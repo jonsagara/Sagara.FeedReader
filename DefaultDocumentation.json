@@ -1,6 +1,7 @@
 {
   "LogLevel": "Warn",
   "GeneratedPages": "Assembly,Types",
+  "GeneratedAccessModifiers": "Public,Protected,ProtectedInternal",
   "NamespaceDocItem": {
     "Sections": [
       "Title",

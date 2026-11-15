@@ -25,24 +25,6 @@ default constructor (for serialization)
 ```csharp
 public FeedTextInput();
 ```
-
-<a name='Sagara.FeedReader.Feeds.FeedTextInput.FeedTextInput(System.Xml.Linq.XElement)'></a>
-
-## FeedTextInput(XElement) Constructor
-
-Initializes a new instance of the [FeedTextInput](Sagara.FeedReader.Feeds.FeedTextInput.md 'Sagara.FeedReader.Feeds.FeedTextInput') class.  
-Reads a rss textInput element based on the xml given in element
-
-```csharp
-public FeedTextInput(System.Xml.Linq.XElement? element);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.FeedTextInput.FeedTextInput(System.Xml.Linq.XElement).element'></a>
-
-`element` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-text input element as xml
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.FeedTextInput.Description'></a>

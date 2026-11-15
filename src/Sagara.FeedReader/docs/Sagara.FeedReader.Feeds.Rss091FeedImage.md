@@ -27,24 +27,6 @@ default constructor (for serialization)
 ```csharp
 public Rss091FeedImage();
 ```
-
-<a name='Sagara.FeedReader.Feeds.Rss091FeedImage.Rss091FeedImage(System.Xml.Linq.XElement)'></a>
-
-## Rss091FeedImage(XElement) Constructor
-
-Initializes a new instance of the [Rss091FeedImage](Sagara.FeedReader.Feeds.Rss091FeedImage.md 'Sagara.FeedReader.Feeds.Rss091FeedImage') class.  
-Creates this object based on the xml in the XElement parameter.
-
-```csharp
-public Rss091FeedImage(System.Xml.Linq.XElement? element);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.Rss091FeedImage.Rss091FeedImage(System.Xml.Linq.XElement).element'></a>
-
-`element` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-feed image as xml
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.Rss091FeedImage.Description'></a>

@@ -22,24 +22,6 @@ default constructor (for serialization)
 ```csharp
 public AtomLink();
 ```
-
-<a name='Sagara.FeedReader.Feeds.AtomLink.AtomLink(System.Xml.Linq.XElement)'></a>
-
-## AtomLink(XElement) Constructor
-
-Initializes a new instance of the [AtomLink](Sagara.FeedReader.Feeds.AtomLink.md 'Sagara.FeedReader.Feeds.AtomLink') class.  
-Reads an atom link based on the xml given in element
-
-```csharp
-public AtomLink(System.Xml.Linq.XElement element);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Feeds.AtomLink.AtomLink(System.Xml.Linq.XElement).element'></a>
-
-`element` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
-
-link as xml
 ### Properties
 
 <a name='Sagara.FeedReader.Feeds.AtomLink.Href'></a>

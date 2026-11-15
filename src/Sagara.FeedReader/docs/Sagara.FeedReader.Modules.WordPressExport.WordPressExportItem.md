@@ -10,22 +10,6 @@ public class WordPressExportItem
 ```
 
 Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object 'System.Object') &#129106; WordPressExportItem
-### Constructors
-
-<a name='Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.WordPressExportItem(System.Xml.Linq.XElement)'></a>
-
-## WordPressExportItem(XElement) Constructor
-
-.ctor
-
-```csharp
-public WordPressExportItem(System.Xml.Linq.XElement itemElement);
-```
-#### Parameters
-
-<a name='Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.WordPressExportItem(System.Xml.Linq.XElement).itemElement'></a>
-
-`itemElement` [System.Xml.Linq.XElement](https://docs.microsoft.com/en-us/dotnet/api/System.Xml.Linq.XElement 'System.Xml.Linq.XElement')
 ### Properties
 
 <a name='Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.Comments'></a>
@@ -139,11 +123,11 @@ public System.DateTime PostDate { get; set; }
 The post_date_gmt element's value.
 
 ```csharp
-public System.DateTime PostDateGmt { get; set; }
+public System.Nullable<System.DateTime> PostDateGmt { get; set; }
 ```
 
 #### Property Value
-[System.DateTime](https://docs.microsoft.com/en-us/dotnet/api/System.DateTime 'System.DateTime')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.DateTime](https://docs.microsoft.com/en-us/dotnet/api/System.DateTime 'System.DateTime')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostId'></a>
 
@@ -178,11 +162,11 @@ public System.DateTime PostModified { get; set; }
 The post_modified_gmt element's value.
 
 ```csharp
-public System.DateTime PostModifiedGmt { get; set; }
+public System.Nullable<System.DateTime> PostModifiedGmt { get; set; }
 ```
 
 #### Property Value
-[System.DateTime](https://docs.microsoft.com/en-us/dotnet/api/System.DateTime 'System.DateTime')
+[System.Nullable&lt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')[System.DateTime](https://docs.microsoft.com/en-us/dotnet/api/System.DateTime 'System.DateTime')[&gt;](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable-1 'System.Nullable`1')
 
 <a name='Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem.PostName'></a>
 
