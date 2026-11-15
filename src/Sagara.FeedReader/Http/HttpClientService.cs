@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Microsoft.IO;
+﻿using Microsoft.IO;
 using Microsoft.Net.Http.Headers;
 
 namespace Sagara.FeedReader.Http;
@@ -101,7 +100,8 @@ public class HttpClientService : IFeedReaderService
     /// </remarks>
     private static HttpRequestMessage CreateRequestMessage(string url, string? userAgent)
     {
-        url = WebUtility.UrlDecode(url);
+        // NOTE: Do not URL-decode the url. It changes the meaning of encoded characters, e.g., %26 in
+        //   a query string value becomes &, which splits the value into two parameters.
 
         // NOTE: The caller is responsible for disposing of the returned message.
         HttpRequestMessage requestMsg = new(HttpMethod.Get, url);
