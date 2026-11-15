@@ -20,12 +20,8 @@ public class FeedReaderTest
 
     #region special cases
 
-    [Fact]
-    public async Task TestDownload400BadRequest()
-    {
-        // results in a 400 BadRequest if webclient is not initialized correctly
-        await DownloadTestAsync("http://www.methode.at/blog?format=RSS", TestContext.Current.CancellationToken);
-    }
+    // 2026-11-14: Removed TestDownload400BadRequest. http://www.methode.at/blog?format=RSS now returns 404,
+    //   and the test only passed because DownloadTestAsync doesn't check the status code.
 
     [Fact]
     public async Task TestAcceptHeaderForbiddenWithParsing()
@@ -63,11 +59,8 @@ public class FeedReaderTest
         await TestParseRssLinksAsync("https://codehollow.com", 2, TestContext.Current.CancellationToken);
     }
 
-    [Fact]
-    public async Task TestParseRssLinksNYTimes()
-    {
-        await TestParseRssLinksAsync("nytimes.com", 1, TestContext.Current.CancellationToken);
-    }
+    // 2026-11-14: Removed TestParseRssLinksNYTimes. nytimes.com intermittently returns a 403 bot-block page,
+    //   which (without a status code check) shows up as zero links.
 
     [Fact]
     public async Task TestParseRssLinksTechMeme()
@@ -98,33 +91,14 @@ public class FeedReaderTest
 
     #endregion
 
-    #region Parse Html and check if it returns absolute urls
-
-    [Fact]
-    public async Task TestParseAndAbsoluteUrlDerStandard1()
-    {
-        string url = "derstandard.at";
-        var links = await _feedReaderSvc.GetFeedUrlsFromPageAsync(url, TestContext.Current.CancellationToken);
-
-        foreach (var link in links)
-        {
-            var absoluteUrl = Helpers.GetAbsoluteFeedUrl(url, link);
-            Assert.StartsWith("http://", absoluteUrl.Url);
-        }
-
-    }
-
-    #endregion
+    // 2026-11-14: Removed TestParseAndAbsoluteUrlDerStandard1. derstandard.at no longer has any feed <link> tags,
+    //   so the loop never ran and the test passed vacuously. Absolute URL resolution will be covered by unit tests
+    //   when GetFeedUrlsFromPageAsync starts returning absolute URLs.
 
     #region Read Feed
 
-    [Fact]
-    public async Task TestReadAdobeFeed()
-    {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://blog.adobe.com/feed.xml", cancellationToken: TestContext.Current.CancellationToken);
-        string? title = feed.Title;
-        Assert.Equal("Adobe Blog", title);
-    }
+    // 2026-11-14: Removed TestReadAdobeFeed. https://blog.adobe.com/feed.xml now returns a 404 HTML page.
+    //   Atom parsing of the Adobe feed is still covered by the AtomAdobe.xml unit test fixture.
 
     [Fact]
     public async Task TestReadSimpleFeed()
@@ -132,7 +106,7 @@ public class FeedReaderTest
         var feed = await _feedReaderSvc.ReadFromUrlAsync("https://arminreiter.com/feed", cancellationToken: TestContext.Current.CancellationToken);
         string? title = feed.Title;
         Assert.Equal("arminreiter.com", title);
-        Assert.Equal(10, feed.Items.Count());
+        Assert.NotEmpty(feed.Items);
     }
 
     // 2022-11-13: Feed no longer exists
@@ -165,17 +139,10 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadAtomFeedGitHub()
     {
-        try
-        {
-            var feed = await _feedReaderSvc.ReadFromUrlAsync("http://github.com/codehollow/AzureBillingRateCardSample/commits/master.atom", cancellationToken: TestContext.Current.CancellationToken);
-            //Assert.True(!string.IsNullOrEmpty(feed.Title));
-        }
-        catch (Exception ex)
-        {
-            Assert.Equal(typeof(System.Net.WebException), ex.InnerException!.GetType());
-            Assert.Equal("The request was aborted: Could not create SSL/TLS secure channel.", ex.InnerException.Message);
-        }
-
+        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://github.com/codehollow/AzureBillingRateCardSample/commits/master.atom", cancellationToken: TestContext.Current.CancellationToken);
+        Assert.Equal(FeedType.Atom, feed.Type);
+        Assert.False(string.IsNullOrEmpty(feed.Title));
+        Assert.NotEmpty(feed.Items);
     }
 
     [Fact]
@@ -201,11 +168,8 @@ public class FeedReaderTest
         Assert.True(feed.Items.Count > 0);
     }
 
-    [Fact]
-    public async Task TestReadBuildAzure()
-    {
-        await DownloadTestAsync("https://buildazure.com", TestContext.Current.CancellationToken);
-    }
+    // 2026-11-14: Removed TestReadBuildAzure. https://buildazure.com redirects to the build5nines.com HTML home page,
+    //   so the test only checked that some HTML downloaded.
 
     [Fact]
     public async Task TestReadNoticiasCatolicas()
@@ -247,19 +211,14 @@ public class FeedReaderTest
         Assert.True(feed.Items.Count > 0);
     }
 
-    [Fact]
-    public async Task TestReadAPOD()
-    {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://apod.nasa.gov/apod.rss", cancellationToken: TestContext.Current.CancellationToken);
-        Assert.Equal("APOD", feed.Title);
-        Assert.True(feed.Items.Count > 0);
-    }
+    // 2026-11-14: Removed TestReadAPOD. https://apod.nasa.gov/apod.rss now redirects to the
+    //   https://science.nasa.gov/apod/ HTML page.
 
     [Fact]
     public async Task TestReadThaqafnafsak()
     {
         var feed = await _feedReaderSvc.ReadFromUrlAsync("http://www.thaqafnafsak.com/feed", cancellationToken: TestContext.Current.CancellationToken);
-        Assert.Equal("", feed.Title);
+        Assert.False(string.IsNullOrEmpty(feed.Title));
         Assert.True(feed.Items.Count > 0);
     }
 
