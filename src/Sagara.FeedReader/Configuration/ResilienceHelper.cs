@@ -4,12 +4,21 @@ using Microsoft.Extensions.Http.Resilience;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Polly;
-using Sagara.FeedReader.Http;
 
 namespace Sagara.FeedReader.Configuration;
 
 internal static class ResilienceHelper
 {
+    /// <summary>
+    /// The name of the HttpClient that FeedReader uses. Appears in HttpClient and resilience pipeline logs.
+    /// </summary>
+    internal const string HttpClientName = "FeedReader.HttpClient";
+
+    /// <summary>
+    /// The default resilience pipeline retries transient failures up to this many times.
+    /// </summary>
+    internal const int MaxRetryAttempts = 1;
+
     internal static readonly Action<ResiliencePipelineBuilder<HttpResponseMessage>, ResilienceHandlerContext> DefaultResilienceHandler =
         (pipelineBuilder, context) =>
         {
@@ -19,13 +28,13 @@ internal static class ResilienceHelper
             pipelineBuilder.AddRetry(new HttpRetryStrategyOptions
             {
                 ShouldHandle = args => ValueTask.FromResult(HttpClientResiliencePredicates.IsTransient(args.Outcome)),
-                MaxRetryAttempts = NamedHttpClients.FeedReader.MaxRetryAttempts,
+                MaxRetryAttempts = ResilienceHelper.MaxRetryAttempts,
                 BackoffType = DelayBackoffType.Exponential,
                 OnRetry = args =>
                 {
                     logger.OnRetry(
                         args.Outcome.Exception,
-                        httpClientName: NamedHttpClients.FeedReader.Name,
+                        httpClientName: HttpClientName,
                         requestUri: args.Outcome.Result?.RequestMessage?.RequestUri,
                         statusCodeInt: (int?)args.Outcome.Result?.StatusCode,
                         statusCode: args.Outcome.Result?.StatusCode,

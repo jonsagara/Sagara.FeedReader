@@ -14,7 +14,6 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
 		<PackageReference Include="Polly.Core" />
-		<PackageReference Include="Scrutor" />
 		<PackageReference Include="Serilog" />
 		<PackageReference Include="Serilog.Enrichers.Environment" />
 		<PackageReference Include="Serilog.Extensions.Hosting" />

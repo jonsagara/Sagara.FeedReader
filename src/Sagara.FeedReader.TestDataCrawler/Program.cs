@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Sagara.FeedReader;
 using Sagara.FeedReader.TestDataCrawler;
 
 try
@@ -9,7 +8,6 @@ try
     using (var serviceScope = host.Services.CreateScope())
     {
         var services = serviceScope.ServiceProvider;
-        var feedReaderSvc = services.GetRequiredService<FeedReader>();
         var feedProcessor = services.GetRequiredService<FeedProcessor>();
 
         // Get all feed URLs from the file.

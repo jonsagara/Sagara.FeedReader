@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Sagara.FeedReader.Http;
+﻿using System.Net;
+using Microsoft.Extensions.DependencyInjection;
 using Sagara.FeedReader.Tests.Integration.Fixtures;
 using Xunit;
 
@@ -8,13 +8,11 @@ namespace Sagara.FeedReader.Tests.Integration;
 [Collection(nameof(ServiceScopeCollection))]
 public class FeedReaderTest
 {
-    private readonly FeedReader _feedReaderSvc;
-    private readonly HttpClientService _httpClientSvc;
+    private readonly IFeedReader _feedReader;
 
     public FeedReaderTest(HostFixture hostFixture)
     {
-        _feedReaderSvc = hostFixture.ServiceScope.ServiceProvider.GetRequiredService<FeedReader>();
-        _httpClientSvc = hostFixture.ServiceScope.ServiceProvider.GetRequiredService<HttpClientService>();
+        _feedReader = hostFixture.ServiceScope.ServiceProvider.GetRequiredService<IFeedReader>();
     }
 
 
@@ -27,27 +25,47 @@ public class FeedReaderTest
     public async Task TestAcceptHeaderForbiddenWithParsing()
     {
         // results in 403 Forbidden if webclient does not have the accept header set
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("http://www.girlsguidetopm.com/feed/", cancellationToken: TestContext.Current.CancellationToken);
-        string? title = feed.Title;
+        var feed = await GetFeedOrFailAsync("http://www.girlsguidetopm.com/feed/");
         Assert.True(feed.Items.Count > 2);
-        Assert.True(!string.IsNullOrEmpty(title));
+        Assert.False(string.IsNullOrEmpty(feed.Title));
     }
 
-    [Fact]
-    public async Task TestAcceptForbiddenUserAgent()
-    {
-        // results in 403 Forbidden if webclient does not have the accept header set
-        await DownloadTestAsync("https://mikeclayton.wordpress.com/feed/", TestContext.Current.CancellationToken);
-    }
-
+    // 2026-11-14: Removed TestAcceptForbiddenUserAgent. It downloaded https://mikeclayton.wordpress.com/feed/,
+    //   which TestReadMikeC already reads and parses.
 
     [Fact]
     public async Task TestAcceptForbiddenUserAgentWrike()
     {
-        // results in 403 Forbidden if webclient does not have the accept header set
-        await DownloadTestAsync("https://www.wrike.com/blog", TestContext.Current.CancellationToken);
+        // results in 403 Forbidden if webclient does not have the user agent set
+        var result = await _feedReader.GetFeedUrlsFromPageAsync("https://www.wrike.com/blog", cancellationToken: TestContext.Current.CancellationToken);
+
+        AssertSuccess(result);
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
     }
 
+    #endregion
+
+    #region Error results
+
+    [Fact]
+    public async Task TestHtmlPageReturnsNotAFeed()
+    {
+        var result = await _feedReader.GetFeedAsync("https://example.com/", cancellationToken: TestContext.Current.CancellationToken);
+
+        Assert.False(result.IsSuccess);
+        Assert.Equal(FeedReaderErrorKind.NotAFeed, result.Error.Kind);
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+    }
+
+    [Fact]
+    public async Task TestMissingFeedReturnsHttpError404()
+    {
+        var result = await _feedReader.GetFeedAsync("https://github.com/codehollow/does-not-exist-xyz/commits/master.atom", cancellationToken: TestContext.Current.CancellationToken);
+
+        Assert.False(result.IsSuccess);
+        Assert.Equal(FeedReaderErrorKind.HttpError, result.Error.Kind);
+        Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
+    }
 
     #endregion
 
@@ -56,7 +74,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestParseRssLinksCodehollow()
     {
-        await TestParseRssLinksAsync("https://codehollow.com", 2, TestContext.Current.CancellationToken);
+        await TestParseRssLinksAsync("https://codehollow.com", 2);
     }
 
     // 2026-11-14: Removed TestParseRssLinksNYTimes. nytimes.com intermittently returns a 403 bot-block page,
@@ -65,35 +83,31 @@ public class FeedReaderTest
     [Fact]
     public async Task TestParseRssLinksTechMeme()
     {
-        await TestParseRssLinksAsync("https://techmeme.com/", 2, TestContext.Current.CancellationToken);
+        await TestParseRssLinksAsync("https://techmeme.com/", 2);
     }
 
-    [Fact]
-    public async Task TestParseRssLinksTechMemeNakedDomain()
-    {
-        await TestParseRssLinksAsync("techmeme.com", 2, TestContext.Current.CancellationToken);
-    }
+    // 2026-11-14: Removed TestParseRssLinksTechMemeNakedDomain. URLs without a scheme now throw ArgumentException,
+    //   which is covered by unit tests.
 
     [Fact]
     public async Task TestParseRssLinksTechMemeWwwDomain()
     {
-        await TestParseRssLinksAsync("www.techmeme.com", 2, TestContext.Current.CancellationToken);
+        await TestParseRssLinksAsync("https://www.techmeme.com/", 2);
     }
 
-    private async Task TestParseRssLinksAsync(string url, int expectedNumberOfLinks, CancellationToken cancellationToken = default)
+    private async Task TestParseRssLinksAsync(string url, int expectedNumberOfLinks)
     {
-        var urls = (await _feedReaderSvc.GetFeedUrlsFromPageAsync(url, cancellationToken))
-            .Select(hfl => hfl.Url)
-            .ToArray();
+        var result = await _feedReader.GetFeedUrlsFromPageAsync(url, cancellationToken: TestContext.Current.CancellationToken);
 
-        Assert.Equal(expectedNumberOfLinks, urls.Length);
+        var links = AssertSuccess(result);
+        Assert.Equal(expectedNumberOfLinks, links.Count);
+        Assert.All(links, link => Assert.True(Uri.IsWellFormedUriString(link.Url, UriKind.Absolute), link.Url));
     }
 
     #endregion
 
     // 2026-11-14: Removed TestParseAndAbsoluteUrlDerStandard1. derstandard.at no longer has any feed <link> tags,
-    //   so the loop never ran and the test passed vacuously. Absolute URL resolution will be covered by unit tests
-    //   when GetFeedUrlsFromPageAsync starts returning absolute URLs.
+    //   so the loop never ran and the test passed vacuously. Absolute URL resolution is covered by unit tests.
 
     #region Read Feed
 
@@ -103,9 +117,8 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadSimpleFeed()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://arminreiter.com/feed", cancellationToken: TestContext.Current.CancellationToken);
-        string? title = feed.Title;
-        Assert.Equal("arminreiter.com", title);
+        var feed = await GetFeedOrFailAsync("https://arminreiter.com/feed");
+        Assert.Equal("arminreiter.com", feed.Title);
         Assert.NotEmpty(feed.Items);
     }
 
@@ -122,24 +135,23 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadRss10GermanFeed()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("http://rss.orf.at/news.xml", cancellationToken: TestContext.Current.CancellationToken);
-        string? title = feed.Title;
-        Assert.Equal("news.ORF.at", title);
+        var feed = await GetFeedOrFailAsync("http://rss.orf.at/news.xml");
+        Assert.Equal("news.ORF.at", feed.Title);
         Assert.True(feed.Items.Count > 10);
     }
 
     [Fact]
     public async Task TestReadAtomFeedHeise()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://www.heise.de/newsticker/heise-atom.xml", cancellationToken: TestContext.Current.CancellationToken);
-        Assert.True(!string.IsNullOrEmpty(feed.Title));
+        var feed = await GetFeedOrFailAsync("https://www.heise.de/newsticker/heise-atom.xml");
+        Assert.False(string.IsNullOrEmpty(feed.Title));
         Assert.True(feed.Items.Count > 1);
     }
 
     [Fact]
     public async Task TestReadAtomFeedGitHub()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://github.com/codehollow/AzureBillingRateCardSample/commits/master.atom", cancellationToken: TestContext.Current.CancellationToken);
+        var feed = await GetFeedOrFailAsync("https://github.com/codehollow/AzureBillingRateCardSample/commits/master.atom");
         Assert.Equal(FeedType.Atom, feed.Type);
         Assert.False(string.IsNullOrEmpty(feed.Title));
         Assert.NotEmpty(feed.Items);
@@ -148,23 +160,23 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadRss20GermanFeedPowershell()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("http://www.powershell.co.at/feed/", cancellationToken: TestContext.Current.CancellationToken);
-        Assert.True(!string.IsNullOrEmpty(feed.Title));
+        var feed = await GetFeedOrFailAsync("http://www.powershell.co.at/feed/");
+        Assert.False(string.IsNullOrEmpty(feed.Title));
         Assert.True(feed.Items.Count > 0);
     }
 
     [Fact]
     public async Task TestReadRss20FeedCharter97Handle403Forbidden()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("charter97.org/rss.php", cancellationToken: TestContext.Current.CancellationToken);
-        Assert.True(!string.IsNullOrEmpty(feed.Title));
+        var feed = await GetFeedOrFailAsync("https://charter97.org/rss.php");
+        Assert.False(string.IsNullOrEmpty(feed.Title));
     }
 
     [Fact]
     public async Task TestReadRssScottHanselmanWeb()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("http://feeds.hanselman.com/ScottHanselman", cancellationToken: TestContext.Current.CancellationToken);
-        Assert.True(!string.IsNullOrEmpty(feed.Title));
+        var feed = await GetFeedOrFailAsync("http://feeds.hanselman.com/ScottHanselman");
+        Assert.False(string.IsNullOrEmpty(feed.Title));
         Assert.True(feed.Items.Count > 0);
     }
 
@@ -174,7 +186,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadNoticiasCatolicas()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("feeds.feedburner.com/NoticiasCatolicasAleteia", cancellationToken: TestContext.Current.CancellationToken);
+        var feed = await GetFeedOrFailAsync("https://feeds.feedburner.com/NoticiasCatolicasAleteia");
         Assert.Equal("Noticias Catolicas", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -182,7 +194,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadTimeDoctor()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://www.timedoctor.com/blog/feed/", cancellationToken: TestContext.Current.CancellationToken);
+        var feed = await GetFeedOrFailAsync("https://www.timedoctor.com/blog/feed/");
         Assert.Equal("Time Doctor Blog", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -190,7 +202,8 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadMikeC()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://mikeclayton.wordpress.com/feed/", cancellationToken: TestContext.Current.CancellationToken);
+        // results in 403 Forbidden if webclient does not have the accept header or user agent set
+        var feed = await GetFeedOrFailAsync("https://mikeclayton.wordpress.com/feed/");
         Assert.Equal("Shift Happens!", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -198,7 +211,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadTheLPM()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://thelazyprojectmanager.wordpress.com/feed/", cancellationToken: TestContext.Current.CancellationToken);
+        var feed = await GetFeedOrFailAsync("https://thelazyprojectmanager.wordpress.com/feed/");
         Assert.Equal("The Lazy Project Manager's Blog", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -206,7 +219,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadTechRep()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://www.techrepublic.com/rssfeeds/topic/project-management/", cancellationToken: TestContext.Current.CancellationToken);
+        var feed = await GetFeedOrFailAsync("https://www.techrepublic.com/rssfeeds/topic/project-management/");
         Assert.Equal("Project Management Articles & Tutorials | TechRepublic", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -217,7 +230,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadThaqafnafsak()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("http://www.thaqafnafsak.com/feed", cancellationToken: TestContext.Current.CancellationToken);
+        var feed = await GetFeedOrFailAsync("http://www.thaqafnafsak.com/feed");
         Assert.False(string.IsNullOrEmpty(feed.Title));
         Assert.True(feed.Items.Count > 0);
     }
@@ -234,7 +247,7 @@ public class FeedReaderTest
     [Fact]
     public async Task TestReadLiveBold()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("http://feeds.feedburner.com/LiveBoldAndBloom", cancellationToken: TestContext.Current.CancellationToken);
+        var feed = await GetFeedOrFailAsync("http://feeds.feedburner.com/LiveBoldAndBloom");
         Assert.Equal("Live Bold and Bloom", feed.Title);
         Assert.True(feed.Items.Count > 0);
     }
@@ -242,24 +255,40 @@ public class FeedReaderTest
     [Fact]
     public async Task TestSwedish_ISO8859_1()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("https://www.retriever-info.com/feed/2004645/intranet30/index.xml", cancellationToken: TestContext.Current.CancellationToken);
+        var feed = await GetFeedOrFailAsync("https://www.retriever-info.com/feed/2004645/intranet30/index.xml");
         Assert.Equal("intranet30", feed.Title);
     }
 
     [Fact]
     public async Task TestStadtfeuerwehrWeiz_ISO8859_1()
     {
-        var feed = await _feedReaderSvc.ReadFromUrlAsync("http://www.stadtfeuerwehr-weiz.at/rss/einsaetze.xml", cancellationToken: TestContext.Current.CancellationToken);
+        var feed = await GetFeedOrFailAsync("http://www.stadtfeuerwehr-weiz.at/rss/einsaetze.xml");
         Assert.Equal("Stadtfeuerwehr Weiz - Einsätze", feed.Title);
     }
+
     #endregion
 
     #region private helpers
 
-    private async Task DownloadTestAsync(string url, CancellationToken cancellationToken = default)
+    /// <summary>
+    /// Get the feed, failing the test with the error kind and message if it couldn't be read.
+    /// </summary>
+    private async Task<Feed> GetFeedOrFailAsync(string url)
     {
-        var content = await _httpClientSvc.DownloadStringAsync(url, cancellationToken: cancellationToken);
-        Assert.True(content.Length > 200);
+        var result = await _feedReader.GetFeedAsync(url, cancellationToken: TestContext.Current.CancellationToken);
+
+        return AssertSuccess(result);
+    }
+
+    /// <summary>
+    /// Fail the test with the error kind and message if the result is a failure. Otherwise, return its value.
+    /// </summary>
+    private static T AssertSuccess<T>(FeedReaderResult<T> result)
+        where T : class
+    {
+        Assert.True(result.IsSuccess, $"[{result.Error?.Kind}] {result.Error?.Message} (HTTP {(int?)result.StatusCode}, final URI {result.FinalUri})");
+
+        return result.Value;
     }
 
     #endregion

@@ -121,6 +121,40 @@ public class HelpersTest
         });
     }
 
+    [Theory]
+    [InlineData("Html/stackoverflow.html", "https://stackoverflow.com/questions", "https://stackoverflow.com/feeds")]
+    [InlineData("Html/theverge.html", "https://www.theverge.com/", "https://www.theverge.com/rss/index.xml")]
+    public void ParseFeedUrlsFromHtml_WithBaseUri_ResolvesRelativeLinks(string path, string pageUrl, string expectedResolvedUrl)
+    {
+        var links = HtmlHelper.ParseFeedUrlsFromHtml(File.ReadAllText(path), new Uri(pageUrl));
+
+        Assert.Contains(links, l => l.Url == expectedResolvedUrl);
+        Assert.All(links, l => Assert.True(Uri.IsWellFormedUriString(l.Url, UriKind.Absolute), l.Url));
+    }
+
+    [Fact]
+    public void ParseFeedUrlsFromHtml_WithBaseUri_SkipsLinksThatAreNotHttp()
+    {
+        const string html = """
+            <link rel="alternate" type="application/rss+xml" title="Empty" href="">
+            <link rel="alternate" type="application/rss+xml" title="Script" href="javascript:alert(1)">
+            <link rel="alternate" type="application/rss+xml" title="Mail" href="mailto:feeds@example.com">
+            <link rel="alternate" type="application/rss+xml" title="Kept" href="/feed">
+            """;
+
+        var links = HtmlHelper.ParseFeedUrlsFromHtml(html, new Uri("https://example.com/"));
+
+        var link = Assert.Single(links);
+        Assert.Equal("Kept", link.Title);
+        Assert.Equal("https://example.com/feed", link.Url);
+    }
+
+    [Fact]
+    public void ParseFeedUrlsFromHtml_RelativeBaseUri_Throws()
+    {
+        Assert.Throws<ArgumentException>("baseUri", () => HtmlHelper.ParseFeedUrlsFromHtml("<html></html>", new Uri("/page", UriKind.Relative)));
+    }
+
     private static void TestHtmlLinkParse(string path, IReadOnlyCollection<HtmlFeedLink> expectedLinks)
     {
         var content = File.ReadAllText(path);

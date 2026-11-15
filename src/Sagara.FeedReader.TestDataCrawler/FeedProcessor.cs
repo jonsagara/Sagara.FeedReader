@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using Sagara.FeedReader.Http;
 
 namespace Sagara.FeedReader.TestDataCrawler;
 
@@ -8,13 +7,11 @@ public partial class FeedProcessor
     [GeneratedRegex(pattern: "[^a-z]*", options: RegexOptions.IgnoreCase)]
     private static partial Regex NonEnglishLetters();
 
-    private readonly FeedReader _feedReaderSvc;
-    private readonly HttpClientService _httpClientSvc;
+    private readonly IFeedReader _feedReaderSvc;
 
-    public FeedProcessor(FeedReader feedReaderSvc, HttpClientService httpClientSvc)
+    public FeedProcessor(IFeedReader feedReaderSvc)
     {
         _feedReaderSvc = feedReaderSvc;
-        _httpClientSvc = httpClientSvc;
     }
 
     /// <summary>
@@ -22,41 +19,43 @@ public partial class FeedProcessor
     /// </summary>
     public async Task ReadFeedAsync(string rawFeedUrl, string outputFolder)
     {
-        var feedLinks = await _feedReaderSvc.GetFeedUrlsFromPageAsync(rawFeedUrl);
-
-        foreach (var fileFeedLink in feedLinks)
+        var pageResult = await _feedReaderSvc.GetFeedUrlsFromPageAsync(rawFeedUrl);
+        if (!pageResult.IsSuccess)
         {
-            try
+            Console.WriteLine();
+            Console.WriteLine($"{rawFeedUrl}: [{pageResult.Error.Kind}] {pageResult.Error.Message}");
+            return;
+        }
+
+        // Feed link URLs are already absolute.
+        foreach (var feedLink in pageResult.Value)
+        {
+            string? title = feedLink.Title;
+            if (string.IsNullOrEmpty(title))
             {
-                string? title = fileFeedLink.Title;
-                if (string.IsNullOrEmpty(title))
-                {
-                    // No feed title. Use the URL.
-                    title = rawFeedUrl
-                        .Replace("https", "")
-                        .Replace("http", "")
-                        .Replace("www.", "");
-                }
-
-                // Ensure we have an absolute URL before trying to getch its contents.
-                var feedLink = Helpers.GetAbsoluteFeedUrl(rawFeedUrl, fileFeedLink);
-
-                // Fetch the feed's contents.
-                var content = await _httpClientSvc.DownloadStringAsync(feedLink.Url);
-
-                // Keep only English characters for the file we're about to write out.
-                title = NonEnglishLetters().Replace(title, "");
-                var outputFilePath = Path.Combine(outputFolder, $"{title}_{Guid.NewGuid()}.xml");
-                File.WriteAllText(outputFilePath, content);
-
-                // Progress indicator.
-                Console.Write("+");
+                // No feed title. Use the URL.
+                title = rawFeedUrl
+                    .Replace("https", "")
+                    .Replace("http", "")
+                    .Replace("www.", "");
             }
-            catch (Exception ex)
+
+            // Fetch and parse the feed, so that we only save content that is actually a feed.
+            var feedResult = await _feedReaderSvc.GetFeedAsync(feedLink.Url);
+            if (!feedResult.IsSuccess)
             {
                 Console.WriteLine();
-                Console.WriteLine($"{fileFeedLink.Title} - {fileFeedLink.Url}: {ex}");
+                Console.WriteLine($"{feedLink.Title} - {feedLink.Url}: [{feedResult.Error.Kind}] {feedResult.Error.Message}");
+                continue;
             }
+
+            // Keep only English characters for the file we're about to write out.
+            title = NonEnglishLetters().Replace(title, "");
+            var outputFilePath = Path.Combine(outputFolder, $"{title}_{Guid.NewGuid()}.xml");
+            await File.WriteAllTextAsync(outputFilePath, feedResult.Value.OriginalFeedXml);
+
+            // Progress indicator.
+            Console.Write("+");
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using Sagara.FeedReader.Modules.WordPressExport;
-using Sagara.FeedReader.Tests.Unit.Fixtures;
 using Xunit;
 
 namespace Sagara.FeedReader.Tests.Unit;
 
-[Collection(nameof(ServiceScopeCollection))]
 public class WordPressExportTest
 {
     //

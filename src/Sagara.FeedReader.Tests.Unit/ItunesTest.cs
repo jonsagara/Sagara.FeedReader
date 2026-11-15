@@ -1,22 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Sagara.FeedReader.Http;
-using Sagara.FeedReader.Modules.ApplePodcasts;
-using Sagara.FeedReader.Tests.Unit.Fixtures;
+﻿using Sagara.FeedReader.Modules.ApplePodcasts;
 using Xunit;
 
 namespace Sagara.FeedReader.Tests.Unit;
 
-[Collection(nameof(ServiceScopeCollection))]
 public class ItunesTest
 {
-    private readonly HttpClientService _httpClientSvc;
-
-    public ItunesTest(HostFixture hostFixture)
-    {
-        _httpClientSvc = hostFixture.ServiceScope.ServiceProvider.GetRequiredService<HttpClientService>();
-    }
-
-
     //
     // Note: these tests pull from files, which we know have the required data, so it's okay to
     //   assume that SpecificFeed is not null.

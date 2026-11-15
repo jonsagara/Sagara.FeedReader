@@ -57,9 +57,9 @@ http://blog.hubspot.com/marketing/
 http://feeds.feedburner.com/TheDailyPuppy 
 http://davidkphotography.com/index.php?x=rss 
 http://feeds.feedburner.com/animals
-nytimes.com
-www.communicationplayground.net
-orf.at
+https://nytimes.com
+https://www.communicationplayground.net
+https://orf.at
 http://www.forbes.com/leadership/feed2/
 http://www.harvardbusinessmanager.de/rss/index.rss
 http://www.oelv.at/news/rss.php

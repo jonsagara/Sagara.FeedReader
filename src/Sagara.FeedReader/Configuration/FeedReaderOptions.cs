@@ -33,4 +33,15 @@ public class FeedReaderOptions
     /// Optionally allow the caller to specify an HTTP proxy for the FeedReader named HttpClient.
     /// </summary>
     public IWebProxy? Proxy { get; set; }
+
+    /// <summary>
+    /// The default value of <see cref="MaxResponseBytes"/>: 10 MB.
+    /// </summary>
+    public const long DefaultMaxResponseBytes = 10L * 1024L * 1024L;
+
+    /// <summary>
+    /// The largest response body, in bytes, that will be downloaded. Larger responses fail with
+    /// <see cref="FeedReaderErrorKind.ResponseTooLarge"/>. Must be positive. Default is <see cref="DefaultMaxResponseBytes"/> (10 MB).
+    /// </summary>
+    public long MaxResponseBytes { get; set; } = DefaultMaxResponseBytes;
 }

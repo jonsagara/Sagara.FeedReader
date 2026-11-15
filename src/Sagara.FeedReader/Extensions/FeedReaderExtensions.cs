@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IO;
 using Sagara.FeedReader.Configuration;
-using Sagara.FeedReader.Http;
 
 namespace Sagara.FeedReader.Extensions;
 
@@ -50,14 +49,18 @@ public static class FeedReaderExtensions
 
         options.ResilienceHandler ??= ResilienceHelper.DefaultResilienceHandler;
 
-        services.AddHttpClient(NamedHttpClients.FeedReader.Name)
+        // Register FeedReader as a typed client for IFeedReader. The factory passes it the caller's options without
+        //   registering FeedReaderOptions itself as a service.
+        services.AddHttpClient<IFeedReader, FeedReader>(
+                ResilienceHelper.HttpClientName,
+                (httpClient, serviceProvider) => new FeedReader(httpClient, serviceProvider.GetRequiredService<RecyclableMemoryStreamManager>(), options))
             .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
                 CheckCertificateRevocationList = true,
                 Proxy = options.Proxy,
             })
-            .AddResilienceHandler(pipelineName: $"{NamedHttpClients.FeedReader.Name} pipeline", configure: options.ResilienceHandler);
+            .AddResilienceHandler(pipelineName: $"{ResilienceHelper.HttpClientName} pipeline", configure: options.ResilienceHandler);
 
 
         //
@@ -70,14 +73,6 @@ public static class FeedReaderExtensions
 
             services.AddSingleton(_ => new RecyclableMemoryStreamManager(options.RecyclableMemoryStreamManagerOptions));
         }
-
-
-        // Register the FeedReader services.
-        services.Scan(scan => scan
-            .FromAssemblyOf<IFeedReaderService>()
-            .AddClasses(classes => classes.AssignableTo<IFeedReaderService>())
-            .AsSelf()
-            .WithScopedLifetime());
 
         return services;
     }

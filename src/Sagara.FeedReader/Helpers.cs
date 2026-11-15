@@ -11,49 +11,6 @@ using Sagara.FeedReader.Extensions;
 public static class Helpers
 {
     /// <summary>
-    /// Returns the absolute url of a link on a page. If you got the feed links via
-    /// GetFeedUrlsFromUrl(url) and the url is relative, you can use this method to get the full url.
-    /// </summary>
-    /// <param name="pageUrl">the original url to the page</param>
-    /// <param name="feedLink">a referenced feed (link)</param>
-    /// <returns>a feed link</returns>
-    /// <example>GetAbsoluteFeedUrl("codehollow.com", myRelativeFeedLink);</example>
-    public static HtmlFeedLink GetAbsoluteFeedUrl(string pageUrl, HtmlFeedLink feedLink)
-    {
-        ArgumentNullException.ThrowIfNull(pageUrl);
-        ArgumentNullException.ThrowIfNull(feedLink);
-        ArgumentNullException.ThrowIfNull(feedLink.Url);
-
-        string tmpUrl = feedLink.Url.HtmlDecode()!;
-        pageUrl = GetAbsoluteUrl(pageUrl);
-
-        if (tmpUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
-            || tmpUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-        {
-            return feedLink;
-        }
-
-        if (tmpUrl.StartsWith("//", StringComparison.OrdinalIgnoreCase)) // special case
-        {
-            tmpUrl = "http:" + tmpUrl;
-        }
-
-        if (Uri.TryCreate(tmpUrl, UriKind.RelativeOrAbsolute, out Uri? finalUri))
-        {
-            if (finalUri.IsAbsoluteUri)
-            {
-                return new HtmlFeedLink(feedLink.Title.HtmlDecode(), finalUri.ToString(), feedLink.FeedType);
-            }
-            else if (Uri.TryCreate(pageUrl + '/' + tmpUrl.TrimStart('/'), UriKind.Absolute, out finalUri))
-            {
-                return new HtmlFeedLink(feedLink.Title.HtmlDecode(), finalUri.ToString(), feedLink.FeedType);
-            }
-        }
-
-        throw new UrlNotFoundException($"Could not get the absolute url out of {pageUrl} and {feedLink.Url}");
-    }
-
-    /// <summary>
     /// Tries to parse the string as datetime and returns null if it fails
     /// </summary>
     /// <param name="datetime">datetime as string</param>
@@ -150,18 +107,4 @@ public static class Helpers
         => bool.TryParse(input, out var result)
             ? result
             : null;
-
-
-    //
-    // Private/internal methods
-    //
-
-    /// <summary>
-    /// Takes a url (with or without http) and returns the full url.
-    /// </summary>
-    /// <param name="url">Url with or without http.</param>
-    /// <returns>Tull url</returns>
-    /// <example>GetUrl("codehollow.com"); => returns https://codehollow.com</example>
-    internal static string GetAbsoluteUrl(string url)
-        => new UriBuilder(url).Uri.ToString();
 }

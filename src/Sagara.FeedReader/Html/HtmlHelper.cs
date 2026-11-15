@@ -40,6 +40,39 @@ public static partial class HtmlHelper
     }
 
     /// <summary>
+    /// Parses feed links from an HTML page and resolves them against <paramref name="baseUri"/>, so that every returned
+    /// URL is absolute. Links that can't be resolved to an http or https URL are skipped.
+    /// </summary>
+    /// <param name="htmlContent">The content of the HTML page.</param>
+    /// <param name="baseUri">The absolute URI of the page, used to resolve relative links. Use the page's final URI
+    /// after redirects.</param>
+    /// <returns>All feed links, with absolute URLs.</returns>
+    /// <exception cref="ArgumentException"><paramref name="baseUri"/> is not absolute.</exception>
+    public static IReadOnlyCollection<HtmlFeedLink> ParseFeedUrlsFromHtml(string htmlContent, Uri baseUri)
+    {
+        ArgumentNullException.ThrowIfNull(htmlContent);
+        ArgumentNullException.ThrowIfNull(baseUri);
+
+        if (!baseUri.IsAbsoluteUri)
+        {
+            throw new ArgumentException($"'{baseUri}' is not an absolute URI.", nameof(baseUri));
+        }
+
+        List<HtmlFeedLink> resolvedLinks = new();
+
+        foreach (var feedLink in ParseFeedUrlsFromHtml(htmlContent))
+        {
+            var resolvedLink = ResolveFeedLink(feedLink, baseUri);
+            if (resolvedLink is not null)
+            {
+                resolvedLinks.Add(resolvedLink);
+            }
+        }
+
+        return resolvedLinks;
+    }
+
+    /// <summary>
     /// Returns a HtmlFeedLink object from a linktag (link href=&quot;&quot; type=&quot;&quot;)
     /// only support application/rss and application/atom as type
     /// if type is not supported, null is returned
@@ -73,6 +106,27 @@ public static partial class HtmlHelper
     //
     // Private methods
     //
+
+    /// <summary>
+    /// Resolve the link's URL against <paramref name="baseUri"/>. Handles absolute ("https://..."), scheme-relative ("//host/feed"),
+    /// root-relative ("/feed"), and path-relative ("feed") URLs. Returns null if the result isn't an http or https URL.
+    /// </summary>
+    private static HtmlFeedLink? ResolveFeedLink(HtmlFeedLink feedLink, Uri baseUri)
+    {
+        // The link tag was already HTML-decoded by GetFeedLinkFromLinkTag.
+        var url = feedLink.Url?.Trim();
+        if (string.IsNullOrEmpty(url))
+        {
+            return null;
+        }
+
+        if (!Uri.TryCreate(baseUri, url, out var absoluteUri) || !FeedReader.IsHttpOrHttps(absoluteUri))
+        {
+            return null;
+        }
+
+        return new HtmlFeedLink(feedLink.Title, absoluteUri.AbsoluteUri, feedLink.FeedType);
+    }
 
     /// <summary>
     /// Identifies and extracts an HTML attribute value.
