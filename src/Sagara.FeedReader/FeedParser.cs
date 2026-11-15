@@ -4,27 +4,43 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Sagara.FeedReader.Extensions;
+using Sagara.FeedReader.Parser;
 
-namespace Sagara.FeedReader.Parser;
+namespace Sagara.FeedReader;
 
 /// <summary>
-/// Internal FeedParser - returns the type of the feed or the parsed feed.
+/// Parses RSS 0.91, 0.92, 1.0, 2.0, Media RSS, and Atom feeds from content you already have, e.g., a file or a string.
 /// </summary>
-internal static class FeedParser
+/// <remarks>
+/// <para>To download and parse a feed from a URL, use <see cref="FeedReader"/> instead.</para>
+/// <para><see cref="ParseAsync(Stream, CancellationToken)"/> and <see cref="Parse(string)"/> throw
+/// <see cref="FeedParseException"/> when the content can't be parsed. <see cref="TryParseAsync(Stream, CancellationToken)"/>
+/// and <see cref="TryParse(string)"/> return a failed <see cref="FeedReaderResult{T}"/> instead.</para>
+/// </remarks>
+/// <example>
+/// <code>
+/// await using var stream = File.OpenRead("feed.xml");
+/// var feed = await FeedParser.ParseAsync(stream);
+/// </code>
+/// </example>
+public static class FeedParser
 {
     /// <summary>
-    /// Returns the parsed feed. This method tries to use the encoding of the received file.
-    /// If none found, or it's invalid, it uses UTF8.
+    /// Parse a feed from a stream. The encoding declared in the document's XML declaration is honored;
+    /// if there is none, or it's invalid, UTF-8 is used.
     /// </summary>
     /// <remarks>
     /// Reading starts at the stream's current position. Non-seekable streams (e.g., network streams) are
     /// buffered into memory first, because the content may need to be re-read with its declared encoding.
+    /// The stream is not disposed.
     /// </remarks>
     /// <param name="feedContentStream">The feed document as a Stream.</param>
-    /// <param name="cancellationToken">token to cancel operation</param>
-    /// <returns>Parsed feed</returns>
-    /// <exception cref="FeedParseException">The content is empty, is not well-formed XML, is an HTML page, or is not a supported feed type.</exception>
-    public static async Task<Feed> GetFeedFromStreamAsync(Stream feedContentStream, CancellationToken cancellationToken = default)
+    /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+    /// <returns>The parsed feed.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="feedContentStream"/> is null.</exception>
+    /// <exception cref="FeedParseException">The content can't be parsed. <see cref="FeedParseException.Kind"/> says why.</exception>
+    /// <exception cref="OperationCanceledException"><paramref name="cancellationToken"/> was cancelled.</exception>
+    public static async Task<Feed> ParseAsync(Stream feedContentStream, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(feedContentStream);
 
@@ -32,28 +48,30 @@ internal static class FeedParser
         {
             if (feedContentStream.CanSeek)
             {
-                return await GetFeedFromSeekableStreamAsync(feedContentStream, cancellationToken).ConfigureAwait(false);
+                return await ParseSeekableStreamAsync(feedContentStream, cancellationToken).ConfigureAwait(false);
             }
 
             using var bufferedStream = new MemoryStream();
             await feedContentStream.CopyToAsync(bufferedStream, cancellationToken).ConfigureAwait(false);
             bufferedStream.Position = 0L;
 
-            return await GetFeedFromSeekableStreamAsync(bufferedStream, cancellationToken).ConfigureAwait(false);
+            return await ParseSeekableStreamAsync(bufferedStream, cancellationToken).ConfigureAwait(false);
         }
-        catch (XmlException ex)
+        catch (Exception ex) when (ShouldWrap(ex))
         {
-            throw CreateInvalidXmlException(ex);
+            throw Wrap(ex);
         }
     }
 
     /// <summary>
-    /// Returns the parsed feed. This method does NOT check the encoding of the received file.
+    /// Parse a feed from a string. The XML declaration's encoding is ignored, because the content has already
+    /// been decoded into a string.
     /// </summary>
     /// <param name="feedContent">The feed document's content as a string.</param>
-    /// <returns>Parsed feed</returns>
-    /// <exception cref="FeedParseException">The content is empty, is not well-formed XML, is an HTML page, or is not a supported feed type.</exception>
-    public static Feed GetFeedFromString(string feedContent)
+    /// <returns>The parsed feed.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="feedContent"/> is null.</exception>
+    /// <exception cref="FeedParseException">The content can't be parsed. <see cref="FeedParseException.Kind"/> says why.</exception>
+    public static Feed Parse(string feedContent)
     {
         ArgumentNullException.ThrowIfNull(feedContent);
 
@@ -64,9 +82,59 @@ internal static class FeedParser
 
             return ParseFeedContent(feedContent);
         }
-        catch (XmlException ex)
+        catch (Exception ex) when (ShouldWrap(ex))
         {
-            throw CreateInvalidXmlException(ex);
+            throw Wrap(ex);
+        }
+    }
+
+    /// <summary>
+    /// Parse a feed from a stream without throwing when the content can't be parsed. Otherwise the same as
+    /// <see cref="ParseAsync(Stream, CancellationToken)"/>.
+    /// </summary>
+    /// <param name="feedContentStream">The feed document as a Stream.</param>
+    /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+    /// <returns>A successful result with the parsed feed, or a failed result whose <see cref="FeedReaderResult{T}.Error"/>
+    /// says why the content couldn't be parsed. <see cref="FeedReaderResult{T}.StatusCode"/> and
+    /// <see cref="FeedReaderResult{T}.FinalUri"/> are always null.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="feedContentStream"/> is null.</exception>
+    /// <exception cref="OperationCanceledException"><paramref name="cancellationToken"/> was cancelled.</exception>
+    public static async Task<FeedReaderResult<Feed>> TryParseAsync(Stream feedContentStream, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(feedContentStream);
+
+        try
+        {
+            var feed = await ParseAsync(feedContentStream, cancellationToken).ConfigureAwait(false);
+
+            return FeedReaderResult.Success(feed);
+        }
+        catch (FeedParseException ex)
+        {
+            return ToFailure(ex);
+        }
+    }
+
+    /// <summary>
+    /// Parse a feed from a string without throwing when the content can't be parsed. Otherwise the same as
+    /// <see cref="Parse(string)"/>.
+    /// </summary>
+    /// <param name="feedContent">The feed document's content as a string.</param>
+    /// <returns>A successful result with the parsed feed, or a failed result whose <see cref="FeedReaderResult{T}.Error"/>
+    /// says why the content couldn't be parsed. <see cref="FeedReaderResult{T}.StatusCode"/> and
+    /// <see cref="FeedReaderResult{T}.FinalUri"/> are always null.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="feedContent"/> is null.</exception>
+    public static FeedReaderResult<Feed> TryParse(string feedContent)
+    {
+        ArgumentNullException.ThrowIfNull(feedContent);
+
+        try
+        {
+            return FeedReaderResult.Success(Parse(feedContent));
+        }
+        catch (FeedParseException ex)
+        {
+            return ToFailure(ex);
         }
     }
 
@@ -75,11 +143,26 @@ internal static class FeedParser
     // Private methods
     //
 
+    private static FeedReaderResult<Feed> ToFailure(FeedParseException ex)
+        => FeedReaderResult.Failure<Feed>(new FeedReaderError(ex.Kind, ex.Message, ex));
+
+    /// <summary>
+    /// Everything except our own exception and cancellation gets wrapped in a <see cref="FeedParseException"/>,
+    /// so that callers only have one exception type to handle.
+    /// </summary>
+    private static bool ShouldWrap(Exception ex)
+        => ex is not FeedParseException and not OperationCanceledException;
+
+    private static FeedParseException Wrap(Exception ex)
+        => ex is XmlException xmlEx
+            ? CreateInvalidXmlException(xmlEx)
+            : new FeedParseException(FeedReaderErrorKind.ParseError, $"The feed could not be parsed: {ex.Message}", ex);
+
     /// <summary>
     /// Read the stream from its current position, re-reading it with the declared encoding if that isn't UTF-8,
     /// and then parse it.
     /// </summary>
-    private static async Task<Feed> GetFeedFromSeekableStreamAsync(Stream feedContentStream, CancellationToken cancellationToken)
+    private static async Task<Feed> ParseSeekableStreamAsync(Stream feedContentStream, CancellationToken cancellationToken)
     {
         var startPosition = feedContentStream.Position;
 

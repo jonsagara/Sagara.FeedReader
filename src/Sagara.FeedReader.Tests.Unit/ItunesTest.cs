@@ -30,7 +30,7 @@ public class ItunesTest
     [Fact]
     public async Task TestItunesSampleFeed_Async()
     {
-        var feed = await FeedReader.ReadFromFileAsync("Feeds/Rss20ItunesSample.xml", TestContext.Current.CancellationToken);
+        var feed = await TestFeeds.ParseFileAsync("Feeds/Rss20ItunesSample.xml", TestContext.Current.CancellationToken);
 
         var itunesChannel = feed.GetiTunesChannel();
 

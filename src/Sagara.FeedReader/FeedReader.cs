@@ -1,15 +1,16 @@
 ﻿using Sagara.FeedReader.Html;
 using Sagara.FeedReader.Http;
-using Sagara.FeedReader.Parser;
 
 namespace Sagara.FeedReader;
 
 /// <summary>
-/// The FeedReader class allows to read feeds from a given url. Use it to parse a feed 
-/// from an url <see cref="ReadFromUrlAsync(string, string?, CancellationToken)"/>, a file <see cref="ReadFromFileAsync(string, CancellationToken)"/>, 
-/// or a string <see cref="ReadFromString(string)"/>. If the feed url is not known, <see cref="GetFeedUrlsFromPageAsync(string, CancellationToken)"/> 
+/// Downloads and parses feeds from URLs. Use <see cref="ReadFromUrlAsync(string, string?, CancellationToken)"/> to read
+/// a feed from its URL. If the feed URL is not known, <see cref="GetFeedUrlsFromPageAsync(string, CancellationToken)"/>
 /// returns all feed links on a given page.
 /// </summary>
+/// <remarks>
+/// To parse a feed from content you already have, such as a file or a string, use <see cref="FeedParser"/>.
+/// </remarks>
 public class FeedReader : IFeedReaderService
 {
     private readonly HttpClientService _httpClientService;
@@ -44,54 +45,7 @@ public class FeedReader : IFeedReaderService
             .DownloadStreamAsync(url: absoluteUrl, userAgent: userAgent, cancellationToken)
             .ConfigureAwait(false);
 
-        return await ReadFromStreamAsync(feedContentStream, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Reads a feed from the Stream <paramref name="feedContentStream"/>
-    /// This could be useful if some special encoding is used.
-    /// </summary>
-    /// <remarks>Marked as static because it doesn't rely on HttpClient to get the desired data.</remarks>
-    /// <param name="feedContentStream">The feed content as a Stream.</param>
-    /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
-    /// <returns>The parsed feed.</returns>
-    public static async Task<Feed> ReadFromStreamAsync(Stream feedContentStream, CancellationToken cancellationToken = default)
-    {
-        ArgumentNullException.ThrowIfNull(feedContentStream);
-
-        return await FeedParser
-            .GetFeedFromStreamAsync(feedContentStream, cancellationToken)
-            .ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Reads a feed from a file.
-    /// </summary>
-    /// <remarks>Marked as static because it doesn't rely on HttpClient to get the desired data.</remarks>
-    /// <param name="filePath">the path to the feed file</param>
-    /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
-    /// <returns>parsed feed</returns>
-    public static async Task<Feed> ReadFromFileAsync(string filePath, CancellationToken cancellationToken = default)
-    {
-        ArgumentNullException.ThrowIfNull(filePath);
-
-        using var fileStream = File.OpenRead(filePath);
-
-        return await FeedParser
-            .GetFeedFromStreamAsync(fileStream, cancellationToken)
-            .ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Reads a feed contained in the string argument <paramref name="feedContent" />.
-    /// </summary>
-    /// <param name="feedContent">The feed content (xml).</param>
-    /// <returns>The parsed feed.</returns>
-    public static Feed ReadFromString(string feedContent)
-    {
-        ArgumentNullException.ThrowIfNull(feedContent);
-
-        return FeedParser.GetFeedFromString(feedContent);
+        return await FeedParser.ParseAsync(feedContentStream, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

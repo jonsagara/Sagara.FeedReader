@@ -1,6 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
-using Sagara.FeedReader.Parser;
 
 namespace Sagara.FeedReader.Benchmarks.Harnesses;
 
@@ -44,7 +43,7 @@ public class GetEncodingFromXDocumentVsXmlFragment
     public async Task GetEncodingFromXmlFragment()
     {
         _xmlFragmentStream.Position = 0L;
-        await FeedParser.GetFeedFromStreamAsync(_xmlFragmentStream);
+        await FeedParser.ParseAsync(_xmlFragmentStream);
     }
 
 

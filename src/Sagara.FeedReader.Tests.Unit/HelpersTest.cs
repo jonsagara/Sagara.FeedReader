@@ -1,6 +1,5 @@
 ﻿using System.Collections.Frozen;
 using Sagara.FeedReader.Html;
-using Sagara.FeedReader.Parser;
 using Xunit;
 
 namespace Sagara.FeedReader.Tests.Unit;

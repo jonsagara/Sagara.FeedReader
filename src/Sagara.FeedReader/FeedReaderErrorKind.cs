@@ -39,4 +39,10 @@ public enum FeedReaderErrorKind
     /// The response body exceeded the configured maximum size.
     /// </summary>
     ResponseTooLarge,
+
+    /// <summary>
+    /// The content is well-formed XML with a supported root element, but the feed could not be parsed, e.g.,
+    /// because a required element is missing.
+    /// </summary>
+    ParseError,
 }

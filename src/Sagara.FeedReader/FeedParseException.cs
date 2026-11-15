@@ -7,7 +7,8 @@ public sealed class FeedParseException : Exception
 {
     /// <summary>
     /// Why the content could not be parsed. One of <see cref="FeedReaderErrorKind.InvalidXml"/>,
-    /// <see cref="FeedReaderErrorKind.NotAFeed"/>, or <see cref="FeedReaderErrorKind.UnsupportedFeedType"/>.
+    /// <see cref="FeedReaderErrorKind.NotAFeed"/>, <see cref="FeedReaderErrorKind.UnsupportedFeedType"/>,
+    /// or <see cref="FeedReaderErrorKind.ParseError"/>.
     /// </summary>
     public FeedReaderErrorKind Kind { get; }
 
