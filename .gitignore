@@ -254,3 +254,6 @@ paket-files/
 
 # custom nuget output folder
 nuget_output/
+
+# Public API snapshot test output (see PublicApiTests.cs)
+*.received.txt

@@ -87,7 +87,7 @@ public class AtomFeedItem : BaseFeedItem
     /// Reads an atom feed based on the xml given in item
     /// </summary>
     /// <param name="item">feed item as xml</param>
-    public AtomFeedItem(XElement item)
+    internal AtomFeedItem(XElement item)
         : base(item)
     {
         Link = item.GetElement("link")?.Attribute("href")?.Value;

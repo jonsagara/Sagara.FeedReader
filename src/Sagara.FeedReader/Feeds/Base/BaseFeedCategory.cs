@@ -28,7 +28,7 @@ public class BaseFeedCategory
     /// Reads a base feed item based on the xml given in element
     /// </summary>
     /// <param name="categoryElement">The <c>category</c> element from the feed.</param>
-    public BaseFeedCategory(XElement categoryElement)
+    internal BaseFeedCategory(XElement categoryElement)
     {
         CategoryElement = categoryElement;
     }

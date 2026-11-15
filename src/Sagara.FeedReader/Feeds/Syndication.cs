@@ -36,7 +36,7 @@ public class Syndication
     /// Creates the object based on the xml in the given XElement
     /// </summary>
     /// <param name="xelement">syndication element as xml</param>
-    public Syndication(XElement xelement)
+    internal Syndication(XElement xelement)
     {
         UpdateBase = xelement.GetChildElementValue("sy:updateBase");
         UpdateFrequency = xelement.GetChildElementValue("sy:updateFrequency");

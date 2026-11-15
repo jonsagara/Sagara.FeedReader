@@ -16,7 +16,7 @@ public class iTunesImage
     /// <summary>
     /// .ctor
     /// </summary>
-    public iTunesImage(XElement element)
+    internal iTunesImage(XElement element)
     {
         ArgumentNullException.ThrowIfNull(element);
 

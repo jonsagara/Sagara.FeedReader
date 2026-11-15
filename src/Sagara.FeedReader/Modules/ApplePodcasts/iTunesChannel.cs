@@ -110,7 +110,7 @@ public class iTunesChannel
     /// <summary>
     /// .ctor
     /// </summary>
-    public iTunesChannel(XElement channelElement, ILoggerFactory? loggerFactory = null)
+    internal iTunesChannel(XElement channelElement, ILoggerFactory? loggerFactory = null)
     {
         ArgumentNullException.ThrowIfNull(channelElement);
 

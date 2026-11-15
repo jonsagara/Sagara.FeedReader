@@ -90,7 +90,7 @@ public class MediaRssFeedItem : BaseFeedItem
     /// Reads a new feed item element based on the given xml item
     /// </summary>
     /// <param name="item">the xml containing the feed item</param>
-    public MediaRssFeedItem(XElement item)
+    internal MediaRssFeedItem(XElement item)
         : base(item)
     {
         Comments = item.GetChildElementValue("comments");

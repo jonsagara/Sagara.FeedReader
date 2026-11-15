@@ -101,7 +101,7 @@ public class DublinCore
     /// Reads a dublincore (dc:) element based on the xml given in element
     /// </summary>
     /// <param name="item">item element as xml</param>
-    public DublinCore(XElement item)
+    internal DublinCore(XElement item)
     {
         Title = item.GetChildElementValue("dc:title");
         Creator = item.GetChildElementValue("dc:creator");

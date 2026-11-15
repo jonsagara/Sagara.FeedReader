@@ -31,7 +31,7 @@ public class FeedItemSource
     /// Reads a rss feed item based on the xml given in element
     /// </summary>
     /// <param name="element">item source element as xml</param>
-    public FeedItemSource(XElement? element)
+    internal FeedItemSource(XElement? element)
     {
         Url = element.GetAttributeValue("url");
         Value = element?.Value;

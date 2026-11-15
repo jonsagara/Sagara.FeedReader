@@ -19,7 +19,7 @@ public class Media
     /// Reads a rss feed item enclosure based on the xml given in element
     /// </summary>
     /// <param name="element">enclosure element as xml</param>
-    public Media(XElement element)
+    internal Media(XElement element)
     {
         Element = element;
 

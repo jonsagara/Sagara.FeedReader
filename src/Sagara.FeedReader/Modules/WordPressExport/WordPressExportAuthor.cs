@@ -47,7 +47,7 @@ public class WordPressExportAuthor
     /// <summary>
     /// .ctor
     /// </summary>
-    public WordPressExportAuthor(XElement authorElement)
+    internal WordPressExportAuthor(XElement authorElement)
     {
         ArgumentNullException.ThrowIfNull(authorElement);
 

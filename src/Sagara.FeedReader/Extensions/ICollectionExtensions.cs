@@ -3,7 +3,7 @@
 /// <summary>
 /// Extension methods for the ICollection&lt;T&gt; interface.
 /// </summary>
-public static class ICollectionExtensions
+internal static class ICollectionExtensions
 {
     /// <summary>
     /// Add a range of values to the collection.

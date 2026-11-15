@@ -84,7 +84,7 @@ public class AtomFeed : BaseFeed
     /// <param name="feedXml">the entire feed xml as string</param>
     /// <param name="feedDoc">The XDocument parsed from the feed XML. Used to determine if there are iTunes extensions.</param>
     /// <param name="feed">the feed element in the xml as XElement</param>
-    public AtomFeed(string feedXml, XDocument feedDoc, XElement feed)
+    internal AtomFeed(string feedXml, XDocument feedDoc, XElement feed)
         : base(feedXml, feedDoc, feed)
     {
         Link = feed.GetElement("link")?.Attribute("href")?.Value;

@@ -1,0 +1,664 @@
+[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+namespace Microsoft.Extensions.DependencyInjection
+{
+    public static class FeedReaderServiceCollectionExtensions
+    {
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddFeedReaderServices(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, Sagara.FeedReader.Configuration.FeedReaderOptions? options = null) { }
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddFeedReaderServices(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, System.Action<Sagara.FeedReader.Configuration.FeedReaderOptions> configure) { }
+    }
+}
+namespace Sagara.FeedReader.Configuration
+{
+    public class FeedReaderOptions
+    {
+        public const long DefaultMaxResponseBytes = 10485760;
+        public FeedReaderOptions() { }
+        public string? DefaultUserAgent { get; set; }
+        public long MaxResponseBytes { get; set; }
+        public System.Net.IWebProxy? Proxy { get; set; }
+        public Microsoft.IO.RecyclableMemoryStreamManager.Options? RecyclableMemoryStreamManagerOptions { get; set; }
+        public System.Action<Polly.ResiliencePipelineBuilder<System.Net.Http.HttpResponseMessage>, Microsoft.Extensions.Http.Resilience.ResilienceHandlerContext>? ResilienceHandler { get; set; }
+        public bool SuppressRecyclableMemoryStreamManagerRegistration { get; set; }
+    }
+}
+namespace Sagara.FeedReader
+{
+    public class Feed
+    {
+        public Feed() { }
+        public Feed(Sagara.FeedReader.Feeds.BaseFeed feed) { }
+        public string? Copyright { get; set; }
+        public string? Description { get; set; }
+        public bool HasApplePodcastsModule { get; }
+        public string? ImageUrl { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.FeedItem> Items { get; }
+        public string? Language { get; set; }
+        public System.DateTime? LastUpdatedDate { get; set; }
+        public string? LastUpdatedDateString { get; set; }
+        public string? Link { get; set; }
+        public string? OriginalFeedXml { get; }
+        public Sagara.FeedReader.Feeds.BaseFeed? SpecificFeed { get; set; }
+        public string? Title { get; set; }
+        public Sagara.FeedReader.FeedType Type { get; set; }
+        public bool HasRootNamespaceDeclaration(string namespaceUri) { }
+    }
+    public class FeedItem
+    {
+        public FeedItem() { }
+        public FeedItem(Sagara.FeedReader.Feeds.BaseFeedItem feedItem) { }
+        public string? Author { get; set; }
+        public System.Collections.Generic.ICollection<string> Categories { get; }
+        public string? Content { get; set; }
+        public string? Description { get; set; }
+        public string? Id { get; set; }
+        public string? Link { get; set; }
+        public System.DateTime? PublishingDate { get; set; }
+        public string? PublishingDateString { get; set; }
+        public Sagara.FeedReader.Feeds.BaseFeedItem? SpecificItem { get; set; }
+        public string? Title { get; set; }
+    }
+    public sealed class FeedParseException : System.Exception
+    {
+        public FeedParseException() { }
+        public FeedParseException(string message) { }
+        public FeedParseException(string message, System.Exception? innerException) { }
+        public FeedParseException(Sagara.FeedReader.FeedReaderErrorKind kind, string message, System.Exception? innerException = null) { }
+        public Sagara.FeedReader.FeedReaderErrorKind Kind { get; }
+    }
+    public static class FeedParser
+    {
+        public static Sagara.FeedReader.Feed Parse(string feedContent) { }
+        public static System.Threading.Tasks.Task<Sagara.FeedReader.Feed> ParseAsync(System.IO.Stream feedContentStream, System.Threading.CancellationToken cancellationToken = default) { }
+        public static Sagara.FeedReader.FeedReaderResult<Sagara.FeedReader.Feed> TryParse(string feedContent) { }
+        public static System.Threading.Tasks.Task<Sagara.FeedReader.FeedReaderResult<Sagara.FeedReader.Feed>> TryParseAsync(System.IO.Stream feedContentStream, System.Threading.CancellationToken cancellationToken = default) { }
+    }
+    public sealed class FeedReader : Sagara.FeedReader.IFeedReader
+    {
+        public FeedReader(System.Net.Http.HttpClient httpClient, Microsoft.IO.RecyclableMemoryStreamManager streamManager, Sagara.FeedReader.Configuration.FeedReaderOptions? options = null) { }
+        public System.Threading.Tasks.Task<Sagara.FeedReader.FeedReaderResult<Sagara.FeedReader.Feed>> GetFeedAsync(System.Uri feedUri, string? userAgent = null, System.Threading.CancellationToken cancellationToken = default) { }
+        public System.Threading.Tasks.Task<Sagara.FeedReader.FeedReaderResult<Sagara.FeedReader.Feed>> GetFeedAsync(string feedUrl, string? userAgent = null, System.Threading.CancellationToken cancellationToken = default) { }
+        public System.Threading.Tasks.Task<Sagara.FeedReader.FeedReaderResult<System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.HtmlFeedLink>>> GetFeedUrlsFromPageAsync(System.Uri pageUri, string? userAgent = null, System.Threading.CancellationToken cancellationToken = default) { }
+        public System.Threading.Tasks.Task<Sagara.FeedReader.FeedReaderResult<System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.HtmlFeedLink>>> GetFeedUrlsFromPageAsync(string pageUrl, string? userAgent = null, System.Threading.CancellationToken cancellationToken = default) { }
+    }
+    public sealed class FeedReaderError : System.IEquatable<Sagara.FeedReader.FeedReaderError>
+    {
+        public FeedReaderError(Sagara.FeedReader.FeedReaderErrorKind Kind, string Message, System.Exception? Exception = null) { }
+        public System.Exception? Exception { get; init; }
+        public Sagara.FeedReader.FeedReaderErrorKind Kind { get; init; }
+        public string Message { get; init; }
+    }
+    public enum FeedReaderErrorKind
+    {
+        HttpError = 0,
+        NetworkError = 1,
+        Timeout = 2,
+        NotAFeed = 3,
+        InvalidXml = 4,
+        UnsupportedFeedType = 5,
+        ResponseTooLarge = 6,
+        ParseError = 7,
+    }
+    public static class FeedReaderResult
+    {
+        public static Sagara.FeedReader.FeedReaderResult<T> Failure<T>(Sagara.FeedReader.FeedReaderError error, System.Net.HttpStatusCode? statusCode = default, System.Uri? finalUri = null)
+            where T :  class { }
+        public static Sagara.FeedReader.FeedReaderResult<T> Success<T>(T value, System.Net.HttpStatusCode? statusCode = default, System.Uri? finalUri = null)
+            where T :  class { }
+    }
+    public sealed class FeedReaderResult<T>
+        where T :  class
+    {
+        public Sagara.FeedReader.FeedReaderError? Error { get; }
+        public System.Uri? FinalUri { get; }
+        [System.Diagnostics.CodeAnalysis.MemberNotNullWhen(false, "Error")]
+        [System.Diagnostics.CodeAnalysis.MemberNotNullWhen(true, "Value")]
+        [get: System.Diagnostics.CodeAnalysis.MemberNotNullWhen(false, "Error")]
+        [get: System.Diagnostics.CodeAnalysis.MemberNotNullWhen(true, "Value")]
+        public bool IsSuccess { get; }
+        public System.Net.HttpStatusCode? StatusCode { get; }
+        public T Value { get; }
+    }
+    public enum FeedType
+    {
+        Atom = 0,
+        Rss_0_91 = 1,
+        Rss_0_92 = 2,
+        Rss_1_0 = 3,
+        Rss_2_0 = 4,
+        MediaRss = 5,
+        Rss = 6,
+        Unknown = 7,
+    }
+    public class HtmlFeedLink
+    {
+        public HtmlFeedLink() { }
+        public HtmlFeedLink(string? title, string url, Sagara.FeedReader.FeedType feedtype) { }
+        public Sagara.FeedReader.FeedType FeedType { get; set; }
+        public string? Title { get; set; }
+        public string Url { get; set; }
+    }
+    public interface IFeedReader
+    {
+        System.Threading.Tasks.Task<Sagara.FeedReader.FeedReaderResult<Sagara.FeedReader.Feed>> GetFeedAsync(System.Uri feedUri, string? userAgent = null, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<Sagara.FeedReader.FeedReaderResult<Sagara.FeedReader.Feed>> GetFeedAsync(string feedUrl, string? userAgent = null, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<Sagara.FeedReader.FeedReaderResult<System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.HtmlFeedLink>>> GetFeedUrlsFromPageAsync(System.Uri pageUri, string? userAgent = null, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<Sagara.FeedReader.FeedReaderResult<System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.HtmlFeedLink>>> GetFeedUrlsFromPageAsync(string pageUrl, string? userAgent = null, System.Threading.CancellationToken cancellationToken = default);
+    }
+}
+namespace Sagara.FeedReader.Feeds
+{
+    public class AtomFeed : Sagara.FeedReader.Feeds.BaseFeed
+    {
+        public AtomFeed() { }
+        public Sagara.FeedReader.Feeds.AtomPerson? Author { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Feeds.AtomFeedCategory> Categories { get; }
+        public Sagara.FeedReader.Feeds.AtomPerson? Contributor { get; set; }
+        public string? Generator { get; set; }
+        public string? Icon { get; set; }
+        public string? Id { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Feeds.AtomLink> Links { get; }
+        public string? Logo { get; set; }
+        public string? Rights { get; set; }
+        public string? Subtitle { get; set; }
+        public System.DateTime? UpdatedDate { get; set; }
+        public string? UpdatedDateString { get; set; }
+        public override Sagara.FeedReader.Feed ToFeed() { }
+    }
+    public class AtomFeedCategory : Sagara.FeedReader.Feeds.BaseFeedCategory
+    {
+        public AtomFeedCategory() { }
+        public string? Label { get; set; }
+        public string? Scheme { get; set; }
+        public string? Term { get; set; }
+    }
+    public class AtomFeedItem : Sagara.FeedReader.Feeds.BaseFeedItem
+    {
+        public AtomFeedItem() { }
+        public Sagara.FeedReader.Feeds.AtomPerson? Author { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Feeds.AtomFeedCategory> Categories { get; }
+        public string? Content { get; set; }
+        public Sagara.FeedReader.Feeds.AtomPerson? Contributor { get; set; }
+        public string? Id { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Feeds.AtomLink> Links { get; }
+        public System.DateTime? PublishedDate { get; set; }
+        public string? PublishedDateString { get; set; }
+        public string? Rights { get; set; }
+        public string? Source { get; set; }
+        public string? Summary { get; set; }
+        public System.DateTime? UpdatedDate { get; set; }
+        public string? UpdatedDateString { get; set; }
+    }
+    public class AtomLink
+    {
+        public AtomLink() { }
+        public string? Href { get; set; }
+        public string? HrefLanguage { get; set; }
+        public int? Length { get; set; }
+        public string? LinkType { get; set; }
+        public string? Relation { get; set; }
+        public string? Title { get; set; }
+        public override string? ToString() { }
+    }
+    public class AtomPerson
+    {
+        public AtomPerson() { }
+        public string? EMail { get; set; }
+        public string? Name { get; set; }
+        public string? Uri { get; set; }
+        public override string? ToString() { }
+    }
+    public abstract class BaseFeed
+    {
+        protected BaseFeed() { }
+        public System.Xml.Linq.XElement? ChannelOrFeedElement { get; }
+        public bool HasApplePodcastsModule { get; set; }
+        public System.Collections.Generic.ICollection<Sagara.FeedReader.Feeds.BaseFeedItem> Items { get; }
+        public string? Link { get; set; }
+        public string? OriginalFeedXml { get; }
+        public System.Collections.Frozen.FrozenDictionary<string, string> RootNamespaceDeclarations { get; }
+        public string? Title { get; set; }
+        public abstract Sagara.FeedReader.Feed ToFeed();
+    }
+    public class BaseFeedCategory
+    {
+        protected BaseFeedCategory() { }
+        public System.Xml.Linq.XElement? CategoryElement { get; }
+    }
+    public abstract class BaseFeedItem
+    {
+        protected BaseFeedItem() { }
+        public System.Xml.Linq.XElement? ItemOrEntryElement { get; }
+        public string? Link { get; set; }
+        public string? Title { get; set; }
+    }
+    public class DublinCore
+    {
+        public DublinCore() { }
+        public string? Contributor { get; set; }
+        public string? Coverage { get; set; }
+        public string? Creator { get; set; }
+        public System.DateTime? Date { get; set; }
+        public string? DateString { get; set; }
+        public string? Description { get; set; }
+        public string? Format { get; set; }
+        public string? Identifier { get; set; }
+        public string? Language { get; set; }
+        public string? Publisher { get; set; }
+        public string? Relation { get; set; }
+        public string? Rights { get; set; }
+        public string? Source { get; set; }
+        public string? Subject { get; set; }
+        public string? Title { get; set; }
+        public string? Type { get; set; }
+    }
+    public class FeedCloud
+    {
+        public FeedCloud() { }
+        public string? Domain { get; set; }
+        public string? Path { get; set; }
+        public string? Port { get; set; }
+        public string? Protocol { get; set; }
+        public string? RegisterProcedure { get; set; }
+    }
+    public class FeedImage
+    {
+        public FeedImage() { }
+        public string? Link { get; set; }
+        public string? Title { get; set; }
+        public string? Url { get; set; }
+    }
+    public class FeedItemEnclosure
+    {
+        public FeedItemEnclosure() { }
+        public int? Length { get; set; }
+        public string? MediaType { get; set; }
+        public string? Url { get; set; }
+    }
+    public class FeedItemSource
+    {
+        public FeedItemSource() { }
+        public string? Url { get; set; }
+        public string? Value { get; set; }
+    }
+    public class FeedTextInput
+    {
+        public FeedTextInput() { }
+        public string? Description { get; set; }
+        public string? Link { get; set; }
+        public string? Name { get; set; }
+        public string? Title { get; set; }
+    }
+    public class MediaRssFeed : Sagara.FeedReader.Feeds.BaseFeed
+    {
+        public MediaRssFeed() { }
+        public System.Collections.Generic.IReadOnlyCollection<string> Categories { get; }
+        public Sagara.FeedReader.Feeds.FeedCloud? Cloud { get; set; }
+        public string? Copyright { get; set; }
+        public string? Description { get; set; }
+        public string? Docs { get; set; }
+        public string? Generator { get; set; }
+        public Sagara.FeedReader.Feeds.FeedImage? Image { get; set; }
+        public string? Language { get; set; }
+        public System.DateTime? LastBuildDate { get; set; }
+        public string? LastBuildDateString { get; set; }
+        public string? ManagingEditor { get; set; }
+        public System.DateTime? PublishingDate { get; set; }
+        public string? PublishingDateString { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<string> SkipDays { get; }
+        public System.Collections.Generic.IReadOnlyCollection<string> SkipHours { get; }
+        public Sagara.FeedReader.Feeds.Syndication? Sy { get; set; }
+        public string? TTL { get; set; }
+        public Sagara.FeedReader.Feeds.FeedTextInput? TextInput { get; set; }
+        public string? WebMaster { get; set; }
+        public override Sagara.FeedReader.Feed ToFeed() { }
+    }
+    public class MediaRssFeedImage : Sagara.FeedReader.Feeds.Rss091FeedImage
+    {
+        public MediaRssFeedImage() { }
+    }
+    public class MediaRssFeedItem : Sagara.FeedReader.Feeds.BaseFeedItem
+    {
+        public MediaRssFeedItem() { }
+        public string? Author { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<string> Categories { get; }
+        public string? Comments { get; set; }
+        public string? Content { get; set; }
+        public Sagara.FeedReader.Feeds.DublinCore? DC { get; set; }
+        public string? Description { get; set; }
+        public Sagara.FeedReader.Feeds.FeedItemEnclosure? Enclosure { get; set; }
+        public string? Guid { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Feeds.MediaRSS.Media> Media { get; }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Feeds.MediaRSS.MediaGroup> MediaGroups { get; }
+        public System.DateTime? PublishingDate { get; set; }
+        public string? PublishingDateString { get; set; }
+        public Sagara.FeedReader.Feeds.FeedItemSource? Source { get; set; }
+    }
+    public static class Namespaces
+    {
+        public static readonly System.Xml.Linq.XNamespace ApplePodcasts;
+        public static readonly System.Xml.Linq.XNamespace Atom;
+    }
+    public class Rss091Feed : Sagara.FeedReader.Feeds.BaseFeed
+    {
+        public Rss091Feed() { }
+        public string? Copyright { get; set; }
+        public string? Description { get; set; }
+        public string? Docs { get; set; }
+        public Sagara.FeedReader.Feeds.FeedImage? Image { get; set; }
+        public string? Language { get; set; }
+        public System.DateTime? LastBuildDate { get; set; }
+        public string? LastBuildDateString { get; set; }
+        public string? ManagingEditor { get; set; }
+        public System.DateTime? PublishingDate { get; set; }
+        public string? PublishingDateString { get; set; }
+        public string? Rating { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<string> SkipDays { get; }
+        public System.Collections.Generic.IReadOnlyCollection<string> SkipHours { get; }
+        public Sagara.FeedReader.Feeds.Syndication? Sy { get; set; }
+        public Sagara.FeedReader.Feeds.FeedTextInput? TextInput { get; set; }
+        public string? WebMaster { get; set; }
+        public override Sagara.FeedReader.Feed ToFeed() { }
+    }
+    public class Rss091FeedImage : Sagara.FeedReader.Feeds.FeedImage
+    {
+        public Rss091FeedImage() { }
+        public string? Description { get; set; }
+        public int? Height { get; set; }
+        public int? Width { get; set; }
+    }
+    public class Rss091FeedItem : Sagara.FeedReader.Feeds.BaseFeedItem
+    {
+        public Rss091FeedItem() { }
+        public string? Description { get; set; }
+        public System.DateTime? PublishingDate { get; set; }
+        public string? PublishingDateString { get; set; }
+    }
+    public class Rss092Feed : Sagara.FeedReader.Feeds.Rss091Feed
+    {
+        public Rss092Feed() { }
+        public Sagara.FeedReader.Feeds.FeedCloud? Cloud { get; set; }
+        public override Sagara.FeedReader.Feed ToFeed() { }
+    }
+    public class Rss092FeedImage : Sagara.FeedReader.Feeds.Rss091FeedImage
+    {
+        public Rss092FeedImage() { }
+    }
+    public class Rss092FeedItem : Sagara.FeedReader.Feeds.Rss091FeedItem
+    {
+        public Rss092FeedItem() { }
+        public System.Collections.Generic.IReadOnlyCollection<string> Categories { get; }
+        public Sagara.FeedReader.Feeds.FeedItemEnclosure? Enclosure { get; set; }
+        public Sagara.FeedReader.Feeds.FeedItemSource? Source { get; set; }
+    }
+    public class Rss10Feed : Sagara.FeedReader.Feeds.BaseFeed
+    {
+        public Rss10Feed() { }
+        public string? About { get; set; }
+        public Sagara.FeedReader.Feeds.DublinCore? DC { get; set; }
+        public string? Description { get; set; }
+        public Sagara.FeedReader.Feeds.FeedImage? Image { get; set; }
+        public Sagara.FeedReader.Feeds.Syndication? Sy { get; set; }
+        public Sagara.FeedReader.Feeds.FeedTextInput? TextInput { get; set; }
+        public override Sagara.FeedReader.Feed ToFeed() { }
+    }
+    public class Rss10FeedImage : Sagara.FeedReader.Feeds.FeedImage
+    {
+        public Rss10FeedImage() { }
+        public string? About { get; set; }
+    }
+    public class Rss10FeedItem : Sagara.FeedReader.Feeds.BaseFeedItem
+    {
+        public Rss10FeedItem() { }
+        public string? About { get; set; }
+        public Sagara.FeedReader.Feeds.DublinCore? DC { get; set; }
+        public string? Description { get; set; }
+        public Sagara.FeedReader.Feeds.Syndication? Sy { get; set; }
+    }
+    public class Rss10FeedTextInput : Sagara.FeedReader.Feeds.FeedTextInput
+    {
+        public Rss10FeedTextInput() { }
+        public string? About { get; set; }
+    }
+    public class Rss20Feed : Sagara.FeedReader.Feeds.BaseFeed
+    {
+        public Rss20Feed() { }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Feeds.Rss20FeedCategory> Categories { get; }
+        public Sagara.FeedReader.Feeds.FeedCloud? Cloud { get; set; }
+        public string? Copyright { get; set; }
+        public string? Description { get; set; }
+        public string? Docs { get; set; }
+        public string? Generator { get; set; }
+        public Sagara.FeedReader.Feeds.FeedImage? Image { get; set; }
+        public string? Language { get; set; }
+        public System.DateTime? LastBuildDate { get; set; }
+        public string? LastBuildDateString { get; set; }
+        public string? ManagingEditor { get; set; }
+        public System.DateTime? PublishingDate { get; set; }
+        public string? PublishingDateString { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<string> SkipDays { get; }
+        public System.Collections.Generic.IReadOnlyCollection<string> SkipHours { get; }
+        public Sagara.FeedReader.Feeds.Syndication? Sy { get; set; }
+        public string? TTL { get; set; }
+        public Sagara.FeedReader.Feeds.FeedTextInput? TextInput { get; set; }
+        public string? WebMaster { get; set; }
+        public override Sagara.FeedReader.Feed ToFeed() { }
+    }
+    public class Rss20FeedCategory : Sagara.FeedReader.Feeds.BaseFeedCategory
+    {
+        public Rss20FeedCategory() { }
+        public string? Content { get; set; }
+        public string? Domain { get; set; }
+    }
+    public class Rss20FeedImage : Sagara.FeedReader.Feeds.Rss091FeedImage
+    {
+        public Rss20FeedImage() { }
+    }
+    public class Rss20FeedItem : Sagara.FeedReader.Feeds.BaseFeedItem
+    {
+        public Rss20FeedItem() { }
+        public string? Author { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Feeds.Rss20FeedCategory> Categories { get; }
+        public string? Comments { get; set; }
+        public string? Content { get; set; }
+        public Sagara.FeedReader.Feeds.DublinCore? DC { get; set; }
+        public string? Description { get; set; }
+        public Sagara.FeedReader.Feeds.FeedItemEnclosure? Enclosure { get; set; }
+        public string? Guid { get; set; }
+        public System.DateTime? PublishingDate { get; set; }
+        public string? PublishingDateString { get; set; }
+        public Sagara.FeedReader.Feeds.FeedItemSource? Source { get; set; }
+    }
+    public class Syndication
+    {
+        public Syndication() { }
+        public string? UpdateBase { get; set; }
+        public string? UpdateFrequency { get; set; }
+        public string? UpdatePeriod { get; set; }
+    }
+}
+namespace Sagara.FeedReader.Feeds.MediaRSS
+{
+    public class Media
+    {
+        public int? Duration { get; set; }
+        public System.Xml.Linq.XElement Element { get; }
+        public long? FileSize { get; set; }
+        public int? Height { get; set; }
+        public string? Language { get; set; }
+        public Sagara.FeedReader.Feeds.MediaRSS.Medium Medium { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Feeds.MediaRSS.Thumbnail> Thumbnails { get; }
+        public string? Type { get; set; }
+        public string? Url { get; set; }
+        public int? Width { get; set; }
+        public bool? isDefault { get; set; }
+    }
+    public class MediaGroup
+    {
+        public System.Xml.Linq.XElement Element { get; }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Feeds.MediaRSS.Media> Media { get; }
+    }
+    public enum Medium
+    {
+        Image = 0,
+        Audio = 1,
+        Video = 2,
+        Document = 3,
+        Executable = 4,
+        Unknown = 5,
+    }
+    public class Thumbnail
+    {
+        public int? Height { get; set; }
+        public string? Time { get; set; }
+        public string? Url { get; set; }
+        public int? Width { get; set; }
+    }
+}
+namespace Sagara.FeedReader.Html
+{
+    public static class HtmlHelper
+    {
+        public static System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.HtmlFeedLink> ParseFeedUrlsFromHtml(string htmlContent) { }
+        public static System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.HtmlFeedLink> ParseFeedUrlsFromHtml(string htmlContent, System.Uri baseUri) { }
+    }
+}
+namespace Sagara.FeedReader.Modules.ApplePodcasts
+{
+    public class iTunesCategory
+    {
+        public iTunesCategory() { }
+        public Sagara.FeedReader.Modules.ApplePodcasts.iTunesSubcategory? Subcategory { get; set; }
+        public string? Text { get; set; }
+    }
+    public class iTunesChannel
+    {
+        public string? Author { get; set; }
+        public bool Block { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Modules.ApplePodcasts.iTunesCategory> Categories { get; }
+        public bool Complete { get; set; }
+        public bool Explicit { get; set; }
+        public Sagara.FeedReader.Modules.ApplePodcasts.iTunesImage? Image { get; set; }
+        public System.Uri? NewFeedUrl { get; set; }
+        public Sagara.FeedReader.Modules.ApplePodcasts.iTunesOwner? Owner { get; set; }
+        public string? Title { get; set; }
+        public Sagara.FeedReader.Modules.ApplePodcasts.iTunesType? Type { get; set; }
+    }
+    public enum iTunesEpisodeType
+    {
+        Unknown = 0,
+        Full = 1,
+        Trailer = 2,
+        Bonus = 3,
+    }
+    public static class iTunesExtensions
+    {
+        public static Sagara.FeedReader.Modules.ApplePodcasts.iTunesChannel GetiTunesChannel(this Sagara.FeedReader.Feed feed) { }
+        public static Sagara.FeedReader.Modules.ApplePodcasts.iTunesItem GetiTunesItem(this Sagara.FeedReader.FeedItem item) { }
+    }
+    public class iTunesImage
+    {
+        public string? Href { get; set; }
+    }
+    public class iTunesItem
+    {
+        public bool Block { get; set; }
+        public System.TimeSpan? Duration { get; set; }
+        public int? Episode { get; set; }
+        public Sagara.FeedReader.Modules.ApplePodcasts.iTunesEpisodeType? EpisodeType { get; set; }
+        public bool Explicit { get; set; }
+        public Sagara.FeedReader.Modules.ApplePodcasts.iTunesImage? Image { get; set; }
+        public int? Season { get; set; }
+        public string? Title { get; set; }
+    }
+    public class iTunesOwner
+    {
+        public string? Email { get; set; }
+        public string? Name { get; set; }
+    }
+    public class iTunesSubcategory
+    {
+        public iTunesSubcategory() { }
+        public string? Text { get; set; }
+    }
+    public enum iTunesType
+    {
+        Unknown = 0,
+        Episodic = 1,
+        Serial = 2,
+    }
+}
+namespace Sagara.FeedReader.Modules.WordPressExport
+{
+    public class WordPressExportAuthor
+    {
+        public string? DisplayName { get; set; }
+        public string? Email { get; set; }
+        public string? FirstName { get; set; }
+        public long Id { get; set; }
+        public string? LastName { get; set; }
+        public string? Login { get; set; }
+    }
+    public class WordPressExportCategory
+    {
+        public WordPressExportCategory() { }
+        public string Name { get; set; }
+        public string NiceName { get; set; }
+        public long TermId { get; set; }
+    }
+    public class WordPressExportChannel
+    {
+        public Sagara.FeedReader.Modules.WordPressExport.WordPressExportAuthor? Author { get; set; }
+        public string? BaseBlogUrl { get; set; }
+        public string? BaseSiteUrl { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Modules.WordPressExport.WordPressExportCategory> Categories { get; }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Modules.WordPressExport.WordPressExportTag> Tags { get; }
+        public string? WxrVersion { get; set; }
+    }
+    public class WordPressExportComment
+    {
+        public string Approved { get; set; }
+        public string? Author { get; set; }
+        public string? AuthorEmail { get; set; }
+        public string? AuthorIP { get; set; }
+        public string? AuthorUrl { get; set; }
+        public string Content { get; set; }
+        public System.DateTime Date { get; set; }
+        public System.DateTime DateGmt { get; set; }
+        public long Id { get; set; }
+        public long Parent { get; set; }
+        public string? Type { get; set; }
+        public long UserId { get; set; }
+    }
+    public static class WordPressExportExtensions
+    {
+        public static Sagara.FeedReader.Modules.WordPressExport.WordPressExportChannel GetWordPressExportChannel(this Sagara.FeedReader.Feed feed) { }
+        public static Sagara.FeedReader.Modules.WordPressExport.WordPressExportItem GetWordPressExportItem(this Sagara.FeedReader.FeedItem item) { }
+    }
+    public class WordPressExportItem
+    {
+        public string CommentStatus { get; set; }
+        public System.Collections.Generic.IReadOnlyCollection<Sagara.FeedReader.Modules.WordPressExport.WordPressExportComment> Comments { get; }
+        public string Content { get; set; }
+        public string? Excerpt { get; set; }
+        public bool IsSticky { get; set; }
+        public long MenuOrder { get; set; }
+        public string PingStatus { get; set; }
+        public System.DateTime PostDate { get; set; }
+        public System.DateTime? PostDateGmt { get; set; }
+        public long PostId { get; set; }
+        public System.DateTime PostModified { get; set; }
+        public System.DateTime? PostModifiedGmt { get; set; }
+        public string PostName { get; set; }
+        public long PostParent { get; set; }
+        public string? PostPassword { get; set; }
+        public string PostType { get; set; }
+        public string Status { get; set; }
+    }
+    public class WordPressExportTag
+    {
+        public WordPressExportTag() { }
+        public string Name { get; set; }
+        public string Slug { get; set; }
+        public long TermId { get; set; }
+    }
+}

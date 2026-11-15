@@ -100,7 +100,7 @@ public abstract class BaseFeed
     /// <para>NOTE: RSS has a root <c>rss</c> element, followed by a <c>channel</c> element.</para>
     /// <para>Atom only has a root <c>feed</c> element.</para>
     /// </param>
-    protected BaseFeed(string feedXml, XDocument feedDoc, XElement channel)
+    private protected BaseFeed(string feedXml, XDocument feedDoc, XElement channel)
         : this()
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(feedXml);

@@ -42,7 +42,7 @@ public class Rss10FeedItem : BaseFeedItem
     /// Reads a rss 1.0 feed item based on the xml given in item
     /// </summary>
     /// <param name="item">feed item as xml</param>
-    public Rss10FeedItem(XElement item)
+    internal Rss10FeedItem(XElement item)
         : base(item)
     {
         DC = new DublinCore(item);

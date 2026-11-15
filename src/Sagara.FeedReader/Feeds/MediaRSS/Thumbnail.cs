@@ -14,7 +14,7 @@ public class Thumbnail
     /// Reads a rss feed item enclosure based on the xml given in element
     /// </summary>
     /// <param name="element">enclosure element as xml</param>
-    public Thumbnail(XElement element)
+    internal Thumbnail(XElement element)
     {
         Url = element.GetAttributeValue("url");
         Height = Helpers.TryParseInt(element.GetAttributeValue("height"));

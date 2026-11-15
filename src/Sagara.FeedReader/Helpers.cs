@@ -8,7 +8,7 @@ using Sagara.FeedReader.Extensions;
 /// <summary>
 /// static class with helper functions
 /// </summary>
-public static class Helpers
+internal static class Helpers
 {
     /// <summary>
     /// Tries to parse the string as datetime and returns null if it fails

@@ -59,7 +59,7 @@ public class WordPressExportChannel
     /// <summary>
     /// .ctor
     /// </summary>
-    public WordPressExportChannel(XElement channelElement, ILoggerFactory? loggerFactory = null)
+    internal WordPressExportChannel(XElement channelElement, ILoggerFactory? loggerFactory = null)
     {
         ArgumentNullException.ThrowIfNull(channelElement);
 

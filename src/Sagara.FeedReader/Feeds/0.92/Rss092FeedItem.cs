@@ -37,7 +37,7 @@ public class Rss092FeedItem : Rss091FeedItem
     /// Creates a new feed item element based on the given xml XELement
     /// </summary>
     /// <param name="item">the xml containing the feed item</param>
-    public Rss092FeedItem(XElement item)
+    internal Rss092FeedItem(XElement item)
         : base(item)
     {
         Enclosure = new FeedItemEnclosure(item.GetElement("enclosure"));

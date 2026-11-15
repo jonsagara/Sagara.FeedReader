@@ -39,7 +39,7 @@ public abstract class BaseFeedItem
     /// Reads a base feed item based on the xml given in element
     /// </summary>
     /// <param name="itemOrEntryElement">The <c>item</c> or <c>entry</c> element from the feed.</param>
-    protected BaseFeedItem(XElement itemOrEntryElement)
+    private protected BaseFeedItem(XElement itemOrEntryElement)
     {
         Title = itemOrEntryElement.GetChildElementValue("title");
         Link = itemOrEntryElement.GetChildElementValue("link");

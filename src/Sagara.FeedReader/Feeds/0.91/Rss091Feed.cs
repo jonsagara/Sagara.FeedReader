@@ -107,7 +107,7 @@ public class Rss091Feed : BaseFeed
     /// <param name="feedXml">the entire feed xml as string</param>
     /// <param name="feedDoc">The XDocument parsed from the feed XML. Used to determine if there are iTunes extensions.</param>
     /// <param name="channel">the "channel" element in the xml as XElement</param>
-    public Rss091Feed(string feedXml, XDocument feedDoc, XElement channel)
+    internal Rss091Feed(string feedXml, XDocument feedDoc, XElement channel)
         : base(feedXml, feedDoc, channel)
     {
         Description = channel.GetChildElementValue("description");

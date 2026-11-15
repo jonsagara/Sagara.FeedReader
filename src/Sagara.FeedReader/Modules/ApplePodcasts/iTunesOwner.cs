@@ -27,7 +27,7 @@ public class iTunesOwner
     /// <summary>
     /// .ctor
     /// </summary>
-    public iTunesOwner(XElement ownerElement)
+    internal iTunesOwner(XElement ownerElement)
     {
         ArgumentNullException.ThrowIfNull(ownerElement);
 

@@ -27,7 +27,7 @@ public class Rss10FeedTextInput : FeedTextInput
     /// Reads a rss 1.0 textInput element based on the xml given in item
     /// </summary>
     /// <param name="element">about element as xml</param>
-    public Rss10FeedTextInput(XElement? element)
+    internal Rss10FeedTextInput(XElement? element)
         : base(element)
     {
         About = element.GetAttribute("rdf:about")?.Value;

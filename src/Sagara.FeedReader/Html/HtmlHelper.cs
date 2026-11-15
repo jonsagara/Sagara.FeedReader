@@ -79,7 +79,7 @@ public static partial class HtmlHelper
     /// </summary>
     /// <param name="input">link tag, e.g. &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;codehollow &gt; Feed&quot; href=&quot;https://codehollow.com/feed/&quot; /&gt;</param>
     /// <returns>Parsed HtmlFeedLink</returns>
-    public static HtmlFeedLink? GetFeedLinkFromLinkTag(string input)
+    internal static HtmlFeedLink? GetFeedLinkFromLinkTag(string input)
     {
         ArgumentNullException.ThrowIfNull(input);
 

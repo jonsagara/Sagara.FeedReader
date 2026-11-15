@@ -88,7 +88,7 @@ public class iTunesItem
     /// <summary>
     /// .ctor
     /// </summary>
-    public iTunesItem(XElement itemElement)
+    internal iTunesItem(XElement itemElement)
     {
         ArgumentNullException.ThrowIfNull(itemElement);
 

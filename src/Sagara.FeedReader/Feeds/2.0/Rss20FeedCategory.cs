@@ -32,7 +32,7 @@ public class Rss20FeedCategory : BaseFeedCategory
     /// Reads a new feed category element based on the given xml item.
     /// </summary>
     /// <param name="categoryElement">The xml containing the feed item</param>
-    public Rss20FeedCategory(XElement categoryElement)
+    internal Rss20FeedCategory(XElement categoryElement)
         : base(categoryElement)
     {
         Domain = categoryElement.GetAttributeValue("domain");

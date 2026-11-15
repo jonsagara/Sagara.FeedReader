@@ -21,7 +21,7 @@ public class Rss092FeedImage : Rss091FeedImage
     /// Creates this object based on the xml in the XElement parameter.
     /// </summary>
     /// <param name="element">rss 0.92 image as xml</param>
-    public Rss092FeedImage(XElement element)
+    internal Rss092FeedImage(XElement element)
         : base(element)
     {
     }

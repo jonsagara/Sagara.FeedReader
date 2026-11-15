@@ -19,7 +19,7 @@ public class MediaGroup
     /// Reads a rss media group item enclosure based on the xml given in element
     /// </summary>
     /// <param name="element">enclosure element as xml</param>
-    public MediaGroup(XElement element)
+    internal MediaGroup(XElement element)
     {
         ArgumentNullException.ThrowIfNull(element);
 

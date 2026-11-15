@@ -79,7 +79,7 @@ public class Rss20FeedItem : BaseFeedItem
     /// Reads a new feed item element based on the given xml item
     /// </summary>
     /// <param name="item">The xml containing the feed item</param>
-    public Rss20FeedItem(XElement item)
+    internal Rss20FeedItem(XElement item)
         : base(item)
     {
         Comments = item.GetChildElementValue("comments");

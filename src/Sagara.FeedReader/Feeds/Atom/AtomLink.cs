@@ -51,7 +51,7 @@ public class AtomLink
     /// Reads an atom link based on the xml given in element
     /// </summary>
     /// <param name="element">link as xml</param>
-    public AtomLink(XElement element)
+    internal AtomLink(XElement element)
     {
         Href = element.GetAttributeValue("href");
         Relation = element.GetAttributeValue("rel");

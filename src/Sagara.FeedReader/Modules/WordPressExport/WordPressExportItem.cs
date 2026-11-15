@@ -100,7 +100,7 @@ public class WordPressExportItem
     /// .ctor
     /// </summary>
     /// <param name="itemElement"></param>
-    public WordPressExportItem(XElement itemElement)
+    internal WordPressExportItem(XElement itemElement)
     {
         ArgumentNullException.ThrowIfNull(itemElement);
 

@@ -38,7 +38,7 @@ public class AtomFeedCategory : BaseFeedCategory
     /// Reads a new feed category element based on the given xml item.
     /// </summary>
     /// <param name="categoryElement">The xml containing the feed item</param>
-    public AtomFeedCategory(XElement categoryElement)
+    internal AtomFeedCategory(XElement categoryElement)
         : base(categoryElement)
     {
         Term = categoryElement.GetAttributeValue("term");

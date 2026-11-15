@@ -37,7 +37,7 @@ public class Rss091FeedItem : BaseFeedItem
     /// Creates this object based on the xml in the XElement parameter.
     /// </summary>
     /// <param name="item">feed item as xml</param>
-    public Rss091FeedItem(XElement item)
+    internal Rss091FeedItem(XElement item)
         : base(item)
     {
         Description = item.GetChildElementValue("description");

@@ -29,7 +29,7 @@ public class Rss092Feed : Rss091Feed
     /// <param name="feedXml">the entire feed xml as string</param>
     /// <param name="feedDoc">The XDocument parsed from the feed XML. Used to determine if there are iTunes extensions.</param>
     /// <param name="channel">the "channel" element in the xml as XElement</param>
-    public Rss092Feed(string feedXml, XDocument feedDoc, XElement channel)
+    internal Rss092Feed(string feedXml, XDocument feedDoc, XElement channel)
         : base(feedXml, feedDoc, channel)
     {
         Cloud = new FeedCloud(channel.GetElement("cloud"));

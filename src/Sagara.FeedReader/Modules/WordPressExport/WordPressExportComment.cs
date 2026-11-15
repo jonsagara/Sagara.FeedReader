@@ -74,7 +74,7 @@ public class WordPressExportComment
     /// <summary>
     /// .ctor
     /// </summary>
-    public WordPressExportComment(XElement commentElement)
+    internal WordPressExportComment(XElement commentElement)
     {
         ArgumentNullException.ThrowIfNull(commentElement);
 
