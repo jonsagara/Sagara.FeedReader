@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Net;
+﻿using System.Net;
 using Microsoft.Extensions.Http.Resilience;
 using Microsoft.IO;
 
@@ -11,15 +10,18 @@ namespace Sagara.FeedReader.Configuration;
 public class FeedReaderOptions
 {
     /// <summary>
-    /// Set to true if you, the caller, have already registered a RecyclableMemoryStreamManager with
-    /// the DI service and you don't want this library to register another instance. Default is false.
+    /// Set to true if you, the caller, will register a RecyclableMemoryStreamManager with the DI service yourself
+    /// and you don't want this library to register one. Default is false.
     /// </summary>
-    [MemberNotNullWhen(returnValue: false, member: nameof(RecyclableMemoryStreamManagerOptions))]
+    /// <remarks>
+    /// Even when this is false, a RecyclableMemoryStreamManager that is already registered when
+    /// <c>AddFeedReaderServices</c> is called is kept, not replaced.
+    /// </remarks>
     public bool SuppressRecyclableMemoryStreamManagerRegistration { get; set; }
 
     /// <summary>
     /// <para>If <see cref="SuppressRecyclableMemoryStreamManagerRegistration"/> is false, allow the caller to configure
-    /// the RecyclableMemoryStreamManager for registering with the DI service. Otherwise, use our default values.</para>
+    /// the RecyclableMemoryStreamManager for registering with the DI service. If null, our default values are used.</para>
     /// <para>Ignored if <see cref="SuppressRecyclableMemoryStreamManagerRegistration"/> is true.</para>
     /// </summary>
     public RecyclableMemoryStreamManager.Options? RecyclableMemoryStreamManagerOptions { get; set; }
@@ -44,4 +46,13 @@ public class FeedReaderOptions
     /// <see cref="FeedReaderErrorKind.ResponseTooLarge"/>. Must be positive. Default is <see cref="DefaultMaxResponseBytes"/> (10 MB).
     /// </summary>
     public long MaxResponseBytes { get; set; } = DefaultMaxResponseBytes;
+
+    /// <summary>
+    /// The User-Agent header sent with every request, unless a request passes its own. If null or white space,
+    /// a browser-like User-Agent is used, because some sites reject requests that don't look like they come from a browser.
+    /// </summary>
+    /// <remarks>
+    /// If you run a crawler or bot, consider identifying it, e.g., "MyFeedBot/1.0 (+https://example.com/bot)".
+    /// </remarks>
+    public string? DefaultUserAgent { get; set; }
 }

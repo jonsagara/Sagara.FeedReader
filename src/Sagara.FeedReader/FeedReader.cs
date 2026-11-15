@@ -26,6 +26,7 @@ public sealed class FeedReader : IFeedReader
     private readonly HttpClient _httpClient;
     private readonly RecyclableMemoryStreamManager _streamManager;
     private readonly long _maxResponseBytes;
+    private readonly string _defaultUserAgent;
 
     /// <summary>
     /// Initializes a new <see cref="FeedReader"/>.
@@ -33,8 +34,8 @@ public sealed class FeedReader : IFeedReader
     /// <param name="httpClient">The HttpClient used to make requests. Its <see cref="HttpClient.Timeout"/> applies to the
     /// whole download, including reading the response body.</param>
     /// <param name="streamManager">Provides pooled memory streams for buffering responses.</param>
-    /// <param name="options">Optional. Only <see cref="FeedReaderOptions.MaxResponseBytes"/> is used here; the other options
-    /// configure the HttpClient registered by <c>AddFeedReaderServices</c>.</param>
+    /// <param name="options">Optional. Only <see cref="FeedReaderOptions.MaxResponseBytes"/> and <see cref="FeedReaderOptions.DefaultUserAgent"/>
+    /// are used here; the other options configure the HttpClient registered by <c>AddFeedReaderServices</c>.</param>
     /// <exception cref="ArgumentNullException"><paramref name="httpClient"/> or <paramref name="streamManager"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException"><see cref="FeedReaderOptions.MaxResponseBytes"/> is not positive.</exception>
     public FeedReader(HttpClient httpClient, RecyclableMemoryStreamManager streamManager, FeedReaderOptions? options = null)
@@ -48,6 +49,9 @@ public sealed class FeedReader : IFeedReader
         _httpClient = httpClient;
         _streamManager = streamManager;
         _maxResponseBytes = maxResponseBytes;
+        _defaultUserAgent = string.IsNullOrWhiteSpace(options?.DefaultUserAgent)
+            ? FeedReaderHttpRequestHeaderValues.DefaultUserAgent
+            : options.DefaultUserAgent;
     }
 
 
@@ -230,14 +234,14 @@ public sealed class FeedReader : IFeedReader
     /// <summary>
     /// Create the <see cref="HttpRequestMessage"/> used to request a feed or page.
     /// </summary>
-    private static HttpRequestMessage CreateRequestMessage(Uri uri, string? userAgent)
+    private HttpRequestMessage CreateRequestMessage(Uri uri, string? userAgent)
     {
         // NOTE: Do not URL-decode the url. It changes the meaning of encoded characters, e.g., %26 in
         //   a query string value becomes &, which splits the value into two parameters.
         HttpRequestMessage requestMsg = new(HttpMethod.Get, uri);
 
         requestMsg.Headers.TryAddWithoutValidation(HeaderNames.Accept, FeedReaderHttpRequestHeaderValues.Accept);
-        requestMsg.Headers.TryAddWithoutValidation(HeaderNames.UserAgent, userAgent ?? FeedReaderHttpRequestHeaderValues.DefaultUserAgent);
+        requestMsg.Headers.TryAddWithoutValidation(HeaderNames.UserAgent, userAgent ?? _defaultUserAgent);
 
         return requestMsg;
     }

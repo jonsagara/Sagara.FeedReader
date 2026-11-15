@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Sagara.FeedReader.Extensions;
 
 namespace Sagara.FeedReader.TestDataCrawler;
 

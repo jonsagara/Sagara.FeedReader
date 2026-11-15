@@ -16,7 +16,7 @@ public interface IFeedReader
     /// <see cref="GetFeedUrlsFromPageAsync(string, string?, CancellationToken)"/> to find a page's feeds.
     /// </summary>
     /// <param name="feedUrl">The absolute http or https URL of the feed, e.g., https://example.com/feed.xml.</param>
-    /// <param name="userAgent">Overrides the default User-Agent header.</param>
+    /// <param name="userAgent">The User-Agent header for this request. If null, <see cref="Configuration.FeedReaderOptions.DefaultUserAgent"/> is used.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
     /// <returns>A successful result with the parsed feed, or a failed result that says why.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="feedUrl"/> is null.</exception>
@@ -26,7 +26,7 @@ public interface IFeedReader
 
     /// <inheritdoc cref="GetFeedAsync(string, string?, CancellationToken)"/>
     /// <param name="feedUri">The absolute http or https URI of the feed.</param>
-    /// <param name="userAgent">Overrides the default User-Agent header.</param>
+    /// <param name="userAgent">The User-Agent header for this request. If null, <see cref="Configuration.FeedReaderOptions.DefaultUserAgent"/> is used.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
     /// <exception cref="ArgumentNullException"><paramref name="feedUri"/> is null.</exception>
     /// <exception cref="ArgumentException"><paramref name="feedUri"/> is not an absolute http or https URI.</exception>
@@ -41,7 +41,7 @@ public interface IFeedReader
     /// Relative links are resolved against the page's final URL after redirects, so every returned URL is absolute.
     /// </remarks>
     /// <param name="pageUrl">The absolute http or https URL of the page, e.g., https://example.com/.</param>
-    /// <param name="userAgent">Overrides the default User-Agent header.</param>
+    /// <param name="userAgent">The User-Agent header for this request. If null, <see cref="Configuration.FeedReaderOptions.DefaultUserAgent"/> is used.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
     /// <returns>A successful result with the feed links (empty if the page has none), or a failed result that says why.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="pageUrl"/> is null.</exception>
@@ -51,7 +51,7 @@ public interface IFeedReader
 
     /// <inheritdoc cref="GetFeedUrlsFromPageAsync(string, string?, CancellationToken)"/>
     /// <param name="pageUri">The absolute http or https URI of the page.</param>
-    /// <param name="userAgent">Overrides the default User-Agent header.</param>
+    /// <param name="userAgent">The User-Agent header for this request. If null, <see cref="Configuration.FeedReaderOptions.DefaultUserAgent"/> is used.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
     /// <exception cref="ArgumentNullException"><paramref name="pageUri"/> is null.</exception>
     /// <exception cref="ArgumentException"><paramref name="pageUri"/> is not an absolute http or https URI.</exception>

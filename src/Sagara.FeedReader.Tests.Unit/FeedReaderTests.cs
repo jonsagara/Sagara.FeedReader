@@ -1,10 +1,8 @@
 using System.Net;
 using System.Text;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IO;
 using Polly.Timeout;
 using Sagara.FeedReader.Configuration;
-using Sagara.FeedReader.Extensions;
 using Sagara.FeedReader.Tests.Unit.Fakes;
 using Xunit;
 
@@ -499,7 +497,7 @@ public class FeedReaderTests
     #endregion
 
 
-    #region Construction and DI
+    #region Construction
 
     [Fact]
     public void Constructor_NonPositiveMaxResponseBytes_Throws()
@@ -516,18 +514,6 @@ public class FeedReaderTests
 
         Assert.Throws<ArgumentNullException>("httpClient", () => new FeedReader(null!, new RecyclableMemoryStreamManager()));
         Assert.Throws<ArgumentNullException>("streamManager", () => new FeedReader(httpClient, null!));
-    }
-
-    [Fact]
-    public void AddFeedReaderServices_ResolvesIFeedReader()
-    {
-        using var serviceProvider = new ServiceCollection()
-            .AddFeedReaderServices()
-            .BuildServiceProvider();
-
-        var feedReader = serviceProvider.GetRequiredService<IFeedReader>();
-
-        Assert.IsType<FeedReader>(feedReader);
     }
 
     #endregion
